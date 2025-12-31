@@ -1,6 +1,6 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-//PSH : Á÷Á¢ »ç¿ëÇÏÁö ¸»°Í. GlobalSingleton È¤Àº LocalSingletonÀ» »ç¿ë.
+//PSH : ì§ì ‘ ì‚¬ìš©í•˜ì§€ ë§ê²ƒ. GlobalSingleton í˜¹ì€ LocalSingletonì„ ì‚¬ìš©.
 public abstract class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T _instance;
@@ -26,7 +26,7 @@ public abstract class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void OnInit() { }
 
-    //ÇØ´ç ½Ì±ÛÅæÀÌ Á¸ÀçÇÏ´ÂÁö ¿©ºÎ ¹İÈ¯
+    //í•´ë‹¹ ì‹±ê¸€í†¤ì´ ì¡´ì¬í•˜ëŠ”ì§€ ì—¬ë¶€ ë°˜í™˜
     public static bool IsExist()
     {
         return Instance != null;
