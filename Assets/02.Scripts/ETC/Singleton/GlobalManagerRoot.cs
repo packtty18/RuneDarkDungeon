@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class GlobalManagersRoot : MonoBehaviour
+public class GlobalManagerRoot : MonoBehaviour
 {
-    private static GlobalManagersRoot s_instance;
+    private static GlobalManagerRoot s_instance;
 
     void Awake()
     {

@@ -4,4 +4,3 @@ public abstract class LocalSingleton<T> : SingletonBase<T> where T : MonoBehavio
 {
     protected override bool ShouldDestroyOnLoad => false;
 }
-

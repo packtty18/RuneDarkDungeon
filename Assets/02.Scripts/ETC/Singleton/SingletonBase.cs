@@ -19,7 +19,7 @@ public abstract class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
         s_instance = this as T;
         OnInit();
 
-        //해당 싱글톤이 글로벌이면서 루트 오브젝트일때만 DontDestoryOnLoad 호출
+        //해당 싱글톤이 글로벌이면서 루트 오브젝트일때만 DontDestroyOnLoad 호출
         if (ShouldDestroyOnLoad && transform.root == transform)
         {
             DontDestroyOnLoad(gameObject);
