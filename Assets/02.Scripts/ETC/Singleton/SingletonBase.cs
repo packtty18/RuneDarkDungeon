@@ -1,10 +1,10 @@
 using UnityEngine;
 
-//PSH : 직접 사용하지 말것. GlobalSingleton 혹은 LocalSingleton을 사용.
+// 이 클래스를 직접 사용하지 말고, GlobalSingleton 또는 LocalSingleton을 상속하여 사용하십시오.
 public abstract class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
 {
-    private static T _instance;
-    public static T Instance => _instance;
+    private static T s_instance;
+    public static T Instance => s_instance;
 
     protected virtual bool ShouldDestroyOnLoad => false;
 
@@ -16,7 +16,7 @@ public abstract class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
             return;
         }
 
-        _instance = this as T;
+        s_instance = this as T;
         OnInit();
 
         //해당 싱글톤이 글로벌이면서 루트 오브젝트일때만 DontDestoryOnLoad 호출
@@ -28,7 +28,6 @@ public abstract class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void OnInit()
     { 
-    
     }
 
     //해당 싱글톤이 존재하는지 여부 반환
@@ -41,7 +40,7 @@ public abstract class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
     {
         if (Instance == this)
         {
-            _instance = null;
+            s_instance = null;
         }
     }
 }
