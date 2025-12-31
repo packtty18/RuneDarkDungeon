@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class GlobalManagersRoot : MonoBehaviour
 {
-    private static GlobalManagersRoot instance;
+    private static GlobalManagersRoot _instance;
 
     void Awake()
     {
-        if (instance != null)
+        if (_instance != null)
         {
             Destroy(gameObject);
             return;
         }
 
-        instance = this;
+        _instance = this;
         DontDestroyOnLoad(gameObject);
     }
 }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 //PSH : 직접 사용하지 말것. GlobalSingleton 혹은 LocalSingleton을 사용.
 public abstract class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
@@ -18,13 +18,18 @@ public abstract class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
 
         _instance = this as T;
         OnInit();
-        if (ShouldDestroyOnLoad)
+
+        //해당 싱글톤이 글로벌이면서 루트 오브젝트일때만 DontDestoryOnLoad 호출
+        if (ShouldDestroyOnLoad && transform.root == transform)
         {
             DontDestroyOnLoad(gameObject);
         }
     }
 
-    protected virtual void OnInit() { }
+    protected virtual void OnInit()
+    { 
+    
+    }
 
     //해당 싱글톤이 존재하는지 여부 반환
     public static bool IsExist()
