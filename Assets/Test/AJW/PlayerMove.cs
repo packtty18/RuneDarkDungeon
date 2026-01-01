@@ -25,5 +25,9 @@ public class PlayerMove : MonoBehaviour
         {
             Debug.Log("오른쪽으로 이동");
         }
+        if (InputManager.Instance.GetKey(EGameKeyType.Attack))
+        {
+            Debug.Log("공격");
+        }
     }
 }

@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
-
 
 public class InputManager : GlobalSingleton<InputManager>
 {
@@ -27,24 +25,21 @@ public class InputManager : GlobalSingleton<InputManager>
     protected override void Awake()
     {
         base.Awake();
-        _gameKeyType = (EGameKeyType[])Enum.GetValues(typeof(EGameKeyType));   
+        _gameKeyType = (EGameKeyType[])Enum.GetValues(typeof(EGameKeyType));
 
-        foreach (var key in _gameKeyType)
-        {
-            _currentDownStates[key] = false;
-            _previousDownStates[key] = false;
-        }
+        _currentDownStates = _gameKeyType.ToDictionary(key => key, _ => false);
+        _previousDownStates = _gameKeyType.ToDictionary(key => key, _ => false);
     }
 
     void Update()
     {
         foreach (var key in _gameKeyType)
         {
-            // 이전 상태 갱신
+            // 이전 상태 갱신.
             _previousDownStates[key] = _currentDownStates[key];
 
 
-            // 현재 상태 갱신
+            // 현재 상태 갱신.
             _currentDownStates[key] = false;
             KeyCode[] codes = _keyMapping[key];
 
@@ -58,7 +53,6 @@ public class InputManager : GlobalSingleton<InputManager>
             }
         }
     }
-
     public bool GetKeyDown(EGameKeyType key)
     {
         /*if (MySceneManager.Instance.IsSceneChanging)
@@ -70,17 +64,17 @@ public class InputManager : GlobalSingleton<InputManager>
         return _currentDownStates[key] && !_previousDownStates[key];
     }
 
-    //홀드
+    //홀드.
     public bool GetKey(EGameKeyType key)
     {
         //키가 현재 눌려지는 경우.
         return _currentDownStates[key];
     }
 
-    //릴리즈
+    //릴리즈.
     public bool GetKeyUp(EGameKeyType key)
     {
-        //키가 현재 눌려지지 않았으나 이전 프레임에 눌려져 있었을 경우
+        //키가 현재 눌려지지 않았으나 이전 프레임에 눌려져 있었을 경우.
         return !_currentDownStates[key] && _previousDownStates[key];
     }
 }
