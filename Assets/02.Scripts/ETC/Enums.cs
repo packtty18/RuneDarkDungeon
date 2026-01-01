@@ -1,4 +1,4 @@
-﻿public enum EGameState
+public enum EGameState
 { 
     Ready,
     Playing,
@@ -20,6 +20,15 @@ public enum EEnemyState
     RageAttack
 }
 
+public enum EGameKeyType
+{
+    Front,
+    Back,
+    Left,
+    Right,
+    Jump,
+    Attack,
+}
 
 #region PlayerStat
 public enum EConsumableFloat
