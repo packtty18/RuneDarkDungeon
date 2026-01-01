@@ -28,6 +28,15 @@ public enum EGameKeyType
     Right,
     Jump,
     Attack,
+    Enter,
+}
+
+public enum ESceneType
+{
+    MainMenusl ,
+    Gameplay,
+    Lobby,
+    Loading,
 }
 
 #region PlayerStat
