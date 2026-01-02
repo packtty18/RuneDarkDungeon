@@ -1,10 +1,8 @@
 using DG.Tweening;
-using MoreMountains.Feedbacks;
 using Sirenix.OdinInspector;
-using System.Collections.Generic;
 using UnityEngine;
 
-//임시로 사용할 데미지 피드백
+// 임시로 사용할 데미지 피드백
 public class DamageFeedback : MonoBehaviour
 {
     [SerializeField] private Color hitColor = Color.red;
@@ -13,15 +11,23 @@ public class DamageFeedback : MonoBehaviour
     [SerializeField] private DamageReceiver _receiver;
     [SerializeField] private HurtBox _managingHurtbox;
     [SerializeField] private Renderer _renderer;
+
     private Color _originalColor;
     private Tween _currentTween;
+
+    private MaterialPropertyBlock _mpb;
+    private static readonly int BaseColorID = Shader.PropertyToID("_BaseColor");
 
     private void Awake()
     {
         _receiver = GetComponentInParent<DamageReceiver>();
         _managingHurtbox = GetComponent<HurtBox>();
         _renderer = GetComponent<Renderer>();
-        _originalColor = _renderer.material.color;
+
+        _mpb = new MaterialPropertyBlock();
+
+        _renderer.GetPropertyBlock(_mpb);
+        _originalColor = _mpb.GetColor(BaseColorID);
     }
 
     private void OnEnable()
@@ -37,7 +43,9 @@ public class DamageFeedback : MonoBehaviour
     private void HandleDamaged(HurtBox hurtbox)
     {
         if (hurtbox != _managingHurtbox)
+        {
             return;
+        }
 
         PlayFlash();
     }
@@ -47,15 +55,21 @@ public class DamageFeedback : MonoBehaviour
     {
         _currentTween?.Kill();
 
-        Sequence seq = DOTween.Sequence();
+        // 즉시 피격 색상 적용
+        SetColor(hitColor);
 
-        _renderer.material.color = hitColor;
+        _currentTween = DOTween.To(
+            () => hitColor,
+            color => SetColor(color),
+            _originalColor,
+            flashDuration
+        );
+    }
 
-        seq.AppendInterval(flashDuration);
-
-        Color origin = _originalColor;
-        seq.Join(_renderer.material.DOColor(origin, flashDuration));
-
-        _currentTween = seq;
+    private void SetColor(Color color)
+    {
+        _renderer.GetPropertyBlock(_mpb);
+        _mpb.SetColor(BaseColorID, color);
+        _renderer.SetPropertyBlock(_mpb);
     }
 }

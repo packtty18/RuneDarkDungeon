@@ -1,14 +1,12 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-/*
- * 히트박스는 공격 판정을 담당.
- * 추후 애니메이터와 연결
- */
+// 히트박스는 공격 판정을 담당.
+// 추후 애니메이터와 연결
 [RequireComponent(typeof(Collider))]
 public class HitBox : MonoBehaviour
 {
-    [SerializeField] private static int s_globalAttackId = 0;
+    private static int s_globalAttackId = 0;
     [SerializeField] private int _currentAttackId;
 
     private Collider _collider;
@@ -42,7 +40,9 @@ public class HitBox : MonoBehaviour
     public void Activate()
     {
         if (_isActive)
+        {
             return;
+        }
 
         _currentAttackId = ++s_globalAttackId;
         _isActive = true;
