@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class StartGame : MonoBehaviour
 {
-    [SerializeField]
-    private SceneDataSO _nextScene;
+    
+    private SceneTransition transition;
 
+    private void Start()
+    {
+        transition = GetComponent<SceneTransition>();
+    }
     void Update()
     {
         if (InputManager.Instance.GetKeyDown(EGameKeyType.Enter))
         {
-            _nextScene.LoadScene();
+            transition.TransitionToScene();
         }
     }
 }

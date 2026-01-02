@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 824155604}
   - component: {fileID: 824155603}
   - component: {fileID: 824155602}
+  - component: {fileID: 824155607}
   - component: {fileID: 824155606}
   m_Layer: 5
   m_Name: Canvas
@@ -235,7 +236,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfec7e86626860841bbbec435495290a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StartGame
-  _nextScene: {fileID: 11400000, guid: 49a39755cd388664cb5f3d019ecb0af6, type: 2}
+--- !u!114 &824155607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824155601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3760c674c9f48a439444798f55369d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneTransition
+  _TargetScene: {fileID: 11400000, guid: 49a39755cd388664cb5f3d019ecb0af6, type: 2}
+  _delay: 0
 --- !u!1 &1077848371
 GameObject:
   m_ObjectHideFlags: 0
