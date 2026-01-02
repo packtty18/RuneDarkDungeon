@@ -5,10 +5,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-/// <summary>
+
 /// 씬 로딩,전환 및 씬 데이터를 관리하는 싱글톤 매니저
-/// <para>사용법: SceneDataSO.LoadScene() 또는 SceneLoadManager.Instance.LoadLoading(sceneData) 호출</para>
-/// </summary>
+/// SceneDataSO.LoadScene() 또는 SceneLoadManager.Instance.LoadLoading(sceneData) 호출
 public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
 {
     #region Events
@@ -30,9 +29,9 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
 
     private bool _isLoading = false;
     private float _loadingProgress = 0f;
-    private SceneDataSO _currentSceneData;
+    private SceneDataSO _currentSceneData; //현재 씬 데이터
     private SceneDataSO _nextSceneData; // 로드할 씬 데이터
-    private ESceneType _sceneType;
+    private ESceneType _sceneType; //현재 씬 타입
 
     [SerializeField]
     private string _loadingSceneName = "LoadingScene";
@@ -43,14 +42,10 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
     public bool IsLoading => _isLoading;
     public float LoadingProgress => _loadingProgress;
 
-    /// <summary>전환하고자하는 씬의 데이터를 가져옵니다.</summary>
+
     public SceneDataSO NextSceneData => _nextSceneData;
-
-    /// <summary>현재 씬의 데이터를 가져옵니다.</summary>
     public SceneDataSO CurrentSceneData => _currentSceneData;
-
-    /// <summary>현재 씬 타입을 가져옵니다.</summary>
-    public ESceneType SceneType => _sceneType;
+    public ESceneType SceneType => _sceneType; 
 
     protected override void Awake()
     {
@@ -60,10 +55,6 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
     }
 
     #region Public Methods - Scene Loading
-    /// <summary>
-    /// 씬을 비동기로 로드합니다 (기존 씬은 언로드)
-    /// Asynchronously loads a scene (unloads previous scene)
-    /// </summary> 
     public void BeginSceneLoad(SceneDataSO dataSO)
     {
         if (_isLoading)
@@ -74,6 +65,7 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
         _nextSceneData = dataSO;
         //로딩씬 전환
         UnityEngine.SceneManagement.SceneManager.LoadScene(_loadingSceneName);
+        _sceneType = ESceneType.Loading;
     }
 
     public void LoadTargetScene()
@@ -87,9 +79,6 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
     }
 
 
-    /// <summary>
-    /// 현재 씬을 다시 로드합니다
-    /// </summary>
     public void ReloadCurrentScene()
     {
         if (_currentSceneData != null)
@@ -102,9 +91,7 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
         }
     }
 
-    /// <summary>
-    /// 이전 씬으로 돌아갑니다.
-    /// </summary>
+    //로딩 실패 시 이전 씬으로 돌아감
     private void LoadFallbackScene()
     {
         Debug.LogWarning($"폴백 씬으로 이동: {_currentSceneData.SceneName}");
@@ -113,9 +100,7 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
     #endregion
 
     #region Public Methods - Scene Data
-    /// <summary>
-    /// 씬 전환 시 전달할 데이터를 설정합니다
-    /// </summary>
+
     public void SetSceneData(string key, object value)
     {
         if (_sceneData.ContainsKey(key))
@@ -128,9 +113,6 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
         }
     }
 
-    /// <summary>
-    /// 씬 데이터를 가져옵니다
-    /// </summary>
     public T GetSceneData<T>(string key, T defaultValue = default)
     {
         if (_sceneData.TryGetValue(key, out object value))
@@ -149,10 +131,6 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
         return defaultValue;
     }
 
-    /// <summary>
-    /// 씬 데이터를 삭제합니다
-    /// </summary>
-    /// <param name="key">데이터 키</param>
     public void RemoveSceneData(string key)
     {
         if (_sceneData.ContainsKey(key))
@@ -161,9 +139,6 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
         }
     }
 
-    /// <summary>
-    /// 모든 씬 데이터를 초기화합니다
-    /// </summary>
     public void ClearSceneData()
     {
         _sceneData.Clear();

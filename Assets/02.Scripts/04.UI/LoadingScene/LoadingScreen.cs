@@ -41,7 +41,7 @@ public class LoadingScreen : MonoBehaviour
 
         string[] tips = sceneData.LoadingTips;
 
-        if (tips.Length <= 0 || tips == null)
+        if (tips == null || tips.Length <= 0 )
         {
             return;
         }

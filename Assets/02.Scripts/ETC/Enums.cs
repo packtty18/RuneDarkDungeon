@@ -33,7 +33,7 @@ public enum EGameKeyType
 
 public enum ESceneType
 {
-    MainMenusl ,
+    MainMenu,
     Gameplay,
     Lobby,
     Loading,
