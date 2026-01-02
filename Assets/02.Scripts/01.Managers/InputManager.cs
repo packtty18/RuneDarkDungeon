@@ -14,6 +14,7 @@ public class InputManager : GlobalSingleton<InputManager>
         { EGameKeyType.Right,   new KeyCode[]{ KeyCode.RightArrow, KeyCode.D, KeyCode.Slash } },
         { EGameKeyType.Jump,    new KeyCode[]{ KeyCode.Space } },
         { EGameKeyType.Attack,  new KeyCode[]{ KeyCode.Mouse0 } },
+        { EGameKeyType.Enter,   new KeyCode[]{ KeyCode.Return} }
     };
 
     // 키 상태 저장
@@ -55,10 +56,10 @@ public class InputManager : GlobalSingleton<InputManager>
     }
     public bool GetKeyDown(EGameKeyType key)
     {
-        /*if (MySceneManager.Instance.IsSceneChanging)
+        if (SceneLoadManager.Instance.SceneType == ESceneType.Loading)
         {
             return false;
-        }*/
+        }
 
         //키가 현재 눌렸지만 이전 프레임에 눌리지 않았을 경우.
         return _currentDownStates[key] && !_previousDownStates[key];

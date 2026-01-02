@@ -28,6 +28,15 @@ public enum EGameKeyType
     Right,
     Jump,
     Attack,
+    Enter,
+}
+
+public enum ESceneType
+{
+    MainMenu,
+    Gameplay,
+    Lobby,
+    Loading,
 }
 
 public enum ETeamType
