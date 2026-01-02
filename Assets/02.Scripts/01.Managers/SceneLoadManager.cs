@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 
 /// 씬 로딩,전환 및 씬 데이터를 관리하는 싱글톤 매니저
-/// SceneDataSO.LoadScene() 또는 SceneLoadManager.Instance.LoadLoading(sceneData) 호출
+/// SceneTransition.cs 컴포넌트 추가 후 사용
 public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
 {
     #region Events
