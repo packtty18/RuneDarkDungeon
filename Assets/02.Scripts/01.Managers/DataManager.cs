@@ -14,6 +14,25 @@ public class DataManager : GlobalSingleton<DataManager>
         File.Load(_data);
     }
     
+    #region Gold
+    public void AddGold(int amount)
+    {
+        Gold.Add(amount);
+    } 
+
+    public bool UseGold(int amount)
+    {
+        return Gold.TryConsume(amount);
+    }
+    #endregion
+    
+    #region Rune
+    public void AddRune(RuneData rune)
+    {
+        Runes.Add(rune);
+    }
+    #endregion
+    
     private void OnApplicationQuit()
     {
         File.Save(_data);

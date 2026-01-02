@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 
 // 테스트용 룬 데이터
 [System.Serializable]
@@ -15,24 +16,45 @@ public class RuneData
         Level = level;
     }
     
+    public void LevelUp() => Level++;
+    
     public override string ToString() => $"[ID:{ID}] {Name} (Lv.{Level})";
 }
 
 [System.Serializable]
-public class GoldData
+public class GoldData : StatBase<int>
 {
-    public int Amount;
-    
-    public GoldData(int amount)
+    private int _amount;
+    public int Amount => _amount;
+
+    private void SetAmount(int amount)
     {
-        Amount = amount;
+        int clamped = Math.Max(0, amount);
+
+        if (_amount == clamped) return;
+
+        _amount = clamped;
+        Notify(_amount);
+    }
+    
+    public void Add(int amount)
+    {
+        SetAmount(_amount + amount);
+    }
+
+    public bool TryConsume(int cost)
+    {
+        if (_amount < cost) return false;
+        
+        SetAmount(_amount - cost);
+        return true;
     }
 }
 
 [System.Serializable]
 public class GameData
 {
-    public GoldData Gold = new(0);
+    public GoldData Gold = new();
     public List<RuneData> Runes = new();
     
     public string GetSummary()
