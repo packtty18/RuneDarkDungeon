@@ -30,6 +30,13 @@ public enum EGameKeyType
     Attack,
 }
 
+public enum ETeamType
+{
+    Player,
+    Enemy,
+    Neutral
+}
+
 #region PlayerStat
 public enum EConsumableFloat
 {
