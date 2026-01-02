@@ -1,15 +1,21 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DataManager : GlobalSingleton<DataManager>
 {
-    private int _gold;
-    private List<RuneData> _runes;
+    private GameData _data = new();
+    
+    // Todo: 읽기 한정자 인터페이스 추가
+    private GoldData Gold => _data.Gold;
+    private List<RuneData> Runes => _data.Runes;
 
-    public void InitData(GameData data)
+    protected override void OnInit()
     {
-        _gold = data.Gold;
-        _runes = data.Runes;
+        File.Load(_data);
+    }
+    
+    private void OnApplicationQuit()
+    {
+        File.Save(_data);
     }
 }

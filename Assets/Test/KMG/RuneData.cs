@@ -19,16 +19,27 @@ public class RuneData
 }
 
 [System.Serializable]
+public class GoldData
+{
+    public int Amount;
+    
+    public GoldData(int amount)
+    {
+        Amount = amount;
+    }
+}
+
+[System.Serializable]
 public class GameData
 {
-    public int Gold;
-    public List<RuneData> Runes = new List<RuneData>();
+    public GoldData Gold = new(0);
+    public List<RuneData> Runes = new();
     
     public string GetSummary()
     {
         System.Text.StringBuilder sb = new();
         sb.AppendLine("==== Game Data Summary ====");
-        sb.AppendLine($"Gold: {Gold}");
+        sb.AppendLine($"Gold: {Gold.Amount}");
         sb.AppendLine($"Rune Count: {Runes.Count}");
         
         for (int i = 0; i < Runes.Count; i++)
