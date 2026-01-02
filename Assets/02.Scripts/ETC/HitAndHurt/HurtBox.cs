@@ -1,10 +1,10 @@
 using UnityEngine;
 
+//피격 부위를 식별.
 [RequireComponent(typeof(Collider))]
 public class HurtBox : MonoBehaviour
 {
     private DamageReceiver _receiver;
-    
 
     private void Awake()
     {
