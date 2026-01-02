@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public interface IAttackable
 {
-    void Attack(AttackData data);
+    void Attack(DamageData data);
 }
 
