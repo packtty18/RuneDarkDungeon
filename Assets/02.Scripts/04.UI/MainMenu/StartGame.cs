@@ -1,4 +1,3 @@
-using GameCore.Data;
 using UnityEngine;
 
 public class StartGame : MonoBehaviour
