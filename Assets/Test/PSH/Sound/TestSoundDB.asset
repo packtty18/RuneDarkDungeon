@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 255236d91d1053449b06fed4d6622bae, type: 3}
+  m_Name: TestSoundDB
+  m_EditorClassIdentifier: Assembly-CSharp::SoundDatabaseSO
+  _entries:
+  - key: Bgm_Test1
+    data:
+      clip: {fileID: 8300000, guid: 1a75ac13b6eb89c479fda084227928a7, type: 3}
+      isBgm: 1
+      is3D: 0
+      volume: 1
+      minDistance: 0
+      maxDistance: 0
+  - key: Bgm_Test2
+    data:
+      clip: {fileID: 8300000, guid: f386edeaafc390b4d8a4676cda280ca0, type: 3}
+      isBgm: 1
+      is3D: 0
+      volume: 1
+      minDistance: 0
+      maxDistance: 0
+  - key: Sfx_Test1
+    data:
+      clip: {fileID: 8300000, guid: 79366c4768a0ad94bb7067d1847834fd, type: 3}
+      isBgm: 0
+      is3D: 1
+      volume: 1
+      minDistance: 1
+      maxDistance: 2
+  - key: Sfx_Test2
+    data:
+      clip: {fileID: 8300000, guid: f5e54482eab3c91439a9732c39f9c910, type: 3}
+      isBgm: 0
+      is3D: 1
+      volume: 1
+      minDistance: 2
+      maxDistance: 3
+  - key: Sfx_Test3
+    data:
+      clip: {fileID: 8300000, guid: ea48ccafdbedd75449374580328c2737, type: 3}
+      isBgm: 0
+      is3D: 1
+      volume: 1
+      minDistance: 3
+      maxDistance: 4
