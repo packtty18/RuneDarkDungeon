@@ -1,16 +1,17 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using System.IO;
 
 public static class AES
 {
     private const int IVSize = 16;
 
-    public static string Encrypt(string text, string key)
+    public static string Encrypt(string text, byte[] key)
     {
         using (Aes aes = Aes.Create())
         {
-            aes.Key = GetHashKey(key);
+            aes.Key = key;
             aes.GenerateIV();
             byte[] iv = aes.IV;
 
@@ -26,12 +27,26 @@ public static class AES
             return Convert.ToBase64String(result);
         }
     }
+    
+    public static void EncryptToStream(Stream outStream, byte[] data, byte[] key)
+    {
+        using var aes = Aes.Create();
+        aes.Key = key;
+        aes.GenerateIV();
 
-    public static string Decrypt(string encryptedText, string key)
+        outStream.Write(aes.IV, 0, aes.IV.Length);
+
+        using var encryptor = aes.CreateEncryptor();
+        using var cryptoStream = new CryptoStream(outStream, encryptor, CryptoStreamMode.Write);
+    
+        cryptoStream.Write(data, 0, data.Length);
+    }
+
+    public static string Decrypt(string encryptedText, byte[] key)
     {
         using (Aes aes = Aes.Create())
         {
-            aes.Key = GetHashKey(key);
+            aes.Key = key;
 
             byte[] encryptedBytes = Convert.FromBase64String(encryptedText);
 
@@ -50,34 +65,31 @@ public static class AES
         }
     }
     
-    public static string GetHash(string input)
+    public static byte[] DecryptFromStream(Stream inStream, byte[] key)
     {
-        if (string.IsNullOrEmpty(input)) return string.Empty;
+        using var aes = Aes.Create();
+        aes.Key = key;
 
-        using (SHA256 sha256 = SHA256.Create())
-        {
-            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+        byte[] iv = new byte[IVSize];
+        if (inStream.Read(iv, 0, IVSize) < IVSize) return null;
+        aes.IV = iv;
 
-            byte[] hashBytes = sha256.ComputeHash(inputBytes);
-
-            StringBuilder stringBuilder = new StringBuilder();
-            foreach (byte b in hashBytes)
-            {
-                stringBuilder.Append(b.ToString("x2"));
-            }
-
-            return stringBuilder.ToString();
-        }
+        using var decryptor = aes.CreateDecryptor();
+        using var cryptoStream = new CryptoStream(inStream, decryptor, CryptoStreamMode.Read);
+        
+        using var memoryStream = new MemoryStream();
+        cryptoStream.CopyTo(memoryStream);
+        return memoryStream.ToArray();
     }
 
     public static byte[] GetHashKey(string input)
     {
         if (string.IsNullOrEmpty(input)) return new byte[32];
 
-        using (SHA256 sha256 = SHA256.Create())
-        {
-            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-            return sha256.ComputeHash(inputBytes);
-        }
+        using var sha256 = SHA256.Create();
+        
+        byte[] inputBytes = Encoding.UTF8.GetBytes(input); 
+        return sha256.ComputeHash(inputBytes);
+        
     }
 }
