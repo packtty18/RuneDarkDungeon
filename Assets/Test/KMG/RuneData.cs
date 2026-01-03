@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 // 테스트용 룬 데이터
 [System.Serializable]
@@ -24,7 +25,7 @@ public class RuneData
 [System.Serializable]
 public class GoldData : StatBase<int>
 {
-    private int _amount;
+    [SerializeField] private int _amount;
     public int Amount => _amount;
 
     private void SetAmount(int amount)

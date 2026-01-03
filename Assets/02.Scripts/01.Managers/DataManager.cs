@@ -11,7 +11,7 @@ public class DataManager : GlobalSingleton<DataManager>
 
     protected override void OnInit()
     {
-        File.Load(_data);
+        FileIO.Load(_data);
     }
     
     #region Gold
@@ -35,6 +35,6 @@ public class DataManager : GlobalSingleton<DataManager>
     
     private void OnApplicationQuit()
     {
-        File.Save(_data);
+        FileIO.Save(_data);
     }
 }
