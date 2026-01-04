@@ -42,8 +42,6 @@ public static class AES
 
     public static byte[] GetHashedKey(string input)
     {
-        if (string.IsNullOrEmpty(input)) return new byte[32];
-
         using var sha256 = SHA256.Create();
         
         byte[] inputBytes = Encoding.UTF8.GetBytes(input); 

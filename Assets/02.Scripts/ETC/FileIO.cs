@@ -23,8 +23,8 @@ public static class FileIO
         AES.Encrypt(fileStream, json, s_hashedKey);
         
 #if UNITY_EDITOR
-        Debug.Log($"<color=green>[데이터 저장 성공]</color> {s_saveFilePath}");
         Debug.Log($"<color=yellow>[암호화됨]</color> {json}");
+        Debug.Log($"<color=green>[데이터 저장 성공]</color> {s_saveFilePath}");
 #endif
     }
 
@@ -39,10 +39,10 @@ public static class FileIO
         {
             json = AES.Decrypt(fileStream, s_hashedKey);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
 #if UNITY_EDITOR
-            Debug.Log("<color=red>[데이터 로드 실패]</color>");
+            Debug.Log($"<color=red>[데이터 로드 실패]</color> {exception.Message}");
 #endif
             return;
         }

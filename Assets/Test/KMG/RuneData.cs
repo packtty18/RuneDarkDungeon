@@ -6,9 +6,9 @@ using UnityEngine;
 [System.Serializable]
 public class RuneData
 {
-    public int ID;
-    public string Name;
-    public int Level;
+    public int ID { get; private set; }
+    public string Name { get; private set; }
+    public int Level { get; private set; }
 
     public RuneData(int id, string name, int level = 1)
     {
@@ -55,8 +55,8 @@ public class GoldData : StatBase<int>
 [System.Serializable]
 public class GameData
 {
-    public GoldData Gold = new();
-    public List<RuneData> Runes = new();
+    public GoldData Gold { get; private set; } = new();
+    public List<RuneData> Runes { get; private set; } = new();
     
     public string GetSummary()
     {

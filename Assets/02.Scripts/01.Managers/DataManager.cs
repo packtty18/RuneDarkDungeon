@@ -33,16 +33,8 @@ public class DataManager : GlobalSingleton<DataManager>
     }
     #endregion
 
-    private void AddData()
-    {
-        Gold.Add(1000);
-        Runes.Add(new RuneData(1, "테스트용 룬1"));
-        Runes.Add(new RuneData(2, "테스트용 룬2", 5));
-    }
-    
     private void OnApplicationQuit()
     {
-        //AddData();
         FileIO.Save(_data);
     }
 }
