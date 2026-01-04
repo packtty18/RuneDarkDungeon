@@ -23,31 +23,31 @@ public class RuneData
 }
 
 [System.Serializable]
-public class GoldData : StatBase<int>
+public class GoldData : StatBase<int>, IReadOnlyValue<int>
 {
-    [SerializeField] private int _amount;
-    public int Amount => _amount;
+    [SerializeField] private int _value;
+    public int Value => _value;
 
     private void SetAmount(int amount)
     {
         int clamped = Math.Max(0, amount);
 
-        if (_amount == clamped) return;
+        if (_value == clamped) return;
 
-        _amount = clamped;
-        Notify(_amount);
+        _value = clamped;
+        Notify(_value);
     }
     
     public void Add(int amount)
     {
-        SetAmount(_amount + amount);
+        SetAmount(_value + amount);
     }
 
     public bool TryConsume(int cost)
     {
-        if (_amount < cost) return false;
+        if (_value < cost) return false;
         
-        SetAmount(_amount - cost);
+        SetAmount(_value - cost);
         return true;
     }
 }
@@ -55,19 +55,22 @@ public class GoldData : StatBase<int>
 [System.Serializable]
 public class GameData
 {
-    public GoldData Gold { get; private set; } = new();
-    public List<RuneData> Runes { get; private set; } = new();
+    [SerializeField] private GoldData _gold = new();
+    [SerializeField] private Inventory _inventory = new();
+
+    public GoldData Gold => _gold;
+    public Inventory Inventory => _inventory;
     
     public string GetSummary()
     {
         System.Text.StringBuilder sb = new();
         sb.AppendLine("==== Game Data Summary ====");
-        sb.AppendLine($"Gold: {Gold.Amount}");
-        sb.AppendLine($"Rune Count: {Runes.Count}");
+        sb.AppendLine($"Gold: {_gold.Value}");
+        sb.AppendLine($"Rune Count: {_inventory.Runes.Count}");
         
-        for (int i = 0; i < Runes.Count; i++)
+        for (int i = 0; i < _inventory.Runes.Count; i++)
         {
-            sb.AppendLine($"- {i+1}. {Runes[i].ToString()}");
+            sb.AppendLine($"- {i+1}. {_inventory.Runes[i].ToString()}");
         }
         sb.AppendLine("===========================");
         return sb.ToString();
