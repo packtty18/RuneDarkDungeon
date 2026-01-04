@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,6 +7,12 @@ public class PoolableObject : MonoBehaviour, IPoolable
     private string _poolKey;
     private Coroutine _autoReleaseCoroutine;
 
+    private Action<string, PoolableObject> _returnAction;
+
+    public void Initialize(Action<string, PoolableObject> returnAction)
+    {
+        _returnAction = returnAction;
+    }
     public void SetPoolKey(string poolKey)
     {
         _poolKey = poolKey;
@@ -33,7 +40,7 @@ public class PoolableObject : MonoBehaviour, IPoolable
             return;
         }
 
-        PoolManager.Instance.ReleaseByKey(_poolKey, this);
+        _returnAction?.Invoke(_poolKey, this);
     }
 
     /// <summary>

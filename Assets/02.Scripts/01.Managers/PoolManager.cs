@@ -108,6 +108,7 @@ public class PoolManager : GlobalSingleton<PoolManager>
             var obj = pool.Get();
             if (obj is T typed)
             {
+                typed.Initialize(ReleaseByKey);
                 return typed;
             }
 
