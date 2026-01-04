@@ -16,7 +16,8 @@ public class PoolableObject : MonoBehaviour, IPoolable
 
     public virtual void OnSpawn()
     {
-
+        transform.position = Vector3.zero;
+        transform.rotation = Quaternion.identity;
     }
 
     public virtual void OnDespawn()

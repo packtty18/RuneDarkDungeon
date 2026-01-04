@@ -3,9 +3,10 @@ using UnityEngine;
 public class CreateBox : MonoBehaviour
 {
     private Camera _camera;
-    [SerializeField] private BoxFactory _boxFactory;
+    private BoxFactory _boxFactory;
     private void Start()
     {
+        _boxFactory = new BoxFactory(PoolManager.Instance);
         _camera = Camera.main;
     }
     private void Update()
@@ -23,6 +24,4 @@ public class CreateBox : MonoBehaviour
             }
         }
     }
-    
-
 }
