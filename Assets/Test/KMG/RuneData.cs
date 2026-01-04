@@ -6,20 +6,18 @@ using UnityEngine;
 [System.Serializable]
 public class RuneData
 {
-    public int ID;
-    public string Name;
-    public int Level;
+    [SerializeField] private int _id;
+    [SerializeField] private int _level;
 
-    public RuneData(int id, string name, int level = 1)
+    public RuneData(int id, int level = 1)
     {
-        ID = id;
-        Name = name;
-        Level = level;
+        _id = id; 
+        _level = level;
     }
     
-    public void LevelUp() => Level++;
+    public void LevelUp() => ++_level;
     
-    public override string ToString() => $"[ID:{ID}] {Name} (Lv.{Level})";
+    public override string ToString() => $"[ID:{_id}] Lv.{_level})";
 }
 
 [System.Serializable]
@@ -55,8 +53,8 @@ public class GoldData : StatBase<int>, IReadOnlyValue<int>
 [System.Serializable]
 public class GameData
 {
-    [SerializeField] private GoldData _gold = new();
-    [SerializeField] private Inventory _inventory = new();
+    [SerializeField] private GoldData _gold;
+    [SerializeField] private Inventory _inventory;
 
     public GoldData Gold => _gold;
     public Inventory Inventory => _inventory;

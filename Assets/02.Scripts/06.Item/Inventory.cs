@@ -5,7 +5,7 @@ using System;
 [System.Serializable]
 public class Inventory : IReadOnlyInventory
 {
-    [SerializeField] private List<RuneData> _runes = new();
+    [SerializeField] private List<RuneData> _runes;
     public IReadOnlyList<RuneData> Runes => _runes;
     
     private SafeEvent<RuneData> _onRuneAdded;

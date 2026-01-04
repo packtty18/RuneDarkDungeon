@@ -34,7 +34,7 @@ public class DataManager : GlobalSingleton<DataManager>
         _gold.Subscribe(action);
     }
 
-    public void UnsubscribedGold(Action<int> action)
+    public void UnsubscribeGold(Action<int> action)
     {
         _gold.Unsubscribe(action);
     }
@@ -60,13 +60,13 @@ public class DataManager : GlobalSingleton<DataManager>
     private void AddData()
     {
         AddGold(1000);
-        AddRune(new RuneData(1, "테스트용 룬1"));
-        AddRune(new RuneData(2, "테스트용 룬2", 5));
+        AddRune(new RuneData(0));
+        AddRune(new RuneData(1, 5));
     }
     
     private void OnApplicationQuit()
     {
-        //AddData();
+        AddData();
         FileIO.Save(_data);
     }
 }
