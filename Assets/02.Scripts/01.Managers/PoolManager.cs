@@ -1,10 +1,7 @@
-using MoreMountains.Tools;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Pool;
 
 //풀링하고자하는 컴포넌트는 PoolableObject를 상속받아야함
@@ -34,8 +31,8 @@ public class PoolManager : GlobalSingleton<PoolManager>
     [Header("풀 설정")]
     [SerializeField] private List<PoolConfig> _poolConfigs = new List<PoolConfig>();
 
-    private Dictionary<string, object> _pools = new Dictionary<string, object>(); //키, 오브젝트풀
-    private Dictionary<string, Type> _poolTypes = new Dictionary<string, Type>(); //키, 풀 오브젝트 타입
+    private Dictionary<string, IPool> _pools = new Dictionary<string, IPool>(); //키, IPool
+    
     private Transform _poolParent;
 
     protected override void Awake()
@@ -124,9 +121,10 @@ public class PoolManager : GlobalSingleton<PoolManager>
                 defaultCapacity: defaultCapacity,
                 maxSize: maxSize
         );
-    
-        _pools.Add(key, pool);
-        _poolTypes.Add(key, typeof(T));
+        
+        IPool poolWrapper = new PoolWrapper<T>(key, pool);
+        _pools.Add(key, poolWrapper);
+
 
         if (warmUp)
         {
@@ -140,9 +138,16 @@ public class PoolManager : GlobalSingleton<PoolManager>
     /// </summary>
     public T Get<T> (string key) where T : PoolableObject
     {
-        if (_pools.TryGetValue(key, out var poolObj) && poolObj is ObjectPool<T> pool)
+        if (_pools.TryGetValue(key, out var pool))
         {
-            return pool.Get();
+            var obj = pool.Get();
+            if (obj is T typed)
+            {
+                return typed;
+            }
+
+            Debug.LogError($"[PoolManager] '{key}' 풀 타입 불일치"); // 수정
+            return null;
         }
         else
         {
@@ -152,57 +157,33 @@ public class PoolManager : GlobalSingleton<PoolManager>
     }
 
     /// <summary>
-    /// 풀로 반환
+    /// 키로 풀로 반환 (PoolableObject용)
     /// </summary>
-    public void Release <T>(string key, T obj) where T : PoolableObject
+    internal void ReleaseByKey(string key, PoolableObject obj)
     {
-        if (!_pools.TryGetValue(key, out var poolObj))
-        {
-            Debug.LogError($"[PoolManager] '{key}' 풀을 찾을 수 없습니다. 오브젝트를 파괴합니다.");
-            Destroy(obj.gameObject);
-            return;
-        }
-        if (poolObj is ObjectPool<T> pool)
+        if (_pools.TryGetValue(key, out var pool))
         {
             pool.Release(obj);
             return;
         }
 
-        Debug.LogError($"[PoolManager] '{key}' 풀의 타입이 일치하지 않습니다.");    
-    }
-
-    /// <summary>
-    /// 키로 풀로 반환 (PoolableObject용)
-    /// </summary>
-    internal void ReleaseByKey(string key, PoolableObject obj)
-    {
-        if (!_pools.ContainsKey(key))
-        {
-            Debug.LogWarning($"[PoolManager] '{key}' 풀을 찾을 수 없습니다. 오브젝트를 파괴합니다.");
-            Destroy(obj.gameObject);
-            return;
-        }
-
-        var pool = _pools[key];
-        var releaseMethod = pool.GetType().GetMethod("Release");
-        releaseMethod?.Invoke(pool, new object[] { obj });
+        Debug.LogWarning($"[PoolManager] '{key}' 풀을 찾을 수 없습니다. 오브젝트를 파괴합니다.");
+        Destroy(obj.gameObject);
     }
 
     public void Clear(String key)
     {
-        if (_pools.TryGetValue(key, out var poolObj))
+        if (_pools.TryGetValue(key, out var pool))
         {
-            var poolType = _poolTypes[key];
-            var method = typeof(ObjectPool<>).MakeGenericType(poolType).GetMethod("Clear", BindingFlags.Public | BindingFlags.Instance);
-            method.Invoke(poolObj, null);
+            pool.Clear();
         }   
     }
 
     public void ClearAll()
     {
-        foreach (var key in _pools.Keys)
+        foreach (var pool in _pools.Values)
         {
-            Clear(key);
+            pool.Clear();
         }
     }
 
@@ -211,23 +192,14 @@ public class PoolManager : GlobalSingleton<PoolManager>
     /// </summary>
     public PoolStats GetStats(string key)
     {
-        if (!_pools.TryGetValue(key, out var poolObj))
+        if (_pools.TryGetValue(key, out var pool))
         {
-            Debug.LogError($"[PoolManager] '{key}' 풀을 찾을 수 없습니다.");
-            return null;
+            return pool.GetStats();
         }
-
-        var poolType = _poolTypes[key];
-        var countAll = (int)poolType.GetProperty("CountAll").GetValue(poolObj);
-        var countActive = (int)poolType.GetProperty("CountActive").GetValue(poolObj);
-        var countInactive = countAll - countActive;
-
-        return new PoolStats(key, poolType.Name, countAll, countActive, countInactive);
-
+      
+        Debug.LogError($"[PoolManager] '{key}' 풀을 찾을 수 없습니다.");
+        return null;
     }
-
-
-
 
     private T CreateObject<T>(T original, Transform parent, string poolKey) where T : PoolableObject
     {
