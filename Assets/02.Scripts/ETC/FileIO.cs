@@ -1,7 +1,6 @@
 using UnityEngine;
-using System;
 using System.IO;
-using System.Text;
+using System;
 
 public static class FileIO
 {
@@ -13,24 +12,15 @@ public static class FileIO
     static FileIO()
     {
         s_saveFilePath = Path.Combine(Application.persistentDataPath, s_saveFileName);
-        s_hashedKey = AES.GetHashKey(s_securityKey);
+        s_hashedKey = AES.GetHashedKey(s_securityKey);
     }
 
     public static void Save(GameData data)
     {
-
-        /*using var stream = new FileStream(s_saveFilePath, FileMode.Create);
-        using var writer = new StreamWriter(stream, Encoding.UTF8);
-        
         string json = JsonUtility.ToJson(data);
-        string encrypted = AES.Encrypt(json, s_hashedKey);
-        writer.Write(encrypted);*/
-                
-        string json = JsonUtility.ToJson(data);
-        byte[] encrypted = Encoding.UTF8.GetBytes(json);
 
         using var fileStream = new FileStream(s_saveFilePath, FileMode.Create);
-        AES.EncryptToStream(fileStream, encrypted, s_hashedKey);
+        AES.Encrypt(fileStream, json, s_hashedKey);
         
 #if UNITY_EDITOR
         Debug.Log($"<color=green>[데이터 저장 성공]</color> {s_saveFilePath}");
@@ -42,15 +32,12 @@ public static class FileIO
     {
         if (!File.Exists(s_saveFilePath)) return;
 
-/*        string encrypted = File.ReadAllText(s_saveFilePath);
-        string decrypted = string.Empty;
-        
+        using var fileStream = new FileStream(s_saveFilePath, FileMode.Open);
+        string json = string.Empty;
+
         try
         {
-            decrypted = AES.Decrypt(encrypted, s_hashedKey);
-#if UNITY_EDITOR
-            Debug.Log($"<color=cyan>[복호화됨]</color> {decrypted}");
-#endif
+            json = AES.Decrypt(fileStream, s_hashedKey);
         }
         catch (Exception)
         {
@@ -59,22 +46,12 @@ public static class FileIO
 #endif
             return;
         }
-        
-        JsonUtility.FromJsonOverwrite(decrypted, data);
+
+        JsonUtility.FromJsonOverwrite(json, data);
         
 #if UNITY_EDITOR
         Debug.Log("<color=cyan>[데이터 로드 성공]</color>");
         Debug.Log(data.GetSummary());
-#endif*/
-        using var fileStream = new FileStream(s_saveFilePath, FileMode.Open);
-        byte[] decryptedBytes = AES.DecryptFromStream(fileStream, s_hashedKey);
-
-        if (decryptedBytes != null)
-        {
-            string json = Encoding.UTF8.GetString(decryptedBytes);
-            JsonUtility.FromJsonOverwrite(json, data);
-            Debug.Log("<color=cyan>[데이터 로드 성공]</color>");
-            Debug.Log(data.GetSummary());
-        }
+#endif
     }
 }
