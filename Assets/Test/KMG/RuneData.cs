@@ -8,6 +8,9 @@ public class RuneData
 {
     [SerializeField] private int _id;
     [SerializeField] private int _level;
+    
+    public int ID => _id;
+    public int Level => _level;
 
     public RuneData(int id, int level = 1)
     {

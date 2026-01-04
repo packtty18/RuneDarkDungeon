@@ -10,12 +10,15 @@ public class DataManager : GlobalSingleton<DataManager>
 
     public IReadOnlyValue<int> Gold => _gold;
     public IReadOnlyInventory Inventory => _inventory;
+
+    [SerializeField] private RuneDatabaseSO _runeDB;
     
     protected override void OnInit()
     {
         FileIO.Load(_data);
         _gold = _data.Gold;
         _inventory = _data.Inventory;
+        _runeDB.Initialize();
     }
     
     #region Gold
@@ -55,6 +58,11 @@ public class DataManager : GlobalSingleton<DataManager>
     {
         _inventory.Unsubscribe(action);
     }
+
+    public RuneSO GetRuneInfo(int id)
+    {
+        return _runeDB.GetRune(id);
+    }
     #endregion
     
     private void AddData()
@@ -66,7 +74,7 @@ public class DataManager : GlobalSingleton<DataManager>
     
     private void OnApplicationQuit()
     {
-        AddData();
+        //AddData();
         FileIO.Save(_data);
     }
 }
