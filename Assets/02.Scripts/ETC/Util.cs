@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 
@@ -16,9 +16,9 @@ public class Util : MonoBehaviour
 
     public static void ObjectDestroy(GameObject gameObject)
     {
-        if(gameObject.TryGetComponent(out IPoolable pool))
+        if(gameObject.TryGetComponent(out PoolableObject pool))
         {
-            //PoolManager.Instance.Release(pool.PoolType, gameObject);
+            pool.ReturnToPool();
         }
         else
         {

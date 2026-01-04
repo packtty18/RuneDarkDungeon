@@ -64,7 +64,7 @@ public class PoolManager : GlobalSingleton<PoolManager>
             Type type = config.Component.GetType();
 
             //매서드 찾기
-            var method = GetType().GetMethod(nameof(CreatePool), BindingFlags.NonPublic | BindingFlags.Instance);
+            var method = GetType().GetMethod(nameof(CreatePool), BindingFlags.Public | BindingFlags.Instance);
             //제너릭 타입 지정
             var genericMethod = method.MakeGenericMethod(type);
 
@@ -199,6 +199,11 @@ public class PoolManager : GlobalSingleton<PoolManager>
       
         Debug.LogError($"[PoolManager] '{key}' 풀을 찾을 수 없습니다.");
         return null;
+    }
+
+    public bool HasPool(string key)
+    {
+        return _pools.ContainsKey(key);
     }
 
     private T CreateObject<T>(T original, Transform parent, string poolKey) where T : PoolableObject
