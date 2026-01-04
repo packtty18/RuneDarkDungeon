@@ -5,9 +5,11 @@ public class DataManager : GlobalSingleton<DataManager>
 {
     private GameData _data = new();
     
-    // Todo: 읽기 한정자 인터페이스 추가
     private GoldData _gold;
     private Inventory _inventory;
+
+    public IReadOnlyValue<int> Gold => _gold;
+    public IReadOnlyInventory Inventory => _inventory;
     
     protected override void OnInit()
     {
@@ -55,8 +57,16 @@ public class DataManager : GlobalSingleton<DataManager>
     }
     #endregion
     
+    private void AddData()
+    {
+        AddGold(1000);
+        AddRune(new RuneData(1, "테스트용 룬1"));
+        AddRune(new RuneData(2, "테스트용 룬2", 5));
+    }
+    
     private void OnApplicationQuit()
     {
+        //AddData();
         FileIO.Save(_data);
     }
 }

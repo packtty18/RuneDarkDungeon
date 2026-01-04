@@ -6,9 +6,9 @@ using UnityEngine;
 [System.Serializable]
 public class RuneData
 {
-    public int ID { get; private set; }
-    public string Name { get; private set; }
-    public int Level { get; private set; }
+    public int ID;
+    public string Name;
+    public int Level;
 
     public RuneData(int id, string name, int level = 1)
     {
