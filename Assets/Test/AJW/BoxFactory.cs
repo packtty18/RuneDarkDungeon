@@ -3,23 +3,23 @@ using UnityEngine;
 public class BoxFactory : GlobalSingleton<BoxFactory>
 {
     [SerializeField]
-    private string key = "Box";
+    private string _key = "Box";
 
-    public void Start()
+    private void Start()
     {
-        if (!PoolManager.Instance.HasPool(key))
+        if (!PoolManager.Instance.HasPool(_key))
         {
-            throw new System.Exception($"BoxFactory Start Error: Pool with key '{key}' does not exist.");
+            throw new System.InvalidOperationException($"BoxFactory Start Error: Pool with key '{_key}' does not exist.");
         }
     }
     public void Create()
     { 
-        PoolManager.Instance.Get<Box>(key);
+        PoolManager.Instance.Get<Box>(_key);
     }
 
     public void CreateAt(Vector3 position)
     {
-        var box = PoolManager.Instance.Get<Box>(key);
+        var box = PoolManager.Instance.Get<Box>(_key);
         box.transform.position = position;
     }
 }

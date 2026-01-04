@@ -5,31 +5,29 @@ using UnityEngine;
 using UnityEngine.Pool;
 
 //풀링하고자하는 컴포넌트는 PoolableObject를 상속받아야함
+//직접 Factory에서 CreatePool 하거나 PoolConfig<T>를 만들어 PoolManager에 게임오브젝트로 추가하여 사용 (test/BoxPoolConfig 참고)
 [Serializable]
-public class PoolConfig
+public class PoolConfig<T> : PoolConfigBase where T : PoolableObject
 {
-    [Tooltip("풀링할 컴포넌트")]
-    public PoolableObject Component;
+    [SerializeField] private string _poolKey;
+    [SerializeField] private T _component;
+    [SerializeField] private int _defaultCapacity =10;
+    [SerializeField] private int _maxSize = 100;
+    [SerializeField] private bool _warmUp = true;
 
-    [Tooltip("풀 키 (비어있다면 프리팹 이름)")]
-    public string PoolKey = "";
+    public override string PoolKey => _poolKey;
 
-    [Tooltip("초기 생성 개수")]
-    public int DefaultCapacity = 10;
-
-    [Tooltip("최대 생성 개수")]
-    public int MaxSize = 100;
-
-    [Tooltip("사전 생성 여부")]
-    public bool WarmUp = true;
-
-    public string GetPoolKey() => string.IsNullOrEmpty(PoolKey) ? Component.gameObject.name : PoolKey;
+    public string GetPoolKey() => string.IsNullOrEmpty(PoolKey) ? _component.gameObject.name : PoolKey;
+    public override void CreatePool(PoolManager manager)
+    {
+        manager.CreatePool<T>(GetPoolKey(), _component, _defaultCapacity, _maxSize, _warmUp);
+    }
 }
 
 public class PoolManager : GlobalSingleton<PoolManager>
 {
     [Header("풀 설정")]
-    [SerializeField] private List<PoolConfig> _poolConfigs = new List<PoolConfig>();
+    [SerializeField] private List<PoolConfigBase> _poolConfigs = new List<PoolConfigBase>();
 
     private Dictionary<string, IPool> _pools = new Dictionary<string, IPool>(); //키, IPool
     
@@ -47,49 +45,19 @@ public class PoolManager : GlobalSingleton<PoolManager>
         _poolParent = new GameObject("PoolParent").transform;
         _poolParent.SetParent(transform);
 
-        CreatPoolsFromConfigs();
+        CreatePoolsFromConfigs();
     }
 
-    private void CreatPoolsFromConfigs()
+    private void CreatePoolsFromConfigs()
     {
         foreach ( var config in _poolConfigs)
         {
-            if (config.Component == null)
-            {
-                Debug.LogWarning("[PoolManager] 컴포넌트가 null인 설정이 있습니다.");
-                continue;
-            }
+            config.CreatePool(this);
 
-            string poolKey = config.GetPoolKey();
-            Type type = config.Component.GetType();
-
-            //매서드 찾기
-            var method = GetType().GetMethod(nameof(CreatePool), BindingFlags.Public | BindingFlags.Instance);
-            //제너릭 타입 지정
-            var genericMethod = method.MakeGenericMethod(type);
-
-            //메서드 호출
-            try
-            {
-                genericMethod.Invoke(this, new object[]
-                {
-                        poolKey,
-                        config.Component,
-                        config.DefaultCapacity,
-                        config.MaxSize,
-                        config.WarmUp
-                });
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"[PoolManager] '{poolKey}' 풀 생성 실패: {e.Message}");
-            }
         }
     }
 
-    /// <summary>
-    /// 풀을 생성합니다.
-    /// </summary>
+
     public void CreatePool<T>(
             string key,
             T component,
@@ -133,9 +101,6 @@ public class PoolManager : GlobalSingleton<PoolManager>
 
     }
 
-    /// <summary>
-    /// 풀에서 오브젝트 가져오기
-    /// </summary>
     public T Get<T> (string key) where T : PoolableObject
     {
         if (_pools.TryGetValue(key, out var pool))
@@ -156,9 +121,7 @@ public class PoolManager : GlobalSingleton<PoolManager>
         }
     }
 
-    /// <summary>
-    /// 키로 풀로 반환 (PoolableObject용)
-    /// </summary>
+
     internal void ReleaseByKey(string key, PoolableObject obj)
     {
         if (_pools.TryGetValue(key, out var pool))
@@ -171,7 +134,7 @@ public class PoolManager : GlobalSingleton<PoolManager>
         Destroy(obj.gameObject);
     }
 
-    public void Clear(String key)
+    public void Clear(string key)
     {
         if (_pools.TryGetValue(key, out var pool))
         {
@@ -187,9 +150,7 @@ public class PoolManager : GlobalSingleton<PoolManager>
         }
     }
 
-    /// <summary>
-    /// 풀 통계 정보
-    /// </summary>
+
     public PoolStats GetStats(string key)
     {
         if (_pools.TryGetValue(key, out var pool))
