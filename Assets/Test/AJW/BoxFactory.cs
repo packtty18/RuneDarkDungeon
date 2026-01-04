@@ -1,25 +1,24 @@
 using UnityEngine;
 
-public class BoxFactory : MonoBehaviour
+public class BoxFactory : PoolFactory<Box>
 {
-    [SerializeField]
-    private string _key = "Box";
-
-    private void Start()
+    public BoxFactory(PoolManager poolManager) : base(poolManager, "Box")
     {
-        if (!PoolManager.Instance.HasPool(_key))
+        if (!_poolManager.HasPool(_key))
         {
             throw new System.InvalidOperationException($"BoxFactory Start Error: Pool with key '{_key}' does not exist.");
         }
     }
-    public void Create()
+
+    public Box Create()
     { 
-        PoolManager.Instance.Get<Box>(_key);
+        return CreateInternal();
     }
 
-    public void CreateAt(Vector3 position)
+    public Box CreateAt(Vector3 position)
     {
-        var box = PoolManager.Instance.Get<Box>(_key);
+        var box = CreateInternal();
         box.transform.position = position;
+        return box;
     }
 }

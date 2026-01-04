@@ -3,8 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-//풀링하고자하는 컴포넌트는 PoolableObject를 상속받아야함
-//직접 Factory에서 CreatePool 하거나 PoolConfig<T>를 만들어 PoolManager에 게임오브젝트로 추가하여 사용 (test/BoxPoolConfig 참고)
+/*
+ * PoolManager
+ *
+ * 사용 방법:
+ * 1. PoolableObject를 상속한 컴포넌트를 만든다 (예: Bullet, Enemy).
+ * 2. 인스펙터에서 PoolManager를 붙인 게임오브젝트를 만든다.
+ * 3. PoolConfig<T>를 상속한 클래스를 만들어 프리팹과 풀 설정을 정의한다.
+ *    - 예: PoolConfig<Bullet> bulletPoolConfig
+ * 4. PoolManager의 _poolConfigs 리스트에 PoolConfig를 추가하면 Awake 시 자동으로 풀 생성.
+ * 5. 게임 로직에서 PoolManager.Instance.Get<T>("PoolKey")를 호출하여 오브젝트를 가져온다. (Factory 패턴 권장)  
+ * 6. 사용이 끝나면 PoolableObject.ReturnToPool() 호출.
+ * test/BoxPoolConfig 참고.
+ *
+ */
 [Serializable]
 public class PoolConfig<T> : PoolConfigBase where T : PoolableObject
 {
