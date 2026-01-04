@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BoxFactory : GlobalSingleton<BoxFactory>
+public class BoxFactory : MonoBehaviour
 {
     [SerializeField]
     private string _key = "Box";

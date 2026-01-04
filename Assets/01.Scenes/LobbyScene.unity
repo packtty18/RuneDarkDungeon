@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3fc7dd5038f4924bbbac884d8510b06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoxFactory
-  key: Box
+  _key: Box
 --- !u!4 &1511364173
 Transform:
   m_ObjectHideFlags: 0
@@ -304,6 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98a20e3d36bcb7f4a8d31a4934a9ed8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreateBox
+  _boxFactory: {fileID: 1511364172}
 --- !u!1 &1707258341
 GameObject:
   m_ObjectHideFlags: 0

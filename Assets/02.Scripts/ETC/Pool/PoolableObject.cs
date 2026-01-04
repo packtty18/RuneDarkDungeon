@@ -7,12 +7,8 @@ public class PoolableObject : MonoBehaviour, IPoolable
     private string _poolKey;
     private Coroutine _autoReleaseCoroutine;
 
-    private Action<string, PoolableObject> _returnAction;
+    public event Action<string, PoolableObject> OnReturnRequested;
 
-    public void Initialize(Action<string, PoolableObject> returnAction)
-    {
-        _returnAction = returnAction;
-    }
     public void SetPoolKey(string poolKey)
     {
         _poolKey = poolKey;
@@ -28,9 +24,6 @@ public class PoolableObject : MonoBehaviour, IPoolable
        
     }
 
-    /// <summary>
-    ///  풀 수동 반환
-    /// </summary>
     public void ReturnToPool()
     {
         if (string.IsNullOrEmpty(_poolKey))
@@ -40,12 +33,9 @@ public class PoolableObject : MonoBehaviour, IPoolable
             return;
         }
 
-        _returnAction?.Invoke(_poolKey, this);
+        OnReturnRequested?.Invoke(_poolKey, this);
     }
 
-    /// <summary>
-    /// 일정 시간 후 풀 반환
-    /// </summary>
     public void ReturnToPoolAfter (float delay)
     {
         if (_autoReleaseCoroutine != null)

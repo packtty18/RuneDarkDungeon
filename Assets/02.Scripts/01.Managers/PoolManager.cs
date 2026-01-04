@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -108,7 +107,9 @@ public class PoolManager : GlobalSingleton<PoolManager>
             var obj = pool.Get();
             if (obj is T typed)
             {
-                typed.Initialize(ReleaseByKey);
+                typed.OnReturnRequested -= ReleaseByKey;
+                typed.OnReturnRequested += ReleaseByKey;
+
                 return typed;
             }
 
