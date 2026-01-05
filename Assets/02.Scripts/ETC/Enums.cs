@@ -46,6 +46,14 @@ public enum ETeamType
     Neutral
 }
 
+public enum EItemGrade
+{
+    Normal,
+    Rare,
+    Unique,
+    Legendary
+}
+
 #region PlayerStat
 public enum EConsumableFloat
 {

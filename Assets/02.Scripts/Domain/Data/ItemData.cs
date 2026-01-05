@@ -1,22 +1,26 @@
 using UnityEngine;
+using System;
 
-// 테스트용 룬 데이터
 [System.Serializable]
 public class ItemData
 {
     [SerializeField] private int _id;
-    [SerializeField] private int _level;
+    [SerializeField] private EItemGrade _grade;
     
     public int ID => _id;
-    public int Level => _level;
+    public EItemGrade Grade => _grade;
 
-    public ItemData(int id, int level = 1)
+    public ItemData(int id, EItemGrade grade = EItemGrade.Normal)
     {
         _id = id; 
-        _level = level;
+        _grade = grade;
+    }
+
+    public void GradeUp()
+    {
+        if (_grade == EItemGrade.Legendary) return;
+        ++_grade;
     }
     
-    public void LevelUp() => ++_level;
-    
-    public override string ToString() => $"[ID:{_id}] Lv.{_level})";
+    public override string ToString() => $"[ID:{_id}] Lv.{_grade})";
 }

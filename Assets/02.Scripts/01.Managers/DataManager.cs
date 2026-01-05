@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(GoldManager), typeof(InventoryManager))]
 public class DataManager : GlobalSingleton<DataManager>
 {
     private GameData _data = new();
@@ -8,8 +7,12 @@ public class DataManager : GlobalSingleton<DataManager>
     protected override void OnInit()
     {
         FileIO.Load(_data);
-        GetComponent<GoldManager>().Initialize(_data.Gold);
-        GetComponent<InventoryManager>().Initialize(_data.Inventory);
+    }
+
+    private void Start()
+    {
+        GoldManager.Instance.Initialize(_data.Gold);
+        InventoryManager.Instance.Initialize(_data.Inventory);
     }
 
     public void Save()
