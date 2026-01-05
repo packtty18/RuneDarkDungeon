@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BoxFactory : PoolFactory
+public class BoxFactory : PoolFactory<Box>
 {
     public BoxFactory(PoolManager poolManager) : base(poolManager, EPoolType.Box)
     {
@@ -10,14 +10,14 @@ public class BoxFactory : PoolFactory
         }
     }
 
-    public GameObject Create()
+    public Box Create()
     { 
         return CreateInternal();
     }
 
-    public GameObject CreateAt(Vector3 position)
+    public Box CreateAt(Vector3 position)
     {
-        GameObject box = CreateInternal();
+        Box box = CreateInternal();
         box.transform.position = position;
         return box;
     }

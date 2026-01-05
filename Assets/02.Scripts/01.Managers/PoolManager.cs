@@ -87,7 +87,7 @@ public class PoolManager : GlobalSingleton<PoolManager>
     {
         if (prefab == null)
         {
-            Debug.LogError($"[PoolManager] '{type}' 풀 생성 실패: 프리팹에 '{prefab.name}' 프리팹이 없습니다.");
+            Debug.LogError($"[PoolManager] '{type}' 풀 생성 실패: 프리팹이 null 입니다.");
             return;
         }
 
@@ -197,7 +197,7 @@ public class PoolManager : GlobalSingleton<PoolManager>
     private GameObject CreateObject(GameObject prefab, Transform parent, EPoolType type)
     {
         GameObject obj = Instantiate(prefab, parent);
-        obj.gameObject.name = $"{prefab.name} (Pooled)";
+        obj.name = $"{prefab.name} (Pooled)";
         if (obj.TryGetComponent<PoolableObject>(out var poolable))
         {
             poolable.OnReturnRequested -= ReleaseByKey;
@@ -209,7 +209,7 @@ public class PoolManager : GlobalSingleton<PoolManager>
 
     private void OnGetFromPool(GameObject obj)
     {
-        obj.gameObject.SetActive(true);
+        obj.SetActive(true);
         if (obj.TryGetComponent<PoolableObject>(out var poolable))
         {
             poolable.OnSpawn();
@@ -220,7 +220,7 @@ public class PoolManager : GlobalSingleton<PoolManager>
     {
         if (obj != null)
         {
-            obj.gameObject.SetActive(false);
+            obj.SetActive(false);
             if (obj.TryGetComponent<PoolableObject>(out var poolable))
             {
                 poolable.OnDespawn();
@@ -232,7 +232,7 @@ public class PoolManager : GlobalSingleton<PoolManager>
     {
         if (obj != null)
         {
-            Destroy(obj.gameObject);
+            Destroy(obj);
         } 
     }
 
