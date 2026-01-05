@@ -1,72 +1,107 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerMove : MonoBehaviour
 {
     private CharacterController _Controller;
     private Player _Player;
 
-    private float _speed;
-    private float _walkSpeed;
+
     private float _runSpeedMultiplier = 2f;
+
+    private float _currentSpeed;
+    private float _walkSpeed;
     private bool _isRunning = false;
 
     private Action<float> _onMoveSpeedChanged;
     void Start()
     {
+        InitializeComponents();
+        SubscribeEvents();
+        InitializeSpeed();
+    }
+
+    private void Update()
+    {
+        RunInput();
+        Movement();
+    }
+    private void OnDestroy()
+    {
+        UnSubscribeEvents();
+    }
+
+    private void InitializeComponents()
+    {
         _Controller = GetComponent<CharacterController>();
         _Player = GetComponent<Player>();
+    }
 
+    private void InitializeSpeed()
+    {
+        _walkSpeed = _Player.PlayerStats.MoveSpeed.Current;
+        _currentSpeed = _walkSpeed;
+    }
+
+    private void SubscribeEvents()
+    {
         _onMoveSpeedChanged = HandleMoveSpeedChanged;
         _Player.PlayerStats.MoveSpeed.Subscribe(_onMoveSpeedChanged);
-        _walkSpeed = _Player.PlayerStats.MoveSpeed.Current;
-        _speed = _walkSpeed;
     }
 
-    private void HandleMoveSpeedChanged(float obj)
+    private void UnSubscribeEvents()
     {
-        _walkSpeed = obj;
-        if (_isRunning)
-        {
-            _speed = _walkSpeed * _runSpeedMultiplier;
-        }
-        else
-        {
-            _speed = _walkSpeed;
-        }
+        _Player.PlayerStats.MoveSpeed.Unsubscribe(_onMoveSpeedChanged);
+    }
+    
+    private void Movement()
+    {
+        Vector3 moveDirection = GetMoveDirection();
+        
+        _Controller.Move(moveDirection * _currentSpeed * Time.deltaTime);
     }
 
-    void Update()
+    private Vector3 GetMoveDirection()
     {
+        Vector3 direction = Vector3.zero;
         if (InputManager.Instance.GetKey(EGameKeyType.Front))
         {
-            _Controller.Move(Vector3.forward * Time.deltaTime * _speed);
+            direction += Vector3.forward;
         }
         if (InputManager.Instance.GetKey(EGameKeyType.Back))
         {
-            _Controller.Move(Vector3.back * Time.deltaTime * _speed);
+            direction += Vector3.back;
         }
         if (InputManager.Instance.GetKey(EGameKeyType.Left))
         {
-            _Controller.Move(Vector3.left * Time.deltaTime * _speed);
+            direction += Vector3.left;
         }
         if (InputManager.Instance.GetKey(EGameKeyType.Right))
         {
-            _Controller.Move(Vector3.right * Time.deltaTime * _speed);
+            direction += Vector3.right;
         }
-        if (InputManager.Instance.GetKeyDown(EGameKeyType.Run))
+        return direction.normalized;
+    }
+
+    private void RunInput()
+    {
+        bool shouldRun = InputManager.Instance.GetKey(EGameKeyType.Run);
+
+        if (shouldRun != _isRunning)
         {
-            _speed = _walkSpeed * 2;
-            _isRunning = true;
+            _isRunning = shouldRun;
+            UpdateCurrentSpeed();
         }
-        else if (InputManager.Instance.GetKeyUp(EGameKeyType.Run))
-        {
-            _speed = _walkSpeed;
-            _isRunning = false;
-        }
-        if (InputManager.Instance.GetKey(EGameKeyType.Attack))
-        {
-            Debug.Log("공격");
-        }
+    }
+    private void HandleMoveSpeedChanged(float obj)
+    {
+        _walkSpeed = obj;
+        UpdateCurrentSpeed();
+    }
+
+    private void UpdateCurrentSpeed()
+    {
+        _currentSpeed = _isRunning? _walkSpeed * _runSpeedMultiplier : _walkSpeed;
     }
 }
