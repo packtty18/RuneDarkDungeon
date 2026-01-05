@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.STP;
+
 
 
 // PoolManager
@@ -13,8 +11,8 @@ using static UnityEngine.Rendering.STP;
 // 
 // 1. PoolableObject를 상속한 컴포넌트를 만든다 (예: Bullet, Enemy).
 // 2. PoolConfig<T>를 상속한 클래스를 만들어 컴포넌트와 풀 설정을 정의한다.
-// 3-1. 전역풀 사용 시 PoolManager의 _poolConfigs 리스트에 PoolConfig를 추가.
-// 3-2. 지역풀 사용 시 씬 별 SceneInitializer 클래스를 만들거나 오브젝트에서 PoolManager.CreatePoolFromConfig() 호출로 풀 생성.
+// 3-1. 전역풀 사용 시 PoolManager의 _poolConfigs 리스트에 PoolConfig를 추가. (전역풀 사용 권장)
+// 3-2. 지역풀 사용 시 각 씬에서 PoolManager.CreatePoolFromConfig()나 list로 받아 .CreatePoolsFromConfigs() 호출로 풀 생성. 
 // 4. PoolManager의 _poolConfigs 리스트에 PoolConfig를 추가하면 Awake 시 자동으로 풀 생성.
 //    (또는 런타임에 PoolManager.CreatePoolFromConfig() 호출로 동적 생성 가능) (Factory 패턴 권장) 
 // 5. 게임 로직에서 PoolManager.Instance.Get<T>("PoolKey")를 호출하여 오브젝트를 가져온다. (Factory 패턴 권장)  
@@ -47,7 +45,7 @@ public class PoolManager : GlobalSingleton<PoolManager>
         CanvasSetting(canvasObject);
 
         _canvas = canvasObject.transform;
-        CreatePoolsFromConfigs();
+        CreatePoolsFromConfigs(_poolConfigs);
     }
     
     private void CanvasSetting(GameObject canvasObject)
@@ -56,11 +54,17 @@ public class PoolManager : GlobalSingleton<PoolManager>
 
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 100; // 필요에 따라 조정
+
+        var canvasScaler = canvasObject.AddComponent<CanvasScaler>();
+        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        canvasScaler.referenceResolution = new Vector2(1920, 1080); // 프로젝트 기준 해상도로 설정이 필요할 수 있습니다.
+
+        canvasObject.AddComponent<GraphicRaycaster>();
     }
 
-    private void CreatePoolsFromConfigs()
+    public void CreatePoolsFromConfigs(List<PoolConfigBase> configs)
     {
-        foreach ( var config in _poolConfigs)
+        foreach ( var config in configs)
         {
             CreatePoolFromConfig(config);
         }
