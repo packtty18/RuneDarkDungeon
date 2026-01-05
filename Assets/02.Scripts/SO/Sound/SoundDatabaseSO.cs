@@ -39,7 +39,7 @@ public class SoundDatabaseSO : ScriptableObject
 
         return _lookup.TryGetValue(key.ToString(), out data);
     }
-
+#if UNITY_EDITOR
     #region Debug용
     [Button("Validate Enum Keys")]
     private void ValidateEnumKeys()
@@ -131,4 +131,5 @@ public class SoundDatabaseSO : ScriptableObject
         Debug.Log($"[SoundDatabase] AudioClip validation finished. Missing count: {missingCount}");
     }
     #endregion
+#endif
 }

@@ -31,6 +31,11 @@ public class SoundObject : PoolableObject
         ReturnToPoolAfter(data.clip.length);
     }
 
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position;
+    }
+
     public void Stop()
     {
         _audio.Stop();

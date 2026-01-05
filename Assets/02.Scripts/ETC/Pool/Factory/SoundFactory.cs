@@ -18,8 +18,8 @@ public class SoundFactory : PoolFactory<SoundObject>
 
     public SoundObject CreateAt(Vector3 position)
     {
-        var obj = CreateInternal();
-        obj.transform.position = position;
+        SoundObject obj = CreateInternal();
+        obj.SetPosition(position);
         return obj;
     }
 
