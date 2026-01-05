@@ -4,7 +4,7 @@ public class UI_Inventory : MonoBehaviour
 {
     private IReadOnlyInventory _inventory;
     
-    private void Start()
+    private void Awake()
     {
         _inventory = InventoryManager.Instance.Inventory;
         Refresh();
