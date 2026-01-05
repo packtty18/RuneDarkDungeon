@@ -54,6 +54,13 @@ public enum EItemGrade
     Legendary
 }
 
+public enum  EPoolType
+{
+    None,
+    Box,
+    Sound,
+}
+
 #region PlayerStat
 public enum EConsumableFloat
 {

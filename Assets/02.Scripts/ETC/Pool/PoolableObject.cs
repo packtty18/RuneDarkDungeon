@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PoolableObject : MonoBehaviour, IPoolable
 {
-    private string _poolKey;
+    private EPoolType _poolType;
     private Coroutine _autoReleaseCoroutine;
 
-    public event Action<string, PoolableObject> OnReturnRequested;
+    public event Action<EPoolType, GameObject> OnReturnRequested;
 
-    public void SetPoolKey(string poolKey)
+    public void SetPoolType(EPoolType poolType)
     {
-        _poolKey = poolKey;
+        _poolType = poolType;
     }
 
     public virtual void OnSpawn()
@@ -27,14 +27,14 @@ public class PoolableObject : MonoBehaviour, IPoolable
 
     public void ReturnToPool()
     {
-        if (string.IsNullOrEmpty(_poolKey))
+        if (_poolType.Equals(EPoolType.None))
         {
             Debug.LogWarning($"[PoolableObject] {gameObject.name}의 풀 키가 없습니다. 오브젝트를 파괴합니다.");
             Destroy(gameObject);
             return;
         }
 
-        OnReturnRequested?.Invoke(_poolKey, this);
+        OnReturnRequested?.Invoke(_poolType, this.gameObject);
     }
 
     public void ReturnToPoolAfter (float delay)
