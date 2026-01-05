@@ -12,8 +12,10 @@ public enum EPlayerState
     Run,
     Jump,
     Attack,
+    Skill,
+    Dodge,
     Hit,
-    Death,
+    Dead,
 }
 
 public enum EEnemyState
@@ -39,6 +41,7 @@ public enum EGameKeyType
     Right,
     Jump,
     Attack,
+    Run,
     Enter,
 }
 
