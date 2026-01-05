@@ -437,6 +437,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2059774825}
   - component: {fileID: 2059774824}
+  - component: {fileID: 2059774827}
   - component: {fileID: 2059774826}
   m_Layer: 0
   m_Name: SceneInitializer
@@ -492,6 +493,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LobbyInitializer
   _poolConfigs:
   - {fileID: 2059774824}
+--- !u!114 &2059774827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2059774823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d49c8e2e775fb71439a65930e22403ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundPoolConfig
+  _poolKey: SoundObject
+  _component: {fileID: 367575689586583036, guid: 9fec067576c7b484db34636e7446bf07, type: 3}
+  _defaultCapacity: 10
+  _maxSize: 100
+  _warmUp: 1
+  _isUI: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

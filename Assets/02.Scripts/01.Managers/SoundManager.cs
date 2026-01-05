@@ -18,16 +18,18 @@ public class SoundManager : GlobalSingleton<SoundManager>
     [SerializeField] private SoundDatabaseSO _database;
 
     private SoundObject _bgmObject;
-
-
-    //임시
-    [SerializeField] GameObject _prefab;
+    private SoundFactory _soundFactory;
+    
 
     protected override void Awake()
     {
         base.Awake();
         _database.Init();
         CreateBgmSource();
+    }
+    private void Start()
+    {
+        _soundFactory = new SoundFactory(PoolManager.Instance, "SoundObject");
     }
 
     //BGM 오디오 소스 생성
@@ -69,12 +71,7 @@ public class SoundManager : GlobalSingleton<SoundManager>
 
     private void PlayInternalSfx(SoundData data, Vector3 position)
     {
-        SoundObject obj = Instantiate(_prefab).GetComponent<SoundObject>();
-
-        obj.OnFinished.Subscribe(() =>
-        {
-            Util.ObjectDestroy(obj.gameObject);
-        });
+        SoundObject obj = _soundFactory.Create();
 
         obj.Play(data, position);
     }

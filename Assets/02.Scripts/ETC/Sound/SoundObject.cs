@@ -4,30 +4,16 @@ using UnityEngine;
 
 //추후 풀링 기능 추가할것.
 [RequireComponent(typeof(AudioSource))]
-public class SoundObject : MonoBehaviour
+public class SoundObject : PoolableObject
 {
     private AudioSource _audio;
-    private Coroutine _lifeRoutine;
 
-    public SafeEvent OnFinished = new SafeEvent();
+    private bool _isBgm = false;
 
     private void Awake()
     {
         _audio = GetComponent<AudioSource>();
     }
-
-    //아직 풀링 기능 없음
-    //스폰되거나 디스폰된다면 재생 루틴 정지
-    //오직 Play메서드를 통해서만 재생 가능
-    //public void OnSpawn()
-    //{
-    //    StopRoutine();
-    //}
-
-    //public void OnDespawn()
-    //{
-    //    StopRoutine();
-    //}
 
     public void Play(SoundData data, Vector3 position)
     {
@@ -35,38 +21,28 @@ public class SoundObject : MonoBehaviour
 
         _audio.clip = data.clip;
         _audio.volume = data.volume;
-        _audio.spatialBlend = data.is3D ? 1f : 0f;
-        _audio.minDistance = data.minDistance;
-        _audio.maxDistance = data.maxDistance;
-        _audio.loop = data.isBgm == true;
-
+        _audio.spatialBlend = data.isBgm ? 0f : (data.is3D ? 1f : 0f);
+        _audio.minDistance = Mathf.Max(0.1f, data.minDistance);
+        _audio.maxDistance = Mathf.Max(_audio.minDistance + 0.1f, data.maxDistance);
+        _audio.loop = data.isBgm;
+        _isBgm = data.isBgm;
         _audio.Play();
 
-        if (data.isBgm == false)
+        if (!_isBgm)
         {
-            _lifeRoutine = StartCoroutine(LifeRoutine(data.clip.length));
+            ReturnToPoolAfter(data.clip.length);
         }
     }
 
     public void Stop()
     {
         _audio.Stop();
-        StopRoutine();
-    }
+        _audio.clip = null;
 
-
-    private IEnumerator LifeRoutine(float time)
-    {
-        yield return new WaitForSeconds(time);
-        OnFinished?.Invoke();
-    }
-
-    private void StopRoutine()
-    {
-        if (_lifeRoutine != null)
+        if(!_isBgm)
         {
-            StopCoroutine(_lifeRoutine);
-            _lifeRoutine = null;
+            ReturnToPool();
         }
     }
+
 }
