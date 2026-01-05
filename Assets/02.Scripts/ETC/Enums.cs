@@ -5,6 +5,17 @@ public enum EGameState
     GameOver
 }
 
+public enum EPlayerState
+{
+    Idle,
+    Walk,
+    Run,
+    Jump,
+    Attack,
+    Hit,
+    Death,
+}
+
 public enum EEnemyState
 { 
     Spawn,
