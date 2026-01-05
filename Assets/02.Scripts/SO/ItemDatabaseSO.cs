@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RuneDatabase", menuName = "Item/RuneDatabase")]
-public class RuneDatabaseSO : ScriptableObject
+public class ItemDatabaseSO : ScriptableObject
 {
     [SerializeField] private List<ItemSO> _runes;
     private Dictionary<int, ItemSO> _runeDict;
@@ -17,7 +17,7 @@ public class RuneDatabaseSO : ScriptableObject
         }
     }
 
-    public ItemSO GetRune(int id)
+    public ItemSO GetItem(int id)
     {
         return _runeDict.GetValueOrDefault(id);
     }
