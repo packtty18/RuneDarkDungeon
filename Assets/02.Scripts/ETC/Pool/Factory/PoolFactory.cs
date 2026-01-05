@@ -25,7 +25,7 @@ public abstract class PoolFactory<T> where T : PoolableObject
     protected PoolFactory(PoolManager poolManager, string key)
     {
         _poolManager = poolManager;
-        _key = key;   
+        _key = key;
     }
 
     protected T CreateInternal()

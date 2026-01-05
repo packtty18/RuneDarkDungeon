@@ -1,37 +1,24 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.UI;
 
 
- // PoolManager
- 
- // 사용 방법:
- // 1. PoolableObject를 상속한 컴포넌트를 만든다 (예: Bullet, Enemy).
- // 2. 인스펙터에서 PoolManager를 붙인 게임오브젝트를 만든다. (이미 존재한다면 생략)
- // 3. PoolConfig<T>를 상속한 클래스를 만들어 프리팹과 풀 설정을 정의한다.
- // 4. PoolManager의 _poolConfigs 리스트에 PoolConfig를 추가하면 Awake 시 자동으로 풀 생성.
- // 5. 게임 로직에서 PoolManager.Instance.Get<T>("PoolKey")를 호출하여 오브젝트를 가져온다. (Factory 패턴 권장)  
- // 6. 사용이 끝나면 PoolableObject.ReturnToPool() 호출.
- // test/BoxPoolConfig 참고.
- 
-[Serializable]
-public class PoolConfig<T> : PoolConfigBase where T : PoolableObject
-{
-    [SerializeField] private string _poolKey;
-    [SerializeField] private T _component;
-    [SerializeField] private int _defaultCapacity =10;
-    [SerializeField] private int _maxSize = 100;
-    [SerializeField] private bool _warmUp = true;
 
-    public override string PoolKey => _poolKey;
+// PoolManager
 
-    public string GetPoolKey() => string.IsNullOrEmpty(PoolKey) ? _component.gameObject.name : PoolKey;
-    public override void CreatePool(PoolManager manager)
-    {
-        manager.CreatePool<T>(GetPoolKey(), _component, _defaultCapacity, _maxSize, _warmUp);
-    }
-}
+// 사용 방법:
+// 
+// 1. PoolableObject를 상속한 컴포넌트를 만든다 (예: Bullet, Enemy).
+// 2. PoolConfig<T>를 상속한 클래스를 만들어 컴포넌트와 풀 설정을 정의한다.
+// 3-1. 전역풀 사용 시 PoolManager의 _poolConfigs 리스트에 PoolConfig를 추가. (전역풀 사용 권장)
+// 3-2. 지역풀 사용 시 각 씬에서 PoolManager.CreatePoolFromConfig()나 list로 받아 .CreatePoolsFromConfigs() 호출로 풀 생성. 
+// 4. PoolManager의 _poolConfigs 리스트에 PoolConfig를 추가하면 Awake 시 자동으로 풀 생성.
+//    (또는 런타임에 PoolManager.CreatePoolFromConfig() 호출로 동적 생성 가능) (Factory 패턴 권장) 
+// 5. 게임 로직에서 PoolManager.Instance.Get<T>("PoolKey")를 호출하여 오브젝트를 가져온다. (Factory 패턴 권장)  
+// 6. 사용이 끝나면 PoolableObject.ReturnToPool() 호출.
+// test/BoxPoolConfig 참고.
+
 
 public class PoolManager : GlobalSingleton<PoolManager>
 {
@@ -41,29 +28,52 @@ public class PoolManager : GlobalSingleton<PoolManager>
     private Dictionary<string, IPool> _pools = new Dictionary<string, IPool>(); //키, IPool
     
     private Transform _poolParent;
+    private Transform _canvas;
 
     protected override void Awake()
     {
         base.Awake();
-
-        Initialize();
     }
 
-    private void Initialize()
+    protected override void OnInit()
     {
         _poolParent = new GameObject("PoolParent").transform;
         _poolParent.SetParent(transform);
+        GameObject canvasObject = new GameObject("PoolCanvas");
+        canvasObject.transform.SetParent(_poolParent);
+        
+        CanvasSetting(canvasObject);
 
-        CreatePoolsFromConfigs();
+        _canvas = canvasObject.transform;
+        CreatePoolsFromConfigs(_poolConfigs);
+    }
+    
+    private void CanvasSetting(GameObject canvasObject)
+    {
+        Canvas canvas = canvasObject.AddComponent<Canvas>();
+
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.sortingOrder = 100; // 필요에 따라 조정
+
+        var canvasScaler = canvasObject.AddComponent<CanvasScaler>();
+        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        canvasScaler.referenceResolution = new Vector2(1920, 1080); // 프로젝트 기준 해상도로 설정이 필요할 수 있습니다.
+
+        canvasObject.AddComponent<GraphicRaycaster>();
     }
 
-    private void CreatePoolsFromConfigs()
+    public void CreatePoolsFromConfigs(List<PoolConfigBase> configs)
     {
-        foreach ( var config in _poolConfigs)
+        foreach ( var config in configs)
         {
-            config.CreatePool(this);
-
+            CreatePoolFromConfig(config);
         }
+
+    }
+
+    public void CreatePoolFromConfig(PoolConfigBase config)
+    {
+        config.CreatePool(this);
     }
 
 
@@ -72,7 +82,8 @@ public class PoolManager : GlobalSingleton<PoolManager>
             T component,
             int defaultCapacity = 10,
             int maxSize = 100,
-            bool warmUp = true) where T : PoolableObject
+            bool warmUp = true,
+            bool isUI = false) where T : PoolableObject
     {
         if (_pools.ContainsKey(key))
         {
@@ -87,8 +98,16 @@ public class PoolManager : GlobalSingleton<PoolManager>
         }
 
         Transform poolParent = new GameObject($"Pool_{key}").transform;
-        poolParent.SetParent(_poolParent);
 
+        if (isUI)
+        {
+            poolParent.SetParent(_canvas);
+        }
+        else
+        {
+            poolParent.SetParent(_poolParent);
+        }
+          
         var pool = new ObjectPool<T>(
             createFunc: () => CreateObject(component, poolParent, key),
                 actionOnGet: OnGetFromPool,
