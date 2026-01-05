@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RuneDatabase", menuName = "Item/RuneDatabase")]
+[CreateAssetMenu(fileName = "ItemDatabase", menuName = "Item/ItemDatabase")]
 public class ItemDatabaseSO : ScriptableObject
 {
     [SerializeField] private List<ItemSO> _runes;

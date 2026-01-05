@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System;
 using UnityEngine;
 
 // 테스트용 룬 데이터
