@@ -22,5 +22,5 @@ public class ItemData
         ++_grade;
     }
     
-    public override string ToString() => $"[ID:{_id}] Lv.{_grade})";
+    public override string ToString() => $"[ID:{_id}] 등급:{_grade})";
 }
