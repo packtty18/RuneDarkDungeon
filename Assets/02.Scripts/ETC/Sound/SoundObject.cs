@@ -8,8 +8,6 @@ public class SoundObject : PoolableObject
 {
     private AudioSource _audio;
 
-    private bool _isBgm = false;
-
     private void Awake()
     {
         _audio = GetComponent<AudioSource>();
@@ -20,25 +18,17 @@ public class SoundObject : PoolableObject
         if (data.clip == null)
         {
             Debug.LogWarning("Play called with a null audio clip.");
-            if (!_isBgm)
-            {
-                ReturnToPool();
-            }
+            ReturnToPool();
             return;
         }
         _audio.clip = data.clip;
         _audio.volume = data.volume;
-        _audio.spatialBlend = data.isBgm ? 1f : 0f;
+        _audio.spatialBlend = 1f;
         _audio.minDistance = Mathf.Max(0.1f, data.minDistance);
         _audio.maxDistance = Mathf.Max(_audio.minDistance + 0.1f, data.maxDistance);
-        _audio.loop = data.isBgm;
-        _isBgm = data.isBgm;
         _audio.Play();
 
-        if (!_isBgm)
-        {
-            ReturnToPoolAfter(data.clip.length);
-        }
+        ReturnToPoolAfter(data.clip.length);
     }
 
     public void Stop()
@@ -46,10 +36,7 @@ public class SoundObject : PoolableObject
         _audio.Stop();
         _audio.clip = null;
 
-        if(!_isBgm)
-        {
-            ReturnToPool();
-        }
+        ReturnToPool();
     }
 
 }

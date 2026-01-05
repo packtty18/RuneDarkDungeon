@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SoundFactory : PoolFactory<SoundObject>
 {
@@ -25,5 +26,11 @@ public class SoundFactory : PoolFactory<SoundObject>
     protected override void OnCreated(SoundObject obj) 
     { 
         //사운드 오브젝트의 설정
+    }
+
+    public void Play(SoundData data, Vector3 pos)
+    {
+        SoundObject obj = CreateAt(pos);
+        obj.Play(data);
     }
 }

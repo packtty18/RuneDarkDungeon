@@ -77,11 +77,10 @@ public class SoundManager : GlobalSingleton<SoundManager>
 
     private void PlayInternalSfx(SoundData data, Vector3 position)
     {
-        SoundObject obj = _soundFactory.CreateAt(position);
-
-        obj.Play(data);
+        _soundFactory.Play(data, position);
     }
 
+#if UNITY_EDITOR
     #region Test
     [SerializeField] private bool _test = false;
 
@@ -109,7 +108,7 @@ public class SoundManager : GlobalSingleton<SoundManager>
     }
 
     #endregion
-
+#endif
 
 }
 
