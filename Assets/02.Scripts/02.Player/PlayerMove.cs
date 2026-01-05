@@ -1,4 +1,5 @@
 using System;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,19 +15,24 @@ public class PlayerMove : MonoBehaviour
     private float _walkSpeed;
     private bool _isRunning = false;
 
+    private float _gravity;
+    private float _verticalVelocity;
+
     private Action<float> _onMoveSpeedChanged;
     void Start()
     {
         InitializeComponents();
         SubscribeEvents();
-        InitializeSpeed();
+        InitializeStats();
     }
 
     private void Update()
     {
         RunInput();
         Movement();
+        ApplyGravity();
     }
+
     private void OnDestroy()
     {
         UnSubscribeEvents();
@@ -38,10 +44,12 @@ public class PlayerMove : MonoBehaviour
         _Player = GetComponent<Player>();
     }
 
-    private void InitializeSpeed()
+    private void InitializeStats()
     {
         _walkSpeed = _Player.PlayerStats.MoveSpeed.Current;
         _currentSpeed = _walkSpeed;
+
+        _gravity = _Player.PlayerStats.Gravity.Value;
     }
 
     private void SubscribeEvents()
@@ -82,6 +90,19 @@ public class PlayerMove : MonoBehaviour
             direction += Vector3.right;
         }
         return direction.normalized;
+    }
+
+    private void ApplyGravity()
+    {
+        if (_Controller.isGrounded)
+        {
+            _verticalVelocity = 0;
+        }
+        else
+        {
+            _verticalVelocity += _gravity * Time.deltaTime;
+        }
+        _Controller.Move(Vector3.up * _verticalVelocity * Time.deltaTime);
     }
 
     private void RunInput()
