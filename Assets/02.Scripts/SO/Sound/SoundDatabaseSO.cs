@@ -36,21 +36,8 @@ public class SoundDatabaseSO : ScriptableObject
         {
             Init();
         }
-        
-        if(ResolveKey(key, out var resolvedKey) == false)
-        {
-            data = default;
-            return false;
-        }
 
-        return _lookup.TryGetValue(resolvedKey, out data);
-    }
-
-    //Enum을 string으로 변환
-    private bool ResolveKey(ESoundType key, out string resolvedKey)
-    {
-        resolvedKey = key.ToString();
-        return _lookup.ContainsKey(resolvedKey);
+        return _lookup.TryGetValue(key.ToString(), out data);
     }
 
     #region Debug용

@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class SoundFactory : PoolFactory<SoundObject>
 {
-    public SoundFactory(PoolManager poolManager, string key) : base(poolManager, "SoundObject")
+    public SoundFactory(PoolManager poolManager, string key) : base(poolManager, key)
     {
         if (!_poolManager.HasPool(_key))
         {
-            throw new System.InvalidOperationException($"BoxFactory Start Error: Pool with key '{_key}' does not exist.");
+            throw new System.InvalidOperationException($"SoundFactory Start Error: Pool with key '{_key}' does not exist.");
         }
     }
 

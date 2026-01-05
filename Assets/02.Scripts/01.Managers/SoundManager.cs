@@ -26,9 +26,6 @@ public class SoundManager : GlobalSingleton<SoundManager>
         base.Awake();
         _database.Init();
         CreateBgmSource();
-    }
-    private void Start()
-    {
         _soundFactory = new SoundFactory(PoolManager.Instance, "SoundObject");
     }
 

@@ -17,6 +17,16 @@ public class SoundObject : PoolableObject
 
     public void Play(SoundData data, Vector3 position)
     {
+        if (data.clip == null)
+        {
+            Debug.LogWarning("Play called with a null audio clip.");
+            if (!_isBgm)
+            {
+                ReturnToPool();
+            }
+            return;
+        }
+
         transform.position = position;
 
         _audio.clip = data.clip;
