@@ -44,22 +44,22 @@ public class DataManager : GlobalSingleton<DataManager>
     #endregion
     
     #region Rune
-    public void AddRune(RuneData rune)
+    public void AddRune(ItemData item)
     {
-        _inventory.Add(rune);
+        _inventory.Add(item);
     }
     
-    public void SubscribeRune(Action<RuneData> action)
+    public void SubscribeRune(Action<ItemData> action)
     {
         _inventory.Subscribe(action);
     }
 
-    public void UnsubscribeRune(Action<RuneData> action)
+    public void UnsubscribeRune(Action<ItemData> action)
     {
         _inventory.Unsubscribe(action);
     }
 
-    public RuneSO GetRuneInfo(int id)
+    public ItemSO GetRuneInfo(int id)
     {
         return _runeDB.GetRune(id);
     }
@@ -68,8 +68,8 @@ public class DataManager : GlobalSingleton<DataManager>
     private void AddData()
     {
         AddGold(1000);
-        AddRune(new RuneData(0));
-        AddRune(new RuneData(1, 5));
+        AddRune(new ItemData(0));
+        AddRune(new ItemData(1, 5));
     }
     
     private void OnApplicationQuit()

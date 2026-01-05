@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IReadOnlyInventory
 {
-    IReadOnlyList<RuneData> Runes { get; }
-    void Subscribe(Action<RuneData> action);
-    void Unsubscribe(Action<RuneData> action);}
+    IReadOnlyList<ItemData> Items { get; }
+    void Subscribe(Action<ItemData> action);
+    void Unsubscribe(Action<ItemData> action);}

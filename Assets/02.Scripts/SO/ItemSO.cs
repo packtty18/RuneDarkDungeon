@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Rune_", menuName = "Rune/NewRuneSO")]
-public class RuneSO : ScriptableObject
+[CreateAssetMenu(fileName = "Item_", menuName = "Item/Item")]
+public class ItemSO : ScriptableObject
 {
     [SerializeField] private int _id;
     [SerializeField] private Sprite _icon;

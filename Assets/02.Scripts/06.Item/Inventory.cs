@@ -5,29 +5,29 @@ using System;
 [System.Serializable]
 public class Inventory : IReadOnlyInventory
 {
-    [SerializeField] private List<RuneData> _runes;
-    public IReadOnlyList<RuneData> Runes => _runes;
+    [SerializeField] private List<ItemData> _items;
+    public IReadOnlyList<ItemData> Items => _items;
     
-    private SafeEvent<RuneData> _onRuneAdded = new();
+    private SafeEvent<ItemData> _onItemAdded = new();
     
-    public void Add(RuneData rune)
+    public void Add(ItemData item)
     {
-        _runes.Add(rune);
-        Notify(rune);
+        _items.Add(item);
+        Notify(item);
     }
     
-    public void Subscribe(Action<RuneData> action)
+    public void Subscribe(Action<ItemData> action)
     {
-        _onRuneAdded.Subscribe(action);
-    }
-
-    public void Unsubscribe(Action<RuneData> action)
-    {
-        _onRuneAdded.Unsubscribe(action);
+        _onItemAdded.Subscribe(action);
     }
 
-    private void Notify(RuneData value)
+    public void Unsubscribe(Action<ItemData> action)
     {
-        _onRuneAdded?.Invoke(value);
+        _onItemAdded.Unsubscribe(action);
+    }
+
+    private void Notify(ItemData item)
+    {
+        _onItemAdded?.Invoke(item);
     }
 }

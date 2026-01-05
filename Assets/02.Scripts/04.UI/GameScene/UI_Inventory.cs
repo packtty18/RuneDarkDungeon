@@ -15,18 +15,19 @@ public class UI_Inventory : MonoBehaviour
         DataManager.Instance.UnsubscribeRune(AddSlot);
     }
 
+    // Todo: UI Manager를 통해 주입받는 방식으로 변경
     private void Refresh()
     {
         IReadOnlyInventory inventory = DataManager.Instance.Inventory;
-        foreach (var rune in inventory.Runes)
+        foreach (var item in inventory.Items)
         {
-            AddSlot(rune);
+            AddSlot(item);
         }
     }
 
-    private void AddSlot(RuneData runeData)
+    private void AddSlot(ItemData itemData)
     {
-        RuneSO runeInfo = DataManager.Instance.GetRuneInfo(runeData.ID);
-        Debug.Log($"룬 추가 [{runeInfo.Name}] : {runeInfo.Tooltip}");
+        ItemSO itemInfo = DataManager.Instance.GetRuneInfo(itemData.ID);
+        Debug.Log($"룬 추가 [{itemInfo.Name}] : {itemInfo.Tooltip}");
     }
 }
