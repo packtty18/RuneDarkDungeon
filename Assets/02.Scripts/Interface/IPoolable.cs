@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public interface IPoolable
 {
-    void Get();
-    void Release();
+    void OnSpawn();
+    void OnDespawn();
 }
