@@ -1,36 +1,37 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class SoundFactory : PoolFactory<SoundObject>
+public class SoundFactory : PoolFactory
 {
-    public SoundFactory(PoolManager poolManager, string key) : base(poolManager, key)
+    public SoundFactory(PoolManager poolManager, EPoolType type) : base(poolManager, type)
     {
-        if (!_poolManager.HasPool(_key))
+        if (!_poolManager.HasPool(type))
         {
-            throw new System.InvalidOperationException($"SoundFactory Start Error: Pool with key '{_key}' does not exist.");
+            throw new System.InvalidOperationException($"SoundFactory Start Error: Pool with key '{type}' does not exist.");
         }
     }
 
-    public SoundObject Create()
+    public GameObject Create()
     {
         return CreateInternal();
     }
 
-    public SoundObject CreateAt(Vector3 position)
+    public GameObject CreateAt(Vector3 position)
     {
-        SoundObject obj = CreateInternal();
-        obj.SetPosition(position);
+        GameObject obj = CreateInternal();
+        obj.transform.position = position;
         return obj;
     }
 
-    protected override void OnCreated(SoundObject obj) 
+    protected override void OnCreated(GameObject obj) 
     { 
         //사운드 오브젝트의 설정
     }
 
     public void Play(SoundData data, Vector3 pos)
     {
-        SoundObject obj = CreateAt(pos);
-        obj.Play(data);
+        GameObject obj = CreateAt(pos);
+        SoundObject sound = obj.GetComponent<SoundObject>();
+        sound.Play(data);
     }
 }

@@ -1,23 +1,23 @@
 using UnityEngine;
 
-public class BoxFactory : PoolFactory<Box>
+public class BoxFactory : PoolFactory
 {
-    public BoxFactory(PoolManager poolManager) : base(poolManager, "Box")
+    public BoxFactory(PoolManager poolManager) : base(poolManager, EPoolType.Box)
     {
-        if (!_poolManager.HasPool(_key))
+        if (!_poolManager.HasPool(_type))
         {
-            throw new System.InvalidOperationException($"BoxFactory Start Error: Pool with key '{_key}' does not exist.");
+            throw new System.InvalidOperationException($"BoxFactory Start Error: Pool with key '{_type}' does not exist.");
         }
     }
 
-    public Box Create()
+    public GameObject Create()
     { 
         return CreateInternal();
     }
 
-    public Box CreateAt(Vector3 position)
+    public GameObject CreateAt(Vector3 position)
     {
-        var box = CreateInternal();
+        GameObject box = CreateInternal();
         box.transform.position = position;
         return box;
     }

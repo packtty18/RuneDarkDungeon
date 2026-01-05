@@ -17,23 +17,23 @@ using UnityEngine;
 // - PoolManager.Instance를 내부에서 직접 참조하지 않음.
 // test/BoxFactory.cs 참고.
 
-public abstract class PoolFactory<T> where T : PoolableObject
+public abstract class PoolFactory
 {
     protected readonly PoolManager _poolManager;
-    protected readonly string _key;
+    protected readonly EPoolType _type;
 
-    protected PoolFactory(PoolManager poolManager, string key)
+    protected PoolFactory(PoolManager poolManager, EPoolType type)
     {
         _poolManager = poolManager;
-        _key = key;
+        _type = type;
     }
 
-    protected T CreateInternal()
+    protected GameObject CreateInternal()
     {
-        var obj = _poolManager.Get<T>(_key);
+        var obj = _poolManager.Get(_type);
         OnCreated(obj);
         return obj;
     }
 
-    protected virtual void OnCreated(T obj) { }
+    protected virtual void OnCreated(GameObject obj) { }
 }
