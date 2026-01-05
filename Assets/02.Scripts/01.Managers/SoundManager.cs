@@ -17,7 +17,7 @@ public class SoundManager : GlobalSingleton<SoundManager>
 {
     [SerializeField] private SoundDatabaseSO _database;
 
-    private SoundObject _bgmObject;
+    [SerializeField] private AudioSource _bgmSource;
     private SoundFactory _soundFactory;
     
 
@@ -25,7 +25,11 @@ public class SoundManager : GlobalSingleton<SoundManager>
     {
         base.Awake();
         _database.Init();
-        CreateBgmSource();
+        if(_bgmSource == null)
+        {
+            CreateBgmSource();
+        }
+        
         _soundFactory = new SoundFactory(PoolManager.Instance, "SoundObject");
     }
 
@@ -36,7 +40,9 @@ public class SoundManager : GlobalSingleton<SoundManager>
         GameObject go = new GameObject("BGM");
         go.transform.SetParent(transform);
 
-        _bgmObject = go.AddComponent<SoundObject>();
+        _bgmSource = go.AddComponent<AudioSource>();
+        _bgmSource.loop = true;
+        
     }
 
     public void Play(ESoundType key, Vector3 position = default)
@@ -58,19 +64,22 @@ public class SoundManager : GlobalSingleton<SoundManager>
 
     private void PlayInternalBgm(SoundData data)
     {
-        if (_bgmObject == null)
+        if (_bgmSource == null)
         {
-            return;
+            CreateBgmSource();
         }
 
-        _bgmObject.Play(data, Vector3.zero);
+        _bgmSource.clip = data.clip;
+        _bgmSource.volume = data.volume;
+        _bgmSource.spatialBlend = 0;
+        _bgmSource.Play();
     }
 
     private void PlayInternalSfx(SoundData data, Vector3 position)
     {
-        SoundObject obj = _soundFactory.Create();
+        SoundObject obj = _soundFactory.CreateAt(position);
 
-        obj.Play(data, position);
+        obj.Play(data);
     }
 
     #region Test
@@ -95,7 +104,8 @@ public class SoundManager : GlobalSingleton<SoundManager>
     [Button]
     public void StopBGM()
     {
-        _bgmObject.Stop();
+        _bgmSource.Stop();
+        _bgmSource.clip = null;
     }
 
     #endregion

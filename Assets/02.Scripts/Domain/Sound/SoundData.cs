@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
 
@@ -5,14 +6,13 @@ using UnityEngine;
 public struct SoundData
 {
     public AudioClip clip;
-
     public bool isBgm;
-    public bool is3D;
-
     [Range(0f, 1f)]
     public float volume;
 
+    [HideIf(nameof(isBgm))]
     public float minDistance;
+    [HideIf(nameof(isBgm))]
     public float maxDistance;
 }
 

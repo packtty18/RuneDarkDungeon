@@ -15,7 +15,7 @@ public class SoundObject : PoolableObject
         _audio = GetComponent<AudioSource>();
     }
 
-    public void Play(SoundData data, Vector3 position)
+    public void Play(SoundData data)
     {
         if (data.clip == null)
         {
@@ -26,12 +26,9 @@ public class SoundObject : PoolableObject
             }
             return;
         }
-
-        transform.position = position;
-
         _audio.clip = data.clip;
         _audio.volume = data.volume;
-        _audio.spatialBlend = data.isBgm ? 0f : (data.is3D ? 1f : 0f);
+        _audio.spatialBlend = data.isBgm ? 1f : 0f;
         _audio.minDistance = Mathf.Max(0.1f, data.minDistance);
         _audio.maxDistance = Mathf.Max(_audio.minDistance + 0.1f, data.maxDistance);
         _audio.loop = data.isBgm;

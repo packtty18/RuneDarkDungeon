@@ -21,4 +21,9 @@ public class SoundFactory : PoolFactory<SoundObject>
         obj.transform.position = position;
         return obj;
     }
+
+    protected override void OnCreated(SoundObject obj) 
+    { 
+        //사운드 오브젝트의 설정
+    }
 }
