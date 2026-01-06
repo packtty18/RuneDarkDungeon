@@ -6,6 +6,11 @@ public class UI_Slot : MonoBehaviour
     [Header("슬롯 UI")]
     [SerializeField] private Image _iconImage;
 
+    private void Awake()
+    {
+        _iconImage = GetComponent<Image>();
+    }
+
     public void SetSlotUI(Sprite icon)
     {
         _iconImage.sprite = icon;

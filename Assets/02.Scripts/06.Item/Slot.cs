@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private UI_Slot ui_slot;
+    private UI_Slot _ui_slot;
     
     private ItemData _item;
     private ItemSO _info;
@@ -12,19 +12,22 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private void Awake()
     {
-        ui_slot = GetComponent<UI_Slot>();
+        _ui_slot = GetComponent<UI_Slot>();
+        Clear();
     }
 
     public void SetItem(ItemData item, ItemSO info)
     {
         _item = item;
         _info = info;
+        _ui_slot.SetSlotUI(_info.Icon);
     }
 
     public void Clear()
     {
         _item = null;
         _info = null;
+        _ui_slot.ClearSlotUI();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
