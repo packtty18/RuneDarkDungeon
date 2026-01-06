@@ -22,13 +22,12 @@ public class UpgradeDataSO : ScriptableObject
         }
     }
 
-    public UpgradeData GetGradeInfo(EItemGrade grade)
+    public UpgradeData? GetGradeInfo(EItemGrade grade)
     {
         if (_gradeDict.TryGetValue(grade, out UpgradeData data))
         {
             return data;
         }
-        Debug.LogError($"[{grade}] 아이템 등급 정보가 없습니다.");
-        return default;
+        return null;
     }
 }

@@ -2,20 +2,13 @@ using UnityEngine;
 
 public class UI_Upgrade : MonoBehaviour
 {
-    private DataManager _dataManager;
     private ItemDatabaseSO _itemDB;
-    private UpgradeDataSO _upgradeDB;
     private UpgradeManager _upgradeManager;
-    private IngredientManager _ingredientManager;
 
-    private void Awake()
+    public void Initialize(ItemDatabaseSO itemDB, UpgradeManager upgradeManager)
     {
-        _dataManager = DataManager.Instance;
-        _itemDB = _dataManager.ItemDB;
-        _upgradeDB = _dataManager.UpgradeDB;
-        _ingredientManager = new(_upgradeDB);
-        _upgradeManager = new(_ingredientManager, _dataManager.Inventory, _dataManager.GoldData);
-        _ingredientManager.Ingredients.Subscribe(RegisterSlot);
+        _itemDB = itemDB;
+        _upgradeManager = upgradeManager;
     }
 
     public void Upgrade()

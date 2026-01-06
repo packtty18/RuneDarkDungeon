@@ -5,10 +5,11 @@ public class UI_Inventory : MonoBehaviour
     private IReadOnlyInventory _inventory;
     private ItemDatabaseSO _itemDB;
     
-    private void Awake()
+    public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB)
     {
-        _itemDB = DataManager.Instance.ItemDB;
-        _inventory = DataManager.Instance.Inventory;
+        _inventory = inventory;
+        _itemDB = itemDB;
+        
         Refresh();
         _inventory.Subscribe(AddSlot);
     }

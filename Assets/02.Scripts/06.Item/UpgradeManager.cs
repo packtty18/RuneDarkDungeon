@@ -40,7 +40,7 @@ public class UpgradeManager
     public void Upgrade()
     {
         if (!_ingredientManager.CanUpgrade() 
-            || _goldData.TryConsume(_ingredientManager.Cost)) return;
+            || !_goldData.TryConsume(_ingredientManager.Cost)) return;
         
         var newItem = _ingredientManager.GetUpgradeResult();
         _inventory.Add(newItem);
