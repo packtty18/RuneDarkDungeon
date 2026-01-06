@@ -2,29 +2,41 @@ using System;
 using UnityEngine;
 
 
+[RequireComponent(typeof(PlayerAnimator))]
 public class PlayerMove : MonoBehaviour
 {
     private InputManager _inputManager;
     private CharacterController _controller;
     private Player _player;
+    private PlayerAnimator _animator;
+
+    [Header("이동")]
+    [SerializeField] private float _turnRate = 3f;
 
     private float _groundCheckRadius;
-    private float _groundCheckOffset = 0.1f;
+    private float _groundCheckOffset = 0f;
+    [Header("그라운드 감지")]
     [SerializeField] private LayerMask _groundLayers;
 
-    private float _runSpeedMultiplier = 2f;
+    [Header("속도")]
+    [SerializeField] private float _runSpeedMultiplier = 2f;
+    [SerializeField] private float _speedChangeRate = 5;
 
+    private float _speedOffset = 0.1f;
     private float _currentSpeed;
     private float _walkSpeed;
+    private float _runSpeed;
 
     private float _gravity;
     private float _verticalVelocity;
 
+    [Header("점프")]
+    [Tooltip("점프 가능 횟수")]
     [SerializeField] private int _maxJumpCount = 2; 
     private int _currentJumpCount;
     private float _jumpVelocity;
     private bool _jumpRequested = false;
-    public bool IsRunning { get; private set; } = false;
+    private float _landOffset = 0.5f;
     public bool IsGrounded { get; private set; } 
 
     private Action<float> _onMoveSpeedChanged;
@@ -37,7 +49,6 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         GroundedCheck();
-        RunInput();
         Movement();
         ApplyJump();
         ApplyGravity();
@@ -55,8 +66,8 @@ public class PlayerMove : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         _player = GetComponent<Player>();
 
-        _walkSpeed = _player.GetSpeed();
-        _currentSpeed = _walkSpeed;
+        HandleMoveSpeedChanged(_player.GetSpeed());
+        _currentSpeed = 0;
 
         _gravity = _player.GetGravity();
 
@@ -64,6 +75,8 @@ public class PlayerMove : MonoBehaviour
 
         _currentJumpCount = 0;
         _jumpVelocity = Mathf.Sqrt(_player.GetJumpVelocity() * -2f * _gravity);
+
+        _animator = GetComponent<PlayerAnimator>();
     }
 
     private void SubscribeEvents()
@@ -80,8 +93,15 @@ public class PlayerMove : MonoBehaviour
     private void Movement()
     {
         Vector3 moveDirection = GetMoveDirection();
+        float moveScale = moveDirection.magnitude;
 
-        _controller.Move(moveDirection * _currentSpeed * Time.deltaTime);
+        SpeedUpdate(moveScale);
+
+        if (moveScale > 0.01f)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), _turnRate * Time.deltaTime);
+            _controller.Move(transform.forward * _currentSpeed * Time.deltaTime);
+        }      
     }
 
     private Vector3 GetMoveDirection()
@@ -89,19 +109,19 @@ public class PlayerMove : MonoBehaviour
         Vector3 direction = Vector3.zero;
         if (_inputManager.GetKey(EGameKeyType.Front))
         {
-            direction += transform.forward;
+            direction += Vector3.forward;
         }
         if (_inputManager.GetKey(EGameKeyType.Back))
         {
-            direction -= transform.forward;
+            direction -= Vector3.forward;
         }
         if (_inputManager.GetKey(EGameKeyType.Left))
         {
-            direction -= transform.right;
+            direction -= Vector3.right;
         }
         if (_inputManager.GetKey(EGameKeyType.Right))
         {
-            direction += transform.right;
+            direction += Vector3.right;
         }
         return direction.normalized;
     }
@@ -117,46 +137,86 @@ public class PlayerMove : MonoBehaviour
                 _jumpRequested = true;
             }       
         }
+
+        if (_currentJumpCount > 0 && _verticalVelocity < 0)
+        {
+            if (GroundCheckInDirection(Vector3.down, _landOffset))
+            {
+                _animator.SetJump(false);
+            }
+
+        }
     }
 
     private void ApplyGravity()
     {
         if (IsGrounded && !_jumpRequested)
         {
-            _verticalVelocity = 0;
+            _verticalVelocity = -2;
         }
         else
         {
             _verticalVelocity += _gravity * Time.deltaTime;
             if (_jumpRequested)
             {
+                _animator.SetJump(true);
                 _jumpRequested = false;
             }
         }
         _controller.Move(Vector3.up * _verticalVelocity * Time.deltaTime);
     }
 
-    private void RunInput()
+    private void SpeedUpdate(float moveScale)
     {
-        bool shouldRun = _inputManager.GetKey(EGameKeyType.Run);
-
-        if (shouldRun != IsRunning)
+        if (_currentJumpCount > 0)
         {
-            IsRunning = shouldRun;
-            UpdateCurrentSpeed();
+            return;
+        }
+
+        bool shouldRun = _inputManager.GetKey(EGameKeyType.Run);
+        float targetSpeed = shouldRun ? _runSpeed : _walkSpeed;
+
+        if (moveScale < 0.1f)
+        {
+            targetSpeed = 0f;
+        }
+
+        if (_currentSpeed < targetSpeed - _speedOffset || _currentSpeed > targetSpeed + _speedOffset)
+        {
+            _currentSpeed = Mathf.Lerp(_currentSpeed, targetSpeed, _speedChangeRate * Time.deltaTime);
+            _animator.SetSpeedRatio(CalculateBlendTreeParameter());
+        }
+        else
+        {
+            _currentSpeed = targetSpeed;
+        }
+    }
+
+    private float CalculateBlendTreeParameter()
+    {
+        if (_currentSpeed < 0.01f)
+        {
+            return 0;
+        }
+
+        if (_currentSpeed < _walkSpeed)
+        {
+            return _currentSpeed/_walkSpeed;
+        }
+
+        else
+        {
+            float excess = _currentSpeed - _walkSpeed;
+            float runRange = _runSpeed - _walkSpeed;
+            if (Mathf.Approximately(runRange, 0f)) return 1f;
+            return 1 + excess / runRange;
         }
     }
     private void HandleMoveSpeedChanged(float obj)
     {
         _walkSpeed = obj;
-        UpdateCurrentSpeed();
+        _runSpeed = _walkSpeed * _runSpeedMultiplier;
     }
-
-    private void UpdateCurrentSpeed()
-    {
-        _currentSpeed = IsRunning ? _walkSpeed * _runSpeedMultiplier : _walkSpeed;
-    }
-
 
     #region IsGrounded Check
     private void GroundedCheck()
@@ -170,6 +230,7 @@ public class PlayerMove : MonoBehaviour
             QueryTriggerInteraction.Ignore
             );
 
+        // 점프 후 착지했을 때.
         if (IsGrounded && _currentJumpCount > 0)
         {
             _currentJumpCount = 0;

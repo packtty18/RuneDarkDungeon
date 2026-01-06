@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     private EPlayerState _currentState;
 
     public EPlayerState CurrentState => _currentState;
+
     
     void Awake()
     {
@@ -17,16 +18,23 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+ 
+    }
+
+
+    public void SetState(EPlayerState newState)
+    {
+        _currentState = newState;
         switch (_currentState)
         {
             case EPlayerState.Idle:
 
                 break;
             case EPlayerState.Walk:
- 
+
                 break;
             case EPlayerState.Run:
-  
+
                 break;
             case EPlayerState.Jump:
 
@@ -34,13 +42,6 @@ public class Player : MonoBehaviour
             default:
                 break;
         }
-
-
-    }
-
-    public void SetState(EPlayerState newState)
-    {
-        _currentState = newState;
     }
 
     public float GetSpeed()
