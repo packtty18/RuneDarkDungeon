@@ -4,9 +4,9 @@ public class UpgradeManager
 {
     private Ingredient _ingredient;
     private IInventory _inventory;
-    private GoldData _goldData;
+    private ICurrency _goldData;
 
-    public UpgradeManager(Ingredient ingredient, IInventory inventory, GoldData goldData)
+    public UpgradeManager(Ingredient ingredient, IInventory inventory, ICurrency goldData)
     {
         _ingredient = ingredient;
         _inventory = inventory;

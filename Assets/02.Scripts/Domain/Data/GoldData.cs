@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class GoldData : StatBase<int>, IReadOnlyValue<int>
+public class GoldData : StatBase<int>, ICurrency
 {
     [SerializeField] private int _value;
     public int Value => _value;

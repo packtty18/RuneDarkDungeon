@@ -5,7 +5,7 @@ public class DataManager : GlobalSingleton<DataManager>
     private GameData _data = new();
 
     public IInventory Inventory => _data.Inventory;
-    public GoldData GoldData => _data.Gold;
+    public ICurrency GoldData => _data.Gold;
     
     [SerializeField] private ItemDatabaseSO _itemDB;
     [SerializeField] private UpgradeDataSO _upgradeDB;
@@ -25,8 +25,6 @@ public class DataManager : GlobalSingleton<DataManager>
     
     private void OnApplicationQuit()
     {
-        //Inventory.Add(new RuneData(0));
-        //Inventory.Add(new RuneData(1, EItemGrade.Unique));
         FileIO.Save(_data);
     }
 }
