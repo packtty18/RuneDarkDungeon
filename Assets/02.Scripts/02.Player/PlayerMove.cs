@@ -8,22 +8,26 @@ public class PlayerMove : MonoBehaviour
     private CharacterController _Controller;
     private Player _Player;
 
+    private float _groundCheckRadius;
+    private float _groundCheckOffset = 0.1f;
+    [SerializeField] private LayerMask _groundLayers;
 
     private float _runSpeedMultiplier = 2f;
 
     private float _currentSpeed;
     private float _walkSpeed;
-    private bool _isRunning = false;
 
     private float _gravity;
     private float _verticalVelocity;
 
+    public bool IsRunning { get; private set; } = false;
+    public bool IsGrounded { get; private set; } 
+
     private Action<float> _onMoveSpeedChanged;
     void Start()
-    {
-        InitializeComponents();
+    {  
+        Initialize();
         SubscribeEvents();
-        InitializeStats();
     }
 
     private void Update()
@@ -31,6 +35,8 @@ public class PlayerMove : MonoBehaviour
         RunInput();
         Movement();
         ApplyGravity();
+        GroundedCheck();
+        ApplyJump();
     }
 
     private void OnDestroy()
@@ -38,18 +44,17 @@ public class PlayerMove : MonoBehaviour
         UnSubscribeEvents();
     }
 
-    private void InitializeComponents()
+    private void Initialize()
     {
         _Controller = GetComponent<CharacterController>();
         _Player = GetComponent<Player>();
-    }
 
-    private void InitializeStats()
-    {
         _walkSpeed = _Player.PlayerStats.MoveSpeed.Current;
         _currentSpeed = _walkSpeed;
 
         _gravity = _Player.PlayerStats.Gravity.Value;
+
+        _groundCheckRadius = _Controller.radius * 0.9f;
     }
 
     private void SubscribeEvents()
@@ -92,6 +97,17 @@ public class PlayerMove : MonoBehaviour
         return direction.normalized;
     }
 
+    private void ApplyJump()
+    {
+        if (InputManager.Instance.GetKeyDown(EGameKeyType.Jump))
+        {
+            if (IsGrounded)
+            {
+                _verticalVelocity = Mathf.Sqrt(_Player.PlayerStats.JumpPower.Value * -2f * _gravity);
+            }       
+        }
+    }
+
     private void ApplyGravity()
     {
         if (_Controller.isGrounded)
@@ -109,9 +125,9 @@ public class PlayerMove : MonoBehaviour
     {
         bool shouldRun = InputManager.Instance.GetKey(EGameKeyType.Run);
 
-        if (shouldRun != _isRunning)
+        if (shouldRun != IsRunning)
         {
-            _isRunning = shouldRun;
+            IsRunning = shouldRun;
             UpdateCurrentSpeed();
         }
     }
@@ -123,6 +139,63 @@ public class PlayerMove : MonoBehaviour
 
     private void UpdateCurrentSpeed()
     {
-        _currentSpeed = _isRunning? _walkSpeed * _runSpeedMultiplier : _walkSpeed;
+        _currentSpeed = IsRunning ? _walkSpeed * _runSpeedMultiplier : _walkSpeed;
     }
+
+
+    #region IsGrounded Check
+    private void GroundedCheck()
+    {
+        Vector3 spherePosition = GetSpherePosition();
+        
+        IsGrounded = Physics.CheckSphere(
+            spherePosition, 
+            _groundCheckRadius, 
+            _groundLayers, 
+            QueryTriggerInteraction.Ignore
+            );
+    }
+
+    private Vector3 GetSpherePosition()
+    {
+        return new Vector3(
+            transform.position.x,
+            transform.position.y - _groundCheckOffset + _groundCheckRadius,
+            transform.position.z);
+    }
+
+    public bool GroundCheckInDirection(Vector3 direction, float distance)
+    {
+        Vector3 spherePosition = GetSpherePosition() + direction * distance;
+
+         return Physics.CheckSphere(
+                spherePosition,
+                _groundCheckRadius,
+                _groundLayers,
+                QueryTriggerInteraction.Ignore
+                );
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        DrawGizmo();
+    }
+    private void DrawGizmo()
+    {
+        Vector3 spherePosition = GetSpherePosition();
+
+        Gizmos.color = IsGrounded
+            ? new Color(0f, 1f, 0f, 0.5f)
+            : new Color(1f, 0f, 0f, 0.5f);
+
+        Gizmos.DrawSphere(spherePosition, _groundCheckRadius);
+
+        Gizmos.color = IsGrounded ? Color.green : Color.red;
+        Gizmos.DrawWireSphere(spherePosition, _groundCheckRadius);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, spherePosition);
+    }
+
+    #endregion
 }

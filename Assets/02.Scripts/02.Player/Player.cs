@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public PlayerStats PlayerStats => _playerStats;
     public EPlayerState CurrentState => _currentState;
     
-    void Start()
+    void Awake()
     {
         _playerStats = GetComponent<PlayerStats>();
     }
