@@ -80,8 +80,11 @@ public class PlayerMove : MonoBehaviour
     private void Movement()
     {
         Vector3 moveDirection = GetMoveDirection();
-
-        _controller.Move(moveDirection * _currentSpeed * Time.deltaTime);
+        if (moveDirection.magnitude > 0.01f)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), 0.2f);
+            _controller.Move(transform.forward * _currentSpeed * Time.deltaTime);
+        }      
     }
 
     private Vector3 GetMoveDirection()
@@ -89,19 +92,19 @@ public class PlayerMove : MonoBehaviour
         Vector3 direction = Vector3.zero;
         if (_inputManager.GetKey(EGameKeyType.Front))
         {
-            direction += transform.forward;
+            direction += Vector3.forward;
         }
         if (_inputManager.GetKey(EGameKeyType.Back))
         {
-            direction -= transform.forward;
+            direction -= Vector3.forward;
         }
         if (_inputManager.GetKey(EGameKeyType.Left))
         {
-            direction -= transform.right;
+            direction -= Vector3.right;
         }
         if (_inputManager.GetKey(EGameKeyType.Right))
         {
-            direction += transform.right;
+            direction += Vector3.right;
         }
         return direction.normalized;
     }
@@ -139,6 +142,11 @@ public class PlayerMove : MonoBehaviour
     private void RunInput()
     {
         bool shouldRun = _inputManager.GetKey(EGameKeyType.Run);
+
+        if (_currentJumpCount > 0)
+        {
+            return;
+        }
 
         if (shouldRun != IsRunning)
         {

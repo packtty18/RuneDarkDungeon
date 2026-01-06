@@ -18,15 +18,15 @@ public class CameraFollow : MonoBehaviour
         _camera = GetComponent<Camera>();
 
         _offset = Distance.localPosition;
+        transform.rotation = Distance.rotation;
     }
 
     private void LateUpdate()
     {
         if (Target != null)
         {
-            Vector3 rotatedOffset = Target.rotation * _offset;
-            BasePosition = Target.position + rotatedOffset;
-
+            BasePosition = Target.position + _offset;
+            
             transform.position = BasePosition;
         }
     }
