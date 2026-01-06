@@ -17,6 +17,11 @@ public class InventoryManager : GlobalSingleton<InventoryManager>
     {
         _inventory.Add(item);
     }
+
+    public void RemoveItem(ItemData item)
+    {
+        _inventory.Remove(item);
+    }
     
     public ItemSO GetItemInfo(int id)
     {
