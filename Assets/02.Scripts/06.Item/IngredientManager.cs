@@ -67,8 +67,9 @@ public class IngredientManager
     private void RegisterTargetType(ItemData item)
     {
         var info = _upgradeDB.GetGradeInfo(item.Grade);
+        if (info == null) return;
         
         _targetType = item;
-        _upgradeData = info;
+        _upgradeData = info.Value;
     }
 }

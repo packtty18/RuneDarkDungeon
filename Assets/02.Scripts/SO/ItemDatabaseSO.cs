@@ -22,7 +22,7 @@ public class ItemDatabaseSO : ScriptableObject
         }
     }
 
-    public ItemSO GetItem(int id)
+    public ItemSO GetItemInfo(int id)
     {
         return _itemDict.GetValueOrDefault(id);
     }

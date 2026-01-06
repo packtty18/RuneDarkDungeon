@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class UI_Upgrade : MonoBehaviour
 {
-    [SerializeField] private UpgradeDataSO _upgradeDB;
+    private ItemDatabaseSO _itemDB;
     private UpgradeManager _upgradeManager;
-    private IngredientManager _ingredientManager;
 
-    private void Awake()
+    public void Initialize(ItemDatabaseSO itemDB, UpgradeManager upgradeManager)
     {
-        _ingredientManager = new(_upgradeDB);
-        _upgradeManager = new(_ingredientManager);
-        _ingredientManager.Ingredients.Subscribe(RegisterSlot);
+        _itemDB = itemDB;
+        _upgradeManager = upgradeManager;
     }
 
     public void Upgrade()
@@ -20,7 +18,7 @@ public class UI_Upgrade : MonoBehaviour
     
     private void RegisterSlot(ItemData itemData)
     {
-        ItemSO itemInfo = _upgradeManager.GetItemInfo(itemData);
+        ItemSO itemInfo = _itemDB.GetItemInfo(itemData.ID);
         Debug.Log($"강화 슬롯에 등록 [{itemInfo.Name}] : {itemInfo.Tooltip}");
     }
 }
