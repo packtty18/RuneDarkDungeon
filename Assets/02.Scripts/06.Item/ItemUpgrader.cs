@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class UpgradeManager
+public class ItemUpgrader
 {
     private readonly Inventory _upgradeInventory = new();
     public IReadOnlyInventory UpgradeInventory => _upgradeInventory;
+
+    private UpgradeDataSO _upgradeDB;
     
-    // Todo: 강화 정보 SO를 만들어서 가격과 재료 개수 캐싱
     private ItemData _targetType;
     private int _price;
     private int _count;
@@ -13,6 +14,11 @@ public class UpgradeManager
     // Todo: UI에게 강화 대상을 알려줄 event 추가
     
     // Todo: UI에게 강화 버튼 활성화 / 비활성화 여부를 알려주는 event 추가
+
+    public ItemUpgrader(UpgradeDataSO upgradeDB)
+    {
+        _upgradeDB = upgradeDB;
+    }
     
     public bool TryRegister(ItemData item)
     {
@@ -58,11 +64,14 @@ public class UpgradeManager
         _targetType = null;
     }
 
-    // 테스트를 위해 임시로 구현
     private void RegisterTargetType(ItemData item)
     {
         _targetType = item;
-        _price = 0;
-        _count = 3;
+        
+        var info = _upgradeDB.GetGradeInfo(item.Grade);
+        if (info == null) return;
+        
+        _price = info.Value.UpgradePrice;
+        _count = info.Value.IngredientCount;
     }
 }

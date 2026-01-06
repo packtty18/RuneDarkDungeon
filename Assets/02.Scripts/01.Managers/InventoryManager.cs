@@ -10,7 +10,6 @@ public class InventoryManager : GlobalSingleton<InventoryManager>
     public void Initialize(Inventory inventory)
     {
         _inventory = inventory;
-        _itemDB.Initialize();
     }
     
     public void AddItem(ItemData item)

@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class UI_Upgrade : MonoBehaviour
 {
-    private UpgradeManager _upgradeManager = new();
+    [SerializeField] private UpgradeDataSO _upgradeDB;
+    private ItemUpgrader _itemUpgrader;
 
-    private void Start()
+    private void Awake()
     {
-        _upgradeManager.UpgradeInventory.Subscribe(RegisterSlot);
+        _itemUpgrader = new(_upgradeDB);
+        _itemUpgrader.UpgradeInventory.Subscribe(RegisterSlot);
     }
 
     private void RegisterSlot(ItemData itemData)

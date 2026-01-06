@@ -53,3 +53,13 @@ public struct ItemEffectData
     public EItemGrade Grade;
     public ItemEffectBaseSO Effect;
 }
+
+[Serializable]
+public struct UpgradeData
+{
+    public EItemGrade Grade;
+    public int UpgradePrice;
+    public int IngredientCount;
+    [Range(0f, 1f)]
+    public float SuccessRate;
+}
