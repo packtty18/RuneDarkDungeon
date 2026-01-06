@@ -1,10 +1,10 @@
 using System;
-using Unity.Android.Gradle.Manifest;
 using UnityEngine;
-using UnityEngine.EventSystems;
+
 
 public class PlayerMove : MonoBehaviour
 {
+    private InputManager _inputManager;
     private CharacterController _Controller;
     private Player _Player;
 
@@ -20,6 +20,10 @@ public class PlayerMove : MonoBehaviour
     private float _gravity;
     private float _verticalVelocity;
 
+    [SerializeField] private int _maxJumpCount = 2; 
+    private int _currentJumpCount;
+    private float _jumpVelocity;
+    private bool _jumpRequested = false;
     public bool IsRunning { get; private set; } = false;
     public bool IsGrounded { get; private set; } 
 
@@ -32,11 +36,11 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
+        GroundedCheck();
         RunInput();
         Movement();
-        ApplyGravity();
-        GroundedCheck();
         ApplyJump();
+        ApplyGravity();
     }
 
     private void OnDestroy()
@@ -46,6 +50,8 @@ public class PlayerMove : MonoBehaviour
 
     private void Initialize()
     {
+        _inputManager = InputManager.Instance;
+
         _Controller = GetComponent<CharacterController>();
         _Player = GetComponent<Player>();
 
@@ -55,6 +61,9 @@ public class PlayerMove : MonoBehaviour
         _gravity = _Player.PlayerStats.Gravity.Value;
 
         _groundCheckRadius = _Controller.radius * 0.9f;
+
+        _currentJumpCount = 0;
+        _jumpVelocity = Mathf.Sqrt(_Player.PlayerStats.JumpPower.Value * -2f * _gravity);
     }
 
     private void SubscribeEvents()
@@ -78,45 +87,51 @@ public class PlayerMove : MonoBehaviour
     private Vector3 GetMoveDirection()
     {
         Vector3 direction = Vector3.zero;
-        if (InputManager.Instance.GetKey(EGameKeyType.Front))
+        if (_inputManager.GetKey(EGameKeyType.Front))
         {
-            direction += Vector3.forward;
+            direction += transform.forward;
         }
-        if (InputManager.Instance.GetKey(EGameKeyType.Back))
+        if (_inputManager.GetKey(EGameKeyType.Back))
         {
-            direction += Vector3.back;
+            direction -= transform.forward;
         }
-        if (InputManager.Instance.GetKey(EGameKeyType.Left))
+        if (_inputManager.GetKey(EGameKeyType.Left))
         {
-            direction += Vector3.left;
+            direction -= transform.right;
         }
-        if (InputManager.Instance.GetKey(EGameKeyType.Right))
+        if (_inputManager.GetKey(EGameKeyType.Right))
         {
-            direction += Vector3.right;
+            direction += transform.right;
         }
         return direction.normalized;
     }
 
     private void ApplyJump()
     {
-        if (InputManager.Instance.GetKeyDown(EGameKeyType.Jump))
+        if (_inputManager.GetKeyDown(EGameKeyType.Jump))
         {
-            if (IsGrounded)
+            if (_currentJumpCount < _maxJumpCount)
             {
-                _verticalVelocity = Mathf.Sqrt(_Player.PlayerStats.JumpPower.Value * -2f * _gravity);
+                _verticalVelocity = _jumpVelocity;
+                _maxJumpCount++;
+                _jumpRequested = true;
             }       
         }
     }
 
     private void ApplyGravity()
     {
-        if (_Controller.isGrounded)
+        if (IsGrounded && !_jumpRequested)
         {
             _verticalVelocity = 0;
         }
         else
         {
             _verticalVelocity += _gravity * Time.deltaTime;
+            if (_jumpRequested)
+            {
+                _jumpRequested = false;
+            }
         }
         _Controller.Move(Vector3.up * _verticalVelocity * Time.deltaTime);
     }
@@ -154,6 +169,11 @@ public class PlayerMove : MonoBehaviour
             _groundLayers, 
             QueryTriggerInteraction.Ignore
             );
+
+        if (IsGrounded && _currentJumpCount > 0)
+        {
+            _currentJumpCount = 0;
+        }
     }
 
     private Vector3 GetSpherePosition()
