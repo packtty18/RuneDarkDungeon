@@ -3,29 +3,29 @@ using UnityEngine;
 public class UpgradeManager
 {
     private Ingredient _ingredient;
-    private Inventory _inventory;
+    private IInventory _inventory;
     private GoldData _goldData;
 
-    public UpgradeManager(Ingredient ingredient, Inventory inventory, GoldData goldData)
+    public UpgradeManager(Ingredient ingredient, IInventory inventory, GoldData goldData)
     {
         _ingredient = ingredient;
         _inventory = inventory;
         _goldData = goldData;
     }
     
-    public bool TryRegister(ItemData item)
+    public bool TryRegister(RuneData rune)
     {
-        if (!_ingredient.CanRegister(item)) return false;
+        if (!_ingredient.CanRegister(rune)) return false;
         
-        _inventory.Remove(item);
-        _ingredient.Register(item);
+        _inventory.Remove(rune);
+        _ingredient.Register(rune);
         return true;
     }
 
-    public void Unregister(ItemData item)
+    public void Unregister(RuneData rune)
     {
-        _ingredient.Unregister(item);
-        _inventory.Add(item);
+        _ingredient.Unregister(rune);
+        _inventory.Add(rune);
     }
     
     public void UnregisterAll()

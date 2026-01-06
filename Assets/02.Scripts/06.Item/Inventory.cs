@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System;
 
 [Serializable]
-public class Inventory : IReadOnlyInventory
+public class Inventory : IInventory
 {
-    [SerializeField] private List<ItemData> _items = new();
-    public IReadOnlyList<ItemData> Items => _items;
+    [SerializeField] private List<IItem> _items = new();
+    public IReadOnlyList<IItem> Items => _items;
     
-    private SafeEvent<ItemData> _onItemAdded = new();
+    private SafeEvent<IItem> _onItemAdded = new();
     
     public int Count => _items.Count;
     
-    public void Add(ItemData item)
+    public void Add(IItem item)
     {
         _items.Add(item);
         Notify(item);
     }
 
-    public void Remove(ItemData item)
+    public void Remove(IItem item)
     {
         _items.Remove(item);
     }
@@ -28,17 +28,17 @@ public class Inventory : IReadOnlyInventory
         _items.Clear();
     }
     
-    public void Subscribe(Action<ItemData> action)
+    public void Subscribe(Action<IItem> action)
     {
         _onItemAdded.Subscribe(action);
     }
 
-    public void Unsubscribe(Action<ItemData> action)
+    public void Unsubscribe(Action<IItem> action)
     {
         _onItemAdded.Unsubscribe(action);
     }
 
-    private void Notify(ItemData item)
+    private void Notify(IItem item)
     {
         _onItemAdded?.Invoke(item);
     }

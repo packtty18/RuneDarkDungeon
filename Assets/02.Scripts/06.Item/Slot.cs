@@ -5,7 +5,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private UI_Slot _ui_slot;
     
-    private ItemData _item;
+    private IItem _item;
     private ItemSO _info;
     
     public bool IsEmpty =>  _item == null;
@@ -16,7 +16,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         Clear();
     }
 
-    public void SetItem(ItemData item, ItemSO info)
+    public void SetItem(IItem item, ItemSO info)
     {
         _item = item;
         _info = info;
