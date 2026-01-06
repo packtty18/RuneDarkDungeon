@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 
 [System.Serializable]
 public class ItemData
@@ -15,11 +14,11 @@ public class ItemData
         _id = id; 
         _grade = grade;
     }
-
-    public void GradeUp()
+    
+    public bool TypeEquals(ItemData other)
     {
-        if (_grade == EItemGrade.Legendary) return;
-        ++_grade;
+        if (other is null) return false;
+        return _id == other._id && _grade == other._grade;
     }
     
     public override string ToString() => $"[ID:{_id}] 등급:{_grade})";

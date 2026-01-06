@@ -10,12 +10,16 @@ public class InventoryManager : GlobalSingleton<InventoryManager>
     public void Initialize(Inventory inventory)
     {
         _inventory = inventory;
-        _itemDB.Initialize();
     }
     
     public void AddItem(ItemData item)
     {
         _inventory.Add(item);
+    }
+
+    public void RemoveItem(ItemData item)
+    {
+        _inventory.Remove(item);
     }
     
     public ItemSO GetItemInfo(int id)

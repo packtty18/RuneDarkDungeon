@@ -19,4 +19,9 @@ public class GoldManager : GlobalSingleton<GoldManager>
     {
         return _gold.TryConsume(amount);
     }
+
+    public bool CanUseGold(int amount)
+    {
+        return _gold.Value >= amount;
+    }
 }
