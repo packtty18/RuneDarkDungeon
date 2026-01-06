@@ -23,14 +23,24 @@ public class UpgradeManager
         _ingredientManager.Unregister(item);
         InventoryManager.Instance.AddItem(item);
     }
+    
+    public void UnregisterAll()
+    {
+        foreach (var item in _ingredientManager.Ingredients.Items)
+        {
+            InventoryManager.Instance.AddItem(item);
+        }
+        _ingredientManager.Clear();
+    }
 
     public void Upgrade()
     {
-        if (!_ingredientManager.CanUpgrade()) return;
+        if (!_ingredientManager.CanUpgrade() 
+            || !GoldManager.Instance.UseGold(_ingredientManager.Cost)) return;
         
-        var upgradeResult = _ingredientManager.GetUpgradeResult();
-        GoldManager.Instance.UseGold(upgradeResult.cost);
-        InventoryManager.Instance.AddItem(upgradeResult.newItem);
+        var newItem = _ingredientManager.GetUpgradeResult();
+        InventoryManager.Instance.AddItem(newItem);
+        _ingredientManager.Clear();
     }
 
     // Todo: 이벤트로 변경

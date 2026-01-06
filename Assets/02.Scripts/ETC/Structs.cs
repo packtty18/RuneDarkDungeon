@@ -58,8 +58,8 @@ public struct ItemEffectData
 public struct UpgradeData
 {
     public EItemGrade Grade;
-    public int UpgradePrice;
-    public int IngredientCount;
+    public int Cost;
+    public int Count;
     [Range(0f, 1f)]
-    public float SuccessRate;
+    public float Rate;
 }

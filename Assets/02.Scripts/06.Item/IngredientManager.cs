@@ -8,8 +8,11 @@ public class IngredientManager
     private UpgradeDataSO _upgradeDB;
     
     private ItemData _targetType;
-    private int _price;
-    private int _count;
+    private UpgradeData _upgradeData;
+    
+    public int Cost => _upgradeData.Cost;
+    private int Count => _upgradeData.Count;
+    public float Rate => _upgradeData.Rate;
 
     public IngredientManager(UpgradeDataSO upgradeDB)
     {
@@ -19,7 +22,7 @@ public class IngredientManager
     public bool CanRegister(ItemData item)
     {
         if (_targetType == null) return true;
-        return item.TypeEquals(_targetType) && _ingredients.Count < _count;
+        return item.TypeEquals(_targetType) && _ingredients.Count < Count;
     }
 
     public void Register(ItemData item)
@@ -33,15 +36,14 @@ public class IngredientManager
 
     public bool CanUpgrade()
     {
-        if (_targetType == null || _ingredients.Count < _count) return false;
+        if (_targetType == null || _ingredients.Count < Count) return false;
         return true;
     }
     
-    public (ItemData newItem, int cost) GetUpgradeResult()
+    public ItemData GetUpgradeResult()
     {
-
         ItemData newItem = new(_targetType.ID, _targetType.Grade + 1);
-        return (newItem, _price);
+        return newItem;
     }
 
     public ItemData Unregister(ItemData item)
@@ -56,14 +58,17 @@ public class IngredientManager
         return item;
     }
 
+    public void Clear()
+    {
+        _ingredients.Clear();
+        _targetType = null;
+    }
+
     private void RegisterTargetType(ItemData item)
     {
-        _targetType = item;
-        
         var info = _upgradeDB.GetGradeInfo(item.Grade);
-        if (info == null) return;
         
-        _price = info.Value.UpgradePrice;
-        _count = info.Value.IngredientCount;
+        _targetType = item;
+        _upgradeData = info;
     }
 }
