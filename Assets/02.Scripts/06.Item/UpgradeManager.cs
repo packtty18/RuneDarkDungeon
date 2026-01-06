@@ -2,48 +2,48 @@ using UnityEngine;
 
 public class UpgradeManager
 {
-    private IngredientManager _ingredientManager;
+    private Ingredient _ingredient;
     private Inventory _inventory;
     private GoldData _goldData;
 
-    public UpgradeManager(IngredientManager ingredientManager, Inventory inventory, GoldData goldData)
+    public UpgradeManager(Ingredient ingredient, Inventory inventory, GoldData goldData)
     {
-        _ingredientManager = ingredientManager;
+        _ingredient = ingredient;
         _inventory = inventory;
         _goldData = goldData;
     }
     
     public bool TryRegister(ItemData item)
     {
-        if (!_ingredientManager.CanRegister(item)) return false;
+        if (!_ingredient.CanRegister(item)) return false;
         
         _inventory.Remove(item);
-        _ingredientManager.Register(item);
+        _ingredient.Register(item);
         return true;
     }
 
     public void Unregister(ItemData item)
     {
-        _ingredientManager.Unregister(item);
+        _ingredient.Unregister(item);
         _inventory.Add(item);
     }
     
     public void UnregisterAll()
     {
-        foreach (var item in _ingredientManager.Ingredients.Items)
+        foreach (var item in _ingredient.Ingredients.Items)
         {
             _inventory.Add(item);
         }
-        _ingredientManager.Clear();
+        _ingredient.Clear();
     }
 
     public void Upgrade()
     {
-        if (!_ingredientManager.CanUpgrade() 
-            || !_goldData.TryConsume(_ingredientManager.Cost)) return;
+        if (!_ingredient.CanUpgrade() 
+            || !_goldData.TryConsume(_ingredient.Cost)) return;
         
-        var newItem = _ingredientManager.GetUpgradeResult();
+        var newItem = _ingredient.GetUpgradeResult();
         _inventory.Add(newItem);
-        _ingredientManager.Clear();
+        _ingredient.Clear();
     }
 }
