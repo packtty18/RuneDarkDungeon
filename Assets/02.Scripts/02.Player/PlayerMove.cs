@@ -7,9 +7,10 @@ public class PlayerMove : MonoBehaviour
     private InputManager _inputManager;
     private CharacterController _controller;
     private Player _player;
+    private PlayerAnimator _animator;
 
     private float _groundCheckRadius;
-    private float _groundCheckOffset = 0.1f;
+    private float _groundCheckOffset = 0f;
     [SerializeField] private LayerMask _groundLayers;
 
     private float _runSpeedMultiplier = 2f;
@@ -24,6 +25,7 @@ public class PlayerMove : MonoBehaviour
     private int _currentJumpCount;
     private float _jumpVelocity;
     private bool _jumpRequested = false;
+    private float _landOffset = 0.5f;
     public bool IsRunning { get; private set; } = false;
     public bool IsGrounded { get; private set; } 
 
@@ -64,6 +66,8 @@ public class PlayerMove : MonoBehaviour
 
         _currentJumpCount = 0;
         _jumpVelocity = Mathf.Sqrt(_player.GetJumpVelocity() * -2f * _gravity);
+
+        _animator = GetComponent<PlayerAnimator>();
     }
 
     private void SubscribeEvents()
@@ -120,19 +124,30 @@ public class PlayerMove : MonoBehaviour
                 _jumpRequested = true;
             }       
         }
+
+        if (_currentJumpCount > 0 && _verticalVelocity < 0)
+        {
+            if (GroundCheckInDirection(Vector3.down, _landOffset))
+            {
+                Debug.Log("Landed");
+                _animator.SetJump(false);
+            }
+
+        }
     }
 
     private void ApplyGravity()
     {
         if (IsGrounded && !_jumpRequested)
         {
-            _verticalVelocity = 0;
+            _verticalVelocity = -2;
         }
         else
         {
             _verticalVelocity += _gravity * Time.deltaTime;
             if (_jumpRequested)
             {
+                _animator.SetJump(true);
                 _jumpRequested = false;
             }
         }
@@ -178,6 +193,7 @@ public class PlayerMove : MonoBehaviour
             QueryTriggerInteraction.Ignore
             );
 
+        //점프 후 착지했을 때
         if (IsGrounded && _currentJumpCount > 0)
         {
             _currentJumpCount = 0;
