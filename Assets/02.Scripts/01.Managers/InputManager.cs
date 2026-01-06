@@ -13,6 +13,7 @@ public class InputManager : GlobalSingleton<InputManager>
         { EGameKeyType.Left,    new KeyCode[]{ KeyCode.LeftArrow, KeyCode.A, KeyCode.Z } },
         { EGameKeyType.Right,   new KeyCode[]{ KeyCode.RightArrow, KeyCode.D, KeyCode.Slash } },
         { EGameKeyType.Jump,    new KeyCode[]{ KeyCode.Space } },
+        { EGameKeyType.Run,    new KeyCode[]{ KeyCode.LeftShift } },
         { EGameKeyType.Attack,  new KeyCode[]{ KeyCode.Mouse0 } },
         { EGameKeyType.Enter,   new KeyCode[]{ KeyCode.Return} }
     };

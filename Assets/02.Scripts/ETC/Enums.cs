@@ -5,6 +5,19 @@ public enum EGameState
     GameOver
 }
 
+public enum EPlayerState
+{
+    Idle,
+    Walk,
+    Run,
+    Jump,
+    Attack,
+    Skill,
+    Dodge,
+    Hit,
+    Dead,
+}
+
 public enum EEnemyState
 { 
     Spawn,
@@ -28,6 +41,7 @@ public enum EGameKeyType
     Right,
     Jump,
     Attack,
+    Run,
     Enter,
 }
 
