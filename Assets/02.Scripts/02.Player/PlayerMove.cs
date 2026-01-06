@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     private InputManager _inputManager;
-    private CharacterController _Controller;
-    private Player _Player;
+    private CharacterController _controller;
+    private Player _player;
 
     private float _groundCheckRadius;
     private float _groundCheckOffset = 0.1f;
@@ -52,36 +52,36 @@ public class PlayerMove : MonoBehaviour
     {
         _inputManager = InputManager.Instance;
 
-        _Controller = GetComponent<CharacterController>();
-        _Player = GetComponent<Player>();
+        _controller = GetComponent<CharacterController>();
+        _player = GetComponent<Player>();
 
-        _walkSpeed = _Player.PlayerStats.MoveSpeed.Current;
+        _walkSpeed = _player.GetSpeed();
         _currentSpeed = _walkSpeed;
 
-        _gravity = _Player.PlayerStats.Gravity.Value;
+        _gravity = _player.GetGravity();
 
-        _groundCheckRadius = _Controller.radius * 0.9f;
+        _groundCheckRadius = _controller.radius * 0.9f;
 
         _currentJumpCount = 0;
-        _jumpVelocity = Mathf.Sqrt(_Player.PlayerStats.JumpPower.Value * -2f * _gravity);
+        _jumpVelocity = Mathf.Sqrt(_player.GetJumpVelocity() * -2f * _gravity);
     }
 
     private void SubscribeEvents()
     {
         _onMoveSpeedChanged = HandleMoveSpeedChanged;
-        _Player.PlayerStats.MoveSpeed.Subscribe(_onMoveSpeedChanged);
+        _player.SubscribeSpeed(_onMoveSpeedChanged);
     }
 
     private void UnSubscribeEvents()
     {
-        _Player.PlayerStats.MoveSpeed.Unsubscribe(_onMoveSpeedChanged);
+        _player.UnsubscribeSpeed(_onMoveSpeedChanged);
     }
     
     private void Movement()
     {
         Vector3 moveDirection = GetMoveDirection();
-        
-        _Controller.Move(moveDirection * _currentSpeed * Time.deltaTime);
+
+        _controller.Move(moveDirection * _currentSpeed * Time.deltaTime);
     }
 
     private Vector3 GetMoveDirection()
@@ -113,7 +113,7 @@ public class PlayerMove : MonoBehaviour
             if (_currentJumpCount < _maxJumpCount)
             {
                 _verticalVelocity = _jumpVelocity;
-                _maxJumpCount++;
+                _currentJumpCount++;
                 _jumpRequested = true;
             }       
         }
@@ -133,12 +133,12 @@ public class PlayerMove : MonoBehaviour
                 _jumpRequested = false;
             }
         }
-        _Controller.Move(Vector3.up * _verticalVelocity * Time.deltaTime);
+        _controller.Move(Vector3.up * _verticalVelocity * Time.deltaTime);
     }
 
     private void RunInput()
     {
-        bool shouldRun = InputManager.Instance.GetKey(EGameKeyType.Run);
+        bool shouldRun = _inputManager.GetKey(EGameKeyType.Run);
 
         if (shouldRun != IsRunning)
         {
