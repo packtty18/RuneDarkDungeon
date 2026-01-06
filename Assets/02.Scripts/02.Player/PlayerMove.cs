@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -9,24 +10,33 @@ public class PlayerMove : MonoBehaviour
     private Player _player;
     private PlayerAnimator _animator;
 
+    [Header("이동")]
+    [SerializeField] private float _turnRate = 3f;
+
     private float _groundCheckRadius;
     private float _groundCheckOffset = 0f;
+    [Header("그라운드 감지")]
     [SerializeField] private LayerMask _groundLayers;
 
-    private float _runSpeedMultiplier = 2f;
+    [Header("속도")]
+    [SerializeField] private float _runSpeedMultiplier = 2f;
+    [SerializeField] private float _speedChangeRate = 5;
 
+    private float _speedOffset = 0.1f;
     private float _currentSpeed;
     private float _walkSpeed;
+    private float _runSpeed;
 
     private float _gravity;
     private float _verticalVelocity;
 
+    [Header("점프")]
+    [Tooltip("점프 가능 횟수")]
     [SerializeField] private int _maxJumpCount = 2; 
     private int _currentJumpCount;
     private float _jumpVelocity;
     private bool _jumpRequested = false;
     private float _landOffset = 0.5f;
-    public bool IsRunning { get; private set; } = false;
     public bool IsGrounded { get; private set; } 
 
     private Action<float> _onMoveSpeedChanged;
@@ -39,7 +49,6 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         GroundedCheck();
-        RunInput();
         Movement();
         ApplyJump();
         ApplyGravity();
@@ -57,8 +66,8 @@ public class PlayerMove : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         _player = GetComponent<Player>();
 
-        _walkSpeed = _player.GetSpeed();
-        _currentSpeed = _walkSpeed;
+        HandleMoveSpeedChanged(_player.GetSpeed());
+        _currentSpeed = 0;
 
         _gravity = _player.GetGravity();
 
@@ -84,9 +93,13 @@ public class PlayerMove : MonoBehaviour
     private void Movement()
     {
         Vector3 moveDirection = GetMoveDirection();
-        if (moveDirection.magnitude > 0.01f)
+        float moveScale = moveDirection.magnitude;
+
+        SpeedUpdate(moveScale);
+
+        if (moveScale > 0.01f)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), 0.2f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), _turnRate * Time.deltaTime);
             _controller.Move(transform.forward * _currentSpeed * Time.deltaTime);
         }      
     }
@@ -154,32 +167,56 @@ public class PlayerMove : MonoBehaviour
         _controller.Move(Vector3.up * _verticalVelocity * Time.deltaTime);
     }
 
-    private void RunInput()
+    private void SpeedUpdate(float moveScale)
     {
-        bool shouldRun = _inputManager.GetKey(EGameKeyType.Run);
-
         if (_currentJumpCount > 0)
         {
             return;
         }
 
-        if (shouldRun != IsRunning)
+        bool shouldRun = _inputManager.GetKey(EGameKeyType.Run);
+        float targetSpeed = shouldRun ? _runSpeed : _walkSpeed;
+
+        if (moveScale < 0.1f)
         {
-            IsRunning = shouldRun;
-            UpdateCurrentSpeed();
+            targetSpeed = 0f;
+        }
+
+        if (_currentSpeed < targetSpeed - _speedOffset || _currentSpeed > targetSpeed + _speedOffset)
+        {
+            _currentSpeed = Mathf.Lerp(_currentSpeed, targetSpeed, _speedChangeRate * Time.deltaTime);
+            _animator.SetSpeedRatio(CalculateBlendTreeParameter());
+        }
+        else
+        {
+            _currentSpeed = targetSpeed;
+        }
+    }
+
+    private float CalculateBlendTreeParameter()
+    {
+        if (_currentSpeed < 0.01f)
+        {
+            return 0;
+        }
+
+        if (_currentSpeed < _walkSpeed)
+        {
+            return _currentSpeed/_walkSpeed;
+        }
+
+        else
+        {
+            float excess = _currentSpeed - _walkSpeed;
+            float runRange = _runSpeed - _walkSpeed;
+            return 1 + excess / runRange;
         }
     }
     private void HandleMoveSpeedChanged(float obj)
     {
         _walkSpeed = obj;
-        UpdateCurrentSpeed();
+        _runSpeed = _walkSpeed * _runSpeedMultiplier;
     }
-
-    private void UpdateCurrentSpeed()
-    {
-        _currentSpeed = IsRunning ? _walkSpeed * _runSpeedMultiplier : _walkSpeed;
-    }
-
 
     #region IsGrounded Check
     private void GroundedCheck()
