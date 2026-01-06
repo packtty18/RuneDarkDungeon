@@ -7,7 +7,7 @@ public class Ingredient
 
     private UpgradeDataSO _upgradeDB;
     
-    private RuneData _targetType;
+    private ItemData _targetType;
     private UpgradeData _upgradeData;
     
     public int Cost => _upgradeData.Cost;
@@ -19,19 +19,19 @@ public class Ingredient
         _upgradeDB = upgradeDB;
     }
     
-    public bool CanRegister(RuneData rune)
+    public bool CanRegister(ItemData item)
     {
         if (_targetType == null) return true;
-        return rune.TypeEquals(_targetType) && _ingredients.Count < Count;
+        return item.TypeEquals(_targetType) && _ingredients.Count < Count;
     }
 
-    public void Register(RuneData rune)
+    public void Register(ItemData item)
     {
         if (_targetType == null)
         {
-            RegisterTargetType(rune);
+            RegisterTargetType(item);
         }
-        _ingredients.Add(rune);
+        _ingredients.Add(item);
     }
 
     public bool CanUpgrade()
@@ -40,22 +40,22 @@ public class Ingredient
         return true;
     }
     
-    public RuneData GetUpgradeResult()
+    public ItemData GetUpgradeResult()
     {
-        RuneData newRune = new(_targetType.ID, _targetType.Grade + 1);
-        return newRune;
+        ItemData newItem = new(_targetType.ID, _targetType.Grade + 1);
+        return newItem;
     }
 
-    public RuneData Unregister(RuneData rune)
+    public ItemData Unregister(ItemData item)
     {
-        _ingredients.Remove(rune);
+        _ingredients.Remove(item);
 
         if (_ingredients.Count == 0)
         {
             _targetType = null;
         }
         
-        return rune;
+        return item;
     }
 
     public void Clear()
@@ -64,12 +64,12 @@ public class Ingredient
         _targetType = null;
     }
 
-    private void RegisterTargetType(RuneData rune)
+    private void RegisterTargetType(ItemData item)
     {
-        var info = _upgradeDB.GetGradeInfo(rune.Grade);
+        var info = _upgradeDB.GetGradeInfo(item.Grade);
         if (info == null) return;
         
-        _targetType = rune;
+        _targetType = item;
         _upgradeData = info.Value;
     }
 }

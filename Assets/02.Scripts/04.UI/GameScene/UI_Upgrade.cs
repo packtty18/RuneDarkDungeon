@@ -16,9 +16,9 @@ public class UI_Upgrade : MonoBehaviour
         _upgradeManager.Upgrade();
     }
     
-    private void RegisterSlot(RuneData runeData)
+    private void RegisterSlot(ItemData itemData)
     {
-        ItemSO itemInfo = _itemDB.GetItemInfo(runeData.ID);
+        ItemSO itemInfo = _itemDB.GetItemInfo(itemData.ID);
         Debug.Log($"강화 슬롯에 등록 [{itemInfo.Name}] : {itemInfo.Tooltip}");
     }
 }

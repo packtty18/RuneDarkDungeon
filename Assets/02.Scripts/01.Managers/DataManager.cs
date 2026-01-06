@@ -25,6 +25,8 @@ public class DataManager : GlobalSingleton<DataManager>
     
     private void OnApplicationQuit()
     {
+        //Inventory.Add(new RuneData(0));
+        //Inventory.Add(new RuneData(1, EItemGrade.Unique));
         FileIO.Save(_data);
     }
 }

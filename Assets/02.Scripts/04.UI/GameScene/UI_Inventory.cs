@@ -34,7 +34,7 @@ public class UI_Inventory : MonoBehaviour
         }
     }
 
-    private void AddSlot(IItem itemData)
+    private void AddSlot(ItemData itemData)
     {
         ItemSO itemInfo = _itemDB.GetItemInfo(itemData.ID);
         foreach (var slot in _slots)

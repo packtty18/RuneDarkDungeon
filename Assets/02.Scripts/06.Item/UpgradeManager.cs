@@ -13,19 +13,19 @@ public class UpgradeManager
         _goldData = goldData;
     }
     
-    public bool TryRegister(RuneData rune)
+    public bool TryRegister(ItemData item)
     {
-        if (!_ingredient.CanRegister(rune)) return false;
+        if (!_ingredient.CanRegister(item)) return false;
         
-        _inventory.Remove(rune);
-        _ingredient.Register(rune);
+        _inventory.Remove(item);
+        _ingredient.Register(item);
         return true;
     }
 
-    public void Unregister(RuneData rune)
+    public void Unregister(ItemData item)
     {
-        _ingredient.Unregister(rune);
-        _inventory.Add(rune);
+        _ingredient.Unregister(item);
+        _inventory.Add(item);
     }
     
     public void UnregisterAll()

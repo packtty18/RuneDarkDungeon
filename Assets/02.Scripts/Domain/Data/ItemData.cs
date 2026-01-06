@@ -1,25 +1,24 @@
 using UnityEngine;
 
 [System.Serializable]
-public class RuneData : IItem
+public class ItemData
 {
-    [SerializeField] private int _id;
-    [SerializeField] private EItemGrade _grade;
+    [SerializeField] protected int _id;
+    [SerializeField] protected EItemGrade _grade;
     
     public int ID => _id;
     public EItemGrade Grade => _grade;
 
-    public RuneData(int id, EItemGrade grade = EItemGrade.Normal)
+    public ItemData(int id, EItemGrade grade = EItemGrade.Normal)
     {
         _id = id; 
         _grade = grade;
     }
     
-    public bool TypeEquals(IItem other)
+    public bool TypeEquals(ItemData other)
     {
         if (other is null) return false;
-        return _id == other.ID && _grade == other.Grade;
+        return _id == other._id && _grade == other._grade;
     }
-    
     public override string ToString() => $"[ID:{_id}] 등급:{_grade})";
 }

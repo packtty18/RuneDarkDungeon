@@ -5,20 +5,20 @@ using System;
 [Serializable]
 public class Inventory : IInventory
 {
-    [SerializeField] private List<IItem> _items = new();
-    public IReadOnlyList<IItem> Items => _items;
+    [SerializeField] private List<ItemData> _items = new();
+    public IReadOnlyList<ItemData> Items => _items;
     
-    private SafeEvent<IItem> _onItemAdded = new();
+    private SafeEvent<ItemData> _onItemAdded = new();
     
     public int Count => _items.Count;
     
-    public void Add(IItem item)
+    public void Add(ItemData item)
     {
         _items.Add(item);
         Notify(item);
     }
 
-    public void Remove(IItem item)
+    public void Remove(ItemData item)
     {
         _items.Remove(item);
     }
@@ -28,17 +28,17 @@ public class Inventory : IInventory
         _items.Clear();
     }
     
-    public void Subscribe(Action<IItem> action)
+    public void Subscribe(Action<ItemData> action)
     {
         _onItemAdded.Subscribe(action);
     }
 
-    public void Unsubscribe(Action<IItem> action)
+    public void Unsubscribe(Action<ItemData> action)
     {
         _onItemAdded.Unsubscribe(action);
     }
 
-    private void Notify(IItem item)
+    private void Notify(ItemData item)
     {
         _onItemAdded?.Invoke(item);
     }

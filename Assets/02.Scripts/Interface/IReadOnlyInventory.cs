@@ -3,8 +3,8 @@ using System;
 
 public interface IReadOnlyInventory
 {
-    IReadOnlyList<IItem> Items { get; }
-    void Subscribe(Action<IItem> action);
-    void Unsubscribe(Action<IItem> action);
+    IReadOnlyList<ItemData> Items { get; }
+    void Subscribe(Action<ItemData> action);
+    void Unsubscribe(Action<ItemData> action);
     int Count { get; }
 }
