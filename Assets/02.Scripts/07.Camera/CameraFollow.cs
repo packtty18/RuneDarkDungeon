@@ -1,31 +1,25 @@
-using DG.Tweening;
-using TMPro;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform Target;
-    public Transform Distance;
-
-    private Camera _camera;
-    private Vector3 _offset;
+    [SerializeField]
+    private Transform _target;
+    [SerializeField]
+    private Transform _offset;
 
     public Vector3 BasePosition { get; private set; }
 
 
     private void Start()
     {
-        _camera = GetComponent<Camera>();
-
-        _offset = Distance.localPosition;
-        transform.rotation = Distance.rotation;
+        transform.rotation = _offset.rotation;
     }
 
     private void LateUpdate()
     {
-        if (Target != null)
+        if (_target != null)
         {
-            BasePosition = Target.position + _offset;
+            BasePosition = _target.position + _offset.transform.localPosition;
             
             transform.position = BasePosition;
         }

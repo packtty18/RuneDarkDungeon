@@ -1,8 +1,8 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
+[RequireComponent(typeof(PlayerAnimator))]
 public class PlayerMove : MonoBehaviour
 {
     private InputManager _inputManager;
@@ -142,7 +142,6 @@ public class PlayerMove : MonoBehaviour
         {
             if (GroundCheckInDirection(Vector3.down, _landOffset))
             {
-                Debug.Log("Landed");
                 _animator.SetJump(false);
             }
 
@@ -209,6 +208,7 @@ public class PlayerMove : MonoBehaviour
         {
             float excess = _currentSpeed - _walkSpeed;
             float runRange = _runSpeed - _walkSpeed;
+            if (Mathf.Approximately(runRange, 0f)) return 1f;
             return 1 + excess / runRange;
         }
     }
@@ -230,7 +230,7 @@ public class PlayerMove : MonoBehaviour
             QueryTriggerInteraction.Ignore
             );
 
-        //점프 후 착지했을 때
+        // 점프 후 착지했을 때.
         if (IsGrounded && _currentJumpCount > 0)
         {
             _currentJumpCount = 0;

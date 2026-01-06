@@ -18,29 +18,9 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateState();
+ 
     }
 
-    public void UpdateState()
-    {
-        switch (_currentState)
-        {
-            case EPlayerState.Idle:
-
-                break;
-            case EPlayerState.Walk:
-
-                break;
-            case EPlayerState.Run:
-
-                break;
-            case EPlayerState.Jump:
-
-                break;
-            default:
-                break;
-        }
-    }
 
     public void SetState(EPlayerState newState)
     {
