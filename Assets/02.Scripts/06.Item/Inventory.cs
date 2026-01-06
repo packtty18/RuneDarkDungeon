@@ -10,6 +10,8 @@ public class Inventory : IReadOnlyInventory
     
     private SafeEvent<ItemData> _onItemAdded = new();
     
+    public int Count => _items.Count;
+    
     public void Add(ItemData item)
     {
         _items.Add(item);

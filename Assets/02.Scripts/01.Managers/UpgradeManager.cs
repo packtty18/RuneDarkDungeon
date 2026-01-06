@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class UpgradeManager : MonoBehaviour
+public class UpgradeManager
 {
-    private readonly Inventory _ingredients = new();
-    public IReadOnlyInventory Ingredients => _ingredients;
+    private readonly Inventory _upgradeInventory = new();
+    public IReadOnlyInventory UpgradeInventory => _upgradeInventory;
     
     // Todo: 강화 정보 SO를 만들어서 가격과 재료 개수 캐싱
     private ItemData _targetType;
@@ -21,10 +21,10 @@ public class UpgradeManager : MonoBehaviour
             RegisterTargetType(item);
         }
 
-        if (!item.TypeEquals(_targetType) || _ingredients.Items.Count >= _count) return false;
+        if (!item.TypeEquals(_targetType) || _upgradeInventory.Count >= _count) return false;
         
         InventoryManager.Instance.RemoveItem(item);
-        _ingredients.Add(item);
+        _upgradeInventory.Add(item);
         return true;
     }
 
@@ -32,7 +32,7 @@ public class UpgradeManager : MonoBehaviour
     {
         if (!GoldManager.Instance.UseGold(_price)) return null;
         
-        _ingredients.Clear();
+        _upgradeInventory.Clear();
         ItemData newItem = new(_targetType.ID, _targetType.Grade + 1);
         InventoryManager.Instance.AddItem(newItem);
 
@@ -42,19 +42,19 @@ public class UpgradeManager : MonoBehaviour
     public void Unregister(ItemData item)
     {
         InventoryManager.Instance.AddItem(item);
-        _ingredients.Remove(item);
+        _upgradeInventory.Remove(item);
 
-        if (_ingredients.Items.Count > 0) return;
+        if (_upgradeInventory.Items.Count > 0) return;
         _targetType = null;
     }
 
     public void UnregisterAll()
     {
-        foreach (var item in _ingredients.Items)
+        foreach (var item in _upgradeInventory.Items)
         {
             InventoryManager.Instance.AddItem(item);
         }
-        _ingredients.Clear();
+        _upgradeInventory.Clear();
         _targetType = null;
     }
 
