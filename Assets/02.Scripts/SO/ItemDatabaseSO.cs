@@ -4,21 +4,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemDatabase", menuName = "Item/ItemDatabase")]
 public class ItemDatabaseSO : ScriptableObject
 {
-    [SerializeField] private List<ItemSO> _runes;
-    private Dictionary<int, ItemSO> _runeDict;
+    [SerializeField] private List<ItemSO> _items;
+    private Dictionary<int, ItemSO> _itemDict;
 
     public void Initialize()
     {
-        _runeDict = new();
-        foreach (var rune in _runes)
+        _itemDict = new();
+        foreach (var item in _items)
         {
-            if (_runeDict.TryAdd(rune.ID, rune)) continue;
-            Debug.LogWarning($"중복된 ID 발견: {rune.ID}");
+            if (_itemDict.TryAdd(item.ID, item))
+            {
+                item.Initialize();
+                continue;
+            }
+            Debug.LogWarning($"중복된 ID 발견: {item.ID}");
         }
     }
 
     public ItemSO GetItem(int id)
     {
-        return _runeDict.GetValueOrDefault(id);
+        return _itemDict.GetValueOrDefault(id);
     }
 }

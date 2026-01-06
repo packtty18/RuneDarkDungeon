@@ -4,7 +4,7 @@ using UnityEngine;
 public class LobbyInitializer : MonoBehaviour
 {
     [Header("Lobby 씬 전용 풀 설정")]
-    [SerializeField] private List<PoolConfigBase> _poolConfigs;
+    [SerializeField] private List<PoolConfigSO> _poolConfigs;
 
     private void Awake()
     {
@@ -12,9 +12,4 @@ public class LobbyInitializer : MonoBehaviour
         PoolManager.Instance.CreatePoolsFromConfigs(_poolConfigs);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

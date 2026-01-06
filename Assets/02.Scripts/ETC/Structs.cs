@@ -46,3 +46,10 @@ public struct DamageData
         Knockback = knockback;
     }
 }
+
+[Serializable]
+public struct ItemEffectData
+{
+    public EItemGrade Grade;
+    public ItemEffectBaseSO Effect;
+}

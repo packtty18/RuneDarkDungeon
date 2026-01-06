@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class BoxFactory : PoolFactory<Box>
 {
-    public BoxFactory(PoolManager poolManager) : base(poolManager, "Box")
+    public BoxFactory(PoolManager poolManager) : base(poolManager, EPoolType.Box)
     {
-        if (!_poolManager.HasPool(_key))
+        if (!_poolManager.HasPool(_type))
         {
-            throw new System.InvalidOperationException($"BoxFactory Start Error: Pool with key '{_key}' does not exist.");
+            throw new System.InvalidOperationException($"BoxFactory Start Error: Pool with key '{_type}' does not exist.");
         }
     }
 
@@ -17,7 +17,7 @@ public class BoxFactory : PoolFactory<Box>
 
     public Box CreateAt(Vector3 position)
     {
-        var box = CreateInternal();
+        Box box = CreateInternal();
         box.transform.position = position;
         return box;
     }
