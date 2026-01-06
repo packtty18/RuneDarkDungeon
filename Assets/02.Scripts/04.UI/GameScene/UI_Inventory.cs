@@ -3,10 +3,12 @@ using UnityEngine;
 public class UI_Inventory : MonoBehaviour
 {
     private IReadOnlyInventory _inventory;
+    private ItemDatabaseSO _itemDB;
     
     private void Awake()
     {
-        _inventory = InventoryManager.Instance.Inventory;
+        _itemDB = DataManager.Instance.ItemDB;
+        _inventory = DataManager.Instance.Inventory;
         Refresh();
         _inventory.Subscribe(AddSlot);
     }
@@ -26,7 +28,7 @@ public class UI_Inventory : MonoBehaviour
 
     private void AddSlot(ItemData itemData)
     {
-        ItemSO itemInfo = InventoryManager.Instance.GetItemInfo(itemData.ID);
+        ItemSO itemInfo = _itemDB.GetItemInfo(itemData.ID);
         Debug.Log($"룬 추가 [{itemInfo.Name}] : {itemInfo.Tooltip}");
     }
 }

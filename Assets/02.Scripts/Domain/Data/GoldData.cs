@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class GoldData : StatBase<int>, IReadOnlyValue<int>
 {
     [SerializeField] private int _value;
