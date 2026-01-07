@@ -37,9 +37,22 @@ public class PlayerMove : MonoBehaviour
     private float _jumpVelocity;
     private bool _jumpRequested = false;
     private float _landOffset = 0.5f;
-    public bool IsGrounded { get; private set; } 
+    private bool _isJumping = false;
+    public bool IsGrounded { get; private set; }
 
-    private Action<float> _onMoveSpeedChanged;
+    public bool ShouldRun { get; private set; }
+    public bool IsJumping 
+    {   get { return _isJumping; }
+        private set
+        {
+            _isJumping = value;
+            OnIsJumpingChanged?.Invoke(value);
+        }
+    }
+
+    public event Action<bool> OnIsJumpingChanged;
+    public event  Action<float> OnMoveSpeedChanged;
+
     void Start()
     {  
         Initialize();
@@ -75,19 +88,20 @@ public class PlayerMove : MonoBehaviour
 
         _currentJumpCount = 0;
         _jumpVelocity = Mathf.Sqrt(_player.GetJumpVelocity() * -2f * _gravity);
+        IsJumping = false;
 
         _animator = GetComponent<PlayerAnimator>();
     }
 
     private void SubscribeEvents()
     {
-        _onMoveSpeedChanged = HandleMoveSpeedChanged;
-        _player.SubscribeSpeed(_onMoveSpeedChanged);
+        OnMoveSpeedChanged = HandleMoveSpeedChanged;
+        _player.SubscribeSpeed(OnMoveSpeedChanged);
     }
 
     private void UnSubscribeEvents()
     {
-        _player.UnsubscribeSpeed(_onMoveSpeedChanged);
+        _player.UnsubscribeSpeed(OnMoveSpeedChanged);
     }
     
     private void Movement()
@@ -132,6 +146,10 @@ public class PlayerMove : MonoBehaviour
         {
             if (_currentJumpCount < _maxJumpCount)
             {
+                if (_currentJumpCount == 0)
+                {
+                    IsJumping = true;
+                }
                 _verticalVelocity = _jumpVelocity;
                 _currentJumpCount++;
                 _jumpRequested = true;
@@ -173,8 +191,18 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        bool shouldRun = _inputManager.GetKey(EGameKeyType.Run);
-        float targetSpeed = shouldRun ? _runSpeed : _walkSpeed;
+        if (_inputManager.GetKeyDown(EGameKeyType.Run))
+        {
+            ShouldRun = true;
+        }
+
+        if (_inputManager.GetKeyUp(EGameKeyType.Run))
+        {
+            ShouldRun = false;
+        }
+
+
+        float targetSpeed = ShouldRun ? _runSpeed : _walkSpeed;
 
         if (moveScale < 0.1f)
         {
@@ -189,6 +217,7 @@ public class PlayerMove : MonoBehaviour
         else
         {
             _currentSpeed = targetSpeed;
+            _animator.SetSpeedRatio(CalculateBlendTreeParameter());
         }
     }
 
@@ -218,6 +247,11 @@ public class PlayerMove : MonoBehaviour
         _runSpeed = _walkSpeed * _runSpeedMultiplier;
     }
 
+    public void SetShouldRun (bool shouldRun)
+    {
+        ShouldRun = shouldRun;
+    }
+
     #region IsGrounded Check
     private void GroundedCheck()
     {
@@ -233,6 +267,7 @@ public class PlayerMove : MonoBehaviour
         // 점프 후 착지했을 때.
         if (IsGrounded && _currentJumpCount > 0)
         {
+            IsJumping = false;
             _currentJumpCount = 0;
         }
     }

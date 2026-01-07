@@ -5,6 +5,12 @@ public enum EGameState
     GameOver
 }
 
+public enum EAttackType
+{
+    Ground, 
+    Air   
+}
+
 public enum EPlayerState
 {
     Idle,

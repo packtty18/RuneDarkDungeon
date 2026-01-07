@@ -9,7 +9,8 @@ public class Player : MonoBehaviour
 
     public EPlayerState CurrentState => _currentState;
 
-    
+    public Action<EPlayerState> OnPlayerStatsChanged;
+
     void Awake()
     {
         _playerStats = GetComponent<PlayerStats>();
@@ -25,6 +26,9 @@ public class Player : MonoBehaviour
     public void SetState(EPlayerState newState)
     {
         _currentState = newState;
+
+        OnPlayerStatsChanged?.Invoke(_currentState);
+
         switch (_currentState)
         {
             case EPlayerState.Idle:

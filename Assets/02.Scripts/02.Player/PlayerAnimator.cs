@@ -23,9 +23,14 @@ public class PlayerAnimator : MonoBehaviour
         _animator.SetBool(_jumpHash, isJumping);
     }
 
-    public void SetAttack(bool isAttacking)
+    public void TriggerAttack()
     {
-        _animator.SetBool(_attackHash, isAttacking);
+        _animator.SetTrigger(_attackHash);
+    }
+    
+    public void SetAttackTrigger()
+    {
+        _animator.SetTrigger(_attackHash);
     }
 
 }
