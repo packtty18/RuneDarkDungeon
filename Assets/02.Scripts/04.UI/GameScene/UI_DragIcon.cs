@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class UI_DragIcon : MonoBehaviour
 {
+    [Header("UI 연결")]
     [SerializeField] private Image _iconImage;
 
     private void Awake()
@@ -25,10 +26,5 @@ public class UI_DragIcon : MonoBehaviour
     {
         _iconImage.sprite = null;
         gameObject.SetActive(false);
-    }
-
-    public void SetPositionOnMouse(Vector3 position)
-    {
-        transform.position = position;
     }
 }

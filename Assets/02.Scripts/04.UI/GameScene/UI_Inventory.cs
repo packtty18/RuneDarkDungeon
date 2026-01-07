@@ -8,7 +8,9 @@ public class UI_Inventory : MonoBehaviour
     private GradeColorSO _colorDB;
     
     [Header("UI 연결")]
+    [Space]
     [SerializeField] private List<UI_Slot> _slots;
+    [Space]
     [SerializeField] private UI_Tooltip _tooltip;
     [SerializeField] private UI_DragIcon _dragIcon;
     
@@ -27,7 +29,7 @@ public class UI_Inventory : MonoBehaviour
     {
         foreach (var slot in _slots)
         {
-            slot.OnSlotClicked -= ClickSlot;   
+            slot.OnSlotClicked -= OnClickSlot;   
         }
         _inventory?.Unsubscribe(SetSlot);
     }
@@ -44,8 +46,8 @@ public class UI_Inventory : MonoBehaviour
     {
         foreach (var slot in _slots)
         {
-            slot.OnSlotClicked += ClickSlot;
-            slot.OnSlotHovered += HoverSlot;
+            slot.OnSlotClicked += OnClickSlot;
+            slot.OnSlotHovered += OnHoverSlot;
         }
         _inventory.Subscribe(SetSlot);
     }
@@ -72,7 +74,7 @@ public class UI_Inventory : MonoBehaviour
         right.SetItem(data);
     }
     
-    private void ClickSlot(UI_Slot slot)
+    private void OnClickSlot(UI_Slot slot)
     {
         if (_selectedSlot == null)
         {
@@ -88,7 +90,7 @@ public class UI_Inventory : MonoBehaviour
         }
     }
 
-    private void HoverSlot(UI_Slot slot)
+    private void OnHoverSlot(UI_Slot slot)
     {
         if (slot == null)
         {
