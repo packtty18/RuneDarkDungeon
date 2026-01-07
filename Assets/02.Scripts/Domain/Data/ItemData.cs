@@ -20,6 +20,5 @@ public class ItemData
         if (other is null) return false;
         return _id == other._id && _grade == other._grade;
     }
-    
     public override string ToString() => $"[ID:{_id}] 등급:{_grade})";
 }

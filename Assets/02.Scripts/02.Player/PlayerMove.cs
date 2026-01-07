@@ -14,7 +14,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float _turnRate = 3f;
 
     private float _groundCheckRadius;
-    private float _groundCheckOffset = 0f;
+    private float _groundCheckOffset = 0.1f;
     [Header("그라운드 감지")]
     [SerializeField] private LayerMask _groundLayers;
 
@@ -222,13 +222,13 @@ public class PlayerMove : MonoBehaviour
     private void GroundedCheck()
     {
         Vector3 spherePosition = GetSpherePosition();
-        
-        IsGrounded = Physics.CheckSphere(
-            spherePosition, 
-            _groundCheckRadius, 
-            _groundLayers, 
+
+        IsGrounded = _verticalVelocity <= 0 && Physics.CheckSphere(
+            spherePosition,
+            _groundCheckRadius,
+            _groundLayers,
             QueryTriggerInteraction.Ignore
-            );
+        );
 
         // 점프 후 착지했을 때.
         if (IsGrounded && _currentJumpCount > 0)

@@ -4,8 +4,8 @@ public class DataManager : GlobalSingleton<DataManager>
 {
     private GameData _data = new();
 
-    public Inventory Inventory => _data.Inventory;
-    public GoldData GoldData => _data.Gold;
+    public IInventory Inventory => _data.Inventory;
+    public ICurrency GoldData => _data.Gold;
     
     [SerializeField] private ItemDatabaseSO _itemDB;
     [SerializeField] private UpgradeDataSO _upgradeDB;

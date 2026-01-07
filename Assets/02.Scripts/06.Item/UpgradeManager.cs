@@ -3,10 +3,10 @@ using UnityEngine;
 public class UpgradeManager
 {
     private IngredientManager _ingredientManager;
-    private Inventory _inventory;
-    private GoldData _goldData;
+    private IInventory _inventory;
+    private ICurrency _goldData;
 
-    public UpgradeManager(IngredientManager ingredientManager, Inventory inventory, GoldData goldData)
+    public UpgradeManager(IngredientManager ingredientManager, IInventory inventory, ICurrency goldData)
     {
         _ingredientManager = ingredientManager;
         _inventory = inventory;
