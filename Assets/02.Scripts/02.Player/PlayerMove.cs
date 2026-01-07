@@ -189,6 +189,7 @@ public class PlayerMove : MonoBehaviour
         else
         {
             _currentSpeed = targetSpeed;
+            _animator.SetSpeedRatio(CalculateBlendTreeParameter());
         }
     }
 
