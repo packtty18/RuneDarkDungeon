@@ -19,6 +19,7 @@ public class DamageReceiver : MonoBehaviour
 
     public void ReceiveDamage(DamageData data,HurtBox hurtbox)
     {
+       
         if (_lastAttackId == data.AttackId)
         {
             return;
@@ -38,4 +39,6 @@ public class DamageReceiver : MonoBehaviour
 
         OnDamagedEvent?.Invoke(hurtbox);
     }
+
+    
 }
