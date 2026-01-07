@@ -37,9 +37,20 @@ public class PlayerMove : MonoBehaviour
     private float _jumpVelocity;
     private bool _jumpRequested = false;
     private float _landOffset = 0.5f;
-    public bool IsGrounded { get; private set; } 
+    private bool _isJumping = false;
+    public bool IsGrounded { get; private set; }
+    public bool IsJumping 
+    {   get { return _isJumping; }
+        private set
+        {
+            _isJumping = value;
+            OnIsJumpingChanged?.Invoke(value);
+        }
+    }
 
-    private Action<float> _onMoveSpeedChanged;
+    public event Action<bool> OnIsJumpingChanged;
+    public event  Action<float> _onMoveSpeedChanged;
+
     void Start()
     {  
         Initialize();
@@ -75,6 +86,7 @@ public class PlayerMove : MonoBehaviour
 
         _currentJumpCount = 0;
         _jumpVelocity = Mathf.Sqrt(_player.GetJumpVelocity() * -2f * _gravity);
+        IsJumping = false;
 
         _animator = GetComponent<PlayerAnimator>();
     }
@@ -132,6 +144,10 @@ public class PlayerMove : MonoBehaviour
         {
             if (_currentJumpCount < _maxJumpCount)
             {
+                if (_currentJumpCount == 0)
+                {
+                    IsJumping = true;
+                }
                 _verticalVelocity = _jumpVelocity;
                 _currentJumpCount++;
                 _jumpRequested = true;
@@ -234,6 +250,7 @@ public class PlayerMove : MonoBehaviour
         // 점프 후 착지했을 때.
         if (IsGrounded && _currentJumpCount > 0)
         {
+            IsJumping = false;
             _currentJumpCount = 0;
         }
     }

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b92fd02b2e8bc3f42bb62478a4e546a6, type: 3}
+  m_Name: PlayerComboConfigSO
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerComboConfigSO
+  AttackConfigs:
+  - AttackType: 0
+    Combos:
+    - ComboIndex: 1
+      Damage: 0.8
+      InputWindow: 0.4
+    - ComboIndex: 2
+      Damage: 0.9
+      InputWindow: 0.5
+    - ComboIndex: 3
+      Damage: 1
+      InputWindow: 0.6
+    - ComboIndex: 4
+      Damage: 1.5
+      InputWindow: 0
+  - AttackType: 1
+    Combos:
+    - ComboIndex: 1
+      Damage: 0.4
+      InputWindow: 0.4
+    - ComboIndex: 2
+      Damage: 0.5
+      InputWindow: 0.4
+    - ComboIndex: 3
+      Damage: 0
+      InputWindow: 0

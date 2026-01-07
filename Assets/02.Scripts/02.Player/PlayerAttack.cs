@@ -1,31 +1,33 @@
-using System;
-using Unity.VisualScripting;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
     private Player _player;
     private PlayerAnimator _animator;
+    private PlayerMove _playerMove;
+
     private EPlayerState _state;
+    private bool _isJumping;
+
+    private Coroutine _comboTimerCoroutine;
+
+    [SerializeField] 
+    private PlayerComboConfigSO _ComboConfig;
+
+    private ComboData _currentComboData;
+    private int _currentCombo;
 
     private void Start()
     {
         _player = GetComponent<Player>();
+        _playerMove = GetComponent<PlayerMove>();
         _animator = GetComponent<PlayerAnimator>();
 
-        _player.OnPlayerStatsChanged += StateChange;
+        _player.OnPlayerStatsChanged += OnStateChange;
+        _playerMove.OnIsJumpingChanged += OnJumpingChange;
 
         Initialized();
-    }
-
-    private void StateChange(EPlayerState state)
-    {
-        _state = state;
-    }
-
-    private void Initialized()
-    {
-        _state = _player.CurrentState;
     }
 
     private void Update()
@@ -35,6 +37,24 @@ public class PlayerAttack : MonoBehaviour
             TryAttack();
         }
     }
+    private void OnDestroy()
+    {
+        if (_player != null)
+        {
+            _player.OnPlayerStatsChanged -= OnStateChange;
+        }
+
+        if (_playerMove != null)
+        {
+            _playerMove.OnIsJumpingChanged -= OnJumpingChange;
+        }
+    }
+
+    private void Initialized()
+    {
+        _state = _player.CurrentState;
+        _isJumping = _playerMove.IsJumping;
+    }
 
     private void TryAttack()
     {
@@ -43,14 +63,74 @@ public class PlayerAttack : MonoBehaviour
             return;
         }
 
-        _animator.SetAttackTrigger();
+        //_animator.SetAttackTrigger();
+
+        EAttackType attackType = _isJumping ? EAttackType.Air : EAttackType.Ground;
+        ExecuteAttackCombo(attackType);
     }
 
-    private void OnDestroy()
+    private void ExecuteAttackCombo(EAttackType attackType)
     {
-        if (_player != null)
+        AttackTypeConfig attackConfig = _ComboConfig.GetAttackConfig(attackType);
+        if (attackConfig == null)
         {
-            _player.OnPlayerStatsChanged -= StateChange;
+            return;
         }
+
+        if (_comboTimerCoroutine != null)
+        {
+            StopCoroutine(_comboTimerCoroutine);
+        }
+
+        _currentCombo++;
+
+        _currentComboData = attackConfig.GetComboData(_currentCombo);
+
+        ExecuteAttack(_currentComboData, attackType);
+
+        if (_currentCombo < attackConfig.MaxComboCount)
+        {
+            _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(_currentComboData.InputWindow));
+        }
+        else
+        {
+            Debug.Log($"[Attack] 콤보 피니셔 {_currentCombo}타");
+            ResetCombo();
+        }
+
     }
+
+    private void ExecuteAttack(ComboData data, EAttackType type)
+    {
+        Debug.Log($"Attack - [{type}] Combo : {data.ComboIndex} Damage: {data.Damage}");
+    }
+    private IEnumerator ComboTimerCoroutine(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        Debug.Log("[Attack] 콤보 타이머 만료 - 초기화");
+        ResetCombo();
+    }
+
+    private void ResetCombo()
+    {
+        if ( _comboTimerCoroutine != null )
+        {
+            StopCoroutine(_comboTimerCoroutine);
+            _comboTimerCoroutine = null;
+        }
+        _currentCombo = 0;
+        _currentComboData = null;
+    }
+
+    private void OnJumpingChange(bool value)
+    {
+        _isJumping = value;
+        ResetCombo();
+    }
+
+    private void OnStateChange(EPlayerState state)
+    {
+        _state = state;
+    }  
 }
