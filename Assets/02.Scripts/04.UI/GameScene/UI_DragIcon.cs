@@ -5,11 +5,6 @@ public class UI_DragIcon : MonoBehaviour
 {
     [Header("UI 연결")]
     [SerializeField] private Image _iconImage;
-
-    private void Awake()
-    {
-        Hide();   
-    }
     
     private void Update()
     {
@@ -18,6 +13,7 @@ public class UI_DragIcon : MonoBehaviour
     
     public void Show(Sprite icon)
     {
+        transform.position = Input.mousePosition;
         _iconImage.sprite = icon;
         gameObject.SetActive(true);
     }

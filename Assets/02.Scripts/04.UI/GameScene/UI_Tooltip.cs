@@ -11,11 +11,6 @@ public class UI_Tooltip : MonoBehaviour
     [Header("오프셋 설정")]
     [SerializeField] private float _widthOffsetRatio = 0.6f;
     [SerializeField] private float _heightOffsetRatio = 0.4f;
-    
-    private void Awake()
-    {
-        Hide();
-    }
 
     public void Show(ItemSO info, Transform icon)
     {
