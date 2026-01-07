@@ -13,12 +13,12 @@ public class AttackTypeConfig
     [Tooltip("최대 콤보 수")]
     public int MaxComboCount => Combos?.Length ?? 0;
 
-    public ComboData GetComboData(int ComboIndex)
+    public ComboData GetComboData(int comboIndex)
     {
-        if (Combos == null || ComboIndex <= 0 || ComboIndex > Combos.Length)
+        if (Combos == null || comboIndex <= 0 || comboIndex > Combos.Length)
         {
             return null;
         }
-        return Combos[ComboIndex-1];
+        return Combos[comboIndex -1];
     }
 }

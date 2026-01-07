@@ -40,7 +40,7 @@ public class PlayerMove : MonoBehaviour
     private bool _isJumping = false;
     public bool IsGrounded { get; private set; }
 
-    public bool ShouldRun;
+    public bool ShouldRun { get; private set; }
     public bool IsJumping 
     {   get { return _isJumping; }
         private set
@@ -51,7 +51,7 @@ public class PlayerMove : MonoBehaviour
     }
 
     public event Action<bool> OnIsJumpingChanged;
-    public event  Action<float> _onMoveSpeedChanged;
+    public event  Action<float> OnMoveSpeedChanged;
 
     void Start()
     {  
@@ -95,13 +95,13 @@ public class PlayerMove : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        _onMoveSpeedChanged = HandleMoveSpeedChanged;
-        _player.SubscribeSpeed(_onMoveSpeedChanged);
+        OnMoveSpeedChanged = HandleMoveSpeedChanged;
+        _player.SubscribeSpeed(OnMoveSpeedChanged);
     }
 
     private void UnSubscribeEvents()
     {
-        _player.UnsubscribeSpeed(_onMoveSpeedChanged);
+        _player.UnsubscribeSpeed(OnMoveSpeedChanged);
     }
     
     private void Movement()
@@ -245,6 +245,11 @@ public class PlayerMove : MonoBehaviour
     {
         _walkSpeed = obj;
         _runSpeed = _walkSpeed * _runSpeedMultiplier;
+    }
+
+    public void SetShouldRun (bool shouldRun)
+    {
+        ShouldRun = shouldRun;
     }
 
     #region IsGrounded Check

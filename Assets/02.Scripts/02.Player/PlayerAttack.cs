@@ -13,7 +13,7 @@ public class PlayerAttack : MonoBehaviour
     private Coroutine _comboTimerCoroutine;
 
     [SerializeField] 
-    private PlayerComboConfigSO _ComboConfig;
+    private PlayerComboConfigSO _comboConfig;
 
     private ComboData _currentComboData;
     private int _currentCombo;
@@ -67,7 +67,7 @@ public class PlayerAttack : MonoBehaviour
         if (_playerMove.ShouldRun && !_isJumping)
         {
             Debug.Log("대쉬공격");
-            _playerMove.ShouldRun = false;
+            _playerMove.SetShouldRun(false);
             _currentCombo ++;
             _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(0.3f));
         }
@@ -80,7 +80,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void ExecuteAttackCombo(EAttackType attackType)
     {
-        AttackTypeConfig attackConfig = _ComboConfig.GetAttackConfig(attackType);
+        AttackTypeConfig attackConfig = _comboConfig.GetAttackConfig(attackType);
         if (attackConfig == null)
         {
             return;
@@ -94,6 +94,12 @@ public class PlayerAttack : MonoBehaviour
         _currentCombo++;
 
         _currentComboData = attackConfig.GetComboData(_currentCombo);
+        
+        if (_currentComboData == null)
+        {
+            ResetCombo();
+            return;
+        }
 
         ExecuteAttack(_currentComboData, attackType);
 
