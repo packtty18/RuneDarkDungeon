@@ -9,6 +9,7 @@ public class UI_Inventory : MonoBehaviour
     
     [Header("UI 연결")]
     [SerializeField] private List<UI_Slot> _slots;
+    [SerializeField] private UI_Tooltip _tooltip;
     [SerializeField] private UI_DragIcon _dragIcon;
     
     private UI_Slot _selectedSlot;
@@ -43,7 +44,8 @@ public class UI_Inventory : MonoBehaviour
     {
         foreach (var slot in _slots)
         {
-            slot.OnSlotClicked += ClickSlot;   
+            slot.OnSlotClicked += ClickSlot;
+            slot.OnSlotHovered += HoverSlot;
         }
         _inventory.Subscribe(SetSlot);
     }
@@ -70,11 +72,6 @@ public class UI_Inventory : MonoBehaviour
         right.SetItem(data);
     }
     
-    private void ClearSlot(UI_Slot slot)
-    {
-        slot.Clear();   
-    }
-    
     private void ClickSlot(UI_Slot slot)
     {
         if (_selectedSlot == null)
@@ -89,5 +86,15 @@ public class UI_Inventory : MonoBehaviour
             _selectedSlot = null;
             _dragIcon.Hide();
         }
+    }
+
+    private void HoverSlot(UI_Slot slot)
+    {
+        if (slot == null)
+        {
+            _tooltip.Hide();
+            return;
+        }
+        _tooltip.Show(slot.Data.Info, slot.transform);
     }
 }

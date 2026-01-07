@@ -16,6 +16,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public bool IsEmpty =>  _data.Item == null;
     
     public event Action<UI_Slot> OnSlotClicked;
+    public event Action<UI_Slot> OnSlotHovered;
     
     public void SetItem(SlotData data)
     {
@@ -28,7 +29,6 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         _data = data;
         _iconImage.sprite = data.Info.Icon;
         _outlineImage.color = data.Color;
-
     }
 
     public void Clear()
@@ -41,12 +41,12 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (IsEmpty) return;
-        UI_Tooltip.Instance.Show(_data.Info, transform);
+        OnSlotHovered?.Invoke(this);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        UI_Tooltip.Instance.Hide();   
+        OnSlotHovered?.Invoke(null);
     }
 
     public void OnPointerClick(PointerEventData eventData)
