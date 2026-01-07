@@ -1,20 +1,19 @@
 using UnityEngine;
 using TMPro;
 
-public class UI_Tooltip : LocalSingleton<UI_Tooltip>
+public class UI_Tooltip : MonoBehaviour
 {
     [Header("UI 연결")]
+    [SerializeField] private RectTransform _tooltip;
     [SerializeField] private TextMeshProUGUI _nameTextUI;
     [SerializeField] private TextMeshProUGUI _tooltipTextUI;
 
     [Header("오프셋 설정")]
     [SerializeField] private float _widthOffsetRatio = 0.6f;
     [SerializeField] private float _heightOffsetRatio = 0.4f;
-    private RectTransform _tooltip;
     
-    protected override void OnInit()
+    private void Awake()
     {
-        _tooltip = GetComponent<RectTransform>();
         Hide();
     }
 

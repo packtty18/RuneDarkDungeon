@@ -8,9 +8,10 @@ public class UI_Initializer : MonoBehaviour
 
     private void Awake()
     {
-        var data = DataManager.Instance;
+        //var data = DataManager.Instance;
+        var data = RuneUser.Instance;
         
-        var ingredientManager = new Ingredient(data.UpgradeDB);
+        var ingredientManager = new IngredientManager(data.UpgradeDB);
         
         var upgradeManager = new UpgradeManager(
             ingredientManager, 
@@ -18,7 +19,7 @@ public class UI_Initializer : MonoBehaviour
             data.GoldData
         );
 
-        ui_Inventory.Initialize(data.Inventory, data.ItemDB);
+        ui_Inventory.Initialize(data.Inventory, data.ItemDB, data.ColorDB);
         ui_Upgrade.Initialize(data.ItemDB, upgradeManager);
     }
 }

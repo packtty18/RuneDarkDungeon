@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GradeColorData", menuName = "Item/GradeColorData")]
 public class GradeColorSO : ScriptableObject
 {
-    [SerializeField] private List<GradeColorData> _colors;
+    [SerializeField] private List<GradeData> _colors;
     private Dictionary<EItemGrade, Color> _colorDict;
 
     private void OnEnable()

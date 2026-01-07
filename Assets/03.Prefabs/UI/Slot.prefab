@@ -59,8 +59,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9b43dafa207a6841966e59754c2296e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Slot
-  _uiSlotIcon: {fileID: 7919710107193134404}
-  _uiSlotOutline: {fileID: 2342417639104935652}
+  _iconImage: {fileID: 5561822919557031446}
+  _outlineImage: {fileID: 1305422664489019112}
+  _colorDB: {fileID: 11400000, guid: 8763d11157699bc4bad58cbcd61cf457, type: 2}
 --- !u!1 &5486885367120079612
 GameObject:
   m_ObjectHideFlags: 0
@@ -72,7 +73,6 @@ GameObject:
   - component: {fileID: 3345055745581064975}
   - component: {fileID: 3159182291550095554}
   - component: {fileID: 1305422664489019112}
-  - component: {fileID: 2342417639104935652}
   m_Layer: 5
   m_Name: Outline
   m_TagString: Untagged
@@ -138,20 +138,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2342417639104935652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5486885367120079612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16acca1d56a3c6b4bb65f7c4d31a7878, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_SlotOutline
-  _outlineImage: {fileID: 1305422664489019112}
-  _colorDB: {fileID: 11400000, guid: 8763d11157699bc4bad58cbcd61cf457, type: 2}
 --- !u!1 &6666104392803396542
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +149,6 @@ GameObject:
   - component: {fileID: 2227229422766553209}
   - component: {fileID: 6562078024223065525}
   - component: {fileID: 5561822919557031446}
-  - component: {fileID: 7919710107193134404}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -228,19 +213,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7919710107193134404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6666104392803396542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79e7d96bbbc8c6c47a64603d5e67c22a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_Slot
-  _iconImage: {fileID: 5561822919557031446}
 --- !u!1 &7080535917957172385
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,40 +1,56 @@
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    [SerializeField] private UI_SlotIcon _uiSlotIcon;
-    [SerializeField] private UI_SlotOutline _uiSlotOutline;
-    
-    private ItemData _item;
-    private ItemSO _info;
-    
-    public bool IsEmpty =>  _item == null;
+    [Header("UI 연결")]
+    [SerializeField] private Image _iconImage;
+    [SerializeField] private Image _outlineImage;
 
-    public void SetItem(ItemData item, ItemSO info)
+    private SlotData _data;
+
+    public SlotData Data => _data;
+    public Sprite Icon => _iconImage.sprite;
+    public bool IsEmpty =>  _data.Item == null;
+    
+    public event Action<UI_Slot> OnSlotClicked;
+    public event Action<UI_Slot> OnSlotHovered;
+    
+    public void SetItem(SlotData data)
     {
-        _item = item;
-        _info = info;
-        _uiSlotIcon.SetSlotUI(_info.Icon);
-        _uiSlotOutline.SetSlotUI(item.Grade);
+        if (data.Item == null)
+        {
+            Clear();
+            return;
+        }
+        
+        _data = data;
+        _iconImage.sprite = data.Info.Icon;
+        _outlineImage.color = data.Color;
     }
 
     public void Clear()
     {
-        _item = null;
-        _info = null;
-        _uiSlotIcon.ClearSlotUI();
-        _uiSlotOutline.ClearSlotUI();
+        _data = SlotData.Empty;
+        _iconImage.sprite = null;
+        _outlineImage.color = Color.white;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (IsEmpty) return;
-        UI_Tooltip.Instance.Show(_info, transform);
+        OnSlotHovered?.Invoke(this);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        UI_Tooltip.Instance.Hide();   
+        OnSlotHovered?.Invoke(null);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        OnSlotClicked?.Invoke(this);
     }
 }
