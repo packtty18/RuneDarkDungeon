@@ -27,8 +27,6 @@ public class HitBox : MonoBehaviour
     [SerializeField,ShowIf(nameof(_autoDeactive))] 
     private float _deactiveDelay = 0.2f;
 
-    
-
     private void Awake()
     {
         _collider = GetComponent<Collider>();

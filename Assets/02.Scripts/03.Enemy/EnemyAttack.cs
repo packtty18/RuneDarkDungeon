@@ -7,32 +7,58 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     [Title("참조")]
+    [SerializeField] private EnemyFacade _facade;
     [SerializeField] private HitboxController _hitboxController;
 
-    private readonly Dictionary<int, IAttackStrategy> _strategies = new();
-    private IAttackStrategy _current;
-
-    [Title("일단은 테스트")]
-    [SerializeField] private Transform _testProjPos;
-    [SerializeField] private GameObject _testProj;
-
+    private readonly Dictionary<int, IActionStrategy> _strategies = new();
+    private readonly List<int> _ids = new List<int>();
+    private IActionStrategy _current;
+    
     public int StrategyCount => _strategies.Count;
     public bool IsAttacking = false; //State의 판단기준
 
+    public float LoopDelay => _current.LoopDelay;
+
+    [Title("일단은 테스트")]
+    [SerializeField] private EnemyWindup _arrow;
+    [SerializeField] private EnemyWindup _magic;
+
+    [SerializeField] private Transform _arrowSpawnPos;
+    [SerializeField] private Transform _magicSpawnPos;
     public void Init()
     {
         IsAttacking = false;
-
+        _facade = GetComponent<EnemyFacade>();
         //프로토타입의 전략 수립
-        RegisterStrategy(0, new ProtoMeleeAttack(_hitboxController));   //기본공격1
-        RegisterStrategy(1, new ProtoMeleeAttack(_hitboxController));   //기본공격2
-        RegisterStrategy(2, new ProtoMeleeAttack(_hitboxController));   //콤보공격
-        //RegisterStrategy(3, new ProtoArrowAttack(_testProj, _testProjPos));   //화살공격
-        //RegisterStrategy(4, new ProtoMagicAttack(_testProj, _testProjPos));   //마법공격
-        //RegisterStrategy(5, new ProtoMagicAttack(_testProj, _testProjPos));   //버프
+        switch (_facade.Stat.EnemyType)
+        {
+            case EEnemyType.Warrior:
+                {
+                    RegisterStrategy(0, new ProtoMeleeAttack(_hitboxController));   //기본공격1
+                    RegisterStrategy(1, new ProtoMeleeAttack(_hitboxController));   //기본공격2
+                    break;
+                }
+            case EEnemyType.Archer:
+                {
+                    RegisterStrategy(3, new ProtoRangedAttack(_arrow, _arrowSpawnPos));   //화살공격
+                    break;
+                }
+            case EEnemyType.Mage:
+                {
+                    RegisterStrategy(4, new ProtoRangedAttack(_magic,_magicSpawnPos));   //마법공격
+                    break;
+                }
+            case EEnemyType.Boss:
+                {
+                    RegisterStrategy(2, new ProtoMeleeAttack(_hitboxController));   //콤보공격
+                    break;
+                }
+
+
+        }
     }
 
-    private void RegisterStrategy(int attackID, IAttackStrategy strategy)
+    private void RegisterStrategy(int attackID, IActionStrategy strategy)
     {
         if (_strategies.ContainsKey(attackID))
         {
@@ -41,6 +67,7 @@ public class EnemyAttack : MonoBehaviour
         }
 
         _strategies.Add(attackID, strategy);
+        _ids.Add(attackID);
     }
 
     public bool RequestAttack(int attackID)
@@ -65,7 +92,24 @@ public class EnemyAttack : MonoBehaviour
             return;
         }
 
-        OnAttackEnd();
+        OnAttackComplete();
+    }
+
+    public int GetRandomAttackID()
+    {
+        if (_ids.Count == 0)
+        {
+            return -1;
+        }
+
+        return _ids[Random.Range(0, _ids.Count)];
+    }
+
+    //공격 애니메이션 종료 => 다음 상태로 전환 가능
+    public void OnAttackComplete()
+    {
+        _current = null;
+        IsAttacking = false;
     }
 
     #region Animation Events
@@ -76,30 +120,18 @@ public class EnemyAttack : MonoBehaviour
     //마법사 : 캐스팅
     public void OnBeginAttack()
     {
-        _current?.BeginAttack();
+        _current?.BeginAction();
     }
 
-    //근접 : 없음
-    //궁수 : 발사체 생성
-    //마법사 : 마법 생성
-    public void OnLoopEnd()
-    {
-        _current?.OnLoopEnd();
-    }
 
     //근접 : 히트박스 비활성화 후 공격종료
-    //궁수 : 공격 종료
-    //마법사 : 공격 종료
+    //궁수 : 발사체생성
+    //마법사 : 발사체생성
     public void OnAttackEnd()
     {
-        _current?.EndAttack();
+        _current?.EndAction();
     }
 
-    //공격 애니메이션 종료
-    public void OnAttackComplete()
-    {
-        _current = null;
-        IsAttacking = false;
-    }
+    
     #endregion
 }

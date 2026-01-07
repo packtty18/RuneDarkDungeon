@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EnemyType
+public enum EEnemyType
 {
     Warrior,
     Archer,
@@ -38,12 +38,12 @@ public class EnemyStat : MonoBehaviour
     [SerializeField] private MonsterDataSO _data;
 
     private readonly Dictionary<EEnemyConsumableFloat, ConsumableStat<float>> _floatConsumables = new();
-
     private readonly Dictionary<EEnemyValueFloat, ValueStat<float>> _floatValues = new();
     private readonly Dictionary<EEnemyValueInt, ValueStat<int>> _intValues = new();
-    
+
     //private readonly Dictionary<EEnemyConsumableInt, ConsumableStat<float>> _intConsumables = new();
 
+    public EEnemyType EnemyType => _data.enemyType;
     public SafeEvent OnStatInitEnd = new();
 
     public void Init()

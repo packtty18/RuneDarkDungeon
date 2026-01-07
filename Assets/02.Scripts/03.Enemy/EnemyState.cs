@@ -144,12 +144,13 @@ public class AttackState : EnemyState
         }
 
         // 랜덤 공격 실행
-        int attackID = Random.Range(0, controller.GetAttackCount());
-        controller.RequestAttack(attackID);
+        controller.RequestAttack(controller.RequestRandomID());
 
         // 공격 후 딜레이 적용
         attackCooldown = AttackDelay;
     }
+
+    
 }
 
 

@@ -13,10 +13,11 @@ public class EnemyFacade : MonoBehaviour
 
     private void Awake()
     {
+        Stat = GetComponent<EnemyStat>();
         Move = GetComponent<EnemyMove>();
         Attack = GetComponent<EnemyAttack>();
         Health = GetComponent<EnemyHealth>();
-        Stat = GetComponent<EnemyStat>();
+        
         Anim = GetComponent<AnimatorController>();
 
         Debug.Log("[EnemyFacade] Initialized");

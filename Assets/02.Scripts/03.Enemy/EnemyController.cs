@@ -102,6 +102,8 @@ public class EnemyController : MonoBehaviour
         return _attack.StrategyCount;
     }
 
+
+
     public void RequestAttack(int attackID)
     {
         if(!_attack.RequestAttack(attackID))
@@ -112,8 +114,17 @@ public class EnemyController : MonoBehaviour
         _anim.SetInt(AnimatorController.s_int_AttackID, attackID);
         _anim.SetTrigger(AnimatorController.s_trigger_Attack);
     }
-    #endregion
     
+    public int RequestRandomID()
+    {
+        return _attack.GetRandomAttackID();
+    }
+
+    //원거리 혹은 마법공격일 경우 공격후 몇초 뒤 실행
+    
+
+    #endregion
+
 
     public void EnemyHitted()
     {
@@ -133,13 +144,24 @@ public class EnemyController : MonoBehaviour
     public void OnBeginAttack()
     {
         _attack.OnBeginAttack();
+
+        if(_attack.LoopDelay >0 )
+        {
+            Invoke("OnLoopEnd", _attack.LoopDelay);
+        }
     }
 
-    public void OnLoopEnd()
+    //공격 애니메이션의 Loop를 종료
+    private void OnLoopEnd()
     {
-        _attack.OnLoopEnd();
+        if (!_attack.IsAttacking)
+        {
+            return;
+        }
+
         _anim.SetTrigger("AttackLoopEnd");
     }
+
 
     public void OnEndAttack()
     {

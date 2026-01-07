@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 public class MonsterDataSO : ScriptableObject
 {
     [Header("Identity")]
-    public EnemyType enemyType;
+    public EEnemyType enemyType;
 
     [LabelText("Monster Name")]
     public string monsterName;
@@ -33,12 +33,15 @@ public class MonsterDataSO : ScriptableObject
     [FoldoutGroup("Combat")]
     public bool hasSuperArmor;
 
+    [FoldoutGroup("Combat")]
+    public bool hasRetreatOnPlayerClose;
+
     [ShowIf(nameof(IsBoss))]
     [FoldoutGroup("Boss")]
     public PhaseDataSO[] phases;
 
     private bool IsBoss()
     {
-        return enemyType == EnemyType.Boss;
+        return enemyType == EEnemyType.Boss;
     }
 }

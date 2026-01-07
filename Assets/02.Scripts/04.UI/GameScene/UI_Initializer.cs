@@ -10,7 +10,7 @@ public class UI_Initializer : MonoBehaviour
     {
         var data = DataManager.Instance;
         
-        var ingredientManager = new Ingredient(data.UpgradeDB);
+        var ingredientManager = new IngredientManager(data.UpgradeDB);
         
         var upgradeManager = new UpgradeManager(
             ingredientManager, 
