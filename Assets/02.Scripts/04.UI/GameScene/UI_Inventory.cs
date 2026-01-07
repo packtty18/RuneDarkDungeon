@@ -6,7 +6,7 @@ public class UI_Inventory : MonoBehaviour
     private IReadOnlyInventory _inventory;
     private ItemDatabaseSO _itemDB;
     
-    [SerializeField] private List<Slot> _slots;
+    [SerializeField] private List<UI_Slot> _slots;
     
     public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB)
     {

@@ -1,25 +1,42 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class UI_Slot : MonoBehaviour
+public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [Header("슬롯 UI")]
-    [SerializeField] private Image _iconImage;
+    private UI_SlotIcon _uiSlotIcon;
+    
+    private ItemData _item;
+    private ItemSO _info;
+    
+    public bool IsEmpty =>  _item == null;
 
     private void Awake()
     {
-        _iconImage = GetComponent<Image>();
+        _uiSlotIcon = GetComponentInChildren<UI_SlotIcon>();
     }
 
-    public void SetSlotUI(Sprite icon)
+    public void SetItem(ItemData item, ItemSO info)
     {
-        _iconImage.sprite = icon;
-        gameObject.SetActive(true);
+        _item = item;
+        _info = info;
+        _uiSlotIcon.SetSlotUI(_info.Icon);
     }
 
-    public void ClearSlotUI()
+    public void Clear()
     {
-        _iconImage.sprite = null;
-        gameObject.SetActive(false);
+        _item = null;
+        _info = null;
+        _uiSlotIcon.ClearSlotUI();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (IsEmpty) return;
+        UI_Tooltip.Instance.Show(_info, transform);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        UI_Tooltip.Instance.Hide();   
     }
 }
