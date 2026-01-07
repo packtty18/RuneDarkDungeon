@@ -1,8 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RuneUser : MonoBehaviour
+public class RuneUser : LocalSingleton<RuneUser>
 {
+    [SerializeField] private Inventory _inventory;
+    [SerializeField] private GoldData _goldData;
+    public IInventory Inventory => _inventory;
+    public ICurrency GoldData => _goldData;
+
+    public UpgradeDataSO UpgradeDB;
+    public ItemDatabaseSO ItemDB;
+    
     private void Start()
     {
         Test();

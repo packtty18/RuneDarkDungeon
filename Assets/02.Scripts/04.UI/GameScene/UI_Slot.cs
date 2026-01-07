@@ -1,7 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField] private UI_SlotIcon _uiSlotIcon;
     [SerializeField] private UI_SlotOutline _uiSlotOutline;
@@ -9,8 +10,12 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private ItemData _item;
     private ItemSO _info;
     
+    public ItemData Item => _item;
+    public ItemSO Info => _info;
     public bool IsEmpty =>  _item == null;
-
+    
+    public event Action<UI_Slot> OnSlotClicked;
+    
     public void SetItem(ItemData item, ItemSO info)
     {
         _item = item;
@@ -36,5 +41,11 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerExit(PointerEventData eventData)
     {
         UI_Tooltip.Instance.Hide();   
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (IsEmpty) return;
+        OnSlotClicked?.Invoke(this);
     }
 }

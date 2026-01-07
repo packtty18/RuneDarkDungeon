@@ -8,9 +8,10 @@ public class UI_Initializer : MonoBehaviour
 
     private void Awake()
     {
-        var data = DataManager.Instance;
+        //var data = DataManager.Instance;
+        var data = RuneUser.Instance;
         
-        var ingredientManager = new Ingredient(data.UpgradeDB);
+        var ingredientManager = new IngredientManager(data.UpgradeDB);
         
         var upgradeManager = new UpgradeManager(
             ingredientManager, 
