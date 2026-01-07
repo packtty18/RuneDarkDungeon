@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
-    public ETeamType Team => ETeamType.Enemy;
+    [SerializeField]private ETeamType _team;
+    public ETeamType Team => _team;
 
     public void ApplyDamage(DamageData data)
     {
