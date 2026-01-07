@@ -13,6 +13,7 @@ public class UI_DragIcon : MonoBehaviour
     
     public void Show(Sprite icon)
     {
+        transform.position = Input.mousePosition;
         _iconImage.sprite = icon;
         gameObject.SetActive(true);
     }

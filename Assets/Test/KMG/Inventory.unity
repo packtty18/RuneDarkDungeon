@@ -494,6 +494,7 @@ GameObject:
   - component: {fileID: 558088908}
   - component: {fileID: 558088910}
   - component: {fileID: 558088909}
+  - component: {fileID: 558088911}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -558,6 +559,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 558088907}
   m_CullTransparentMesh: 1
+--- !u!114 &558088911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558088907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a4d957785f8555438d41c2625848d85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_Background
 --- !u!1001 &628037977
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1346,6 +1359,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI_InventoryEventHandler
   _tooltip: {fileID: 718816145}
   _dragIcon: {fileID: 1905614896}
+  _backgrounds:
+  - {fileID: 1346198398}
+  - {fileID: 558088911}
 --- !u!1001 &856188015
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2059,6 +2075,7 @@ GameObject:
   - component: {fileID: 1346198395}
   - component: {fileID: 1346198397}
   - component: {fileID: 1346198396}
+  - component: {fileID: 1346198398}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -2123,6 +2140,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1346198394}
   m_CullTransparentMesh: 1
+--- !u!114 &1346198398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346198394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a4d957785f8555438d41c2625848d85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_Background
 --- !u!1001 &1374788467
 PrefabInstance:
   m_ObjectHideFlags: 0

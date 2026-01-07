@@ -7,6 +7,7 @@ public class UI_InventoryEventHandler : MonoBehaviour
     [Space]
     [SerializeField] private UI_Tooltip _tooltip;
     [SerializeField] private UI_DragIcon _dragIcon;
+    [SerializeField] private UI_Background[] _backgrounds;
 
     private List<UI_Slot> _slots;
     private UI_Slot _selectedSlot;
@@ -19,6 +20,11 @@ public class UI_InventoryEventHandler : MonoBehaviour
             slot.OnSlotClicked += OnClickSlot;
             slot.OnSlotHovered += OnHoverSlot;
         }
+
+        foreach (var background in _backgrounds)
+        {
+            background.OnBackgroundClicked += OnClickBackground;
+        }
     }
 
     private void OnDestroy()
@@ -27,6 +33,11 @@ public class UI_InventoryEventHandler : MonoBehaviour
         {
             slot.OnSlotClicked -= OnClickSlot;   
             slot.OnSlotHovered -= OnHoverSlot;
+        }
+        
+        foreach (var background in _backgrounds)
+        {
+            background.OnBackgroundClicked -= OnClickBackground;
         }
     }
     
@@ -61,5 +72,12 @@ public class UI_InventoryEventHandler : MonoBehaviour
             return;
         }
         _tooltip.Show(slot.Data.Info, slot.transform);
+    }
+
+    private void OnClickBackground()
+    {
+        if (_selectedSlot == null) return;
+        _selectedSlot = null;
+        _dragIcon.Hide();
     }
 }
