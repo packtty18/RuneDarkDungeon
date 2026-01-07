@@ -16,13 +16,6 @@ public class EnemyMove : MonoBehaviour
 
     [SerializeField] private bool _onTest = false;
 
-    private void Awake()
-    {
-        _agent = GetComponent<NavMeshAgent>();
-        _agent.updateRotation = false;
-        Debug.Log("[EnemyMove] Initialized", this);
-    }
-
     private void Update()
     {
         if (_isPaused || !_agent.enabled || _target == null)
@@ -33,9 +26,21 @@ public class EnemyMove : MonoBehaviour
         RotateToTarget();
     }
 
-    //에이전트의 설정
+    public void Init()
+    {
+        _agent = GetComponent<NavMeshAgent>();
+        if(_agent == null)
+        {
+            Debug.Log("EnemyMove :Agent Not Exist", this);
+        }
+        SetAgentSetting();
+        EnableAgent();
+        Debug.Log("[EnemyMove] Initialized", this);
+    }
+
     public void SetAgentSetting()
     {
+        _agent.updateRotation = false;
         //이동속도
         //회전속도
         //가속도

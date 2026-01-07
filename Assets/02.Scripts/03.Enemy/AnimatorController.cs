@@ -1,19 +1,26 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class EnemyAnimatorController : MonoBehaviour
+//상속할수도
+public class AnimatorController : MonoBehaviour
 {
-    public const string PARAMETER_ATTACK = "Attack";
-    public const string PARAMETER_ATTACKID = "AttackID";
-    public const string PARAMETER_HIT = "Hit";
-    public const string PARAMETER_DEAD = "Dead";
-    public const string PARAMETER_MOVE = "IsMove";
+    public static string s_trigger_Attack = "Attack";
+    public static string s_int_AttackID = "AttackID";
+    public static string s_trigger_Hit = "Hit";
+    public static string s_trigger_Dead = "Dead";
+    public static string s_bool_IsMove = "IsMove";
+    public static string s_trigger_Reset = "Reset";
 
     private Animator _animator;
 
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
+    }
+
+    public virtual void Init()
+    {
+        Debug.Log("AniamtorController 초기화", this);
     }
 
     [Button]
@@ -42,15 +49,4 @@ public class EnemyAnimatorController : MonoBehaviour
         _animator.applyRootMotion = enable;
     }
 
-    [Button]
-    private void SetRootToAnim()
-    {
-        if (_animator == null)
-        {
-            return;
-        }
-
-        transform.position += _animator.deltaPosition;
-        transform.rotation *= _animator.deltaRotation;
-    }
 }
