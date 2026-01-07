@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 
 [Serializable]
-public class Inventory : IReadOnlyInventory
+public class Inventory : IInventory
 {
     [SerializeField] private List<ItemData> _items = new();
     public IReadOnlyList<ItemData> Items => _items;

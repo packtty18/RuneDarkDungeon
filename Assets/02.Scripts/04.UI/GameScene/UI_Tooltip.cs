@@ -1,0 +1,43 @@
+using UnityEngine;
+using TMPro;
+
+public class UI_Tooltip : LocalSingleton<UI_Tooltip>
+{
+    [Header("UI 연결")]
+    [SerializeField] private TextMeshProUGUI _nameTextUI;
+    [SerializeField] private TextMeshProUGUI _tooltipTextUI;
+
+    [Header("오프셋 설정")]
+    [SerializeField] private float _widthOffsetRatio = 0.6f;
+    [SerializeField] private float _heightOffsetRatio = 0.4f;
+    private RectTransform _tooltip;
+    
+    protected override void OnInit()
+    {
+        _tooltip = GetComponent<RectTransform>();
+        Hide();
+    }
+
+    public void Show(ItemSO info, Transform icon)
+    {
+        _nameTextUI.text = info.name;
+        _tooltipTextUI.text = info.Tooltip;
+
+        SetPositionNextToIcon(icon);
+        
+        gameObject.SetActive(true);
+    }
+    
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private void SetPositionNextToIcon(Transform icon)
+    {
+        float offsetX = _tooltip.rect.width * _widthOffsetRatio * _tooltip.lossyScale.x;
+        float offsetY = _tooltip.rect.height * _heightOffsetRatio * _tooltip.lossyScale.y;
+        
+        transform.position = icon.position + new Vector3(offsetX, -offsetY);
+    }
+}
