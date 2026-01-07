@@ -39,6 +39,8 @@ public class PlayerMove : MonoBehaviour
     private float _landOffset = 0.5f;
     private bool _isJumping = false;
     public bool IsGrounded { get; private set; }
+
+    public bool ShouldRun;
     public bool IsJumping 
     {   get { return _isJumping; }
         private set
@@ -189,8 +191,18 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        bool shouldRun = _inputManager.GetKey(EGameKeyType.Run);
-        float targetSpeed = shouldRun ? _runSpeed : _walkSpeed;
+        if (_inputManager.GetKeyDown(EGameKeyType.Run))
+        {
+            ShouldRun = true;
+        }
+
+        if (_inputManager.GetKeyUp(EGameKeyType.Run))
+        {
+            ShouldRun = false;
+        }
+
+
+        float targetSpeed = ShouldRun ? _runSpeed : _walkSpeed;
 
         if (moveScale < 0.1f)
         {

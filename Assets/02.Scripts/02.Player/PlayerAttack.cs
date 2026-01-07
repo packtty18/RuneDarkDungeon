@@ -64,9 +64,18 @@ public class PlayerAttack : MonoBehaviour
         }
 
         //_animator.SetAttackTrigger();
-
-        EAttackType attackType = _isJumping ? EAttackType.Air : EAttackType.Ground;
-        ExecuteAttackCombo(attackType);
+        if (_playerMove.ShouldRun && !_isJumping)
+        {
+            Debug.Log("대쉬공격");
+            _playerMove.ShouldRun = false;
+            _currentCombo ++;
+            _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(0.3f));
+        }
+        else
+        {
+            EAttackType attackType = _isJumping ? EAttackType.Air : EAttackType.Ground;
+            ExecuteAttackCombo(attackType);
+        }       
     }
 
     private void ExecuteAttackCombo(EAttackType attackType)
