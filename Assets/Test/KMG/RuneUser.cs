@@ -10,6 +10,7 @@ public class RuneUser : LocalSingleton<RuneUser>
 
     public UpgradeDataSO UpgradeDB;
     public ItemDatabaseSO ItemDB;
+    public GradeColorSO ColorDB;
     
     private void Start()
     {

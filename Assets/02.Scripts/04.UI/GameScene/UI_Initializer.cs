@@ -19,7 +19,7 @@ public class UI_Initializer : MonoBehaviour
             data.GoldData
         );
 
-        ui_Inventory.Initialize(data.Inventory, data.ItemDB);
+        ui_Inventory.Initialize(data.Inventory, data.ItemDB, data.ColorDB);
         ui_Upgrade.Initialize(data.ItemDB, upgradeManager);
     }
 }

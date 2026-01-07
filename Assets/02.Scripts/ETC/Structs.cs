@@ -65,8 +65,25 @@ public struct UpgradeData
 }
 
 [Serializable]
-public struct GradeColorData
+public struct GradeData
 {
     public EItemGrade Grade;
     public Color Color;
+}
+
+[Serializable]
+public struct SlotData
+{
+    public ItemData Item;
+    public ItemSO Info;
+    public Color Color;
+
+    public SlotData(ItemData item, ItemSO info, Color color)
+    {
+        Item = item;
+        Info = info;
+        Color = color;
+    }
+
+    public static SlotData Empty => new SlotData(null, null, Color.white);
 }

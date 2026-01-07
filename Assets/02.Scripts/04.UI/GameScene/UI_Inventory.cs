@@ -5,6 +5,7 @@ public class UI_Inventory : MonoBehaviour
 {
     private IReadOnlyInventory _inventory;
     private ItemDatabaseSO _itemDB;
+    private GradeColorSO _colorDB;
     
     [Header("UI 연결")]
     [SerializeField] private List<UI_Slot> _slots;
@@ -12,10 +13,11 @@ public class UI_Inventory : MonoBehaviour
     
     private UI_Slot _selectedSlot;
     
-    public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB)
+    public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB, GradeColorSO colorDB)
     {
         _inventory = inventory;
         _itemDB = itemDB;
+        _colorDB = colorDB;
         Refresh();
         BindEvents();
     }
@@ -49,20 +51,23 @@ public class UI_Inventory : MonoBehaviour
     private void SetSlot(ItemData itemData)
     {
         ItemSO itemInfo = _itemDB.GetItemInfo(itemData.ID);
+        Color color = _colorDB.GetColor(itemData.Grade);
+
+        SlotData data = new(itemData, itemInfo, color);
+        
         foreach (var slot in _slots)
         {
             if (!slot.IsEmpty) continue;
-            slot.SetItem(itemData, itemInfo);
+            slot.SetItem(data);
             return;
         }
     }
     
     private void SwapSlot(UI_Slot left, UI_Slot right)
     {
-        ItemData item = left.Item;
-        ItemSO info = left.Info;
-        left.SetItem(right.Item, right.Info);
-        right.SetItem(item, info);
+        SlotData data = left.Data;
+        left.SetItem(right.Data);
+        right.SetItem(data);
     }
     
     private void ClearSlot(UI_Slot slot)
@@ -76,7 +81,7 @@ public class UI_Inventory : MonoBehaviour
         {
             if (slot.IsEmpty) return;
             _selectedSlot = slot;
-            _dragIcon.Show(slot.Info);
+            _dragIcon.Show(slot.Icon);
         }
         else
         {
