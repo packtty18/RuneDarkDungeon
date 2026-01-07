@@ -3,12 +3,7 @@ using UnityEngine.UI;
 
 public class UI_SlotIcon : MonoBehaviour
 {
-    private Image _iconImage;
-
-    private void Awake()
-    {
-        _iconImage = GetComponent<Image>();
-    }
+    [SerializeField] private Image _iconImage;
 
     public void SetSlotUI(Sprite icon)
     {

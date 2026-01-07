@@ -3,19 +3,13 @@ using UnityEngine.EventSystems;
 
 public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private UI_SlotIcon _uiSlotIcon;
-    private UI_SlotOutline _uiSlotOutline;
+    [SerializeField] private UI_SlotIcon _uiSlotIcon;
+    [SerializeField] private UI_SlotOutline _uiSlotOutline;
     
     private ItemData _item;
     private ItemSO _info;
     
     public bool IsEmpty =>  _item == null;
-
-    private void Awake()
-    {
-        _uiSlotIcon = GetComponentInChildren<UI_SlotIcon>();
-        _uiSlotOutline = GetComponentInChildren<UI_SlotOutline>();
-    }
 
     public void SetItem(ItemData item, ItemSO info)
     {

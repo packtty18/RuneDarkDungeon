@@ -63,3 +63,10 @@ public struct UpgradeData
     [Range(0f, 1f)]
     public float Rate;
 }
+
+[Serializable]
+public struct GradeColorData
+{
+    public EItemGrade Grade;
+    public Color Color;
+}

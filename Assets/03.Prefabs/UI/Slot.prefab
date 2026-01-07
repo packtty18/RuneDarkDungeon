@@ -59,6 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9b43dafa207a6841966e59754c2296e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Slot
+  _uiSlotIcon: {fileID: 7919710107193134404}
+  _uiSlotOutline: {fileID: 2342417639104935652}
 --- !u!1 &5486885367120079612
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,10 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16acca1d56a3c6b4bb65f7c4d31a7878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_SlotOutline
-  _normalColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-  _rareColor: {r: 0.20392157, g: 0.59607846, b: 0.85882354, a: 1}
-  _uniqueColor: {r: 0.90588236, g: 0.29803923, b: 0.23529412, a: 1}
-  _legendaryColor: {r: 0.94509804, g: 0.76862746, b: 0.05882353, a: 1}
+  _outlineImage: {fileID: 1305422664489019112}
+  _colorDB: {fileID: 11400000, guid: 8763d11157699bc4bad58cbcd61cf457, type: 2}
 --- !u!1 &6666104392803396542
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,6 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e7d96bbbc8c6c47a64603d5e67c22a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_Slot
+  _iconImage: {fileID: 5561822919557031446}
 --- !u!1 &7080535917957172385
 GameObject:
   m_ObjectHideFlags: 0
