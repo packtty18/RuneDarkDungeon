@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Ingredient
+public class IngredientManager
 {
     private readonly Inventory _ingredients = new();
     public IReadOnlyInventory Ingredients => _ingredients;
@@ -14,7 +14,7 @@ public class Ingredient
     private int Count => _upgradeData.Count;
     public float Rate => _upgradeData.Rate;
 
-    public Ingredient(UpgradeDataSO upgradeDB)
+    public IngredientManager(UpgradeDataSO upgradeDB)
     {
         _upgradeDB = upgradeDB;
     }

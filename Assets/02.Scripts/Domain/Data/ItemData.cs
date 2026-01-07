@@ -3,8 +3,8 @@ using UnityEngine;
 [System.Serializable]
 public class ItemData
 {
-    [SerializeField] protected int _id;
-    [SerializeField] protected EItemGrade _grade;
+    [SerializeField] private int _id;
+    [SerializeField] private EItemGrade _grade;
     
     public int ID => _id;
     public EItemGrade Grade => _grade;
