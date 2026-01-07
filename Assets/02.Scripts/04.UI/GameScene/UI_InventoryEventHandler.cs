@@ -29,12 +29,16 @@ public class UI_InventoryEventHandler : MonoBehaviour
 
     private void OnDestroy()
     {
-        foreach (var slot in _slots)
+        if (_slots != null)
         {
-            slot.OnSlotClicked -= OnClickSlot;   
-            slot.OnSlotHovered -= OnHoverSlot;
+            foreach (var slot in _slots)
+            {
+                slot.OnSlotClicked -= OnClickSlot;
+                slot.OnSlotHovered -= OnHoverSlot;
+            }
         }
-        
+
+        if (_backgrounds == null) return;
         foreach (var background in _backgrounds)
         {
             background.OnBackgroundClicked -= OnClickBackground;
@@ -55,12 +59,12 @@ public class UI_InventoryEventHandler : MonoBehaviour
             if (slot.IsEmpty) return;
             _selectedSlot = slot;
             _dragIcon.Show(slot.Icon);
+            SetBackgroundsActive(true);
         }
         else
         {
             SwapSlot(_selectedSlot, slot);
-            _selectedSlot = null;
-            _dragIcon.Hide();
+            DeselecteSlot();
         }
     }
 
@@ -77,7 +81,21 @@ public class UI_InventoryEventHandler : MonoBehaviour
     private void OnClickBackground()
     {
         if (_selectedSlot == null) return;
+        DeselecteSlot();
+    }
+
+    private void SetBackgroundsActive(bool active)
+    {
+        foreach (var background in _backgrounds)
+        {
+            background.gameObject.SetActive(active);
+        }
+    }
+    
+    private void DeselecteSlot()
+    {
         _selectedSlot = null;
         _dragIcon.Hide();
+        SetBackgroundsActive(false);
     }
 }

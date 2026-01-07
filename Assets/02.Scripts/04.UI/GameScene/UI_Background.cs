@@ -10,4 +10,9 @@ public class UI_Background : MonoBehaviour, IPointerClickHandler
     {
         OnBackgroundClicked?.Invoke();
     }
+
+    public void SetActive(bool active)
+    {
+        gameObject.SetActive(active);
+    }
 }
