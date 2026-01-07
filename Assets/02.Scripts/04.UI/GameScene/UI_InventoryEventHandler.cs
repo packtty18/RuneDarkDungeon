@@ -1,0 +1,65 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+public class UI_InventoryEventHandler : MonoBehaviour
+{
+    [Header("UI 연결")]
+    [Space]
+    [SerializeField] private UI_Tooltip _tooltip;
+    [SerializeField] private UI_DragIcon _dragIcon;
+
+    private List<UI_Slot> _slots;
+    private UI_Slot _selectedSlot;
+
+    public void Initialize(List<UI_Slot> slots)
+    {
+        _slots = slots;
+        foreach (var slot in _slots)
+        {
+            slot.OnSlotClicked += OnClickSlot;
+            slot.OnSlotHovered += OnHoverSlot;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var slot in _slots)
+        {
+            slot.OnSlotClicked -= OnClickSlot;   
+            slot.OnSlotHovered -= OnHoverSlot;
+        }
+    }
+    
+    private void SwapSlot(UI_Slot left, UI_Slot right)
+    {
+        SlotData data = left.Data;
+        left.SetItem(right.Data);
+        right.SetItem(data);
+    }
+    
+    private void OnClickSlot(UI_Slot slot)
+    {
+        if (_selectedSlot == null)
+        {
+            if (slot.IsEmpty) return;
+            _selectedSlot = slot;
+            _dragIcon.Show(slot.Icon);
+        }
+        else
+        {
+            SwapSlot(_selectedSlot, slot);
+            _selectedSlot = null;
+            _dragIcon.Hide();
+        }
+    }
+
+    private void OnHoverSlot(UI_Slot slot)
+    {
+        if (slot == null)
+        {
+            _tooltip.Hide();
+            return;
+        }
+        _tooltip.Show(slot.Data.Info, slot.transform);
+    }
+}

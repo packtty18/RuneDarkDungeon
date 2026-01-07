@@ -905,7 +905,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &718816142
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1230,6 +1230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 836128206}
   - component: {fileID: 836128207}
+  - component: {fileID: 836128210}
   - component: {fileID: 836128209}
   - component: {fileID: 836128208}
   m_Layer: 5
@@ -1292,8 +1293,7 @@ MonoBehaviour:
   - {fileID: 811452743}
   - {fileID: 831354700}
   - {fileID: 1467014354}
-  _tooltip: {fileID: 718816145}
-  _dragIcon: {fileID: 1905614896}
+  _eventHandler: {fileID: 836128210}
 --- !u!114 &836128208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1332,6 +1332,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 836128205}
   m_CullTransparentMesh: 1
+--- !u!114 &836128210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 836128205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d30241b49510e664088215d117b55a9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_InventoryEventHandler
+  _tooltip: {fileID: 718816145}
+  _dragIcon: {fileID: 1905614896}
 --- !u!1001 &856188015
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3443,7 +3457,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1905614893
 RectTransform:
   m_ObjectHideFlags: 0

@@ -5,11 +5,6 @@ public class UI_DragIcon : MonoBehaviour
 {
     [Header("UI 연결")]
     [SerializeField] private Image _iconImage;
-
-    private void Awake()
-    {
-        Hide();   
-    }
     
     private void Update()
     {
