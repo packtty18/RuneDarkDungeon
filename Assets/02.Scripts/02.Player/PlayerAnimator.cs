@@ -28,7 +28,7 @@ public class PlayerAnimator : MonoBehaviour
         _animator.SetTrigger(_attackHash);
     }
     
-    public void ResetAttackTrigger()
+    public void SetAttackTrigger()
     {
         _animator.SetTrigger(_attackHash);
     }

@@ -42,7 +42,8 @@ public class PlayerAttack : MonoBehaviour
         {
             return;
         }
-        _animator.ResetAttackTrigger();
+
+        _animator.SetAttackTrigger();
     }
 
     private void OnDestroy()
