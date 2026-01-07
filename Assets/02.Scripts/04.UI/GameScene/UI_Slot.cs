@@ -18,6 +18,12 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     
     public void SetItem(ItemData item, ItemSO info)
     {
+        if (item == null)
+        {
+            Clear();
+            return;
+        }
+        
         _item = item;
         _info = info;
         _uiSlotIcon.SetSlotUI(_info.Icon);
@@ -45,7 +51,6 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (IsEmpty) return;
         OnSlotClicked?.Invoke(this);
     }
 }

@@ -59,9 +59,10 @@ public class UI_Inventory : MonoBehaviour
     
     private void SwapSlot(UI_Slot left, UI_Slot right)
     {
-        UI_Slot slot = left;
+        ItemData item = left.Item;
+        ItemSO info = left.Info;
         left.SetItem(right.Item, right.Info);
-        right.SetItem(slot.Item, slot.Info);
+        right.SetItem(item, info);
     }
     
     private void ClearSlot(UI_Slot slot)
