@@ -10,12 +10,12 @@ public class UI_Tooltip : LocalSingleton<UI_Tooltip>
 
     [Header("오프셋 설정")]
     [SerializeField] private float _widthPaddingRate = 0.6f;
-    [SerializeField] private float _heightPaddingRate = 0.5f;
-    private Vector3 _offset;
+    [SerializeField] private float _heightPaddingRate = 0.4f;
+    private RectTransform _tooltip;
     
     protected override void OnInit()
     {
-        CalculatePaddingOffset();
+        _tooltip = GetComponent<RectTransform>();
         Hide();
     }
 
@@ -23,7 +23,7 @@ public class UI_Tooltip : LocalSingleton<UI_Tooltip>
     {
         _nameTextUI.text = info.name;
         _tooltipTextUI.text = info.Tooltip;
-        
+
         SetPositionNextToIcon(icon);
         
         gameObject.SetActive(true);
@@ -36,16 +36,9 @@ public class UI_Tooltip : LocalSingleton<UI_Tooltip>
 
     private void SetPositionNextToIcon(Transform icon)
     {
-        transform.position = icon.position + _offset;
-    }
-
-    private void CalculatePaddingOffset()
-    {
-        var tooltip = GetComponent<RectTransform>();
+        float offsetX = _tooltip.rect.width * _widthPaddingRate * _tooltip.lossyScale.x;
+        float offsetY = _tooltip.rect.height * _heightPaddingRate * _tooltip.lossyScale.y;
         
-        float width = tooltip.rect.width * _widthPaddingRate;
-        float height = tooltip.rect.height * _heightPaddingRate;
-        
-        _offset = new Vector3(width, -height);
+        transform.position = icon.position + new Vector3(offsetX, -offsetY);
     }
 }
