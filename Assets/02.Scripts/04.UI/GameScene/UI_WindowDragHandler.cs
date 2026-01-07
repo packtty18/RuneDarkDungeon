@@ -15,12 +15,12 @@ public class UI_WindowDragHandler : MonoBehaviour, IDragHandler, IBeginDragHandl
     public void OnBeginDrag(PointerEventData eventData)
     {
         _beginDragPosition = eventData.position;
-        _startPosition = _window.anchoredPosition;
+        _startPosition = _window.position;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         Vector2 moveOffset = eventData.position - _beginDragPosition;
-        _window.anchoredPosition = _startPosition + moveOffset;
+        _window.position = _startPosition + moveOffset;
     }
 }
