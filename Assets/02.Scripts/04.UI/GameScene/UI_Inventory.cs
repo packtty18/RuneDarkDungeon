@@ -48,5 +48,14 @@ public class UI_Inventory : MonoBehaviour
             return;
         }
     }
-    
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
 }
