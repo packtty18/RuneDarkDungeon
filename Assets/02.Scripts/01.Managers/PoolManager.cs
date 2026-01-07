@@ -23,9 +23,9 @@ using UnityEngine.UI;
 public class PoolManager : GlobalSingleton<PoolManager>
 {
     [Header("풀 설정")]
-    [SerializeField] private List<PoolConfigBase> _poolConfigs = new List<PoolConfigBase>();
+    [SerializeField] private List<PoolConfigSO> _poolConfigs = new List<PoolConfigSO>();
 
-    private Dictionary<string, IPool> _pools = new Dictionary<string, IPool>(); //키, IPool
+    private Dictionary<EPoolType, ObjectPool<GameObject>> _pools = new Dictionary<EPoolType, ObjectPool<GameObject>>(); //키, Pool
     
     private Transform _poolParent;
     private Transform _canvas;
@@ -62,7 +62,7 @@ public class PoolManager : GlobalSingleton<PoolManager>
         canvasObject.AddComponent<GraphicRaycaster>();
     }
 
-    public void CreatePoolsFromConfigs(List<PoolConfigBase> configs)
+    public void CreatePoolsFromConfigs(List<PoolConfigSO> configs)
     {
         foreach ( var config in configs)
         {
@@ -71,33 +71,33 @@ public class PoolManager : GlobalSingleton<PoolManager>
 
     }
 
-    public void CreatePoolFromConfig(PoolConfigBase config)
+    public void CreatePoolFromConfig(PoolConfigSO config)
     {
         config.CreatePool(this);
     }
 
 
-    public void CreatePool<T>(
-            string key,
-            T component,
+    public void CreatePool(
+            EPoolType type,
+            GameObject prefab,
             int defaultCapacity = 10,
             int maxSize = 100,
             bool warmUp = true,
-            bool isUI = false) where T : PoolableObject
+            bool isUI = false)
     {
-        if (_pools.ContainsKey(key))
+        if (prefab == null)
         {
-            Debug.LogWarning($"[PoolManager] '{key}' 풀은 이미 존재합니다.");
+            Debug.LogError($"[PoolManager] '{type}' 풀 생성 실패: 프리팹이 null 입니다.");
             return;
         }
 
-        if (component == null)
+        if (_pools.ContainsKey(type))
         {
-            Debug.LogError($"[PoolManager] '{key}' 풀 생성 실패: 프리팹에 '{typeof(T).Name}' 컴포넌트가 없습니다.");
+            Debug.LogWarning($"[PoolManager] '{type}' 풀은 이미 존재합니다.");
             return;
         }
 
-        Transform poolParent = new GameObject($"Pool_{key}").transform;
+        Transform poolParent = new GameObject($"Pool_{type}").transform;
 
         if (isUI)
         {
@@ -108,8 +108,8 @@ public class PoolManager : GlobalSingleton<PoolManager>
             poolParent.SetParent(_poolParent);
         }
           
-        var pool = new ObjectPool<T>(
-            createFunc: () => CreateObject(component, poolParent, key),
+        var pool = new ObjectPool<GameObject>(
+            createFunc: () => CreateObject(prefab, poolParent, type),
                 actionOnGet: OnGetFromPool,
                 actionOnRelease: OnReleaseToPool,
                 actionOnDestroy: OnDestroyPoolObject,
@@ -118,8 +118,7 @@ public class PoolManager : GlobalSingleton<PoolManager>
                 maxSize: maxSize
         );
         
-        IPool poolWrapper = new PoolWrapper<T>(key, pool);
-        _pools.Add(key, poolWrapper);
+        _pools.Add(type, pool);
 
 
         if (warmUp)
@@ -129,45 +128,36 @@ public class PoolManager : GlobalSingleton<PoolManager>
 
     }
 
-    public T Get<T> (string key) where T : PoolableObject
+    public GameObject Get (EPoolType type)
     {
-        if (_pools.TryGetValue(key, out var pool))
+        if (_pools.TryGetValue(type, out var pool))
         {
             var obj = pool.Get();
-            if (obj is T typed)
-            {
-                typed.OnReturnRequested -= ReleaseByKey;
-                typed.OnReturnRequested += ReleaseByKey;
-
-                return typed;
-            }
-
-            Debug.LogError($"[PoolManager] '{key}' 풀 타입 불일치"); // 수정
-            return null;
+            return obj;
         }
         else
         {
-            Debug.LogError($"[PoolManager] '{key}' 풀을 찾을 수 없습니다.");
+            Debug.LogError($"[PoolManager] '{type}' 풀을 찾을 수 없습니다.");
             return null;
         }
     }
 
 
-    internal void ReleaseByKey(string key, PoolableObject obj)
+    internal void ReleaseByKey(EPoolType type, GameObject obj)
     {
-        if (_pools.TryGetValue(key, out var pool))
+        if (_pools.TryGetValue(type, out var pool))
         {
             pool.Release(obj);
             return;
         }
 
-        Debug.LogWarning($"[PoolManager] '{key}' 풀을 찾을 수 없습니다. 오브젝트를 파괴합니다.");
+        Debug.LogWarning($"[PoolManager] '{type}' 풀을 찾을 수 없습니다. 오브젝트를 파괴합니다.");
         Destroy(obj.gameObject);
     }
 
-    public void Clear(string key)
+    public void Clear(EPoolType type)
     {
-        if (_pools.TryGetValue(key, out var pool))
+        if (_pools.TryGetValue(type, out var pool))
         {
             pool.Clear();
         }   
@@ -182,56 +172,73 @@ public class PoolManager : GlobalSingleton<PoolManager>
     }
 
 
-    public PoolStats GetStats(string key)
+    public PoolStats GetStats(EPoolType type)
     {
-        if (_pools.TryGetValue(key, out var pool))
+        if (_pools.TryGetValue(type, out var pool))
         {
-            return pool.GetStats();
+            PoolStats stats = new PoolStats(
+                poolType: type,
+                totalCount: pool.CountAll,
+                activeCount: pool.CountActive,
+                inactiveCount: pool.CountInactive
+            );
+            return stats;
         }
       
-        Debug.LogError($"[PoolManager] '{key}' 풀을 찾을 수 없습니다.");
+        Debug.LogError($"[PoolManager] '{type}' 풀을 찾을 수 없습니다.");
         return null;
     }
 
-    public bool HasPool(string key)
+    public bool HasPool(EPoolType type)
     {
-        return _pools.ContainsKey(key);
+        return _pools.ContainsKey(type);
     }
 
-    private T CreateObject<T>(T original, Transform parent, string poolKey) where T : PoolableObject
+    private GameObject CreateObject(GameObject prefab, Transform parent, EPoolType type)
     {
-        T obj = Instantiate(original, parent);
-        obj.gameObject.name = $"{original.name} (Pooled)";
-        obj.SetPoolKey(poolKey);
+        GameObject obj = Instantiate(prefab, parent);
+        obj.name = $"{prefab.name} (Pooled)";
+        if (obj.TryGetComponent<PoolableObject>(out var poolable))
+        {
+            poolable.OnReturnRequested -= ReleaseByKey;
+            poolable.OnReturnRequested += ReleaseByKey;
+            poolable.SetPoolType(type);
+        }
         return obj;
     }
 
-    private void OnGetFromPool<T>(T obj) where T : PoolableObject
+    private void OnGetFromPool(GameObject obj)
     {
-        obj.gameObject.SetActive(true);
-        obj.OnSpawn();
+        obj.SetActive(true);
+        if (obj.TryGetComponent<PoolableObject>(out var poolable))
+        {
+            poolable.OnSpawn();
+        }
     }
 
-    private void OnReleaseToPool<T>(T obj) where T : PoolableObject
+    private void OnReleaseToPool(GameObject obj)
     {
         if (obj != null)
         {
-            obj.gameObject.SetActive(false);
-            obj.OnDespawn();
+            obj.SetActive(false);
+            if (obj.TryGetComponent<PoolableObject>(out var poolable))
+            {
+                poolable.OnDespawn();
+            }
         } 
     }
 
-    private void OnDestroyPoolObject<T>(T obj) where T : PoolableObject
+    private void OnDestroyPoolObject(GameObject obj)
     {
         if (obj != null)
         {
-            Destroy(obj.gameObject);
+            Destroy(obj);
         } 
     }
 
-    void WarmUpPool<T>(ObjectPool<T> pool, int defaultCapacity) where T : PoolableObject
+    void WarmUpPool(ObjectPool<GameObject> pool, int defaultCapacity)
     {
-        T[] objects = new T[defaultCapacity];
+        GameObject [] objects = new GameObject[defaultCapacity];
 
         for (int i = 0; i < defaultCapacity; i++)
         {
@@ -247,15 +254,13 @@ public class PoolManager : GlobalSingleton<PoolManager>
 }
 public class PoolStats
 {
-    public string Key { get; }
-    public string PoolType { get; }
+    public EPoolType PoolType { get; }
     public int TotalCount { get; }
     public int ActiveCount { get; }
     public int InactiveCount { get; }
 
-    public PoolStats(string key, string poolType, int totalCount, int activeCount, int inactiveCount)
+    public PoolStats(EPoolType poolType, int totalCount, int activeCount, int inactiveCount)
     {
-        Key = key;
         PoolType = poolType;
         TotalCount = totalCount;
         ActiveCount = activeCount;

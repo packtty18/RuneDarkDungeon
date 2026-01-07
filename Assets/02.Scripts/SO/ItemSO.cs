@@ -19,7 +19,12 @@ public class ItemSO : ScriptableObject
     public string Name => _name;
     public string Tooltip => _tooltip;
 
-    public void Initialize()
+    private void OnEnable()
+    {
+        Initialize();
+    }
+    
+    private void Initialize()
     {
         _effectDict = new();
         foreach (var effect in _effects)

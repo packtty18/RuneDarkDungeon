@@ -3,11 +3,11 @@ using UnityEngine.UIElements;
 
 public class SoundFactory : PoolFactory<SoundObject>
 {
-    public SoundFactory(PoolManager poolManager, string key) : base(poolManager, key)
+    public SoundFactory(PoolManager poolManager, EPoolType type) : base(poolManager, type)
     {
-        if (!_poolManager.HasPool(_key))
+        if (!_poolManager.HasPool(type))
         {
-            throw new System.InvalidOperationException($"SoundFactory Start Error: Pool with key '{_key}' does not exist.");
+            throw new System.InvalidOperationException($"SoundFactory Start Error: Pool with key '{type}' does not exist.");
         }
     }
 
@@ -18,7 +18,7 @@ public class SoundFactory : PoolFactory<SoundObject>
 
     public SoundObject CreateAt(Vector3 position)
     {
-        SoundObject obj = CreateInternal();
+        SoundObject obj = Create();
         obj.SetPosition(position);
         return obj;
     }

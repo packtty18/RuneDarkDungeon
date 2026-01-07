@@ -17,22 +17,32 @@ using UnityEngine;
 // - PoolManager.Instance를 내부에서 직접 참조하지 않음.
 // test/BoxFactory.cs 참고.
 
-public abstract class PoolFactory<T> where T : PoolableObject
+public abstract class PoolFactory<T> where T : MonoBehaviour
 {
     protected readonly PoolManager _poolManager;
-    protected readonly string _key;
+    protected readonly EPoolType _type;
 
-    protected PoolFactory(PoolManager poolManager, string key)
+    protected PoolFactory(PoolManager poolManager, EPoolType type)
     {
         _poolManager = poolManager;
-        _key = key;
+        _type = type;
     }
 
     protected T CreateInternal()
     {
-        var obj = _poolManager.Get<T>(_key);
-        OnCreated(obj);
-        return obj;
+        GameObject pooledObject = _poolManager.Get(_type);
+        if (pooledObject == null)
+        {
+            throw new System.InvalidOperationException($"PoolFactory<{typeof(T).Name}> CreateInternal Error: Failed to get an object from pool '{_type}'.");
+        }
+
+        T component = pooledObject.GetComponent<T>();
+        if (component == null)
+        {
+            throw new System.InvalidOperationException($"PoolFactory<{typeof(T).Name}> CreateInternal Error: Pooled object is not of type '{typeof(T).Name}'.");
+        }
+        OnCreated(component);
+        return component;
     }
 
     protected virtual void OnCreated(T obj) { }
