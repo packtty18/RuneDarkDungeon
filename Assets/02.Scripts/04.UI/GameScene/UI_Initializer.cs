@@ -1,25 +1,26 @@
+using TMPro;
 using UnityEngine;
 
 public class UI_Initializer : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] private UI_Inventory ui_Inventory;
-    [SerializeField] private UI_Upgrade ui_Upgrade;
-
+    [SerializeField] private UI_SlotContainer _inventoryUI;
+    [SerializeField] private UI_SlotContainer _upgradeUI;
+    
+    [SerializeField] private UpgradeManager _upgradeManager;
+    [SerializeField] private InventoryEventHandler _eventHandler;
+    [SerializeField] private UpgradeEventHandler _upgradeEventHandler;
+    
     private void Awake()
     {
         //var data = DataManager.Instance;
         var data = RuneUser.Instance;
-        
-        var ingredientManager = new IngredientManager(data.UpgradeDB);
-        
-        var upgradeManager = new UpgradeManager(
-            ingredientManager, 
-            data.Inventory, 
-            data.GoldData
-        );
 
-        ui_Inventory.Initialize(data.Inventory, data.ItemDB, data.ColorDB);
-        ui_Upgrade.Initialize(data.ItemDB, upgradeManager);
+        _inventoryUI.Initialize(data.Inventory, data.ItemDB, data.ColorDB);
+        _upgradeUI.Initialize(_upgradeManager.UpgradeInventory, data.ItemDB, data.ColorDB);
+        
+        _upgradeManager.Initialize(data.UpgradeDB, data.Inventory, data.GoldData);
+        _eventHandler.Initialize(_upgradeManager, _inventoryUI.Slots);
+        _upgradeEventHandler.Initialize(_upgradeManager, _upgradeUI.Slots);
     }
 }

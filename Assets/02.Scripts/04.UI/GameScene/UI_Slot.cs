@@ -8,13 +8,16 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     [Header("UI 연결")]
     [SerializeField] private Image _iconImage;
     [SerializeField] private Image _outlineImage;
+    [SerializeField] private GameObject _iconCover;
 
     private SlotData _data;
 
-    public SlotData Data => _data;
+    public ItemData Item => _data.Item;
+    public ItemSO Info => _data.Info;
     public Sprite Icon => _iconImage.sprite;
     public bool IsEmpty =>  _data.Item == null;
-    
+    private bool _isInteractable = true;
+
     public event Action<UI_Slot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
     
@@ -38,6 +41,30 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         _outlineImage.color = Color.white;
     }
 
+    public void SwapItem(UI_Slot slot)
+    {
+        SlotData data = _data;
+        SetItem(slot._data);
+        slot.SetItem(data);
+    }
+
+    public void SetActive(bool active)
+    {
+        gameObject.SetActive(active);
+    }
+    
+    public void SetInteractable(bool isOn)
+    {
+        _iconCover.SetActive(!isOn);
+        _isInteractable = isOn;
+    }
+
+    public bool CanUpgrade(ItemData item)
+    {
+        if (item != null) return Item.TypeEquals(item);
+        return Item.Grade != EItemGrade.Legendary;
+    }
+    
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (IsEmpty) return;
@@ -51,6 +78,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (!_isInteractable) return;
         OnSlotClicked?.Invoke(this);
     }
 }

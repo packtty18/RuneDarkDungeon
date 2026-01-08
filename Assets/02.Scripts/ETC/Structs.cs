@@ -62,6 +62,16 @@ public struct UpgradeData
     public int Count;
     [Range(0f, 1f)]
     public float Rate;
+    
+    public UpgradeData(EItemGrade grade, int cost, int count, float rate)
+    {
+        Grade = grade;
+        Cost = cost;
+        Count = count;
+        Rate = rate;
+    }
+    
+    public static UpgradeData Empty => new UpgradeData(0, 0, 0, 0);
 }
 
 [Serializable]
