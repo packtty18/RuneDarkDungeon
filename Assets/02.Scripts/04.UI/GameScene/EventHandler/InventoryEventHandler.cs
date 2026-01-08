@@ -43,10 +43,11 @@ public class InventoryEventHandler : MonoBehaviour
             slot.OnSlotClicked -= OnClickSlot;
             slot.OnSlotHovered -= OnHoverSlot;
         }
+        _upgradeUIButton.OnUpgradeMode -= SetMode;
         _upgradeManager.OnTargetTypeChanged -= RefreshSlotState;
     }
 
-    public void SetMode(bool isUpgrade)
+    private void SetMode(bool isUpgrade)
     {
         _eventHandler?.OnExit();
         _eventHandler = isUpgrade ? _registerEventHandler : _swapEventHandler;
@@ -60,7 +61,7 @@ public class InventoryEventHandler : MonoBehaviour
         foreach (var slot in _slots)
         {
             if (slot.IsEmpty) continue;
-            bool isOn = _eventHandler is SwapEventHandler || slot.CanUpgrade(targetItem);
+            bool isOn = _eventHandler.IsInteractable(slot, targetItem);
             slot.SetInteractable(isOn);
         }
     }

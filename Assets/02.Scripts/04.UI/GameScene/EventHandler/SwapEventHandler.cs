@@ -58,6 +58,11 @@ public class SwapEventHandler : ISlotEventHandler
            background.OnBackgroundClicked -= OnClickBackground;
        }
     }
+
+    public bool IsInteractable(UI_Slot slot, ItemData item)
+    {
+        return true;
+    }
     
     private void DeselectSlot()
     {

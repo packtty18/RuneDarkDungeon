@@ -30,7 +30,7 @@ public class UI_SlotContainer : MonoBehaviour
     
     private void OnDestroy()
     {
-        _inventory?.Unsubscribe(SetSlot, ClearSlot);             
+        _inventory?.Unsubscribe(SetSlot, ClearSlot);
     }
     
     private void SetSlot(ItemData itemData)

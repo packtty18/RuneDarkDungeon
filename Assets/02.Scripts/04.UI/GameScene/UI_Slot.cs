@@ -13,6 +13,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     private SlotData _data;
 
     public ItemData Item => _data.Item;
+    
     public ItemSO Info => _data.Info;
     public Sprite Icon => _iconImage.sprite;
     public bool IsEmpty =>  _data.Item == null;
