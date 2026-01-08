@@ -12,18 +12,14 @@ public class UI_Inventory : MonoBehaviour
     [SerializeField] private List<UI_Slot> _slots;
     [SerializeField] private UI_InventoryEventHandler _eventHandler;
     
+    public List<UI_Slot> Slots => _slots;
+    
     public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB, GradeColorSO colorDB)
     {
         _inventory = inventory;
         _itemDB = itemDB;
         _colorDB = colorDB;
-        _eventHandler.Initialize(_slots);
         BindInventory();
-    }
-    
-    private void OnDestroy()
-    {
-        _inventory?.Unsubscribe(SetSlot);
     }
 
     private void BindInventory()
@@ -32,9 +28,14 @@ public class UI_Inventory : MonoBehaviour
         {
             SetSlot(item);
         }
-        _inventory.Subscribe(SetSlot);
+        _inventory.Subscribe(SetSlot, ClearSlot);
     }
-
+    
+    private void OnDestroy()
+    {
+        _inventory?.Unsubscribe(SetSlot, ClearSlot);
+    }
+    
     private void SetSlot(ItemData itemData)
     {
         ItemSO itemInfo = _itemDB.GetItemInfo(itemData.ID);
@@ -46,6 +47,16 @@ public class UI_Inventory : MonoBehaviour
         {
             if (!slot.IsEmpty) continue;
             slot.SetItem(data);
+            return;
+        }
+    }
+    
+    private void ClearSlot(ItemData itemData)
+    {
+        foreach (var slot in _slots)
+        {
+            if (slot.Data.Item != itemData) continue;
+            slot.Clear();
             return;
         }
     }

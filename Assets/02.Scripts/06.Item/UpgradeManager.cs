@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UpgradeManager
+public class UpgradeManager : MonoBehaviour
 {
     private Inventory _upgradeInventory = new();
     private IInventory _inventory;
@@ -12,8 +12,9 @@ public class UpgradeManager
 
     public IInventory UpgradeInventory => _upgradeInventory;
     
-    public UpgradeManager(IInventory inventory, ICurrency goldData)
+    public void Initialize(UpgradeDataSO upgradeDB, IInventory inventory, ICurrency goldData)
     {
+        _upgradeDB = upgradeDB;
         _inventory = inventory;
         _goldData = goldData;
     }

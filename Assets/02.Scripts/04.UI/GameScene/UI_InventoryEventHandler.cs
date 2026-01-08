@@ -15,6 +15,11 @@ public class UI_InventoryEventHandler : MonoBehaviour
     public void Initialize(List<UI_Slot> slots)
     {
         _slots = slots;
+        Bind();
+    }
+
+    private void Bind()
+    {
         foreach (var slot in _slots)
         {
             slot.OnSlotClicked += OnClickSlot;

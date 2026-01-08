@@ -8,13 +8,15 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     [Header("UI 연결")]
     [SerializeField] private Image _iconImage;
     [SerializeField] private Image _outlineImage;
+    [SerializeField] private GameObject _iconCover;
 
     private SlotData _data;
 
     public SlotData Data => _data;
     public Sprite Icon => _iconImage.sprite;
     public bool IsEmpty =>  _data.Item == null;
-    
+    private bool _isCovered = false;
+
     public event Action<UI_Slot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
     
@@ -38,6 +40,13 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         _outlineImage.color = Color.white;
     }
 
+    public void SetUpgradeMode(bool isUpgrade)
+    {
+        if (_data.Item.Grade != EItemGrade.Legendary) return;
+        _iconCover.SetActive(isUpgrade);
+        _isCovered = isUpgrade;
+    }
+    
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (IsEmpty) return;
@@ -51,6 +60,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (_isCovered) return;
         OnSlotClicked?.Invoke(this);
     }
 }
