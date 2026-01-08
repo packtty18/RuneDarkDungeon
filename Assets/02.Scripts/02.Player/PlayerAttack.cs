@@ -149,14 +149,16 @@ public class PlayerAttack : MonoBehaviour
         else
         {
             Debug.Log($"[Attack] 콤보 피니셔 {_currentCombo}타");
-            ResetCombo();
+            //애니메이션 이벤트에서 끝날 때 리셋 콤보
         }
 
     }
 
-    private void ExecuteAttack(AttackPhaseData data, EAttackType type, DamageData damage)
+private void ExecuteAttack(AttackPhaseData data, EAttackType type, DamageData damage)
     {
-        Debug.Log($"Attack - [{type}] Combo : {data.PhaseIndex} Damage: {damage.Damage}");
+        Debug.Log($"[Attack] Type: {type} | PhaseIndex: {data.PhaseIndex} | Damage: {damage.Damage}");
+
+        _animator.PlayAttack(data.PhaseIndex, type);
     }
 
     #endregion
@@ -179,6 +181,8 @@ public class PlayerAttack : MonoBehaviour
         }
         _currentCombo = 0;
         _currentAttackConfig = null;
+
+        _animator.ResetCombo();
     }
 
     #endregion
@@ -194,6 +198,7 @@ public class PlayerAttack : MonoBehaviour
             _currentAttackConfig = _attackConfig.GetAttackConfig(EAttackType.Basic);
             return;
         }
+        _animator.ResetCombo();
         ResetCombo();
     }
 
@@ -220,6 +225,12 @@ public class PlayerAttack : MonoBehaviour
     public void OnBasicAttackFinish()
     {
         _hitboxController.DeActive("Main");
+    }
+
+    public void OnComboFinisherFinish()
+    {
+        _hitboxController.DeActive("Main");
+        ResetCombo();
     }
 
     #endregion
