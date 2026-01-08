@@ -27,6 +27,10 @@ public class Inventory : IInventory
 
     public void Clear()
     {
+        foreach (var item in _items)
+        {
+            NotifyRemoved(item);
+        }
         _items.Clear();
     }
     

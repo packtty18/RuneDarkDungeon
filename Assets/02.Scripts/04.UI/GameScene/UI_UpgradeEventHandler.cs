@@ -1,8 +1,13 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_UpgradeEventHandler : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI _costTextUI;
+    [SerializeField] private TextMeshProUGUI _rateTextUI;
+    
     [SerializeField] private UI_Upgrade _upgrade;
     private UpgradeManager _upgradeManager;
     
@@ -31,6 +36,7 @@ public class UI_UpgradeEventHandler : MonoBehaviour
         }
         
         _upgrade.OnUIActived += UpgradeMode;
+        _upgradeManager.OnUpgradeDataChanged += SetUpgradeInfo;
     }
     
     private void OnDestroy()
@@ -52,9 +58,10 @@ public class UI_UpgradeEventHandler : MonoBehaviour
         }
         
         _upgrade.OnUIActived -= UpgradeMode;
+        _upgradeManager.OnUpgradeDataChanged -= SetUpgradeInfo;
     }
     
-    public void UpgradeMode(bool isOn)
+    private void UpgradeMode(bool isOn)
     {
         foreach (var slot in _inventorySlots)
         {
@@ -62,14 +69,38 @@ public class UI_UpgradeEventHandler : MonoBehaviour
             slot.SetUpgradeMode(isOn);
         }
     }
+    
+    private void SetSlotCount(int count)
+    {
+        foreach (var slot in _upgradeSlots)
+        {
+            if (count-- > 0)
+            {
+                slot.gameObject.SetActive(true);
+            }
+            else
+            {
+                slot.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void SetUpgradeInfo(UpgradeData data)
+    {
+        SetSlotCount(data.Count);
+        _costTextUI.SetText("{0} 골드", data.Cost);
+        _rateTextUI.SetText("{0}% 성공", data.Rate * 100);
+    }
 
     private void OnClickInventorySlot(UI_Slot slot)
     {
+        if (slot.IsEmpty) return;
         _upgradeManager.TryRegister(slot.Data.Item);
     }
 
     private void OnClickUpgradeSlot(UI_Slot slot)
     {
+        if (slot.IsEmpty) return;
         _upgradeManager.Unregister(slot.Data.Item);
     }
 }

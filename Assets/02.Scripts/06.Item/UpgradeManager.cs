@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
@@ -11,6 +12,8 @@ public class UpgradeManager : MonoBehaviour
     private UpgradeData _upgradeData;
 
     public IInventory UpgradeInventory => _upgradeInventory;
+    
+    public event Action<UpgradeData> OnUpgradeDataChanged; 
     
     public void Initialize(UpgradeDataSO upgradeDB, IInventory inventory, ICurrency goldData)
     {
@@ -29,7 +32,7 @@ public class UpgradeManager : MonoBehaviour
         }
 
         if (!item.TypeEquals(_targetType) ||
-            _isFull) return false;
+            IsFull) return false;
         
         _inventory.Remove(item);
         _upgradeInventory.Add(item);
@@ -41,8 +44,10 @@ public class UpgradeManager : MonoBehaviour
         _upgradeInventory.Remove(item);
         _inventory.Add(item);
 
-        if (!_isEmpty) return;
+        if (!IsEmpty) return;
         _targetType = null;
+        _upgradeData = UpgradeData.Empty;
+        OnUpgradeDataChanged?.Invoke(_upgradeData);
     }
     
     public void UnregisterAll()
@@ -56,7 +61,7 @@ public class UpgradeManager : MonoBehaviour
 
     public void Upgrade()
     {
-        if (!_isFull
+        if (!IsFull
             || !_goldData.TryConsume(_upgradeData.Cost)) return;
         
         ItemData newItem = new(_targetType.ID, _targetType.Grade + 1);
@@ -71,8 +76,10 @@ public class UpgradeManager : MonoBehaviour
         
         _targetType = item;
         _upgradeData = info.Value;
+        
+        OnUpgradeDataChanged?.Invoke(_upgradeData);
     }
 
-    private bool _isFull => _upgradeInventory.Count < _upgradeData.Count;
-    private bool _isEmpty => _upgradeInventory.Count == 0;
+    private bool IsFull => _upgradeInventory.Count == _upgradeData.Count;
+    private bool IsEmpty => _upgradeInventory.Count == 0;
 }
