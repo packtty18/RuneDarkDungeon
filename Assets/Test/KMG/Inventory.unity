@@ -1611,7 +1611,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1694034622}
-  - {fileID: 846957762}
   - {fileID: 1865169883}
   - {fileID: 558088908}
   - {fileID: 706259378}
@@ -1653,7 +1652,7 @@ MonoBehaviour:
   - {fileID: 1833017189}
   - {fileID: 934058493}
   - {fileID: 1726701484}
-  _eventHandler: {fileID: 1694034623}
+  _upgrade: {fileID: 0}
 --- !u!114 &836128208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1692,57 +1691,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 836128205}
   m_CullTransparentMesh: 1
---- !u!1 &846957761
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 846957762}
-  - component: {fileID: 846957763}
-  m_Layer: 5
-  m_Name: UpgradeEventHandler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &846957762
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 846957761}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 836128206}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &846957763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 846957761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5adeaeb3f6e74f74c9ed3e7c50765c0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_UpgradeEventHandler
-  _costTextUI: {fileID: 785878511}
-  _rateTextUI: {fileID: 1119826117}
-  _upgrade: {fileID: 2139478401}
 --- !u!1001 &856188015
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3663,7 +3611,12 @@ MonoBehaviour:
   _ui_Inventory: {fileID: 836128207}
   _ui_Upgrade: {fileID: 2139478401}
   _upgradeManager: {fileID: 822171408}
-  _eventHandler: {fileID: 846957763}
+  _eventHandler: {fileID: 1694034623}
+  _tooltip: {fileID: 718816145}
+  _dragIcon: {fileID: 1905614896}
+  _backgrounds:
+  - {fileID: 1346198398}
+  - {fileID: 558088911}
 --- !u!1 &1572516938
 GameObject:
   m_ObjectHideFlags: 0
@@ -3857,14 +3810,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1694034621}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d30241b49510e664088215d117b55a9d, type: 3}
+  m_Script: {fileID: 11500000, guid: d71f6e6edbac2eb47a52325b624ee7cb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_SlotEventHandler
-  _tooltip: {fileID: 718816145}
-  _dragIcon: {fileID: 1905614896}
-  _backgrounds:
-  - {fileID: 1346198398}
-  - {fileID: 558088911}
+  m_EditorClassIdentifier: Assembly-CSharp::SlotEventHandler
 --- !u!114 &1699843074 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2352029541211525690, guid: 5ee79a54f40889340bff616e0c5658c4, type: 3}
@@ -4816,6 +4764,9 @@ MonoBehaviour:
   - {fileID: 1699843074}
   - {fileID: 2137348939}
   - {fileID: 1365760315}
+  _costTextUI: {fileID: 0}
+  _rateTextUI: {fileID: 0}
+  _upgrade: {fileID: 0}
 --- !u!114 &2139478402
 MonoBehaviour:
   m_ObjectHideFlags: 0

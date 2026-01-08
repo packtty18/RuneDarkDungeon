@@ -10,7 +10,7 @@ public class UI_Inventory : MonoBehaviour
     
     [Header("UI 연결")]
     [SerializeField] private List<UI_Slot> _slots;
-    [SerializeField] private UI_InventoryEventHandler _eventHandler;
+    [SerializeField] private UI_Upgrade _upgrade;
     
     public List<UI_Slot> Slots => _slots;
     
@@ -29,11 +29,13 @@ public class UI_Inventory : MonoBehaviour
             SetSlot(item);
         }
         _inventory.Subscribe(SetSlot, ClearSlot);
+        _upgrade.OnUIActived += UpgradeMode;
     }
     
     private void OnDestroy()
     {
         _inventory?.Unsubscribe(SetSlot, ClearSlot);
+        _upgrade.OnUIActived -= UpgradeMode;
     }
     
     private void SetSlot(ItemData itemData)
@@ -58,6 +60,15 @@ public class UI_Inventory : MonoBehaviour
             if (slot.Data.Item != itemData) continue;
             slot.Clear();
             return;
+        }
+    }
+    
+    private void UpgradeMode(bool isOn)
+    {
+        foreach (var slot in _slots)
+        {
+            if (slot.IsEmpty) continue;
+            slot.SetUpgradeMode(isOn);
         }
     }
     
