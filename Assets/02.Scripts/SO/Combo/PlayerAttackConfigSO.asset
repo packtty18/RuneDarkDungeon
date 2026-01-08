@@ -10,31 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b92fd02b2e8bc3f42bb62478a4e546a6, type: 3}
-  m_Name: PlayerComboConfigSO
+  m_Name: PlayerAttackConfigSO
   m_EditorClassIdentifier: Assembly-CSharp::PlayerComboConfigSO
   AttackConfigs:
   - AttackType: 0
-    Combos:
-    - ComboIndex: 1
-      Damage: 0.8
+    AttackPhases:
+    - PhaseIndex: 1
+      Damage: 1
       InputWindow: 0.4
-    - ComboIndex: 2
-      Damage: 0.9
+    - PhaseIndex: 2
+      Damage: 1
       InputWindow: 0.5
-    - ComboIndex: 3
+    - PhaseIndex: 3
       Damage: 1
       InputWindow: 0.6
-    - ComboIndex: 4
-      Damage: 1.5
+    - PhaseIndex: 4
+      Damage: 1
       InputWindow: 0
   - AttackType: 1
-    Combos:
-    - ComboIndex: 1
-      Damage: 0.4
-      InputWindow: 0.4
-    - ComboIndex: 2
-      Damage: 0.5
-      InputWindow: 0.4
-    - ComboIndex: 3
-      Damage: 0
-      InputWindow: 0
+    AttackPhases:
+    - PhaseIndex: 1
+      Damage: 1
+      InputWindow: 0.5

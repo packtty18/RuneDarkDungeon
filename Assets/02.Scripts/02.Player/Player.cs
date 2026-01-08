@@ -5,11 +5,14 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private PlayerStats _playerStats;
-    private EPlayerState _currentState;
+    private EMovementState _currentState;
+    private EActionState _currentActionState;
 
-    public EPlayerState CurrentState => _currentState;
+    public EMovementState CurrentState => _currentState;
+    public EActionState CurrentActionState => _currentActionState;
 
-    public Action<EPlayerState> OnPlayerStatsChanged;
+    public Action<EMovementState> OnPlayerStatsChanged;
+    public Action<EActionState> OnPlayerActionChanged;
 
     void Awake()
     {
@@ -23,7 +26,7 @@ public class Player : MonoBehaviour
     }
 
 
-    public void SetState(EPlayerState newState)
+    public void SetState(EMovementState newState)
     {
         _currentState = newState;
 
@@ -31,16 +34,35 @@ public class Player : MonoBehaviour
 
         switch (_currentState)
         {
-            case EPlayerState.Idle:
+            case EMovementState.Idle:
 
                 break;
-            case EPlayerState.Walk:
+            case EMovementState.Walk:
 
                 break;
-            case EPlayerState.Run:
+            case EMovementState.Run:
 
                 break;
-            case EPlayerState.Jump:
+            case EMovementState.Jump:
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void SetActionState(EActionState newState)
+    {
+        _currentActionState = newState;
+
+        OnPlayerActionChanged?.Invoke(_currentActionState);
+
+        switch (_currentActionState)
+        {
+            case EActionState.Attack:
+
+                break;
+            case EActionState.Skill:
 
                 break;
             default:

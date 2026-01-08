@@ -7,15 +7,16 @@ public class PlayerAttack : MonoBehaviour
     private PlayerAnimator _animator;
     private PlayerMove _playerMove;
 
-    private EPlayerState _state;
+    private EMovementState _moveState;
+
     private bool _isJumping;
 
     private Coroutine _comboTimerCoroutine;
 
     [SerializeField] 
-    private PlayerComboConfigSO _comboConfig;
+    private PlayerAttackConfigSO _attackConfig;
 
-    private ComboData _currentComboData;
+    private AttackTypeConfig _currentAttackConfig;
     private int _currentCombo;
 
     private void Start()
@@ -24,7 +25,7 @@ public class PlayerAttack : MonoBehaviour
         _playerMove = GetComponent<PlayerMove>();
         _animator = GetComponent<PlayerAnimator>();
 
-        _player.OnPlayerStatsChanged += OnStateChange;
+        _player.OnPlayerStatsChanged += OnMovementStateChange;
         _playerMove.OnIsJumpingChanged += OnJumpingChange;
 
         Initialized();
@@ -41,7 +42,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (_player != null)
         {
-            _player.OnPlayerStatsChanged -= OnStateChange;
+            _player.OnPlayerStatsChanged -= OnMovementStateChange;
         }
 
         if (_playerMove != null)
@@ -52,36 +53,54 @@ public class PlayerAttack : MonoBehaviour
 
     private void Initialized()
     {
-        _state = _player.CurrentState;
+        _moveState = _player.CurrentState;
         _isJumping = _playerMove.IsJumping;
     }
 
     private void TryAttack()
     {
-        if (_state == EPlayerState.Skill)
+        if (_moveState == EMovementState.Stagger || (_currentAttackConfig != null && _currentAttackConfig.AttackType == EAttackType.Jump))
+        {
+            return;
+        }
+        if (_playerMove.ShouldRun & _isJumping)
+        {
+            ExecuteJumpAttack();
+            return;
+        }
+        //_animator.SetAttackTrigger();
+
+        ExecuteAttackCombo(EAttackType.Basic);
+    }
+
+    private void ExecuteJumpAttack()
+    {
+        ExecuteAttackSingle(EAttackType.Jump);
+        _currentCombo++;
+        _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(_currentAttackConfig.GetPhaseData(1).InputWindow));
+    }
+
+    private void ExecuteAttackSingle(EAttackType attackType)
+    {
+        _currentAttackConfig = _attackConfig.GetAttackConfig(attackType);
+        if (_currentAttackConfig == null)
         {
             return;
         }
 
-        //_animator.SetAttackTrigger();
-        if (_playerMove.ShouldRun && !_isJumping)
-        {
-            Debug.Log("대쉬공격");
-            _playerMove.SetShouldRun(false);
-            _currentCombo ++;
-            _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(0.3f));
-        }
-        else
-        {
-            EAttackType attackType = _isJumping ? EAttackType.Air : EAttackType.Ground;
-            ExecuteAttackCombo(attackType);
-        }       
-    }
+        AttackPhaseData data = _currentAttackConfig.GetPhaseData(1);
 
+        if (data == null)
+        {
+            return;
+        }
+
+        ExecuteAttack(data, attackType, _currentAttackConfig.Damage);
+    }
     private void ExecuteAttackCombo(EAttackType attackType)
     {
-        AttackTypeConfig attackConfig = _comboConfig.GetAttackConfig(attackType);
-        if (attackConfig == null)
+        _currentAttackConfig = _attackConfig.GetAttackConfig(attackType);
+        if (_currentAttackConfig == null)
         {
             return;
         }
@@ -93,19 +112,19 @@ public class PlayerAttack : MonoBehaviour
 
         _currentCombo++;
 
-        _currentComboData = attackConfig.GetComboData(_currentCombo);
-        
-        if (_currentComboData == null)
+        AttackPhaseData data = _currentAttackConfig.GetPhaseData(_currentCombo);
+
+        if (data == null)
         {
             ResetCombo();
             return;
         }
 
-        ExecuteAttack(_currentComboData, attackType);
+        ExecuteAttack(data, attackType, _currentAttackConfig.Damage);
 
-        if (_currentCombo < attackConfig.MaxComboCount)
+        if (_currentCombo < _currentAttackConfig.MaxPhaseCount)
         {
-            _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(_currentComboData.InputWindow));
+            _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(data.InputWindow));
         }
         else
         {
@@ -115,10 +134,11 @@ public class PlayerAttack : MonoBehaviour
 
     }
 
-    private void ExecuteAttack(ComboData data, EAttackType type)
+    private void ExecuteAttack(AttackPhaseData data, EAttackType type, DamageData damage)
     {
-        Debug.Log($"Attack - [{type}] Combo : {data.ComboIndex} Damage: {data.Damage}");
+        Debug.Log($"Attack - [{type}] Combo : {data.PhaseIndex} Damage: {damage.Damage}");
     }
+
     private IEnumerator ComboTimerCoroutine(float time)
     {
         yield return new WaitForSeconds(time);
@@ -135,7 +155,17 @@ public class PlayerAttack : MonoBehaviour
             _comboTimerCoroutine = null;
         }
         _currentCombo = 0;
-        _currentComboData = null;
+        _currentAttackConfig = null;
+    }
+
+    private void AttackFinish()
+    {
+        _currentAttackConfig = null;
+    }
+
+    private void SkillEnd()
+    {
+
     }
 
     private void OnJumpingChange(bool value)
@@ -144,8 +174,8 @@ public class PlayerAttack : MonoBehaviour
         ResetCombo();
     }
 
-    private void OnStateChange(EPlayerState state)
+    private void OnMovementStateChange(EMovementState state)
     {
-        _state = state;
-    }  
+        _moveState = state;
+    }
 }

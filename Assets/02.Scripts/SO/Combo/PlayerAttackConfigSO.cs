@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerComboConfigSO", menuName = "SO/Game/PlayerCombo")]
-public class PlayerComboConfigSO : ScriptableObject
+[CreateAssetMenu(fileName = "PlayerAttackConfigSO", menuName = "SO/Game/PlayerAttack")]
+public class PlayerAttackConfigSO : ScriptableObject
 {
 
     [Header("공격 타입별 설정")]
@@ -10,10 +10,6 @@ public class PlayerComboConfigSO : ScriptableObject
 
     public AttackTypeConfig GetAttackConfig(EAttackType attackType)
     {
-        if (AttackConfigs == null)
-        {
-            return null;
-        }
         foreach(var config in AttackConfigs)
         {
             if (config.AttackType == attackType)
@@ -22,7 +18,7 @@ public class PlayerComboConfigSO : ScriptableObject
             }
         }
 
-        Debug.LogWarning($"[ComboConfig] {attackType} 설정을 찾을 수 없습니다.");
+        Debug.LogWarning($"[AttackTypeConfig] {attackType} 설정을 찾을 수 없습니다.");
         return null;
     }
 

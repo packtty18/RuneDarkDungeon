@@ -7,21 +7,26 @@ public enum EGameState
 
 public enum EAttackType
 {
-    Ground, 
-    Air   
+    Basic, 
+    Jump,   
 }
 
-public enum EPlayerState
+public enum EMovementState
 {
     Idle,
     Walk,
     Run,
     Jump,
-    Attack,
-    Skill,
-    Dodge,
-    Hit,
+    Stagger, //경직   
     Dead,
+}
+
+public enum EActionState
+{
+    None,
+    Attack,
+    DashAttack,
+    Skill,
 }
 
 public enum EEnemyState

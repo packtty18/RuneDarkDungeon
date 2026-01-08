@@ -39,7 +39,6 @@ public class PlayerMove : MonoBehaviour
     private float _landOffset = 0.5f;
     private bool _isJumping = false;
     public bool IsGrounded { get; private set; }
-
     public bool ShouldRun { get; private set; }
     public bool IsJumping 
     {   get { return _isJumping; }
@@ -191,16 +190,7 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        if (_inputManager.GetKeyDown(EGameKeyType.Run))
-        {
-            ShouldRun = true;
-        }
-
-        if (_inputManager.GetKeyUp(EGameKeyType.Run))
-        {
-            ShouldRun = false;
-        }
-
+        ShouldRun = _inputManager.GetKey(EGameKeyType.Run);
 
         float targetSpeed = ShouldRun ? _runSpeed : _walkSpeed;
 
@@ -247,10 +237,10 @@ public class PlayerMove : MonoBehaviour
         _runSpeed = _walkSpeed * _runSpeedMultiplier;
     }
 
-    public void SetShouldRun (bool shouldRun)
+    /*public void SetShouldRun (bool shouldRun)
     {
         ShouldRun = shouldRun;
-    }
+    }*/
 
     #region IsGrounded Check
     private void GroundedCheck()
