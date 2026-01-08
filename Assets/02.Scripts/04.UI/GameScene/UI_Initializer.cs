@@ -11,15 +11,12 @@ public class UI_Initializer : MonoBehaviour
         //var data = DataManager.Instance;
         var data = RuneUser.Instance;
         
-        var ingredientManager = new IngredientManager(data.UpgradeDB);
-        
         var upgradeManager = new UpgradeManager(
-            ingredientManager, 
             data.Inventory, 
             data.GoldData
         );
 
         ui_Inventory.Initialize(data.Inventory, data.ItemDB, data.ColorDB);
-        ui_Upgrade.Initialize(data.ItemDB, upgradeManager);
+        ui_Upgrade.Initialize(upgradeManager.UpgradeInventory, data.ItemDB);
     }
 }

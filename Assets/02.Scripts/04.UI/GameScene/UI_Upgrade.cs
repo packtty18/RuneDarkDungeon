@@ -3,21 +3,16 @@ using UnityEngine;
 
 public class UI_Upgrade : MonoBehaviour
 {
+    private IReadOnlyInventory _upgradeInventory;
     private ItemDatabaseSO _itemDB;
-    private UpgradeManager _upgradeManager;
 
     [Header("UI 연결")]
     [SerializeField] private List<UI_Slot> _slots;
     
-    public void Initialize(ItemDatabaseSO itemDB, UpgradeManager upgradeManager)
+    public void Initialize(IReadOnlyInventory upgradeInventory, ItemDatabaseSO itemDB)
     {
+        _upgradeInventory = upgradeInventory;
         _itemDB = itemDB;
-        _upgradeManager = upgradeManager;
-    }
-
-    public void Upgrade()
-    {
-        _upgradeManager.Upgrade();
     }
     
     private void RegisterSlot(ItemData itemData)
@@ -39,4 +34,5 @@ public class UI_Upgrade : MonoBehaviour
     public void Hide()
     {
         gameObject.SetActive(false);
-    }}
+    }
+}
