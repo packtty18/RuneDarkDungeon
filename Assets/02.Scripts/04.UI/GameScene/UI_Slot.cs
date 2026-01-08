@@ -12,10 +12,11 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     private SlotData _data;
 
-    public SlotData Data => _data;
+    public ItemData Item => _data.Item;
+    public ItemSO Info => _data.Info;
     public Sprite Icon => _iconImage.sprite;
     public bool IsEmpty =>  _data.Item == null;
-    private bool _isCovered = false;
+    private bool _isInteractable = true;
 
     public event Action<UI_Slot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
@@ -40,11 +41,17 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         _outlineImage.color = Color.white;
     }
 
-    public void SetUpgradeMode(bool isUpgrade)
+    public void SwapItem(UI_Slot slot)
     {
-        if (_data.Item.Grade != EItemGrade.Legendary) return;
-        _iconCover.SetActive(isUpgrade);
-        _isCovered = isUpgrade;
+        SlotData data = _data;
+        SetItem(slot._data);
+        slot.SetItem(data);
+    }
+    
+    public void SetInteractable(bool isOn)
+    {
+        _iconCover.SetActive(!isOn);
+        _isInteractable = isOn;
     }
     
     public void OnPointerEnter(PointerEventData eventData)
@@ -60,7 +67,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (_isCovered) return;
+        if (!_isInteractable) return;
         OnSlotClicked?.Invoke(this);
     }
 }

@@ -1,11 +1,8 @@
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class UnregisterEventHandler : ISlotEventHandler
 {
     private UpgradeManager _upgradeManager;
-    private UI_Slot _resultSlot;
     
     public UnregisterEventHandler(UpgradeManager upgradeManager)
     {
@@ -15,7 +12,7 @@ public class UnregisterEventHandler : ISlotEventHandler
     public void OnClickSlot(UI_Slot slot)
     {
         if (slot.IsEmpty) return;
-        _upgradeManager.Unregister(slot.Data.Item);
+        _upgradeManager.Unregister(slot.Item);
     }
 
     public void OnHoverSlot(UI_Slot slot) { }

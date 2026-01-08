@@ -50,7 +50,8 @@ public class InventoryEventHandler : MonoBehaviour
         foreach (var slot in _slots)
         {
             if (slot.IsEmpty) continue;
-            slot.SetUpgradeMode(isUpgrade);
+            bool isOn = !isUpgrade || slot.Item.Grade != EItemGrade.Legendary;
+            slot.SetInteractable(isOn);
         }
     }
 

@@ -11,7 +11,6 @@ public class UI_Initializer : MonoBehaviour
     [SerializeField] private InventoryEventHandler _eventHandler;
     [SerializeField] private UpgradeEventHandler _upgradeEventHandler;
     
-    
     private void Awake()
     {
         //var data = DataManager.Instance;

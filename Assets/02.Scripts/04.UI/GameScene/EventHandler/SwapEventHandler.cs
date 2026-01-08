@@ -26,8 +26,8 @@ public class SwapEventHandler : ISlotEventHandler
         }
         else
         {
-            SwapSlot(_selectedSlot, slot);
-            DeselecteSlot();
+            _selectedSlot.SwapItem(slot);
+            DeselectSlot();
         }
     }
 
@@ -38,7 +38,7 @@ public class SwapEventHandler : ISlotEventHandler
             _tooltip.Hide();
             return;
         }
-        _tooltip.Show(slot.Data.Info, slot.transform);
+        _tooltip.Show(slot.Info, slot.transform);
     }
 
     public void OnEnter()
@@ -52,21 +52,14 @@ public class SwapEventHandler : ISlotEventHandler
 
     public void OnExit()
     {
-       DeselecteSlot();
+       DeselectSlot();
        foreach (var background in _backgrounds)
        {
            background.OnBackgroundClicked -= OnClickBackground;
        }
     }
     
-    private void SwapSlot(UI_Slot left, UI_Slot right)
-    {
-        SlotData data = left.Data;
-        left.SetItem(right.Data);
-        right.SetItem(data);
-    }
-
-    private void DeselecteSlot()
+    private void DeselectSlot()
     {
         _selectedSlot = null;
         _dragIcon.Hide();
@@ -76,7 +69,7 @@ public class SwapEventHandler : ISlotEventHandler
     private void OnClickBackground()
     {
         if (_selectedSlot == null) return;
-        DeselecteSlot();
+        DeselectSlot();
     }
 
     private void SetBackgroundsActive(bool active)

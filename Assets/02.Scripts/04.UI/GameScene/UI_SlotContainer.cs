@@ -52,7 +52,7 @@ public class UI_SlotContainer : MonoBehaviour
     {
         foreach (var slot in _slots)
         {
-            if (slot.Data.Item != itemData) continue;
+            if (slot.Item != itemData) continue;
             slot.Clear();
             return;
         }
