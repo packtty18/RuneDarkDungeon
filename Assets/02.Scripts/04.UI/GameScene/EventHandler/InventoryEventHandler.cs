@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class InventoryEventHandler : MonoBehaviour
 {
+    [Header("UI 연결")]
+    [SerializeField] private UI_Tooltip _tooltip;
+    [SerializeField] private UI_DragIcon _dragIcon;
+    [SerializeField] private UI_Background[] _backgrounds;
+    [SerializeField] private UI_WindowToggleButton _upgradeUIButton;
+    
     private ISlotEventHandler _eventHandler;
     
     private SwapEventHandler _swapEventHandler;
@@ -10,11 +16,10 @@ public class InventoryEventHandler : MonoBehaviour
 
     private List<UI_Slot> _slots;
 
-    public void Initialize(UpgradeManager upgradeManager, List<UI_Slot> slots, UI_Tooltip tooltip, UI_DragIcon dragIcon, UI_Background[] backgrounds)
+    public void Initialize(UpgradeManager upgradeManager, List<UI_Slot> slots)
     {
-        _swapEventHandler = new(tooltip, dragIcon, backgrounds);
+        _swapEventHandler = new(_tooltip, _dragIcon, _backgrounds);
         _registerEventHandler = new(upgradeManager);
-        SetMode(false);
 
         _slots = slots;
         foreach (var slot in _slots)
@@ -22,6 +27,8 @@ public class InventoryEventHandler : MonoBehaviour
             slot.OnSlotClicked += OnClickSlot;
             slot.OnSlotHovered += OnHoverSlot;
         }
+        SetMode(false);
+        _upgradeUIButton.OnUpgradeMode += SetMode;
     }
 
     private void OnDestroy()
@@ -39,6 +46,12 @@ public class InventoryEventHandler : MonoBehaviour
         _eventHandler?.OnExit();
         _eventHandler = isUpgrade ? _registerEventHandler : _swapEventHandler;
         _eventHandler.OnEnter();
+        
+        foreach (var slot in _slots)
+        {
+            if (slot.IsEmpty) continue;
+            slot.SetUpgradeMode(isUpgrade);
+        }
     }
 
     private void OnClickSlot(UI_Slot slot)

@@ -1588,9 +1588,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 836128206}
-  - component: {fileID: 836128207}
   - component: {fileID: 836128209}
   - component: {fileID: 836128208}
+  - component: {fileID: 836128210}
   m_Layer: 5
   m_Name: UI_Inventory
   m_TagString: Untagged
@@ -1614,8 +1614,8 @@ RectTransform:
   - {fileID: 1865169883}
   - {fileID: 558088908}
   - {fileID: 706259378}
-  - {fileID: 1572516939}
   - {fileID: 822171407}
+  - {fileID: 1572516939}
   - {fileID: 2139478400}
   m_Father: {fileID: 1753389156}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1624,34 +1624,6 @@ RectTransform:
   m_AnchoredPosition: {x: -250, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &836128207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 836128205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d9e3141771067042abab6c5266caf52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_Inventory
-  _slots:
-  - {fileID: 1666344910}
-  - {fileID: 628037979}
-  - {fileID: 1802090522}
-  - {fileID: 907974573}
-  - {fileID: 1772219474}
-  - {fileID: 535438410}
-  - {fileID: 1374788469}
-  - {fileID: 1293049435}
-  - {fileID: 1028226693}
-  - {fileID: 1553094903}
-  - {fileID: 253918125}
-  - {fileID: 856188017}
-  - {fileID: 1833017189}
-  - {fileID: 934058493}
-  - {fileID: 1726701484}
 --- !u!114 &836128208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1690,6 +1662,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 836128205}
   m_CullTransparentMesh: 1
+--- !u!114 &836128210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 836128205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a7f727f78023864493c05969d279ded, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_SlotContainer
+  _slots:
+  - {fileID: 1666344910}
+  - {fileID: 628037979}
+  - {fileID: 1802090522}
+  - {fileID: 907974573}
+  - {fileID: 1772219474}
+  - {fileID: 535438410}
+  - {fileID: 1374788469}
+  - {fileID: 1293049435}
+  - {fileID: 1028226693}
+  - {fileID: 1553094903}
+  - {fileID: 253918125}
+  - {fileID: 856188017}
+  - {fileID: 1833017189}
+  - {fileID: 934058493}
+  - {fileID: 1726701484}
 --- !u!1001 &856188015
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3607,18 +3607,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bcee681fd17219418dce667ca7df9e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_Initializer
-  _inventoryUI: {fileID: 836128207}
-  _upgradeUI: {fileID: 2139478401}
+  _inventoryUI: {fileID: 836128210}
+  _upgradeUI: {fileID: 2139478404}
   _upgradeManager: {fileID: 822171408}
   _eventHandler: {fileID: 1694034623}
   _upgradeEventHandler: {fileID: 1770786647}
-  _tooltip: {fileID: 718816145}
-  _dragIcon: {fileID: 1905614896}
-  _backgrounds:
-  - {fileID: 1346198398}
-  - {fileID: 558088911}
-  _costTextUI: {fileID: 785878511}
-  _rateTextUI: {fileID: 1119826117}
 --- !u!1 &1572516938
 GameObject:
   m_ObjectHideFlags: 0
@@ -3630,7 +3623,7 @@ GameObject:
   - component: {fileID: 1572516939}
   - component: {fileID: 1572516942}
   - component: {fileID: 1572516941}
-  - component: {fileID: 1572516940}
+  - component: {fileID: 1572516943}
   m_Layer: 5
   m_Name: UpgradeUIButton
   m_TagString: Untagged
@@ -3657,62 +3650,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1572516940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1572516938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1572516941}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2139478401}
-        m_TargetAssemblyTypeName: UI_Upgrade, Assembly-CSharp
-        m_MethodName: Toggle
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1572516941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3751,6 +3688,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1572516938}
   m_CullTransparentMesh: 1
+--- !u!114 &1572516943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572516938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f3a9ba92df4e5548825f2b2db75b229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_WindowToggleButton
+  _upgradeUI: {fileID: 2139478399}
 --- !u!224 &1666344907 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9205258844373821015, guid: 5ee79a54f40889340bff616e0c5658c4, type: 3}
@@ -3815,6 +3765,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71f6e6edbac2eb47a52325b624ee7cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotEventHandler
+  _tooltip: {fileID: 718816145}
+  _dragIcon: {fileID: 1905614896}
+  _backgrounds:
+  - {fileID: 1346198398}
+  - {fileID: 558088911}
+  _upgradeUIButton: {fileID: 1572516943}
 --- !u!114 &1699843074 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2352029541211525690, guid: 5ee79a54f40889340bff616e0c5658c4, type: 3}
@@ -4093,6 +4049,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9779fc5b41bb7e54eba32a70882217db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeEventHandler
+  _costTextUI: {fileID: 785878511}
+  _rateTextUI: {fileID: 1119826117}
 --- !u!1001 &1772219472
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4799,9 +4757,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2139478400}
-  - component: {fileID: 2139478401}
   - component: {fileID: 2139478403}
   - component: {fileID: 2139478402}
+  - component: {fileID: 2139478404}
   m_Layer: 5
   m_Name: UI_Upgrade
   m_TagString: Untagged
@@ -4834,23 +4792,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2139478401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2139478399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 812b91266d8f5754ab9a385f3ae0459c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_Upgrade
-  _slots:
-  - {fileID: 471224164}
-  - {fileID: 1699843074}
-  - {fileID: 2137348939}
-  - {fileID: 1365760315}
 --- !u!114 &2139478402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4889,6 +4830,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2139478399}
   m_CullTransparentMesh: 1
+--- !u!114 &2139478404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139478399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a7f727f78023864493c05969d279ded, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_SlotContainer
+  _slots:
+  - {fileID: 471224164}
+  - {fileID: 1699843074}
+  - {fileID: 2137348939}
+  - {fileID: 1365760315}
 --- !u!1001 &3106872009174077338
 PrefabInstance:
   m_ObjectHideFlags: 0

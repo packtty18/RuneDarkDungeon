@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_Inventory : MonoBehaviour
+public class UI_SlotContainer : MonoBehaviour
 {
     private IReadOnlyInventory _inventory;
     private ItemDatabaseSO _itemDB;
     private GradeColorSO _colorDB;
     
-    [Header("UI 연결")]
-    [SerializeField] private List<UI_Slot> _slots;
+    [Header("슬롯 연결")]
+    [SerializeField] protected List<UI_Slot> _slots;
     public List<UI_Slot> Slots => _slots;
     
     public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB, GradeColorSO colorDB)
@@ -55,15 +55,6 @@ public class UI_Inventory : MonoBehaviour
             if (slot.Data.Item != itemData) continue;
             slot.Clear();
             return;
-        }
-    }
-    
-    public void SetMode(bool isUpgrade)
-    {
-        foreach (var slot in _slots)
-        {
-            if (slot.IsEmpty) continue;
-            slot.SetUpgradeMode(isUpgrade);
         }
     }
     
