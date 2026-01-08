@@ -52,8 +52,15 @@ public class PlayerMove : MonoBehaviour
     public event Action<bool> OnIsJumpingChanged;
     public event  Action<float> OnMoveSpeedChanged;
 
-    void Start()
-    {  
+    private void Awake()
+    {
+        _animator = GetComponent<PlayerAnimator>();
+        _controller = GetComponent<CharacterController>();
+        _player = GetComponent<Player>();
+        
+    }
+    private void Start()
+    {
         Initialize();
         SubscribeEvents();
     }
@@ -74,10 +81,6 @@ public class PlayerMove : MonoBehaviour
     private void Initialize()
     {
         _inputManager = InputManager.Instance;
-
-        _controller = GetComponent<CharacterController>();
-        _player = GetComponent<Player>();
-
         HandleMoveSpeedChanged(_player.GetSpeed());
         _currentSpeed = 0;
 
@@ -88,8 +91,6 @@ public class PlayerMove : MonoBehaviour
         _currentJumpCount = 0;
         _jumpVelocity = Mathf.Sqrt(_player.GetJumpVelocity() * -2f * _gravity);
         IsJumping = false;
-
-        _animator = GetComponent<PlayerAnimator>();
     }
 
     private void SubscribeEvents()

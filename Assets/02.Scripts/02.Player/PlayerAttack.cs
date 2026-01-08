@@ -15,16 +15,22 @@ public class PlayerAttack : MonoBehaviour
 
     [SerializeField] 
     private PlayerAttackConfigSO _attackConfig;
+    [SerializeField]
+    private HitboxController _hitboxController;
 
+    private PlayerAttackConfigSO __pausedComboConfig;
     private AttackTypeConfig _currentAttackConfig;
     private int _currentCombo;
 
-    private void Start()
+    #region Life Cycle
+    private void Awake()
     {
         _player = GetComponent<Player>();
         _playerMove = GetComponent<PlayerMove>();
         _animator = GetComponent<PlayerAnimator>();
-
+    }
+    private void Start()
+    {
         _player.OnPlayerStatsChanged += OnMovementStateChange;
         _playerMove.OnIsJumpingChanged += OnJumpingChange;
 
@@ -35,8 +41,10 @@ public class PlayerAttack : MonoBehaviour
     {
         if (InputManager.Instance.GetKeyDown(EGameKeyType.Attack))
         {
-            TryAttack();
+            TryNonSkillAttack();
         }
+
+        //콤보 중인 스킬이 있다면 코루틴을 중지시키고 _pausedComboConfig 에 저장 후 스킬이 끝나면 복구 시킨 후 다시 코루틴(0.5초)를 실행
     }
     private void OnDestroy()
     {
@@ -51,13 +59,18 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    #endregion
+
     private void Initialized()
     {
         _moveState = _player.CurrentState;
         _isJumping = _playerMove.IsJumping;
     }
 
-    private void TryAttack()
+
+    #region Attack
+
+    private void TryNonSkillAttack()
     {
         if (_moveState == EMovementState.Stagger || (_currentAttackConfig != null && _currentAttackConfig.AttackType == EAttackType.Jump))
         {
@@ -97,9 +110,16 @@ public class PlayerAttack : MonoBehaviour
 
         ExecuteAttack(data, attackType, _currentAttackConfig.Damage);
     }
+
     private void ExecuteAttackCombo(EAttackType attackType)
     {
+        if (_currentAttackConfig == null || _currentAttackConfig.AttackType != attackType)
+        {
+            ResetCombo();
+        }
+
         _currentAttackConfig = _attackConfig.GetAttackConfig(attackType);
+
         if (_currentAttackConfig == null)
         {
             return;
@@ -139,6 +159,9 @@ public class PlayerAttack : MonoBehaviour
         Debug.Log($"Attack - [{type}] Combo : {data.PhaseIndex} Damage: {damage.Damage}");
     }
 
+    #endregion
+
+    #region Combo
     private IEnumerator ComboTimerCoroutine(float time)
     {
         yield return new WaitForSeconds(time);
@@ -158,19 +181,19 @@ public class PlayerAttack : MonoBehaviour
         _currentAttackConfig = null;
     }
 
-    private void AttackFinish()
-    {
-        _currentAttackConfig = null;
-    }
+    #endregion
 
-    private void SkillEnd()
-    {
-
-    }
-
+    #region Value Change Event Method
     private void OnJumpingChange(bool value)
     {
         _isJumping = value;
+
+        // 점프 스킬 중에는 리셋 콤보 무시.
+        if (_currentAttackConfig != null && _currentAttackConfig.AttackType == EAttackType.Jump)
+        {
+            _currentAttackConfig = _attackConfig.GetAttackConfig(EAttackType.Basic);
+            return;
+        }
         ResetCombo();
     }
 
@@ -178,4 +201,26 @@ public class PlayerAttack : MonoBehaviour
     {
         _moveState = state;
     }
+
+    #endregion
+
+    #region Animation Event
+
+    public void AttackStart()
+    {
+        _hitboxController.Active("Main");
+    }
+
+    public void OnSkillFinish()
+    {
+        _currentAttackConfig = null;
+        _hitboxController.DeActive("Main");
+    }
+
+    public void OnBasicAttackFinish()
+    {
+        _hitboxController.DeActive("Main");
+    }
+
+    #endregion
 }

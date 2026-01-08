@@ -16,19 +16,28 @@ MonoBehaviour:
   - AttackType: 0
     AttackPhases:
     - PhaseIndex: 1
-      Damage: 1
       InputWindow: 0.4
     - PhaseIndex: 2
-      Damage: 1
       InputWindow: 0.5
     - PhaseIndex: 3
-      Damage: 1
       InputWindow: 0.6
     - PhaseIndex: 4
-      Damage: 1
       InputWindow: 0
+    Damage:
+      AttackId: 0
+      Team: 0
+      Damage: 0
+      HitDirection: {x: 0, y: 0, z: 0}
+      Knockback:
+        Power: 0
   - AttackType: 1
     AttackPhases:
     - PhaseIndex: 1
-      Damage: 1
-      InputWindow: 0.5
+      InputWindow: 3
+    Damage:
+      AttackId: 0
+      Team: 0
+      Damage: 0
+      HitDirection: {x: 0, y: 0, z: 0}
+      Knockback:
+        Power: 0
