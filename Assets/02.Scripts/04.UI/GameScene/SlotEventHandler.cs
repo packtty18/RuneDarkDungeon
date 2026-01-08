@@ -26,6 +26,7 @@ public class SlotEventHandler : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (_slots == null) return;
         foreach (var slot in _slots)
         {
             slot.OnSlotClicked -= OnClickSlot;
@@ -33,17 +34,10 @@ public class SlotEventHandler : MonoBehaviour
         }
     }
 
-    private void SetInventoryMode()
+    public void SetMode(bool isUpgrade)
     {
         _eventHandler.OnExit();
-        _eventHandler = _normalEventHandler;
-        _eventHandler.OnEnter();
-    }
-    
-    private void SetUpgradeMode()
-    {
-        _eventHandler.OnExit();
-        _eventHandler = _upgradeEventHandler;
+        _eventHandler = isUpgrade ? _upgradeEventHandler : _normalEventHandler;
         _eventHandler.OnEnter();
     }
 

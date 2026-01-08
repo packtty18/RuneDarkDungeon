@@ -34,7 +34,7 @@ public class UI_Inventory : MonoBehaviour
     
     private void OnDestroy()
     {
-        _inventory?.Unsubscribe(SetSlot, ClearSlot);
+        _inventory?.Unsubscribe(SetSlot, ClearSlot);             
         _upgrade.OnUIActived -= UpgradeMode;
     }
     

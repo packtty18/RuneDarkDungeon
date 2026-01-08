@@ -3,8 +3,8 @@ using UnityEngine;
 public class UI_Initializer : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] private UI_Inventory _ui_Inventory;
-    [SerializeField] private UI_Upgrade _ui_Upgrade;
+    [SerializeField] private UI_Inventory _uiInventory;
+    [SerializeField] private UI_Upgrade _uiUpgrade;
     [SerializeField] private UpgradeManager _upgradeManager;
     [SerializeField] private SlotEventHandler _eventHandler;
     [SerializeField] private UI_Tooltip _tooltip;
@@ -16,9 +16,21 @@ public class UI_Initializer : MonoBehaviour
         //var data = DataManager.Instance;
         var data = RuneUser.Instance;
 
-        _ui_Inventory.Initialize(data.Inventory, data.ItemDB, data.ColorDB);
-        _ui_Upgrade.Initialize(_upgradeManager, data.ItemDB, data.ColorDB);
+        _uiInventory.Initialize(data.Inventory, data.ItemDB, data.ColorDB);
+        _uiUpgrade.Initialize(_upgradeManager, data.ItemDB, data.ColorDB);
         _upgradeManager.Initialize(data.UpgradeDB, data.Inventory, data.GoldData);
-        _eventHandler.Initialize(_upgradeManager, _ui_Inventory.Slots, _tooltip, _dragIcon, _backgrounds);
+        _eventHandler.Initialize(_upgradeManager, _uiInventory.Slots, _tooltip, _dragIcon, _backgrounds);
+
+        _uiUpgrade.OnUIActived += SetUIMode;
+    }
+
+    private void OnDestroy()
+    {
+        _uiUpgrade.OnUIActived -= SetUIMode;
+    }
+    
+    private void SetUIMode(bool isUpgrade)
+    {
+        _eventHandler.SetMode(isUpgrade);
     }
 }

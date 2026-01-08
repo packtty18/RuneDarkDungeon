@@ -12,7 +12,7 @@ public class UpgradeEventHandler : ISlotEventHandler
     public void OnClickSlot(UI_Slot slot)
     {
         if (slot.IsEmpty) return;
-        _upgradeManager.Unregister(slot.Data.Item);
+        _upgradeManager.TryRegister(slot.Data.Item);
     }
     
     public void OnHoverSlot(UI_Slot slot) { }
