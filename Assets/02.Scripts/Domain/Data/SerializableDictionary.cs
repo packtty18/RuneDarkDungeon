@@ -14,10 +14,8 @@ public class SerializableDictionary<TKey, TValue> : ISerializationCallbackReceiv
         _dict = new();
         foreach (var pair in _pairs)
         {
-            if (_dict.TryAdd(pair.Key, pair.Value))
-            {
-                Debug.LogWarning($"중복된 Key 발견: {pair.Key}");
-            }
+            if (_dict.TryAdd(pair.Key, pair.Value)) continue; 
+            Debug.LogWarning($"중복된 Key 발견: {pair.Key}");
         }
     }
     
