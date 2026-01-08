@@ -45,9 +45,7 @@ public class UpgradeManager : MonoBehaviour
         _inventory.Add(item);
 
         if (!IsEmpty) return;
-        _targetType = null;
-        _upgradeData = UpgradeData.Empty;
-        OnUpgradeDataChanged?.Invoke(_upgradeData);
+        ResetTargetType();
     }
     
     public void UnregisterAll()
@@ -68,6 +66,7 @@ public class UpgradeManager : MonoBehaviour
         ItemData newItem = new(_targetType.ID, _targetType.Grade + 1);
         _inventory.Add(newItem);
         _upgradeInventory.Clear();
+        ResetTargetType();
     }
     
     private void RegisterTargetType(ItemData item)
@@ -81,6 +80,13 @@ public class UpgradeManager : MonoBehaviour
         OnUpgradeDataChanged?.Invoke(_upgradeData);
     }
 
+    private void ResetTargetType()
+    {
+        _targetType = null;
+        _upgradeData = UpgradeData.Empty;
+        OnUpgradeDataChanged?.Invoke(_upgradeData);
+    }
+    
     private bool IsFull => _upgradeInventory.Count == _upgradeData.Count;
     private bool IsEmpty => _upgradeInventory.Count == 0;
 }

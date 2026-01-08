@@ -1,21 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlotEventHandler : MonoBehaviour
+public class InventoryEventHandler : MonoBehaviour
 {
     private ISlotEventHandler _eventHandler;
     
-    private NormalEventHandler _normalEventHandler;
-    private UpgradeEventHandler _upgradeEventHandler;
+    private SwapEventHandler _swapEventHandler;
+    private RegisterEventHandler _registerEventHandler;
 
     private List<UI_Slot> _slots;
 
     public void Initialize(UpgradeManager upgradeManager, List<UI_Slot> slots, UI_Tooltip tooltip, UI_DragIcon dragIcon, UI_Background[] backgrounds)
     {
-        _normalEventHandler = new(tooltip, dragIcon, backgrounds);
-        _upgradeEventHandler = new(upgradeManager);
+        _swapEventHandler = new(tooltip, dragIcon, backgrounds);
+        _registerEventHandler = new(upgradeManager);
         SetMode(false);
-        
+
         _slots = slots;
         foreach (var slot in _slots)
         {
@@ -36,8 +36,8 @@ public class SlotEventHandler : MonoBehaviour
 
     public void SetMode(bool isUpgrade)
     {
-        _eventHandler.OnExit();
-        _eventHandler = isUpgrade ? _upgradeEventHandler : _normalEventHandler;
+        _eventHandler?.OnExit();
+        _eventHandler = isUpgrade ? _registerEventHandler : _swapEventHandler;
         _eventHandler.OnEnter();
     }
 

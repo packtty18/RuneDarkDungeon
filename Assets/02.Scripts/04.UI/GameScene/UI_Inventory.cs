@@ -9,8 +9,6 @@ public class UI_Inventory : MonoBehaviour
     
     [Header("UI 연결")]
     [SerializeField] private List<UI_Slot> _slots;
-    [SerializeField] private UI_Upgrade _upgrade;
-    
     public List<UI_Slot> Slots => _slots;
     
     public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB, GradeColorSO colorDB)
@@ -28,13 +26,11 @@ public class UI_Inventory : MonoBehaviour
             SetSlot(item);
         }
         _inventory.Subscribe(SetSlot, ClearSlot);
-        _upgrade.OnUIActived += UpgradeMode;
     }
     
     private void OnDestroy()
     {
         _inventory?.Unsubscribe(SetSlot, ClearSlot);             
-        _upgrade.OnUIActived -= UpgradeMode;
     }
     
     private void SetSlot(ItemData itemData)
@@ -62,12 +58,12 @@ public class UI_Inventory : MonoBehaviour
         }
     }
     
-    private void UpgradeMode(bool isOn)
+    public void SetMode(bool isUpgrade)
     {
         foreach (var slot in _slots)
         {
             if (slot.IsEmpty) continue;
-            slot.SetUpgradeMode(isOn);
+            slot.SetUpgradeMode(isUpgrade);
         }
     }
     

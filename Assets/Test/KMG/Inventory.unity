@@ -1423,12 +1423,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 785878509}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2139478400}
+  m_Father: {fileID: 2031308831}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1652,7 +1652,6 @@ MonoBehaviour:
   - {fileID: 1833017189}
   - {fileID: 934058493}
   - {fileID: 1726701484}
-  _upgrade: {fileID: 2139478401}
 --- !u!114 &836128208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2341,12 +2340,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1119826115}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2139478400}
+  m_Father: {fileID: 2031308831}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3608,15 +3607,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bcee681fd17219418dce667ca7df9e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_Initializer
-  _uiInventory: {fileID: 836128207}
-  _uiUpgrade: {fileID: 2139478401}
+  _inventoryUI: {fileID: 836128207}
+  _upgradeUI: {fileID: 2139478401}
   _upgradeManager: {fileID: 822171408}
   _eventHandler: {fileID: 1694034623}
+  _upgradeEventHandler: {fileID: 1770786647}
   _tooltip: {fileID: 718816145}
   _dragIcon: {fileID: 1905614896}
   _backgrounds:
   - {fileID: 1346198398}
   - {fileID: 558088911}
+  _costTextUI: {fileID: 785878511}
+  _rateTextUI: {fileID: 1119826117}
 --- !u!1 &1572516938
 GameObject:
   m_ObjectHideFlags: 0
@@ -4043,6 +4045,54 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1770786645
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1770786646}
+  - component: {fileID: 1770786647}
+  m_Layer: 5
+  m_Name: EventHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1770786646
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770786645}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2139478400}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -720, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1770786647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770786645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9779fc5b41bb7e54eba32a70882217db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeEventHandler
 --- !u!1001 &1772219472
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4559,6 +4609,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_GhostIcon
   _iconImage: {fileID: 1905614894}
+--- !u!1 &2031308830
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2031308831}
+  m_Layer: 5
+  m_Name: UI_UpgradeInfo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2031308831
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031308830}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 785878510}
+  - {fileID: 1119826116}
+  m_Father: {fileID: 2139478400}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2116159140
 GameObject:
   m_ObjectHideFlags: 0
@@ -4734,11 +4821,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1770786646}
   - {fileID: 1404187316}
   - {fileID: 873293892}
   - {fileID: 481770964}
-  - {fileID: 785878510}
-  - {fileID: 1119826116}
+  - {fileID: 2031308831}
   - {fileID: 2116159141}
   m_Father: {fileID: 836128206}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4764,8 +4851,6 @@ MonoBehaviour:
   - {fileID: 1699843074}
   - {fileID: 2137348939}
   - {fileID: 1365760315}
-  _costTextUI: {fileID: 785878511}
-  _rateTextUI: {fileID: 1119826117}
 --- !u!114 &2139478402
 MonoBehaviour:
   m_ObjectHideFlags: 0

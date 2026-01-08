@@ -1,12 +1,10 @@
 using UnityEngine;
 
-public class UpgradeSlotEventHandler : ISlotEventHandler
+public class RegisterEventHandler : ISlotEventHandler
 {
     private UpgradeManager _upgradeManager;
     
-    private UI_Slot _resultSlot;
-    
-    public UpgradeSlotEventHandler(UpgradeManager upgradeManager)
+    public RegisterEventHandler(UpgradeManager upgradeManager)
     {
         _upgradeManager = upgradeManager;
     }
@@ -14,9 +12,9 @@ public class UpgradeSlotEventHandler : ISlotEventHandler
     public void OnClickSlot(UI_Slot slot)
     {
         if (slot.IsEmpty) return;
-        _upgradeManager.Unregister(slot.Data.Item);
+        _upgradeManager.TryRegister(slot.Data.Item);
     }
-
+    
     public void OnHoverSlot(UI_Slot slot) { }
     public void OnEnter() { }
     public void OnExit() { }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NormalEventHandler : ISlotEventHandler
+public class SwapEventHandler : ISlotEventHandler
 {
     private UI_Tooltip _tooltip;
     private UI_DragIcon _dragIcon;
@@ -8,7 +8,7 @@ public class NormalEventHandler : ISlotEventHandler
 
     private UI_Slot _selectedSlot;
 
-    public NormalEventHandler(UI_Tooltip tooltip, UI_DragIcon dragIcon, UI_Background[] backgrounds)
+    public SwapEventHandler(UI_Tooltip tooltip, UI_DragIcon dragIcon, UI_Background[] backgrounds)
     {
         _tooltip = tooltip;
         _dragIcon = dragIcon;

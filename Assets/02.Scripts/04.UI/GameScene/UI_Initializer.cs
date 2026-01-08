@@ -1,36 +1,45 @@
+using TMPro;
 using UnityEngine;
 
 public class UI_Initializer : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] private UI_Inventory _uiInventory;
-    [SerializeField] private UI_Upgrade _uiUpgrade;
+    [SerializeField] private UI_Inventory _inventoryUI;
+    [SerializeField] private UI_Upgrade _upgradeUI;
+    
     [SerializeField] private UpgradeManager _upgradeManager;
-    [SerializeField] private SlotEventHandler _eventHandler;
+    [SerializeField] private InventoryEventHandler _eventHandler;
+    [SerializeField] private UpgradeEventHandler _upgradeEventHandler;
+    
     [SerializeField] private UI_Tooltip _tooltip;
     [SerializeField] private UI_DragIcon _dragIcon;
     [SerializeField] private UI_Background[] _backgrounds;
+    
+    [SerializeField] TextMeshProUGUI _costTextUI;
+    [SerializeField] TextMeshProUGUI _rateTextUI;
     
     private void Awake()
     {
         //var data = DataManager.Instance;
         var data = RuneUser.Instance;
 
-        _uiInventory.Initialize(data.Inventory, data.ItemDB, data.ColorDB);
-        _uiUpgrade.Initialize(_upgradeManager, data.ItemDB, data.ColorDB);
+        _inventoryUI.Initialize(data.Inventory, data.ItemDB, data.ColorDB);
+        _upgradeUI.Initialize(_upgradeManager.UpgradeInventory, data.ItemDB, data.ColorDB);
         _upgradeManager.Initialize(data.UpgradeDB, data.Inventory, data.GoldData);
-        _eventHandler.Initialize(_upgradeManager, _uiInventory.Slots, _tooltip, _dragIcon, _backgrounds);
-
-        _uiUpgrade.OnUIActived += SetUIMode;
+        _eventHandler.Initialize(_upgradeManager, _inventoryUI.Slots, _tooltip, _dragIcon, _backgrounds);
+        _upgradeEventHandler.Initialize(_upgradeManager, _upgradeUI.Slots, _costTextUI, _rateTextUI);
+        
+        _upgradeUI.OnUIActived += SetUpgradeUIMode;
     }
 
     private void OnDestroy()
     {
-        _uiUpgrade.OnUIActived -= SetUIMode;
+        _upgradeUI.OnUIActived -= SetUpgradeUIMode;
     }
     
-    private void SetUIMode(bool isUpgrade)
+    private void SetUpgradeUIMode(bool isUpgrade)
     {
         _eventHandler.SetMode(isUpgrade);
+        _inventoryUI.SetMode(isUpgrade);
     }
 }
