@@ -7,7 +7,7 @@ public class UpgradeManager : MonoBehaviour
     private IInventory _inventory;
     private ICurrency _goldData;
 
-    private UpgradeDataSO _upgradeDB;
+    private ItemUpgradeDataSO _upgradeDB;
     private ItemData _targetType;
     private UpgradeData _upgradeData;
 
@@ -16,7 +16,7 @@ public class UpgradeManager : MonoBehaviour
     public event Action<ItemData> OnTargetTypeChanged;
     public event Action<UpgradeData> OnUpgradeDataChanged; 
     
-    public void Initialize(UpgradeDataSO upgradeDB, IInventory inventory, ICurrency goldData)
+    public void Initialize(ItemUpgradeDataSO upgradeDB, IInventory inventory, ICurrency goldData)
     {
         _upgradeDB = upgradeDB;
         _inventory = inventory;

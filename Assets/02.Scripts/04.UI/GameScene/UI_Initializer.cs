@@ -11,6 +11,15 @@ public class UI_Initializer : MonoBehaviour
     [SerializeField] private InventoryEventHandler _eventHandler;
     [SerializeField] private UpgradeEventHandler _upgradeEventHandler;
     
+    [Header("UI 연결")]
+    [SerializeField] private UI_Tooltip _tooltip;
+    [SerializeField] private UI_DragIcon _dragIcon;
+    [SerializeField] private UI_Background[] _backgrounds;
+    
+    private SwapEventHandler _swapEventHandler;
+    private RegisterEventHandler _registerEventHandler;
+    private UnregisterEventHandler _unregisterEventHandler;
+    
     private void Awake()
     {
         //var data = DataManager.Instance;
@@ -22,5 +31,9 @@ public class UI_Initializer : MonoBehaviour
         _upgradeManager.Initialize(data.UpgradeDB, data.Inventory, data.GoldData);
         _eventHandler.Initialize(_upgradeManager, _inventoryUI.Slots);
         _upgradeEventHandler.Initialize(_upgradeManager, _upgradeUI.Slots);
+        
+        _swapEventHandler = new(_tooltip, _dragIcon, _backgrounds);
+        _registerEventHandler = new(_eventHandler, _swapEventHandler);
+        _unregisterEventHandler = new UnregisterEventHandler(_upgradeManager);
     }
 }

@@ -15,8 +15,6 @@ public class UpgradeEventHandler : MonoBehaviour
     
     public void Initialize(UpgradeManager upgradeManager, IReadOnlyList<UI_Slot>slots)
     {
-        _eventHandler = new UnregisterEventHandler(upgradeManager);
-
         _slots = slots;
         foreach (var slot in _slots)
         {

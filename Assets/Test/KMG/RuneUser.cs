@@ -8,7 +8,7 @@ public class RuneUser : LocalSingleton<RuneUser>
     public IInventory Inventory => _inventory;
     public ICurrency GoldData => _goldData;
 
-    public UpgradeDataSO UpgradeDB;
+    public ItemUpgradeDataSO UpgradeDB;
     public ItemDatabaseSO ItemDB;
     public GradeColorSO ColorDB;
     

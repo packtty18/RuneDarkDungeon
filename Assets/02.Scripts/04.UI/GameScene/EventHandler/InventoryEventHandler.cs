@@ -4,24 +4,15 @@ using UnityEngine;
 public class InventoryEventHandler : MonoBehaviour
 {
     [Header("UI 연결")]
-    [SerializeField] private UI_Tooltip _tooltip;
-    [SerializeField] private UI_DragIcon _dragIcon;
-    [SerializeField] private UI_Background[] _backgrounds;
     [SerializeField] private UI_WindowToggleButton _upgradeUIButton;
     
     private ISlotEventHandler _eventHandler;
     private IReadOnlyList<UI_Slot> _slots;
 
-    private SwapEventHandler _swapEventHandler;
-    private RegisterEventHandler _registerEventHandler;
-
     private UpgradeManager _upgradeManager;
 
     public void Initialize(UpgradeManager upgradeManager, IReadOnlyList<UI_Slot> slots)
     {
-        _swapEventHandler = new(_tooltip, _dragIcon, _backgrounds);
-        _registerEventHandler = new(upgradeManager);
-
         _slots = slots;
         foreach (var slot in _slots)
         {

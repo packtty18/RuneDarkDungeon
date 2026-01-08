@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "UpgradeData", menuName = "Item/UpgradeData")]
-public class UpgradeDataSO : ScriptableObject
+public class ItemUpgradeDataSO : ScriptableObject
 {
     [SerializeField] private SerializableDictionary<EItemGrade, UpgradeData> _gradeDict;
     
