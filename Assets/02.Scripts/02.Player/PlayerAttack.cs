@@ -18,6 +18,10 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private HitboxController _hitboxController;
 
+    private bool _attackBuffered;
+    private bool _isAttacking;
+    private Coroutine _comboWindowCoroutine;
+
     private PlayerAttackConfigSO __pausedComboConfig;
     private AttackTypeConfig _currentAttackConfig;
     private int _currentCombo;
@@ -41,7 +45,14 @@ public class PlayerAttack : MonoBehaviour
     {
         if (InputManager.Instance.GetKeyDown(EGameKeyType.Attack))
         {
-            TryNonSkillAttack();
+            if (_currentAttackConfig != null && _currentAttackConfig.AttackType == EAttackType.Jump) return;
+            _attackBuffered = true;
+        }
+
+        if (!_isAttacking && _attackBuffered)
+        {
+            _attackBuffered = false;
+            TryStartAttack();
         }
 
         //콤보 중인 스킬이 있다면 코루틴을 중지시키고 _pausedComboConfig 에 저장 후 스킬이 끝나면 복구 시킨 후 다시 코루틴(0.5초)를 실행
@@ -70,9 +81,9 @@ public class PlayerAttack : MonoBehaviour
 
     #region Attack
 
-    private void TryNonSkillAttack()
+    private void TryStartAttack()
     {
-        if (_moveState == EMovementState.Stagger || (_currentAttackConfig != null && _currentAttackConfig.AttackType == EAttackType.Jump))
+        if (_moveState == EMovementState.Stagger)
         {
             return;
         }
@@ -81,25 +92,67 @@ public class PlayerAttack : MonoBehaviour
             ExecuteJumpAttack();
             return;
         }
-        //_animator.SetAttackTrigger();
 
-        ExecuteAttackCombo(EAttackType.Basic);
+        StartCombo(EAttackType.Basic);
+    }
+    private void StartCombo(EAttackType type)
+    {
+        _isAttacking = true;
+
+        _currentAttackConfig = _attackConfig.GetAttackConfig(type);
+        if (_currentAttackConfig == null) return;
+
+        _currentCombo = 1;
+        PlayCurrentCombo();
+    }
+
+    private void PlayCurrentCombo()
+    {
+        var data = _currentAttackConfig.GetPhaseData(_currentCombo);
+
+        if (data == null)
+        {
+            EndCombo();
+            return;
+        }
+
+        ExecuteAttack(data, _currentAttackConfig.AttackType, _currentAttackConfig.Damage);
+
+        if (_comboTimerCoroutine != null)
+            StopCoroutine(_comboTimerCoroutine);
+
+        if (_currentCombo < _currentAttackConfig.MaxPhaseCount)
+        {
+            _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(data.InputWindow));
+        }
+        else
+        {
+            Debug.Log($"[Attack] 콤보 피니셔 {_currentCombo}타");
+            // 마지막 타는 애니메이션 종료 이벤트에서 EndCombo
+            EndCombo();
+        }
+    }
+
+    private void ExecuteAttack(AttackPhaseData data, EAttackType type, DamageData damage)
+    {
+        Debug.Log($"[Attack] Type: {type} | PhaseIndex: {data.PhaseIndex} | Damage: {damage.Damage}");
+
+        _animator.PlayAttack(data.PhaseIndex, type);
     }
 
     private void ExecuteJumpAttack()
     {
         ExecuteAttackSingle(EAttackType.Jump);
-        _currentCombo++;
         _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(_currentAttackConfig.GetPhaseData(1).InputWindow));
     }
 
     private void ExecuteAttackSingle(EAttackType attackType)
     {
+        _isAttacking = true;
+
         _currentAttackConfig = _attackConfig.GetAttackConfig(attackType);
-        if (_currentAttackConfig == null)
-        {
-            return;
-        }
+        if (_currentAttackConfig == null) return;
+
 
         AttackPhaseData data = _currentAttackConfig.GetPhaseData(1);
 
@@ -111,78 +164,53 @@ public class PlayerAttack : MonoBehaviour
         ExecuteAttack(data, attackType, _currentAttackConfig.Damage);
     }
 
-    private void ExecuteAttackCombo(EAttackType attackType)
-    {
-        if (_currentAttackConfig == null || _currentAttackConfig.AttackType != attackType)
-        {
-            ResetCombo();
-        }
-
-        _currentAttackConfig = _attackConfig.GetAttackConfig(attackType);
-
-        if (_currentAttackConfig == null)
-        {
-            return;
-        }
-
-        if (_comboTimerCoroutine != null)
-        {
-            StopCoroutine(_comboTimerCoroutine);
-        }
-
-        _currentCombo++;
-
-        AttackPhaseData data = _currentAttackConfig.GetPhaseData(_currentCombo);
-
-        if (data == null)
-        {
-            ResetCombo();
-            return;
-        }
-
-        ExecuteAttack(data, attackType, _currentAttackConfig.Damage);
-
-        if (_currentCombo < _currentAttackConfig.MaxPhaseCount)
-        {
-            _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(data.InputWindow));
-        }
-        else
-        {
-            Debug.Log($"[Attack] 콤보 피니셔 {_currentCombo}타");
-            //애니메이션 이벤트에서 끝날 때 리셋 콤보
-        }
-
-    }
-
-private void ExecuteAttack(AttackPhaseData data, EAttackType type, DamageData damage)
-    {
-        Debug.Log($"[Attack] Type: {type} | PhaseIndex: {data.PhaseIndex} | Damage: {damage.Damage}");
-
-        _animator.PlayAttack(data.PhaseIndex, type);
-    }
-
     #endregion
 
     #region Combo
     private IEnumerator ComboTimerCoroutine(float time)
     {
-        yield return new WaitForSeconds(time);
+        float t = 0f;
+
+        while (t < time)
+        {
+            if (_attackBuffered)
+            {
+                _attackBuffered = false;
+                GoNextCombo();
+                yield break;
+            }
+
+            t += Time.deltaTime;
+            yield return null;
+        }
 
         Debug.Log("[Attack] 콤보 타이머 만료 - 초기화");
-        ResetCombo();
+        EndCombo();
     }
 
-    private void ResetCombo()
+    private void GoNextCombo()
     {
-        if ( _comboTimerCoroutine != null )
+        _currentCombo++;
+
+        PlayCurrentCombo();
+    }
+
+    private void EndCombo()
+    {
+        _isAttacking = false;
+        _attackBuffered = false;
+
+        if (_comboWindowCoroutine != null)
         {
-            StopCoroutine(_comboTimerCoroutine);
-            _comboTimerCoroutine = null;
+            StopCoroutine(_comboWindowCoroutine);
+            _comboWindowCoroutine = null;
         }
+
         _currentCombo = 0;
         _currentAttackConfig = null;
 
         _animator.ResetCombo();
+        _hitboxController.DeActive("Main");
     }
 
     #endregion
@@ -196,10 +224,11 @@ private void ExecuteAttack(AttackPhaseData data, EAttackType type, DamageData da
         if (_currentAttackConfig != null && _currentAttackConfig.AttackType == EAttackType.Jump)
         {
             _currentAttackConfig = _attackConfig.GetAttackConfig(EAttackType.Basic);
+            GoNextCombo();
             return;
         }
         _animator.ResetCombo();
-        ResetCombo();
+        EndCombo();
     }
 
     private void OnMovementStateChange(EMovementState state)
@@ -230,7 +259,7 @@ private void ExecuteAttack(AttackPhaseData data, EAttackType type, DamageData da
     public void OnComboFinisherFinish()
     {
         _hitboxController.DeActive("Main");
-        ResetCombo();
+        EndCombo();
     }
 
     #endregion
