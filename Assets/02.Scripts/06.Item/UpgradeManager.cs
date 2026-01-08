@@ -21,6 +21,8 @@ public class UpgradeManager : MonoBehaviour
     
     public bool TryRegister(ItemData item)
     {
+        if (item == null) return false;
+        
         if (_targetType == null)
         {
             RegisterTargetType(item);
@@ -38,6 +40,9 @@ public class UpgradeManager : MonoBehaviour
     {
         _upgradeInventory.Remove(item);
         _inventory.Add(item);
+
+        if (!_isEmpty) return;
+        _targetType = null;
     }
     
     public void UnregisterAll()
@@ -69,4 +74,5 @@ public class UpgradeManager : MonoBehaviour
     }
 
     private bool _isFull => _upgradeInventory.Count < _upgradeData.Count;
+    private bool _isEmpty => _upgradeInventory.Count == 0;
 }
