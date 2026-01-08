@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Enemy/Windup/Projectile")]
-public class EnemyProjectileWindup : EnemyWindup
+[CreateAssetMenu(menuName = "SO/Enemy/Delay/Projectile")]
+public class EnemyAimDelaySO : EnemyDelaySOBase
 {
     [Header("Projectile")]
     [SerializeField] private GameObject targetPrefab;

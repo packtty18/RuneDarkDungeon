@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //히트박스 컨트롤러 조절 및 적의 공격체 생성
@@ -7,9 +8,8 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     [Title("참조")]
-    [SerializeField] private EnemyFacade _facade;
     [SerializeField] private HitboxController _hitboxController;
-
+    [SerializeField] private EnemyController _controller;
     private readonly Dictionary<int, IActionStrategy> _strategies = new();
     private readonly List<int> _ids = new List<int>();
     private IActionStrategy _current;
@@ -20,17 +20,18 @@ public class EnemyAttack : MonoBehaviour
     public float LoopDelay => _current.LoopDelay;
 
     [Title("일단은 테스트")]
-    [SerializeField] private EnemyWindup _arrow;
-    [SerializeField] private EnemyWindup _magic;
+    [SerializeField] private EnemyDelaySOBase _arrow;
+    [SerializeField] private EnemyDelaySOBase _magic;
 
     [SerializeField] private Transform _arrowSpawnPos;
     [SerializeField] private Transform _magicSpawnPos;
-    public void Init()
+
+    private void Awake()
     {
-        IsAttacking = false;
-        _facade = GetComponent<EnemyFacade>();
-        //프로토타입의 전략 수립
-        switch (_facade.Stat.EnemyType)
+        _controller = GetComponent<EnemyController>();
+        _hitboxController = GetComponentInChildren<HitboxController>();
+
+        switch (_controller.Stat.EnemyType)
         {
             case EEnemyType.Warrior:
                 {
@@ -45,7 +46,7 @@ public class EnemyAttack : MonoBehaviour
                 }
             case EEnemyType.Mage:
                 {
-                    RegisterStrategy(4, new ProtoRangedAttack(_magic,_magicSpawnPos));   //마법공격
+                    RegisterStrategy(4, new ProtoRangedAttack(_magic, _magicSpawnPos));   //마법공격
                     break;
                 }
             case EEnemyType.Boss:
@@ -53,9 +54,14 @@ public class EnemyAttack : MonoBehaviour
                     RegisterStrategy(2, new ProtoMeleeAttack(_hitboxController));   //콤보공격
                     break;
                 }
-
-
         }
+    }
+
+    public void Init()
+    {
+        IsAttacking = false;
+        //프로토타입의 전략 수립
+        
     }
 
     private void RegisterStrategy(int attackID, IActionStrategy strategy)

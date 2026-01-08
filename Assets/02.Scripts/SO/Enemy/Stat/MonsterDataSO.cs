@@ -1,7 +1,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-[CreateAssetMenu(menuName = "Enemy/Monster Data")]
+[CreateAssetMenu(menuName = "SO/Enemy/Monster Data")]
 public class MonsterDataSO : ScriptableObject
 {
     [Header("Identity")]

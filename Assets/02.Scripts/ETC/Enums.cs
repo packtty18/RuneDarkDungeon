@@ -78,7 +78,12 @@ public enum  EPoolType
 {
     None,
     Box,
-    Sound,
+    SFX,
+    Enemy_Warrior,
+    Enemy_Archer,
+    Enemy_Mage,
+    Enemy_Elite,
+    Enemy_Boss
 }
 
 #region PlayerStat

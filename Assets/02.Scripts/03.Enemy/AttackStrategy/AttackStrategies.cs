@@ -26,12 +26,12 @@ public class ProtoMeleeAttack : IActionStrategy
 //화살,마법탄 등을 생성. 히트박스는 생성된 객체에 존재
 public class ProtoRangedAttack : IActionStrategy
 {
-    private readonly EnemyWindup _windup;
+    private readonly EnemyDelaySOBase _windup;
     private readonly Transform _spanwPos;
     public float LoopDelay => _windup.Delay;
 
     public ProtoRangedAttack(
-        EnemyWindup windup,
+        EnemyDelaySOBase windup,
         Transform spawnPos)
     {
         _windup = windup;
@@ -40,7 +40,7 @@ public class ProtoRangedAttack : IActionStrategy
 
     public void BeginAction()
     {
-        _windup.BeginWindup();
+        _windup.BeginLoop();
     }
 
     public void EndAction()

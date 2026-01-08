@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Enemy/Boss Phase Data")]
+[CreateAssetMenu(menuName = "SO/Enemy/Boss Phase Data")]
 public class PhaseDataSO : ScriptableObject
 {
     [Header("페이즈 정보")]

@@ -6,14 +6,15 @@ public enum EEnemyType
     Warrior,
     Archer,
     Mage,
-    EliteWarrior,
-    Commander,
+    Elite,
     Boss
 }
 public enum EEnemyValueFloat
 {
     MoveSpeed,
-    AttackRange
+    AttackRange,
+    AttackCoolDown
+    
 }
 
 public enum EEnemyValueInt
@@ -32,7 +33,7 @@ public enum EEnemyConsumableFloat
     
 //}
 
-//데이터를 통해 Stat을 초기화 및 전달. 변경은 여기서 하지 않음
+//데이터를 통해 Stat을 초기화 및 전달.
 public class EnemyStat : MonoBehaviour
 {
     [SerializeField] private MonsterDataSO _data;
@@ -79,7 +80,7 @@ public class EnemyStat : MonoBehaviour
 
         _floatValues[EEnemyValueFloat.MoveSpeed].Init(data.moveSpeed);
         _floatValues[EEnemyValueFloat.AttackRange].Init(data.attackRange);
-
+        _floatValues[EEnemyValueFloat.AttackCoolDown].Init(data.attackCooldown);
         OnStatInitEnd?.Invoke();
 
         Debug.Log("[EnemyStat] Initialized");
@@ -100,4 +101,3 @@ public class EnemyStat : MonoBehaviour
         return _floatConsumables[type];
     }
 }
-

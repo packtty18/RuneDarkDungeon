@@ -1,33 +1,46 @@
 using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 //전체적인 조작을 담당.
 //State머신에서는 여기에 있는 함수만을 사용함.
-public class EnemyController : MonoBehaviour
+public class EnemyController : PoolableObject, IDamageable
 {
-    public EnemyFacade Facade { get; private set; }
+    [SerializeField] private ETeamType _team;
 
-    [SerializeField] private Collider _physicsCollider;
-
-    [SerializeField] private EnemyStateMachine _fsm;
+    [SerializeField] private Rigidbody _physics;
     [SerializeField] private Transform _target;
 
+    [ShowInInspector] private EnemyStateMachine _fsm;
+    [SerializeField] private bool _damageAcceptable = false;
+    public SafeEvent<EnemyController> OnDead = new();
+
+    private EnemyMove _move;
+    private EnemyAttack _attack;
+    private EnemyHealth _health;
+    private EnemyStat _stat;
+    private AnimatorController _anim;
 
     public EnemyStateMachine FSM => _fsm;
-    private EnemyMove _move => Facade.Move;
-    private EnemyAttack _attack => Facade.Attack;
-    private EnemyHealth _health => Facade.Health;
-    private EnemyStat _stat => Facade.Stat;
-    private AnimatorController _anim => Facade.Anim;
+    public EnemyMove Move => _move;
+    public EnemyAttack Attack => _attack;
+    public EnemyHealth Health => _health;
+    public EnemyStat Stat => _stat;
+    public AnimatorController Anim => _anim;
+    public Transform Target => _target;
+    public ETeamType Team => _team;
+
 
     private void Awake()
     {
-        Facade = GetComponent<EnemyFacade>();
-        _physicsCollider = GetComponent<Collider>();
+        _stat = GetComponent<EnemyStat>();
+        _health = GetComponent<EnemyHealth>();
+        _move = GetComponent<EnemyMove>();
+        _attack = GetComponent<EnemyAttack>();
+        _anim = GetComponent<AnimatorController>();
+
+        _physics = GetComponent<Rigidbody>();
         _fsm = new EnemyStateMachine();
-        _fsm.ChangeState(new IdleState(this));
     }
 
     private void Update()
@@ -35,31 +48,52 @@ public class EnemyController : MonoBehaviour
         _fsm.Update();
     }
 
-    public void ChangeState(EnemyState state)
-    {
-        _fsm.ChangeState(state);
-    }
-
-    #region 생명주기관련
+    #region 생명주기
+    [Button]
     public void Init()
     {
-        _physicsCollider.enabled = true;
-        Facade.Init();
+        _physics.isKinematic = false;
+
+        _fsm.Reset();
+        _fsm.ChangeState(new IdleState(this));
+
+        _stat.Init();
+        _health.Init();
+        _move.Init();
+        _attack.Init();
+        _anim.Init();
+
+        SetDamageAcceptable(true);
     }
+
+    [Button]
     public void Dead()
     {
+        SetDamageAcceptable(false);
+
         _move.PauseAgent();
         _attack.CancelAttack();
         _anim.SetTrigger(AnimatorController.s_trigger_Dead);
 
         // 물리 Collider 비활성화
-        _physicsCollider.enabled = false;
+        _physics.isKinematic = true;
+        ReturnToPoolAfter(3f);
 
-        StartCoroutine(Util.DestroyAfterTime(3f, gameObject));
+        OnDead?.Invoke(this);
     }
+
     #endregion
 
     #region Target
+    public void SetTarget(Transform target)
+    {
+        if (target == null)
+        {
+            return;
+        }
+        _target = target;
+    }
+
     public bool IsTargetExist()
     {
         return _target != null;
@@ -74,65 +108,64 @@ public class EnemyController : MonoBehaviour
         }
         return _target.position;
     }
+
+    public bool IsTargetInRange(float range)
+    {
+        if (_target == null)
+
+        {
+            return false;
+        }
+
+       float sqrDistance = (transform.position - _target.position).sqrMagnitude;
+
+        return sqrDistance <= range * range;
+    }
+
     #endregion
 
-    #region Move관련
-    public void MoveToTarget()
+    #region Health관련
+    private void SetDamageAcceptable(bool enable)
     {
-        _move.SetTarget(_target);
-        _move.StartMove();
-        _anim.SetBool(AnimatorController.s_bool_IsMove, true);
+        _damageAcceptable = enable;
     }
 
-    public void StopMove()
+    public void ApplyDamage(DamageData data)
     {
-        _move.StopMove();
-        _anim.SetBool(AnimatorController.s_bool_IsMove, false);
-    }
-    #endregion
-
-    #region Attack관련
-    public bool IsOnAttack()
-    {
-        return _attack.IsAttacking;
-    }
-
-    public int GetAttackCount()
-    {
-        return _attack.StrategyCount;
-    }
-
-
-
-    public void RequestAttack(int attackID)
-    {
-        if(!_attack.RequestAttack(attackID))
+        if(!_damageAcceptable)
         {
             return;
         }
 
-        _anim.SetInt(AnimatorController.s_int_AttackID, attackID);
-        _anim.SetTrigger(AnimatorController.s_trigger_Attack);
+        _health.DecreaseHealth(data.Damage);
+
+        if (_health.IsHealthEmpty())
+        {
+            HandleDead();
+        }
+        else
+        {
+            HandleDamaged(data);
+        }
+
+        Debug.Log($"{gameObject.name} 피격, {data.AttackId}");
     }
-    
-    public int RequestRandomID()
+
+    private void HandleDamaged(DamageData data)
     {
-        return _attack.GetRandomAttackID();
+        if (FSM.CurrentState is DeadState)
+        {
+            return;
+        }
+
+        _fsm.ChangeState(new HitState(this));
     }
 
-    //원거리 혹은 마법공격일 경우 공격후 몇초 뒤 실행
-    
-
+    private void HandleDead()
+    {
+        _fsm.ChangeState(new DeadState(this));
+    }
     #endregion
-
-
-    public void EnemyHitted()
-    {
-        _move.PauseAgent();
-        _attack.CancelAttack();
-        _anim.SetTrigger(AnimatorController.s_trigger_Hit);
-    }
-
 
     #region 애니메이션 이벤트용
     public void HitRecover()
@@ -162,7 +195,6 @@ public class EnemyController : MonoBehaviour
         _anim.SetTrigger("AttackLoopEnd");
     }
 
-
     public void OnEndAttack()
     {
         _attack.OnAttackEnd();
@@ -172,6 +204,7 @@ public class EnemyController : MonoBehaviour
     {
         _attack.OnAttackComplete();
     }
+
     #endregion
 }
 

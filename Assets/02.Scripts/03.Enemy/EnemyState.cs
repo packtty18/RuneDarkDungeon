@@ -1,10 +1,20 @@
+using UnityEditor.Build.Content;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.InputSystem.XR;
+using UnityEngine.Timeline;
+using static UnityEngine.GraphicsBuffer;
 
 //FSM 조절
 public class EnemyStateMachine
 {
-    private EnemyState _currentState;
-
+    [SerializeField] private EnemyState _currentState;
+    public EnemyState CurrentState => _currentState;
+    public void Reset()
+    {
+        _currentState?.Exit();
+        _currentState = null;
+    }
     public void ChangeState(EnemyState newState)
     {
         _currentState?.Exit();
@@ -52,7 +62,6 @@ public class IdleState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        controller.Init();
     }
 
     public override void Update()
@@ -72,7 +81,9 @@ public class ChaseState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        controller.MoveToTarget();
+        controller.Move.SetTarget(controller.Target);
+        controller.Move.StartMove();
+        controller.Anim.SetBool(AnimatorController.s_bool_IsMove, true);
     }
 
     public override void Update()
@@ -83,46 +94,49 @@ public class ChaseState : EnemyState
             return;
         }
 
-        float distance = Vector3.Distance(controller.transform.position, controller.GetTargetPosition());
-        if (distance <= controller.Facade.Stat.GetValue(EEnemyValueFloat.AttackRange).Value)
+        float attackRange = controller.Stat.GetValue(EEnemyValueFloat.AttackRange).Value;
+        if (controller.IsTargetInRange(attackRange))
         {
             controller.FSM.ChangeState(new AttackState(controller));
         }
+
     }
 
     public override void Exit()
     {
         base.Exit();
-        controller.StopMove();
+        controller.Move.StopMove();
+        controller.Anim.SetBool(AnimatorController.s_bool_IsMove, false);
     }
 }
 
 // Attack: 플레이어 범위 내에서 랜덤 공격 실행
 public class AttackState : EnemyState
 {
-    private float attackCooldown = 0f;
-    private float AttackDelay = 3; //추후 추가할것
+    private float _attackCooldown = 0f;
+    private float _attackDelay;
 
     public AttackState(EnemyController controller) : base(controller) { }
 
     public override void Enter()
     {
         base.Enter();
-        attackCooldown = 0f; // 상태 시작 시 딜레이 초기화
+        _attackCooldown = 0f; // 상태 시작 시 딜레이 초기화
+        _attackDelay = controller.Stat.GetValue(EEnemyValueFloat.AttackCoolDown).Value;
     }
 
     public override void Update()
     {
         // 공격 실행 중이면 기다림
-        if (controller.IsOnAttack())
+        if (controller.Attack.IsAttacking)
         {
             return;
         }
 
         // 공격 딜레이 타이머 갱신
-        if (attackCooldown > 0f)
+        if (_attackCooldown > 0f)
         {
-            attackCooldown -= Time.deltaTime;
+            _attackCooldown -= Time.deltaTime;
             return;
         }
 
@@ -133,24 +147,29 @@ public class AttackState : EnemyState
             return;
         }
 
-        float attackRange = controller.Facade.Stat.GetValue(EEnemyValueFloat.AttackRange).Value;
+        float attackRange = controller.Stat.GetValue(EEnemyValueFloat.AttackRange).Value;
 
         // 타겟이 공격범위를 벗어난다면 Chase로
-        float distance = Vector3.Distance(controller.transform.position, controller.GetTargetPosition());
-        if (distance > attackRange)
+        if (!controller.IsTargetInRange(attackRange)) 
         {
-            controller.FSM.ChangeState(new IdleState(controller));
+            controller.FSM.ChangeState(new ChaseState(controller));
             return;
         }
 
         // 랜덤 공격 실행
-        controller.RequestAttack(controller.RequestRandomID());
+        int randomID = controller.Attack.GetRandomAttackID();
+        if (!controller.Attack.RequestAttack(randomID))
+        {
+            return;
+        }
+
+        controller.Anim.SetInt(AnimatorController.s_int_AttackID, randomID);
+        controller.Anim.SetTrigger(AnimatorController.s_trigger_Attack);
+
 
         // 공격 후 딜레이 적용
-        attackCooldown = AttackDelay;
+        _attackCooldown = _attackDelay;
     }
-
-    
 }
 
 
@@ -162,7 +181,9 @@ public class HitState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        controller.EnemyHitted();
+        controller.Move.PauseAgent();
+        controller.Attack.CancelAttack();
+        controller.Anim.SetTrigger(AnimatorController.s_trigger_Hit);
     }
 
     public override void Update()

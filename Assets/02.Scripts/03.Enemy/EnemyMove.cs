@@ -18,7 +18,7 @@ public class EnemyMove : MonoBehaviour
 
     private void Update()
     {
-        if (_isPaused || !_agent.enabled || _target == null)
+        if (_isPaused ||_agent == null|| !_agent.enabled || _target == null)
         {
             return;
         }
@@ -26,6 +26,7 @@ public class EnemyMove : MonoBehaviour
         RotateToTarget();
     }
 
+    
     public void Init()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -40,7 +41,6 @@ public class EnemyMove : MonoBehaviour
 
     public void SetAgentSetting()
     {
-        _agent.updateRotation = false;
         //이동속도
         //회전속도
         //가속도

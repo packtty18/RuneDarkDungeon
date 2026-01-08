@@ -30,7 +30,7 @@ public class SoundManager : GlobalSingleton<SoundManager>
             CreateBgmSource();
         }
         
-        _soundFactory = new SoundFactory(PoolManager.Instance, EPoolType.Sound);
+        _soundFactory = new SoundFactory(PoolManager.Instance, EPoolType.SFX);
     }
 
     //BGM 오디오 소스 생성
