@@ -5,15 +5,15 @@ using UnityEngine;
 public class UpgradeEventHandler : MonoBehaviour
 {
     [Header("UI 연결")]
-    [SerializeField] TextMeshProUGUI _costTextUI;
-    [SerializeField] TextMeshProUGUI _rateTextUI;
+    [SerializeField] private TextMeshProUGUI _costTextUI;
+    [SerializeField] private TextMeshProUGUI _rateTextUI;
     
+    private IReadOnlyList<UI_Slot> _slots;
     private ISlotEventHandler _eventHandler;
-    private List<UI_Slot> _slots;
     
     private UpgradeManager _upgradeManager;
     
-    public void Initialize(UpgradeManager upgradeManager, List<UI_Slot>slots)
+    public void Initialize(UpgradeManager upgradeManager, IReadOnlyList<UI_Slot>slots)
     {
         _eventHandler = new UnregisterEventHandler(upgradeManager);
 
@@ -48,7 +48,7 @@ public class UpgradeEventHandler : MonoBehaviour
     {
         foreach (var slot in _slots)
         {
-            slot.gameObject.SetActive(count-- > 0);
+            slot.SetActive(count-- > 0);
         }
     }
     

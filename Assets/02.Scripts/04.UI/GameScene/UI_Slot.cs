@@ -47,11 +47,22 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         SetItem(slot._data);
         slot.SetItem(data);
     }
+
+    public void SetActive(bool active)
+    {
+        gameObject.SetActive(active);
+    }
     
     public void SetInteractable(bool isOn)
     {
         _iconCover.SetActive(!isOn);
         _isInteractable = isOn;
+    }
+
+    public bool CanUpgrade(ItemData item)
+    {
+        if (item != null) return Item.TypeEquals(item);
+        return Item.Grade != EItemGrade.Legendary;
     }
     
     public void OnPointerEnter(PointerEventData eventData)

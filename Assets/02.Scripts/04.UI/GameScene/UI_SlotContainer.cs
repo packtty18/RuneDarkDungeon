@@ -9,7 +9,7 @@ public class UI_SlotContainer : MonoBehaviour
     
     [Header("슬롯 연결")]
     [SerializeField] protected List<UI_Slot> _slots;
-    public List<UI_Slot> Slots => _slots;
+    public IReadOnlyList<UI_Slot> Slots => _slots;
     
     public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB, GradeColorSO colorDB)
     {

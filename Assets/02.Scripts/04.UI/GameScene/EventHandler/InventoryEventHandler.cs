@@ -10,13 +10,14 @@ public class InventoryEventHandler : MonoBehaviour
     [SerializeField] private UI_WindowToggleButton _upgradeUIButton;
     
     private ISlotEventHandler _eventHandler;
-    
+    private IReadOnlyList<UI_Slot> _slots;
+
     private SwapEventHandler _swapEventHandler;
     private RegisterEventHandler _registerEventHandler;
 
-    private List<UI_Slot> _slots;
+    private UpgradeManager _upgradeManager;
 
-    public void Initialize(UpgradeManager upgradeManager, List<UI_Slot> slots)
+    public void Initialize(UpgradeManager upgradeManager, IReadOnlyList<UI_Slot> slots)
     {
         _swapEventHandler = new(_tooltip, _dragIcon, _backgrounds);
         _registerEventHandler = new(upgradeManager);
@@ -29,6 +30,9 @@ public class InventoryEventHandler : MonoBehaviour
         }
         SetMode(false);
         _upgradeUIButton.OnUpgradeMode += SetMode;
+        
+        _upgradeManager = upgradeManager;
+        _upgradeManager.OnTargetTypeChanged += RefreshSlotState;
     }
 
     private void OnDestroy()
@@ -39,6 +43,7 @@ public class InventoryEventHandler : MonoBehaviour
             slot.OnSlotClicked -= OnClickSlot;
             slot.OnSlotHovered -= OnHoverSlot;
         }
+        _upgradeManager.OnTargetTypeChanged -= RefreshSlotState;
     }
 
     public void SetMode(bool isUpgrade)
@@ -46,11 +51,16 @@ public class InventoryEventHandler : MonoBehaviour
         _eventHandler?.OnExit();
         _eventHandler = isUpgrade ? _registerEventHandler : _swapEventHandler;
         _eventHandler.OnEnter();
-        
+
+        RefreshSlotState(null);
+    }
+
+    private void RefreshSlotState(ItemData targetItem)
+    {
         foreach (var slot in _slots)
         {
             if (slot.IsEmpty) continue;
-            bool isOn = !isUpgrade || slot.Item.Grade != EItemGrade.Legendary;
+            bool isOn = _eventHandler is SwapEventHandler || slot.CanUpgrade(targetItem);
             slot.SetInteractable(isOn);
         }
     }
