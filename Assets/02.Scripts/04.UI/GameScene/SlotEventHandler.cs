@@ -14,7 +14,7 @@ public class SlotEventHandler : MonoBehaviour
     {
         _normalEventHandler = new(tooltip, dragIcon, backgrounds);
         _upgradeEventHandler = new(upgradeManager);
-        _eventHandler = _normalEventHandler;
+        SetMode(false);
         
         _slots = slots;
         foreach (var slot in _slots)

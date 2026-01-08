@@ -14,7 +14,7 @@ public class NormalEventHandler : ISlotEventHandler
         _dragIcon = dragIcon;
         _backgrounds = backgrounds;
     }
-    
+
     public void OnClickSlot(UI_Slot slot)
     {
         if (_selectedSlot == null)
@@ -44,11 +44,19 @@ public class NormalEventHandler : ISlotEventHandler
     public void OnEnter()
     {
         SetBackgroundsActive(true);
+        foreach (var background in _backgrounds)
+        {
+            background.OnBackgroundClicked += OnClickBackground;
+        }
     }
 
     public void OnExit()
     {
        DeselecteSlot();
+       foreach (var background in _backgrounds)
+       {
+           background.OnBackgroundClicked -= OnClickBackground;
+       }
     }
     
     private void SwapSlot(UI_Slot left, UI_Slot right)

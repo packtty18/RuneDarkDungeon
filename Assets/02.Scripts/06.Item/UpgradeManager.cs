@@ -61,7 +61,8 @@ public class UpgradeManager : MonoBehaviour
 
     public void Upgrade()
     {
-        if (!IsFull
+        if (_targetType == null 
+            || !IsFull
             || !_goldData.TryConsume(_upgradeData.Cost)) return;
         
         ItemData newItem = new(_targetType.ID, _targetType.Grade + 1);
