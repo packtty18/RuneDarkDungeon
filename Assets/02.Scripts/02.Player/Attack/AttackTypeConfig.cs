@@ -15,7 +15,7 @@ public class AttackTypeConfig
     public DamageData Damage;
 
     [Tooltip("연속(콤보) 공격 가능 여부")]
-    public bool IsComboAttack => AttackPhases.Length > 0;
+    public bool IsComboAttack => AttackPhases.Length > 1;
 
     [Tooltip("최대 연속 공격 수")]
     public int MaxPhaseCount => AttackPhases?.Length ?? 0;

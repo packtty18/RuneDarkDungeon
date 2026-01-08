@@ -719,6 +719,28 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &1628181233 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5818967200685529976, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
+  m_PrefabInstance: {fileID: 3489963400543113221}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c34fd4e561f21da468a0263868c73308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitBox
+--- !u!114 &1631171421 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3872139809204004901, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
+  m_PrefabInstance: {fileID: 3489963400543113221}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75cbf9d58add5ec4a9385fca2b648d5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitboxController
 --- !u!4 &1742559941 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7188580767972606650, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
@@ -820,10 +842,22 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 3872139809204004901, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
-    - target: {fileID: 4118460354144073878, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
-      propertyPath: m_Enabled
+    - target: {fileID: 3872139809204004901, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3872139809204004901, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
+      propertyPath: 'serializationData.PrefabModifications.Array.data[0]'
+      value: '"path":"_hitbox.{\"Main\"}","value":$eref:0'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872139809204004901, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872139809204004901, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
+      propertyPath: 'serializationData.PrefabModificationsReferencedUnityObjects.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1628181233}
     - target: {fileID: 4317541718583085269, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.1312261
@@ -852,6 +886,10 @@ PrefabInstance:
       propertyPath: _attackConfig
       value: 
       objectReference: {fileID: 11400000, guid: 1b371a66a71756a40ab75888da217879, type: 2}
+    - target: {fileID: 4718409816780025331, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
+      propertyPath: _hitboxController
+      value: 
+      objectReference: {fileID: 1631171421}
     - target: {fileID: 6199315701370614745, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.045439586

@@ -55,7 +55,7 @@ public class PlayerAttack : MonoBehaviour
             TryStartAttack();
         }
 
-        //콤보 중인 스킬이 있다면 코루틴을 중지시키고 _pausedComboConfig 에 저장 후 스킬이 끝나면 복구 시킨 후 다시 코루틴(0.5초)를 실행
+        //콤보 중인 스킬이 있다면 코루틴을 중지시키고 _pausedComboConfig 에 저장 후 스킬이 끝나면 복구 시킨 후 다시 코루틴(0.5초)를 실행.
     }
     private void OnDestroy()
     {
@@ -128,8 +128,6 @@ public class PlayerAttack : MonoBehaviour
         else
         {
             Debug.Log($"[Attack] 콤보 피니셔 {_currentCombo}타");
-            // 마지막 타는 애니메이션 종료 이벤트에서 EndCombo
-            EndCombo();
         }
     }
 
@@ -137,12 +135,13 @@ public class PlayerAttack : MonoBehaviour
     {
         Debug.Log($"[Attack] Type: {type} | PhaseIndex: {data.PhaseIndex} | Damage: {damage.Damage}");
 
-        _animator.PlayAttack(data.PhaseIndex, type);
+        _animator.PlayAttack(_currentAttackConfig.IsComboAttack, data.PhaseIndex, type);
     }
 
     private void ExecuteJumpAttack()
     {
         ExecuteAttackSingle(EAttackType.Jump);
+        _currentCombo = 1;
         _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(_currentAttackConfig.GetPhaseData(1).InputWindow));
     }
 
@@ -209,7 +208,6 @@ public class PlayerAttack : MonoBehaviour
         _currentCombo = 0;
         _currentAttackConfig = null;
 
-        _animator.ResetCombo();
         _hitboxController.DeActive("Main");
     }
 
@@ -224,10 +222,8 @@ public class PlayerAttack : MonoBehaviour
         if (_currentAttackConfig != null && _currentAttackConfig.AttackType == EAttackType.Jump)
         {
             _currentAttackConfig = _attackConfig.GetAttackConfig(EAttackType.Basic);
-            GoNextCombo();
             return;
         }
-        _animator.ResetCombo();
         EndCombo();
     }
 
@@ -243,17 +239,6 @@ public class PlayerAttack : MonoBehaviour
     public void AttackStart()
     {
         _hitboxController.Active("Main");
-    }
-
-    public void OnSkillFinish()
-    {
-        _currentAttackConfig = null;
-        _hitboxController.DeActive("Main");
-    }
-
-    public void OnBasicAttackFinish()
-    {
-        _hitboxController.DeActive("Main");
     }
 
     public void OnComboFinisherFinish()
