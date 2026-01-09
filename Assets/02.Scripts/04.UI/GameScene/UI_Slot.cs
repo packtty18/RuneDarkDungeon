@@ -13,6 +13,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     private SlotData _data;
 
     public ItemData Item => _data.Item;
+    
     public ItemSO Info => _data.Info;
     public Sprite Icon => _iconImage.sprite;
     public bool IsEmpty =>  _data.Item == null;
@@ -61,8 +62,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public bool CanUpgrade(ItemData item)
     {
-        if (item != null) return Item.TypeEquals(item);
-        return Item.Grade != EItemGrade.Legendary;
+        return Item.CanUpgrade(item);
     }
     
     public void OnPointerEnter(PointerEventData eventData)

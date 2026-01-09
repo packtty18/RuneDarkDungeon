@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12cc885593837da4383e18e61b05f662, type: 3}
   m_Name: GradeColorData
   m_EditorClassIdentifier: Assembly-CSharp::GradeColorSO
-  _colors:
-  - Grade: 0
-    Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-  - Grade: 1
-    Color: {r: 0.20392157, g: 0.59607846, b: 0.85882354, a: 1}
-  - Grade: 2
-    Color: {r: 0.90588236, g: 0.29803923, b: 0.23529412, a: 1}
-  - Grade: 3
-    Color: {r: 0.94509804, g: 0.76862746, b: 0.05882353, a: 1}
+  _colorDict:
+    _pairs:
+    - Key: 0
+      Value: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+    - Key: 1
+      Value: {r: 0.20392157, g: 0.59607846, b: 0.84705883, a: 1}
+    - Key: 2
+      Value: {r: 0.90588236, g: 0.29803923, b: 0.23529412, a: 1}
+    - Key: 3
+      Value: {r: 0.94509804, g: 0.76862746, b: 0.05882353, a: 1}

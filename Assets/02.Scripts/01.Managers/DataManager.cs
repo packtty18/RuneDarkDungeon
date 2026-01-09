@@ -8,11 +8,11 @@ public class DataManager : GlobalSingleton<DataManager>
     public ICurrency GoldData => _data.Gold;
     
     [SerializeField] private ItemDatabaseSO _itemDB;
-    [SerializeField] private UpgradeDataSO _upgradeDB;
+    [SerializeField] private ItemUpgradeDataSO _upgradeDB;
     [SerializeField] private GradeColorSO _colorDB;
     
     public ItemDatabaseSO ItemDB => _itemDB;
-    public UpgradeDataSO UpgradeDB => _upgradeDB;
+    public ItemUpgradeDataSO UpgradeDB => _upgradeDB;
     public GradeColorSO ColorDB => _colorDB;
     
     protected override void OnInit()

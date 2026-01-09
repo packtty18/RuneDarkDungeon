@@ -48,37 +48,21 @@ public struct DamageData
 }
 
 [Serializable]
-public struct ItemEffectData
-{
-    public EItemGrade Grade;
-    public ItemEffectBaseSO Effect;
-}
-
-[Serializable]
 public struct UpgradeData
 {
-    public EItemGrade Grade;
     public int Cost;
     public int Count;
     [Range(0f, 1f)]
     public float Rate;
     
-    public UpgradeData(EItemGrade grade, int cost, int count, float rate)
+    public UpgradeData(int cost, int count, float rate)
     {
-        Grade = grade;
         Cost = cost;
         Count = count;
         Rate = rate;
     }
     
-    public static UpgradeData Empty => new UpgradeData(0, 0, 0, 0);
-}
-
-[Serializable]
-public struct GradeData
-{
-    public EItemGrade Grade;
-    public Color Color;
+    public static UpgradeData Empty => new(0, 0, 0);
 }
 
 [Serializable]

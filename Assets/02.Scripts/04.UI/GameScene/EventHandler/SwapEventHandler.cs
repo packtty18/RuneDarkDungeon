@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public class SwapEventHandler : ISlotEventHandler
 {
     private UI_Tooltip _tooltip;
