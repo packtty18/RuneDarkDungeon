@@ -1,9 +1,4 @@
-using UnityEditor.Build.Content;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.Timeline;
-using static UnityEngine.GraphicsBuffer;
 
 //FSM 조절
 public class EnemyStateMachine
@@ -83,7 +78,7 @@ public class ChaseState : EnemyState
         base.Enter();
         controller.Move.SetTarget(controller.Target);
         controller.Move.StartMove();
-        controller.Anim.SetBool(AnimatorController.s_bool_IsMove, true);
+        controller.Anim.SetBool(AnimatorController.s_boolIsMove, true);
     }
 
     public override void Update()
@@ -106,7 +101,7 @@ public class ChaseState : EnemyState
     {
         base.Exit();
         controller.Move.StopMove();
-        controller.Anim.SetBool(AnimatorController.s_bool_IsMove, false);
+        controller.Anim.SetBool(AnimatorController.s_boolIsMove, false);
     }
 }
 
@@ -163,8 +158,8 @@ public class AttackState : EnemyState
             return;
         }
 
-        controller.Anim.SetInt(AnimatorController.s_int_AttackID, randomID);
-        controller.Anim.SetTrigger(AnimatorController.s_trigger_Attack);
+        controller.Anim.SetInt(AnimatorController.s_intAttackID, randomID);
+        controller.Anim.SetTrigger(AnimatorController.s_triggerAttack);
 
 
         // 공격 후 딜레이 적용
@@ -183,7 +178,7 @@ public class HitState : EnemyState
         base.Enter();
         controller.Move.PauseAgent();
         controller.Attack.CancelAttack();
-        controller.Anim.SetTrigger(AnimatorController.s_trigger_Hit);
+        controller.Anim.SetTrigger(AnimatorController.s_triggerHit);
     }
 
     public override void Update()

@@ -4,22 +4,25 @@ using UnityEngine;
 public class ProtoMeleeAttack : IActionStrategy
 {
     private readonly HitboxController _hitbox;
+    private readonly string _key;
+
     private float _loopDelay = 0;
     public float LoopDelay => _loopDelay;
 
-    public ProtoMeleeAttack(HitboxController hitbox)
+    public ProtoMeleeAttack(HitboxController hitbox, string key)
     {
         _hitbox = hitbox;
+        _key = key;
     }
 
     public void BeginAction()
     {
-        _hitbox.Active("Main");
+        _hitbox.Activate(_key);
     }
 
     public void EndAction()
     {
-        _hitbox.DeActive("Main");
+        _hitbox.Deactivate(_key);
     }
 }
 

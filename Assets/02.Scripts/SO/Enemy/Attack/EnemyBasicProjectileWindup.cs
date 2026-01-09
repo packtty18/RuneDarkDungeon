@@ -4,13 +4,13 @@ using UnityEngine;
 public class EnemyAimDelaySO : EnemyDelaySOBase
 {
     [Header("Projectile")]
-    [SerializeField] private GameObject targetPrefab;
-    [SerializeField] private int damage;
+    [SerializeField] private GameObject _targetPrefab;
+    [SerializeField] private int _damage;
 
     public override void Execute(Transform spawnPos)
     {
         GameObject arrow = Instantiate(
-            targetPrefab,
+            _targetPrefab,
             spawnPos.position,
             spawnPos.rotation);
 
@@ -19,7 +19,7 @@ public class EnemyAimDelaySO : EnemyDelaySOBase
             Util.ObjectDestroy(arrow);
             return;
         }
-        proj.Init(damage);
+        proj.Init(_damage);
 
         Debug.Log("[Windup] Arrow Fired");
     }

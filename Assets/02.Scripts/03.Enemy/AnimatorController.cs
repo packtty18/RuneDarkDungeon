@@ -4,12 +4,12 @@ using UnityEngine;
 //상속할수도
 public class AnimatorController : MonoBehaviour
 {
-    public static string s_trigger_Attack = "Attack";
-    public static string s_int_AttackID = "AttackID";
-    public static string s_trigger_Hit = "Hit";
-    public static string s_trigger_Dead = "Dead";
-    public static string s_bool_IsMove = "IsMove";
-    public static string s_trigger_Reset = "Reset";
+    public static string s_triggerAttack = "Attack";
+    public static string s_intAttackID = "AttackID";
+    public static string s_triggerHit = "Hit";
+    public static string s_triggerDead = "Dead";
+    public static string s_boolIsMove = "IsMove";
+    public static string s_triggerReset = "Reset";
 
     private Animator _animator;
 

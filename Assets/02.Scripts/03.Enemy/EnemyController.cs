@@ -73,7 +73,7 @@ public class EnemyController : PoolableObject, IDamageable
 
         _move.PauseAgent();
         _attack.CancelAttack();
-        _anim.SetTrigger(AnimatorController.s_trigger_Dead);
+        _anim.SetTrigger(AnimatorController.s_triggerDead);
 
         // 물리 Collider 비활성화
         _physics.isKinematic = true;
@@ -171,7 +171,7 @@ public class EnemyController : PoolableObject, IDamageable
     public void HitRecover()
     {
         FSM.ChangeState(new IdleState(this));
-        _anim.SetTrigger(AnimatorController.s_trigger_Reset);
+        _anim.SetTrigger(AnimatorController.s_triggerReset);
     }
 
     public void OnBeginAttack()
