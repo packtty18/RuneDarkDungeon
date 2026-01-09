@@ -302,6 +302,7 @@ public class PlayerAttack : MonoBehaviour
         _hitboxController.Deactivate("Main");
         //움직일 수 있는 상태로 전환
         _playerMove.SetCanMove(true);
+        _isAttacking = false;
     }
 
     #endregion
