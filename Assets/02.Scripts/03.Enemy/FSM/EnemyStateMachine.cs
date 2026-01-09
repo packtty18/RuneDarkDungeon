@@ -58,6 +58,6 @@ public class EnemyStateMachine
     public void Tick(float deltaTime)
     {
         _currentState?.Tick(deltaTime);
-        _controller.Attack.Tick(deltaTime);
+        _controller.Attack.LoadCooltime(deltaTime);
     }
 }

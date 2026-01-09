@@ -68,10 +68,17 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    public void Tick(float deltaTime)
+    public void LoadCooltime(float deltaTime)
     {
+        if(IsAttacking)
+        {
+            return;
+        }
+
         if (_cooldownTimer > 0f)
+        {
             _cooldownTimer -= deltaTime;
+        }
     }
 
     public void StartCooldown()
