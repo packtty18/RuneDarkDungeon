@@ -1,23 +1,30 @@
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerStats))]
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     public ETeamType Team => ETeamType.Player;
 
+    private PlayerStats _stats;
     public void ApplyDamage(DamageData data)
     {
-        
+        _stats.Health.Consume(data.Damage);
+
+        if (_stats.Health.IsEmpty())
+        {
+            //사망
+        }
+        else
+        {
+            //경직
+        }
+
+
+        Debug.Log($"{gameObject.name} 피격, {data.AttackId}");
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _stats = GetComponent<PlayerStats>();
     }
 }
