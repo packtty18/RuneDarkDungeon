@@ -7,19 +7,14 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
     public IInventory Inventory => _inventory;
     public ICurrency GoldData => _goldData;
     
-    private UpgradeInventory _upgradeInventory;
-    public IUpgradeInventory UpgradeInventory => _upgradeInventory;
+    private Inventory _upgradeInventory = new();
+    public IInventory UpgradeInventory => _upgradeInventory;
 
     [SerializeField] private ItemDatabaseSO _itemDB;
     [SerializeField] private ItemUpgradeDataSO _upgradeDB;
     
     public ItemDatabaseSO ItemDB => _itemDB;
     public ItemUpgradeDataSO UpgradeDB => _upgradeDB;
-
-    protected override void OnInit()
-    {
-        _upgradeInventory = new(_upgradeDB);
-    }
     
     public ItemData ItemQ;
     public ItemData ItemE;

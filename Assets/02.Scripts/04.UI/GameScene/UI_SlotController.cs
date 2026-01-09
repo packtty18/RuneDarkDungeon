@@ -7,17 +7,17 @@ public class UI_SlotController : MonoBehaviour
     [Header("UI 연결")]
     [SerializeField] private TextMeshProUGUI _costTextUI;
     [SerializeField] private TextMeshProUGUI _rateTextUI;
-
-    private IUpgradeInventory _upgradeInventory;
+    
     private IReadOnlyList<UI_Slot> _inventorySlots;
     private IReadOnlyList<UI_Slot> _upgradeSlots;
     
     private UpgradeManager _upgradeManager;
 
-    public void Initialize(IUpgradeInventory upgradeInventory, IReadOnlyList<UI_Slot> inventorySlots, IReadOnlyList<UI_Slot> upgradeSlots)
+    public void Initialize(UpgradeManager upgradeManager, IReadOnlyList<UI_Slot> inventorySlots, IReadOnlyList<UI_Slot> upgradeSlots)
     {
-        _upgradeInventory = upgradeInventory;
-        upgradeInventory.Subscribe(Refresh);
+        _upgradeManager = upgradeManager;
+        _upgradeManager.OnUpgradeDataChanged += SetUpgradeInfo;
+        _upgradeManager.OnTargetTypeChanged += RefreshSlotState;
         
         _inventorySlots = inventorySlots;
         _upgradeSlots = upgradeSlots;
@@ -25,13 +25,22 @@ public class UI_SlotController : MonoBehaviour
     
     private void OnDestroy()
     {
-        _upgradeInventory.Unsubscribe(Refresh);
+        _upgradeManager.OnUpgradeDataChanged -= SetUpgradeInfo;
+        _upgradeManager.OnTargetTypeChanged -= RefreshSlotState;
     }
-
-    private void Refresh()
+    
+    public void ResetSlotState()
     {
-        RefreshSlotState(_upgradeInventory.TargetItem);
-        SetUpgradeInfo(_upgradeInventory.UpgradeInfo);
+        foreach (var slot in _inventorySlots)
+        {
+            if (slot.IsEmpty) continue;
+            slot.SetInteractable(true);
+        }
+    }
+    
+    public void RefreshSlotState()
+    {
+        RefreshSlotState(null);
     }
     
     private void RefreshSlotState(ItemData targetItem)

@@ -27,9 +27,9 @@ public class UI_Initializer : MonoBehaviour
     {
         _inventoryUI.Initialize(data.Inventory, data.ItemDB);
         _upgradeUI.Initialize(data.UpgradeInventory, data.ItemDB);
-        _controller.Initialize(data.UpgradeInventory, _inventoryUI.Slots, _upgradeUI.Slots);
+        _controller.Initialize(_upgradeManager, _inventoryUI.Slots, _upgradeUI.Slots);
         
-        _upgradeManager.Initialize(data.UpgradeInventory, data.Inventory, data.GoldData);
+        _upgradeManager.Initialize(data.UpgradeDB, data.UpgradeInventory, data.Inventory, data.GoldData);
         _eventHandler.Initialize(_inventoryUI.Slots);
         _upgradeEventHandler.Initialize(_upgradeUI.Slots);
         
@@ -80,12 +80,12 @@ public class UI_Initializer : MonoBehaviour
     {
         _inventoryUI.Show();
         _upgradeUI.Hide();
-        _upgradeManager.UnregisterAll();
+        _controller.ResetSlotState();
     }
     
     private void SetUpgradeMode()
     {
         _upgradeUI.Show();
-        _upgradeManager.UnregisterAll();
+        _controller.RefreshSlotState();
     }
 }
