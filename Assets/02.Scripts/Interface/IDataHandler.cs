@@ -3,7 +3,7 @@ using UnityEngine;
 public interface IDataHandler
 {
     IInventory Inventory { get; }
-    IInventory UpgradeInventory { get; }
+    IUpgradeInventory UpgradeInventory { get; }
     ICurrency GoldData { get; }
     
     ItemDatabaseSO ItemDB { get; }

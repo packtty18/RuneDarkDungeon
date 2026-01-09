@@ -3,48 +3,29 @@ using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
 {
-    private IInventory _upgradeInventory;
+    private IUpgradeInventory _upgradeInventory;
     private IInventory _inventory;
-    private ICurrency _goldData;
-
-    private ItemUpgradeDataSO _upgradeDB;
-    private ItemData _targetType;
-    private UpgradeData _upgradeData;
+    private ICurrency _currency;
     
-    public event Action<ItemData> OnTargetTypeChanged;
-    public event Action<UpgradeData> OnUpgradeDataChanged; 
-    
-    public void Initialize(ItemUpgradeDataSO upgradeDB, IInventory upgradeInventory, IInventory inventory, ICurrency goldData)
+    public void Initialize(IUpgradeInventory upgradeInventory, IInventory inventory, ICurrency currency)
     {
-        _upgradeDB = upgradeDB;
         _upgradeInventory = upgradeInventory;
         _inventory = inventory;
-        _goldData = goldData;
+        _currency = currency;
     }
     
     public void Register(ItemData item)
     {
         if (item == null) return;
         
-        if (_targetType == null)
-        {
-            RegisterTargetType(item);
-        }
-
-        if (!item.TypeEquals(_targetType) ||
-            IsFull) return;
-        
+        if (!_upgradeInventory.TryAdd(item)) return; 
         _inventory.Remove(item);
-        _upgradeInventory.Add(item);
     }
 
     public void Unregister(ItemData item)
     {
         _upgradeInventory.Remove(item);
         _inventory.Add(item);
-
-        if (!IsEmpty) return;
-        ResetTargetType();
     }
     
     public void UnregisterAll()
@@ -58,36 +39,14 @@ public class UpgradeManager : MonoBehaviour
 
     public void Upgrade()
     {
-        if (_targetType == null 
-            || !IsFull
-            || !_goldData.TryConsume(_upgradeData.Cost)) return;
+        if (!_upgradeInventory.IsReadyToUpgrade) return;
         
-        ItemData newItem = _targetType.GetUpgradedItem();
+        int cost = _upgradeInventory.UpgradeInfo.Cost;
+        if (!_currency.TryConsume(cost)) return;
+        
+        ItemData newItem = _upgradeInventory.TargetItem.GetUpgradedItem(); 
         _inventory.Add(newItem);
+        
         _upgradeInventory.Clear();
-        ResetTargetType();
     }
-    
-    private void RegisterTargetType(ItemData item)
-    {
-        var info = _upgradeDB.GetGradeInfo(item.Grade);
-        if (info == null) return;
-        
-        _targetType = item;
-        _upgradeData = info.Value;
-        
-        OnTargetTypeChanged?.Invoke(_targetType);
-        OnUpgradeDataChanged?.Invoke(_upgradeData);
-    }
-
-    private void ResetTargetType()
-    {
-        _targetType = null;
-        _upgradeData = UpgradeData.Empty;
-        OnTargetTypeChanged?.Invoke(_targetType);
-        OnUpgradeDataChanged?.Invoke(_upgradeData);
-    }
-    
-    private bool IsFull => _upgradeInventory.Items.Count == _upgradeData.Count;
-    private bool IsEmpty => _upgradeInventory.Items.Count == 0;
 }

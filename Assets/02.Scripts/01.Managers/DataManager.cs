@@ -4,10 +4,10 @@ public class DataManager : GlobalSingleton<DataManager>, IDataHandler
 {
     private GameData _data = new();
     
-    private Inventory _upgradeInventory;
+    private UpgradeInventory _upgradeInventory;
     
     public IInventory Inventory => _data.Inventory;
-    public IInventory UpgradeInventory => _upgradeInventory;
+    public IUpgradeInventory UpgradeInventory => _upgradeInventory;
     public ICurrency GoldData => _data.Gold;
     
     [SerializeField] private ItemDatabaseSO _itemDB;
@@ -19,6 +19,7 @@ public class DataManager : GlobalSingleton<DataManager>, IDataHandler
     protected override void OnInit()
     {
         FileIO.Load(_data);
+        _upgradeInventory = new(_upgradeDB);
     }
 
     public void Save()
