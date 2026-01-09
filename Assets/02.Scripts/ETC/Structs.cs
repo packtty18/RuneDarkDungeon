@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using UnityEngine;
 
@@ -29,19 +29,55 @@ public struct KnockbackData
 }
 
 [Serializable]
-public struct AttackData
+public struct DamageData
 {
-    //공격에 대한 정보
-    public float Damage; //데미지
-    public Vector3 HitDirection; //공격 방향 
-    public GameObject Attacker;  //공격의 주체
+    public int AttackId;
+    public ETeamType Team;
+    public float Damage;            //데미지
+    public Vector3 HitDirection;    //공격 방향 
     public KnockbackData Knockback;
 
-    public AttackData(float damage, Vector3 hitDirection, GameObject attacker, KnockbackData knockback)
+    public DamageData(int attackId, ETeamType team,float damage, Vector3 hitDirection, KnockbackData knockback)
     {
+        AttackId= attackId;
+        Team = team;
         Damage = damage;
         HitDirection = hitDirection;
-        Attacker = attacker;
         Knockback = knockback;
     }
+}
+
+[Serializable]
+public struct UpgradeData
+{
+    public int Cost;
+    public int Count;
+    [Range(0f, 1f)]
+    public float Rate;
+    
+    public UpgradeData(int cost, int count, float rate)
+    {
+        Cost = cost;
+        Count = count;
+        Rate = rate;
+    }
+    
+    public static UpgradeData Empty => new(0, 0, 0);
+}
+
+[Serializable]
+public struct SlotData
+{
+    public ItemData Item;
+    public ItemSO Info;
+    public Color Color;
+
+    public SlotData(ItemData item, ItemSO info, Color color)
+    {
+        Item = item;
+        Info = info;
+        Color = color;
+    }
+
+    public static SlotData Empty => new SlotData(null, null, Color.white);
 }

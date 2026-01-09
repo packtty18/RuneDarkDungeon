@@ -1,25 +1,97 @@
-﻿public enum EGameState
+public enum EGameState
 { 
     Ready,
     Playing,
     GameOver
 }
 
-public enum EEnemyState
-{ 
-    Spawn,
-    Idle,
-    Patrol,
-    Trace,
-    Comeback,
-    Attack,
-    Hit,
-    Death,
-    RageOn,
-    RageMove,
-    RageAttack
+public enum EAttackType
+{
+    Basic, 
+    Jump,   
 }
 
+public enum EMovementState
+{
+    Idle,
+    Walk,
+    Run,
+    Jump,
+    Stagger, //경직   
+    Dead,
+}
+
+public enum EActionState
+{
+    None,
+    Attack,
+    DashAttack,
+    Skill,
+}
+
+public enum EEnemyState
+{
+    Idle,
+    Chase,
+    Attack,
+    Hit,
+    Dead,
+}
+
+
+public enum EGameKeyType
+{
+    Front,
+    Back,
+    Left,
+    Right,
+    Jump,
+    Attack,
+    Run,
+    Enter,
+}
+
+public enum ESceneType
+{
+    MainMenu,
+    Gameplay,
+    Lobby,
+    Loading,
+}
+
+public enum ETeamType
+{
+    Player,
+    Enemy,
+    Neutral
+}
+
+public enum EItemGrade
+{
+    Normal,
+    Rare,
+    Unique,
+    Legendary
+}
+
+public enum EInventoryMode
+{
+    Closed,
+    Normal,
+    Upgrade,
+}
+
+public enum  EPoolType
+{
+    None,
+    Box,
+    SFX,
+    Enemy_Warrior,
+    Enemy_Archer,
+    Enemy_Mage,
+    Enemy_Elite,
+    Enemy_Boss
+}
 
 #region PlayerStat
 public enum EConsumableFloat
