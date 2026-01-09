@@ -91,9 +91,9 @@ public class EnemySpawnManager : SerializedMonoBehaviour
 
     private Transform GetTarget()
     {
-        if(BattleManager.IsExist() && BattleManager.Instance.Player != null)
+        if (BattleManager.IsExist() && BattleManager.Instance.PlayerTransform != null)
         {
-            return BattleManager.Instance.Player.transform;
+            return BattleManager.Instance.PlayerTransform;
         }
         else
         {

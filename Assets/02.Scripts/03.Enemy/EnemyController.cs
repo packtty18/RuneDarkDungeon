@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using System;
+using System.Collections;
 using UnityEngine;
 
 //전체적인 조작을 담당.
@@ -12,14 +13,13 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private Transform _target;
 
     [ShowInInspector] private EnemyStateMachine _fsm;
-    [SerializeField] private bool _damageAcceptable = false;
     public SafeEvent<EnemyController> OnDead = new();
 
-    private EnemyMove _move;
-    private EnemyAttack _attack;
-    private EnemyHealth _health;
-    private EnemyStat _stat;
-    private AnimatorController _anim;
+    [SerializeField] private EnemyMove _move;
+    [SerializeField] private EnemyAttack _attack;
+    [SerializeField] private EnemyHealth _health;
+    [SerializeField] private EnemyStat _stat;
+    [SerializeField] private AnimatorController _anim;
 
     public EnemyStateMachine FSM => _fsm;
     public EnemyMove Move => _move;
@@ -40,7 +40,7 @@ public class EnemyController : PoolableObject, IDamageable
         _anim = GetComponent<AnimatorController>();
 
         _physics = GetComponent<Rigidbody>();
-        _fsm = new EnemyStateMachine();
+        _fsm = new EnemyStateMachine(this);
     }
 
     private void Update()
@@ -54,14 +54,14 @@ public class EnemyController : PoolableObject, IDamageable
     {
         _physics.isKinematic = false;
 
-        _fsm.Reset();
-        _fsm.ChangeState(new IdleState(this));
-
         _stat.Init();
         _health.Init();
         _move.Init();
         _attack.Init();
         _anim.Init();
+
+        _fsm.Reset();
+        _fsm.ChangeState(EEnemyState.Idle);
 
         SetDamageAcceptable(true);
     }
@@ -70,10 +70,11 @@ public class EnemyController : PoolableObject, IDamageable
     public void Dead()
     {
         SetDamageAcceptable(false);
+        _fsm.Reset();
 
         _move.PauseAgent();
-        _attack.CancelAttack();
-        _anim.SetTrigger(AnimatorController.s_triggerDead);
+        CancelAttack();
+        _anim.SetTrigger(AnimatorController.s_deadTrigger);
 
         // 물리 Collider 비활성화
         _physics.isKinematic = true;
@@ -127,19 +128,17 @@ public class EnemyController : PoolableObject, IDamageable
     #region Health관련
     private void SetDamageAcceptable(bool enable)
     {
-        _damageAcceptable = enable;
+        _health.SetDamageable(enable);
     }
 
     public void ApplyDamage(DamageData data)
     {
-        if(!_damageAcceptable)
+        if (!_health.TryApplyDamage(data.Damage))
         {
             return;
         }
 
-        _health.DecreaseHealth(data.Damage);
-
-        if (_health.IsHealthEmpty())
+        if (_health.IsDead)
         {
             HandleDead();
         }
@@ -151,6 +150,7 @@ public class EnemyController : PoolableObject, IDamageable
         Debug.Log($"{gameObject.name} 피격, {data.AttackId}");
     }
 
+    [Button]
     private void HandleDamaged(DamageData data)
     {
         if (FSM.CurrentState is DeadState)
@@ -158,41 +158,55 @@ public class EnemyController : PoolableObject, IDamageable
             return;
         }
 
-        _fsm.ChangeState(new HitState(this));
+        _fsm.ChangeState(EEnemyState.Hit);
     }
 
     private void HandleDead()
     {
-        _fsm.ChangeState(new DeadState(this));
+        _fsm.ChangeState(EEnemyState.Dead);
     }
     #endregion
 
     #region 애니메이션 이벤트용
+    [Button]
     public void HitRecover()
     {
-        FSM.ChangeState(new IdleState(this));
-        _anim.SetTrigger(AnimatorController.s_triggerReset);
+        FSM.ChangeState(EEnemyState.Idle);
+        _anim.SetTrigger(AnimatorController.s_resetTrigger);
     }
 
     public void OnBeginAttack()
     {
         _attack.OnBeginAttack();
 
-        if(_attack.LoopDelay >0 )
-        {
-            Invoke("OnLoopEnd", _attack.LoopDelay);
-        }
+        StopLoopDelay();
+        _loopDelayRoutine = StartCoroutine(LoopDelayRoutine(_attack.LoopDelay));
     }
 
-    //공격 애니메이션의 Loop를 종료
-    private void OnLoopEnd()
+    private Coroutine _loopDelayRoutine;
+    private IEnumerator LoopDelayRoutine(float delay)
     {
-        if (!_attack.IsAttacking)
-        {
-            return;
-        }
+        yield return new WaitForSeconds(delay);
+
+        if (_attack == null || !_attack.IsAttacking)
+            yield break;
 
         _anim.SetTrigger("AttackLoopEnd");
+    }
+
+    public void CancelAttack()
+    {
+        StopLoopDelay();
+        _attack.CancelAttack();
+    }
+
+    private void StopLoopDelay()
+    {
+        if (_loopDelayRoutine != null)
+        {
+            StopCoroutine(_loopDelayRoutine);
+            _loopDelayRoutine = null;
+        }
     }
 
     public void OnEndAttack()

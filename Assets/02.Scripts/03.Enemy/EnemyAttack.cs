@@ -19,7 +19,7 @@ public class EnemyAttack : MonoBehaviour
     public int StrategyCount => _strategies.Count;
     public bool IsAttacking = false; //State의 판단기준
 
-    public float LoopDelay => _current.LoopDelay;
+    public float LoopDelay => _current == null ? 0 : _current.LoopDelay;
 
     [Title("일단은 테스트")]
     [SerializeField] private EnemyDelaySOBase _arrow;
@@ -32,6 +32,13 @@ public class EnemyAttack : MonoBehaviour
     {
         _controller = GetComponent<EnemyController>();
         _hitboxController = GetComponentInChildren<HitboxController>();
+
+        
+    }
+
+    public void Init()
+    {
+        IsAttacking = false;
 
         //임시 나중에 확장해서 전략을 등록할 예정
         switch (_controller.Stat.EnemyType)
@@ -58,12 +65,6 @@ public class EnemyAttack : MonoBehaviour
                     break;
                 }
         }
-    }
-
-    public void Init()
-    {
-        IsAttacking = false;
-        
     }
 
     protected void RegisterStrategy(int attackID, IActionStrategy strategy)
