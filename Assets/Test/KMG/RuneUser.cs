@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class RuneUser : LocalSingleton<RuneUser>
+public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
 {
     [SerializeField] private Inventory _inventory;
     [SerializeField] private GoldData _goldData;
     public IInventory Inventory => _inventory;
     public ICurrency GoldData => _goldData;
 
-    public ItemUpgradeDataSO UpgradeDB;
-    public ItemDatabaseSO ItemDB;
+    [SerializeField] private ItemDatabaseSO _itemDB;
+    [SerializeField] private ItemUpgradeDataSO _upgradeDB;
+    
+    public ItemDatabaseSO ItemDB => _itemDB;
+    public ItemUpgradeDataSO UpgradeDB => _upgradeDB;
     
     public ItemData ItemQ;
     public ItemData ItemE;
@@ -45,4 +48,6 @@ public class RuneUser : LocalSingleton<RuneUser>
             NextR = Time.time + RCooltime;
         }
     }
+
+    public void Save() { }
 }

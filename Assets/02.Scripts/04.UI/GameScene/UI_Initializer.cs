@@ -23,10 +23,8 @@ public class UI_Initializer : MonoBehaviour
 
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
 
-    private void Start()
+    public void Initialize(IDataHandler data)
     {
-        var data = DataManager.Instance;
-
         _inventoryUI.Initialize(data.Inventory, data.ItemDB);
         _upgradeUI.Initialize(_upgradeManager.UpgradeInventory, data.ItemDB);
         _controller.Initialize(_upgradeManager, _inventoryUI.Slots, _upgradeUI.Slots);
