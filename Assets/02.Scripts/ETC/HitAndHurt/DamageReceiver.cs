@@ -17,7 +17,7 @@ public class DamageReceiver : MonoBehaviour
         }
     }
 
-    public void ReceiveDamage(DamageData data,HurtBox hurtbox)
+    public void ReceiveDamage(DamageData data, HurtBox hurtbox)
     {
        
         if (_lastAttackId == data.AttackId)

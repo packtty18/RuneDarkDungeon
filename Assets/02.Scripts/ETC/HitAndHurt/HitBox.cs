@@ -34,8 +34,9 @@ public class HitBox : MonoBehaviour
         _isActive = false;
     }
 
+
     [Button("Activate HitBox")]
-    public void Activate()
+    public void Activate(float damage = 0)
     {
         if (_isActive)
         {
@@ -43,6 +44,8 @@ public class HitBox : MonoBehaviour
         }
 
         _currentAttackId = ++s_globalAttackId;
+        _damage = damage;
+
         _isActive = true;
         _collider.enabled = true;
 

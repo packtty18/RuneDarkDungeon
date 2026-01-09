@@ -1,46 +1,49 @@
+using Sirenix.OdinInspector;
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //Health스텟 조절 및 사망 혹은 히트 이벤트 발동
-public class EnemyHealth : MonoBehaviour, IDamageable
+public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField]private ETeamType _team;
-    public ETeamType Team => _team;
+    [ShowInInspector, ReadOnly] private EnemyController _controller;
+    [ShowInInspector, ReadOnly] private IReadOnlyConsumable<float> _health;
 
-    public EnemyFacade _enemyFacade;
-    public IReadOnlyConsumable<float> _health => _enemyFacade.Stat.GetValue(EEnemyConsumableFloat.Health);
+    private bool _canTakeDamage;
 
-    [SerializeField] private bool _damageAcceptable = false;
+    public SafeEvent OnDead = new();
+    public bool IsDead => _health.IsEmpty();
 
+    private void Awake()
+    {
+        _controller = GetComponent<EnemyController>();
+    }
+
+    
     public void Init()
     {
-        _enemyFacade = GetComponent<EnemyFacade>();
-
-        _damageAcceptable = true;
+        _health = _controller.Stat.GetValue(EEnemyConsumableFloat.Health);
+        SetDamageable(true);
     }
 
-    public void ApplyDamage(DamageData data)
+    public bool TryApplyDamage(float damage)
     {
-        if (!_damageAcceptable)
+        if (!_canTakeDamage || _health.IsEmpty())
         {
-            return;
+            return false;
         }
 
-        _health.Consume(data.Damage);
-        if(_health.IsEmpty())
+        _health.Consume(damage);
+        if (IsDead)
         {
-            //사망
-        }
-        else
-        {
-            //경직
+            OnDead?.Invoke();
         }
 
-
-        Debug.Log($"{gameObject.name} 피격, {data.AttackId}");
+        return true;
     }
 
-    public void SetDamageAcceptable(bool value)
+    public void SetDamageable(bool enable)
     {
-        _damageAcceptable = value;
+        _canTakeDamage = enable;
     }
 }

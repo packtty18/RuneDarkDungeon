@@ -4,12 +4,12 @@ using UnityEngine;
 //상속할수도
 public class AnimatorController : MonoBehaviour
 {
-    public static string s_trigger_Attack = "Attack";
-    public static string s_int_AttackID = "AttackID";
-    public static string s_trigger_Hit = "Hit";
-    public static string s_trigger_Dead = "Dead";
-    public static string s_bool_IsMove = "IsMove";
-    public static string s_trigger_Reset = "Reset";
+    public static string s_attackTrigger = "Attack";
+    public static string s_attackIdInt = "AttackID";
+    public static string s_hitTrigger = "Hit";
+    public static string s_deadTrigger = "Dead";
+    public static string s_moveBool = "IsMove";
+    public static string s_resetTrigger = "Reset";
 
     private Animator _animator;
 
@@ -21,6 +21,11 @@ public class AnimatorController : MonoBehaviour
     public virtual void Init()
     {
         Debug.Log("AniamtorController 초기화", this);
+    }
+
+    public void SetAnimSpeed(float speed)
+    {
+        _animator.speed = speed;
     }
 
     [Button]

@@ -25,19 +25,14 @@ public enum EPlayerState
 }
 
 public enum EEnemyState
-{ 
-    Spawn,
+{
     Idle,
-    Patrol,
-    Trace,
-    Comeback,
+    Chase,
     Attack,
     Hit,
-    Death,
-    RageOn,
-    RageMove,
-    RageAttack
+    Dead,
 }
+
 
 public enum EGameKeyType
 {
@@ -85,7 +80,12 @@ public enum  EPoolType
 {
     None,
     Box,
-    Sound,
+    SFX,
+    Enemy_Warrior,
+    Enemy_Archer,
+    Enemy_Mage,
+    Enemy_Elite,
+    Enemy_Boss
 }
 
 #region PlayerStat
