@@ -9,7 +9,7 @@ public class IdleState : EnemyState
         base.Enter();
     }
 
-    public override void Update()
+    public override void Tick(float deltaTime)
     {
         if (controller.IsTargetExist())
         {

@@ -23,6 +23,11 @@ public class AnimatorController : MonoBehaviour
         Debug.Log("AniamtorController 초기화", this);
     }
 
+    public void SetAnimSpeed(float speed)
+    {
+        _animator.speed = speed;
+    }
+
     [Button]
     public void SetInt(string name, int value)
     {

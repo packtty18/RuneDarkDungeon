@@ -15,7 +15,7 @@ public abstract class EnemyState
         Debug.Log($"[FSM] Enter {GetType().Name}");
     }
 
-    public virtual void Update() { }
+    public virtual void Tick(float deltaTime) { }
 
     public virtual void Exit()
     {

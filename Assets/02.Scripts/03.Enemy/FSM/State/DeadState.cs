@@ -10,7 +10,7 @@ public class DeadState : EnemyState
         controller.Dead();
     }
 
-    public override void Update()
+    public override void Tick(float deltaTime)
     {
     }
 }

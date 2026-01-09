@@ -12,7 +12,7 @@ public class HitState : EnemyState
         controller.Anim.SetTrigger(AnimatorController.s_hitTrigger);
     }
 
-    public override void Update()
+    public override void Tick(float deltaTime)
     {
     }
 }

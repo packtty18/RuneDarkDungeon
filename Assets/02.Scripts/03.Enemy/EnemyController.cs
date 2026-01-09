@@ -13,13 +13,15 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private Transform _target;
 
     [ShowInInspector] private EnemyStateMachine _fsm;
-    public SafeEvent<EnemyController> OnDead = new();
+    
 
     [SerializeField] private EnemyMove _move;
     [SerializeField] private EnemyAttack _attack;
     [SerializeField] private EnemyHealth _health;
     [SerializeField] private EnemyStat _stat;
     [SerializeField] private AnimatorController _anim;
+
+    [SerializeField] private bool _isPaused;
 
     public EnemyStateMachine FSM => _fsm;
     public EnemyMove Move => _move;
@@ -30,7 +32,7 @@ public class EnemyController : PoolableObject, IDamageable
     public Transform Target => _target;
     public ETeamType Team => _team;
 
-
+    public SafeEvent<EnemyController> OnDead = new();
     private void Awake()
     {
         _stat = GetComponent<EnemyStat>();
@@ -45,8 +47,12 @@ public class EnemyController : PoolableObject, IDamageable
 
     private void Update()
     {
-        _fsm.Update();
+        if (_isPaused)
+            return;
+
+        _fsm.Tick(Time.deltaTime);
     }
+
 
     #region 생명주기
     [Button]
@@ -81,6 +87,21 @@ public class EnemyController : PoolableObject, IDamageable
         ReturnToPoolAfter(3f);
 
         OnDead?.Invoke(this);
+    }
+
+    [Button]
+    public void Pause()
+    {
+        _isPaused = true;
+        _move.StopMove();
+        _anim.SetAnimSpeed(0f);
+    }
+    [Button]
+    public void Resume()
+    {
+        _isPaused = false;
+        _move.StartMove();
+        _anim.SetAnimSpeed(1f);
     }
 
     #endregion

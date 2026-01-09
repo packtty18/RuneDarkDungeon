@@ -16,7 +16,7 @@ public class AttackState : EnemyState
         _attackDelay = controller.Stat.GetValue(EEnemyValueFloat.AttackCoolDown).Value;
     }
 
-    public override void Update()
+    public override void Tick(float deltaTime)
     {
         // 공격 실행 중이면 기다림
         if (controller.Attack.IsAttacking)
@@ -27,7 +27,7 @@ public class AttackState : EnemyState
         // 공격 딜레이 타이머 갱신
         if (_attackCooldown > 0f)
         {
-            _attackCooldown -= Time.deltaTime;
+            _attackCooldown -= deltaTime;
             return;
         }
 

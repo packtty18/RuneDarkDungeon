@@ -13,7 +13,7 @@ public class ChaseState : EnemyState
         controller.Anim.SetBool(AnimatorController.s_moveBool, true);
     }
 
-    public override void Update()
+    public override void Tick(float deltaTime)
     {
         if (!controller.IsTargetExist())
         {
@@ -26,7 +26,6 @@ public class ChaseState : EnemyState
         {
             controller.FSM.ChangeState(EEnemyState.Attack);
         }
-
     }
 
     public override void Exit()

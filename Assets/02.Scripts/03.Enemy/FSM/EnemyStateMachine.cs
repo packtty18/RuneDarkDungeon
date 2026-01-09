@@ -55,8 +55,8 @@ public class EnemyStateMachine
         };
     }
 
-    public void Update()
+    public void Tick(float deltaTime)
     {
-        _currentState?.Update();
+        _currentState?.Tick(deltaTime);
     }
 }
