@@ -12,43 +12,28 @@ public class Inventory : IInventory
     
     public int Count => _items.Count;
     
-    private void EnsureCapacity(int index)
-    {
-        while (_items.Count <= index)
-        {
-            _items.Add(null);
-        }
-    }
-    
     public void Add(ItemData item)
     {
-        int emptyIndex = _items.IndexOf(null);
-        if (emptyIndex < 0)
-        {
-            _items.Add(item);
-        }
-        else
-        {
-            _items[emptyIndex] = item;
-        }
+        _items.Add(item);
         Notify();
     }
 
     public void Remove(ItemData item)
     {
-        int index = _items.IndexOf(item);
-        if (index < 0) return;
-        
-        _items[index] = null;
+        _items.Remove(item);
         Notify();
     }
 
-    public void Swap(int indexA, int indexB)
+    public void Swap(ItemData itemA, ItemData itemB)
     {
-        if (indexA == indexB) return;
-        EnsureCapacity(Mathf.Max(indexA, indexB));
-        
-        (_items[indexA], _items[indexB]) = (_items[indexB], _items[indexA]);
+        if (itemA == null || itemB == null || itemA == itemB) return;
+
+        int indexA = _items.IndexOf(itemA);
+        int indexB = _items.IndexOf(itemB);
+
+        _items[indexA] = itemB;
+        _items[indexB] = itemA;
+
         Notify();
     }
 
@@ -57,7 +42,6 @@ public class Inventory : IInventory
         _items.Clear();
         Notify();
     }
-    
     
     public void Subscribe(Action action)
     {

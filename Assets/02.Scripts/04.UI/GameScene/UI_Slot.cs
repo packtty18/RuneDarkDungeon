@@ -12,9 +12,6 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     private SlotData _data;
 
-    private int _index;
-    public int Index => _index;
-    
     public ItemData Item => _data.Item;
     
     public ItemSO Info => _data.Info;
@@ -24,11 +21,6 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public event Action<UI_Slot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
-
-    public void SetIndex(int index)
-    {
-        _index = index;
-    }
     
     public void SetItem(SlotData data)
     {
@@ -49,7 +41,14 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         _iconImage.sprite = null;
         _outlineImage.color = Color.white;
     }
-    
+
+    public void SwapItem(UI_Slot slot)
+    {
+        SlotData data = _data;
+        SetItem(slot._data);
+        slot.SetItem(data);
+    }
+
     public void SetActive(bool active)
     {
         gameObject.SetActive(active);

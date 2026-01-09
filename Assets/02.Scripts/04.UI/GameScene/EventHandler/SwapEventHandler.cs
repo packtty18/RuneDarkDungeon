@@ -31,7 +31,7 @@ public class SwapEventHandler : ISlotEventHandler
         }
         else
         {
-            _inventory.Swap(_selectedSlot.Index, slot.Index);
+            _inventory.Swap(_selectedSlot.Item, slot.Item);
             DeselectSlot();
         }
     }
