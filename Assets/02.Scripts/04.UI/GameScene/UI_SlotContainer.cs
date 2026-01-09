@@ -5,13 +5,13 @@ public class UI_SlotContainer : MonoBehaviour
 {
     private IReadOnlyInventory _inventory;
     private ItemDatabaseSO _itemDB;
-    private GradeColorSO _colorDB;
+    private ItemColorSO _colorDB;
     
     [Header("슬롯 연결")]
     [SerializeField] protected List<UI_Slot> _slots;
     public IReadOnlyList<UI_Slot> Slots => _slots;
     
-    public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB, GradeColorSO colorDB)
+    public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB, ItemColorSO colorDB)
     {
         _inventory = inventory;
         _itemDB = itemDB;

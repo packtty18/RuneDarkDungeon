@@ -9,11 +9,11 @@ public class DataManager : GlobalSingleton<DataManager>
     
     [SerializeField] private ItemDatabaseSO _itemDB;
     [SerializeField] private ItemUpgradeDataSO _upgradeDB;
-    [SerializeField] private GradeColorSO _colorDB;
+    [SerializeField] private ItemColorSO _colorDB;
     
     public ItemDatabaseSO ItemDB => _itemDB;
     public ItemUpgradeDataSO UpgradeDB => _upgradeDB;
-    public GradeColorSO ColorDB => _colorDB;
+    public ItemColorSO ColorDB => _colorDB;
     
     protected override void OnInit()
     {
