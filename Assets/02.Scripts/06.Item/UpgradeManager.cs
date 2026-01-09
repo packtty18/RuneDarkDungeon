@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
 {
-    private Inventory _upgradeInventory = new();
+    private IInventory _upgradeInventory;
     private IInventory _inventory;
     private ICurrency _goldData;
 
@@ -16,9 +16,10 @@ public class UpgradeManager : MonoBehaviour
     public event Action<ItemData> OnTargetTypeChanged;
     public event Action<UpgradeData> OnUpgradeDataChanged; 
     
-    public void Initialize(ItemUpgradeDataSO upgradeDB, IInventory inventory, ICurrency goldData)
+    public void Initialize(ItemUpgradeDataSO upgradeDB, IInventory upgradeInventory, IInventory inventory, ICurrency goldData)
     {
         _upgradeDB = upgradeDB;
+        _upgradeInventory = upgradeInventory;
         _inventory = inventory;
         _goldData = goldData;
     }

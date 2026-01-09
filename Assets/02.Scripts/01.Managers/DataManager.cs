@@ -3,8 +3,11 @@ using UnityEngine;
 public class DataManager : GlobalSingleton<DataManager>, IDataHandler
 {
     private GameData _data = new();
-
+    
+    private UpgradeInventory _upgradeInventory = new();
+    
     public IInventory Inventory => _data.Inventory;
+    public IInventory UpgradeInventory => _upgradeInventory;
     public ICurrency GoldData => _data.Gold;
     
     [SerializeField] private ItemDatabaseSO _itemDB;
