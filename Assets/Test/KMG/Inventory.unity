@@ -3569,6 +3569,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1563171319}
   - component: {fileID: 1563171320}
+  - component: {fileID: 1563171321}
   m_Layer: 5
   m_Name: UI_Initializer
   m_TagString: Untagged
@@ -3609,6 +3610,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI_Initializer
   _inventoryUI: {fileID: 836128210}
   _upgradeUI: {fileID: 2139478404}
+  _controller: {fileID: 1563171321}
   _upgradeManager: {fileID: 822171408}
   _eventHandler: {fileID: 1694034623}
   _upgradeEventHandler: {fileID: 1770786647}
@@ -3618,6 +3620,20 @@ MonoBehaviour:
   - {fileID: 1346198398}
   - {fileID: 558088911}
   _upgradeUIButton: {fileID: 1572516943}
+--- !u!114 &1563171321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563171318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca6315dd439f7b14b991d307c73a98fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_SlotController
+  _costTextUI: {fileID: 785878511}
+  _rateTextUI: {fileID: 1119826117}
 --- !u!1 &1572516938
 GameObject:
   m_ObjectHideFlags: 0
@@ -3706,7 +3722,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3a9ba92df4e5548825f2b2db75b229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_WindowToggleButton
-  _upgradeUI: {fileID: 2139478399}
+  _onMode: 1
+  _offMode: 0
 --- !u!224 &1666344907 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9205258844373821015, guid: 5ee79a54f40889340bff616e0c5658c4, type: 3}
@@ -4046,11 +4063,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1770786645}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9779fc5b41bb7e54eba32a70882217db, type: 3}
+  m_Script: {fileID: 11500000, guid: d71f6e6edbac2eb47a52325b624ee7cb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UpgradeEventHandler
-  _costTextUI: {fileID: 785878511}
-  _rateTextUI: {fileID: 1119826117}
+  m_EditorClassIdentifier: Assembly-CSharp::SlotEventHandler
 --- !u!1001 &1772219472
 PrefabInstance:
   m_ObjectHideFlags: 0

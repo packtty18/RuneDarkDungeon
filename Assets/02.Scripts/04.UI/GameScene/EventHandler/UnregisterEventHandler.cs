@@ -18,9 +18,4 @@ public class UnregisterEventHandler : ISlotEventHandler
     public void OnHoverSlot(UI_Slot slot) { }
     public void OnEnter() { }
     public void OnExit() { }
-
-    public bool IsInteractable(UI_Slot slot, ItemData item)
-    {
-        return true;
-    }
 }

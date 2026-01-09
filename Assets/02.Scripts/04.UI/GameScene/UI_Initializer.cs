@@ -1,15 +1,18 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class UI_Initializer : MonoBehaviour
 {
-    [Header("UI")]
+    [Header("슬롯 관련 UI")]
     [SerializeField] private UI_SlotContainer _inventoryUI;
     [SerializeField] private UI_SlotContainer _upgradeUI;
+    [SerializeField] private UI_SlotController _controller;
     
+    [Header("강화 모드 관련")]
     [SerializeField] private UpgradeManager _upgradeManager;
     [SerializeField] private InventoryEventHandler _eventHandler;
-    [SerializeField] private UpgradeEventHandler _upgradeEventHandler;
+    [SerializeField] private InventoryEventHandler _upgradeEventHandler;
     
     [Header("UI 연결")]
     [SerializeField] private UI_Tooltip _tooltip;
@@ -18,10 +21,8 @@ public class UI_Initializer : MonoBehaviour
     
     [SerializeField] private UI_WindowToggleButton _upgradeUIButton;
 
-    private SwapEventHandler _swapEventHandler;
-    private RegisterEventHandler _registerEventHandler;
-    private UnregisterEventHandler _unregisterEventHandler;
-    
+    private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
+
     private void Awake()
     {
         //var data = DataManager.Instance;
@@ -29,27 +30,42 @@ public class UI_Initializer : MonoBehaviour
 
         _inventoryUI.Initialize(data.Inventory, data.ItemDB, data.ColorDB);
         _upgradeUI.Initialize(_upgradeManager.UpgradeInventory, data.ItemDB, data.ColorDB);
+        _controller.Initialize(_upgradeManager, _inventoryUI.Slots, _upgradeUI.Slots);
         
         _upgradeManager.Initialize(data.UpgradeDB, data.Inventory, data.GoldData);
-        _eventHandler.Initialize(_upgradeManager, _inventoryUI.Slots);
-        _upgradeEventHandler.Initialize(_upgradeManager, _upgradeUI.Slots);
+        _eventHandler.Initialize(_inventoryUI.Slots);
+        _upgradeEventHandler.Initialize(_upgradeUI.Slots);
         
-        _swapEventHandler = new(_tooltip, _dragIcon, _backgrounds);
-        _registerEventHandler = new(_upgradeManager);
-        _unregisterEventHandler = new (_upgradeManager);
-
-        _eventHandler.SetMode(_swapEventHandler);
-        _upgradeEventHandler.SetMode(_unregisterEventHandler);
-        _upgradeUIButton.OnUpgradeMode += ChangeInventoryMode;
+        _handlerDict = new()
+        {
+            { EInventoryMode.Normal, new SwapEventHandler(_tooltip, _dragIcon, _backgrounds)},
+            { EInventoryMode.Upgrade , new RegisterEventHandler(_upgradeManager)}
+        };
+        
+        ChangeInventoryMode(EInventoryMode.Normal);
+        _upgradeEventHandler.SetMode(new UnregisterEventHandler(_upgradeManager));
+        _upgradeUIButton.OnModeChanged += ChangeInventoryMode;
     }
 
     private void OnDestroy()
     {
-        _upgradeUIButton.OnUpgradeMode -= ChangeInventoryMode;
+        _upgradeUIButton.OnModeChanged -= ChangeInventoryMode;
     }
-
-    private void ChangeInventoryMode(bool isUpgrade)
+    
+    private void ChangeInventoryMode(EInventoryMode mode)
     {
-        _eventHandler.SetMode(isUpgrade ? _registerEventHandler : _swapEventHandler);
+        _eventHandler.SetMode(_handlerDict[mode]);
+
+        if (mode == EInventoryMode.Normal)
+        {
+            _inventoryUI.Show();
+            _upgradeUI.Hide();
+            _controller.ResetSlotState();
+        }
+        else if (mode == EInventoryMode.Upgrade)
+        {
+            _upgradeUI.Show();
+            _controller.RefreshSlotState();
+        }
     }
 }

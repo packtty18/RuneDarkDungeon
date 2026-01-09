@@ -4,19 +4,21 @@ using UnityEngine.EventSystems;
 
 public class UI_WindowToggleButton : MonoBehaviour, IPointerClickHandler
 {
-    [Header("UI 연결")]
-    [SerializeField] private GameObject _upgradeUI;
-    
-    public event Action<bool> OnUpgradeMode;
+    [Header("UI 모드 설정")]
+    [SerializeField] private EInventoryMode _onMode;
+    [SerializeField] private EInventoryMode _offMode;
+
+    private bool _isOn;
+    public event Action<EInventoryMode> OnModeChanged;
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        Toggle();
+        ToggleMode();
     }
     
-    private void Toggle()
+    private void ToggleMode()
     {
-        _upgradeUI.SetActive(!_upgradeUI.activeSelf);
-        OnUpgradeMode?.Invoke(_upgradeUI.activeSelf);
+        _isOn = !_isOn;
+        OnModeChanged?.Invoke(_isOn ? _onMode : _offMode);
     }
 }

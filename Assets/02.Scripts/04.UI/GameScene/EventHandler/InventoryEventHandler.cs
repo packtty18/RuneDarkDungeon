@@ -5,10 +5,8 @@ public class InventoryEventHandler : MonoBehaviour
 {
     private ISlotEventHandler _eventHandler;
     private IReadOnlyList<UI_Slot> _slots;
-
-    private UpgradeManager _upgradeManager;
-
-    public void Initialize(UpgradeManager upgradeManager, IReadOnlyList<UI_Slot> slots)
+    
+    public void Initialize(IReadOnlyList<UI_Slot> slots)
     {
         _slots = slots;
         foreach (var slot in _slots)
@@ -16,9 +14,6 @@ public class InventoryEventHandler : MonoBehaviour
             slot.OnSlotClicked += OnClickSlot;
             slot.OnSlotHovered += OnHoverSlot;
         }
-        
-        _upgradeManager = upgradeManager;
-        _upgradeManager.OnTargetTypeChanged += RefreshSlotState;
     }
 
     private void OnDestroy()
@@ -29,7 +24,6 @@ public class InventoryEventHandler : MonoBehaviour
             slot.OnSlotClicked -= OnClickSlot;
             slot.OnSlotHovered -= OnHoverSlot;
         }
-        _upgradeManager.OnTargetTypeChanged -= RefreshSlotState;
     }
 
     public void SetMode(ISlotEventHandler eventHandler)
@@ -37,18 +31,6 @@ public class InventoryEventHandler : MonoBehaviour
         _eventHandler?.OnExit();
         _eventHandler = eventHandler;
         _eventHandler.OnEnter();
-
-        RefreshSlotState(null);
-    }
-
-    private void RefreshSlotState(ItemData targetItem)
-    {
-        foreach (var slot in _slots)
-        {
-            if (slot.IsEmpty) continue;
-            bool isOn = _eventHandler.IsInteractable(slot, targetItem);
-            slot.SetInteractable(isOn);
-        }
     }
 
     private void OnClickSlot(UI_Slot slot)
