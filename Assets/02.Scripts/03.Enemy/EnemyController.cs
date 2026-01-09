@@ -184,6 +184,11 @@ public class EnemyController : PoolableObject, IDamageable
 
     private void HandleDead()
     {
+        if (FSM.CurrentState is DeadState)
+        {
+            return;
+        }
+
         _fsm.ChangeState(EEnemyState.Dead);
     }
     #endregion

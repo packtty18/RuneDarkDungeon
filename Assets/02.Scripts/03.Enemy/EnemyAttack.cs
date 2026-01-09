@@ -17,9 +17,11 @@ public class EnemyAttack : MonoBehaviour
     private IActionStrategy _current;
     
     public int StrategyCount => _strategies.Count;
-    public bool IsAttacking = false; //State의 판단기준
 
     public float LoopDelay => _current == null ? 0 : _current.LoopDelay;
+
+    private float _cooldownTimer;
+    public bool IsAttacking { get; private set; }
 
     [Title("일단은 테스트")]
     [SerializeField] private EnemyDelaySOBase _arrow;
@@ -32,13 +34,12 @@ public class EnemyAttack : MonoBehaviour
     {
         _controller = GetComponent<EnemyController>();
         _hitboxController = GetComponentInChildren<HitboxController>();
-
-        
     }
 
     public void Init()
     {
         IsAttacking = false;
+        _cooldownTimer = 0f;
 
         //임시 나중에 확장해서 전략을 등록할 예정
         switch (_controller.Stat.EnemyType)
@@ -67,16 +68,40 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    protected void RegisterStrategy(int attackID, IActionStrategy strategy)
+    public void Tick(float deltaTime)
     {
-        if (_strategies.ContainsKey(attackID))
+        if (_cooldownTimer > 0f)
+            _cooldownTimer -= deltaTime;
+    }
+
+    public void StartCooldown()
+    {
+        _cooldownTimer = _controller.Stat.GetValue(EEnemyValueFloat.AttackCoolDown).Value;
+    }
+
+    public bool IsTargetInRange()
+    {
+        float range = _controller.Stat
+            .GetValue(EEnemyValueFloat.AttackRange).Value;
+
+        return _controller.IsTargetInRange(range);
+    }
+
+    public bool CanAttack()
+    {
+        return !IsAttacking
+            && _cooldownTimer <= 0f
+            && IsTargetInRange();
+    }
+
+    public int GetRandomAttackID()
+    {
+        if (_ids.Count == 0)
         {
-            Debug.LogWarning($"[EnemyAttack] AttackID {attackID} already registered.");
-            return;
+            return -1;
         }
 
-        _strategies.Add(attackID, strategy);
-        _ids.Add(attackID);
+        return _ids[Random.Range(0, _ids.Count)];
     }
 
     public bool RequestAttack(int attackID)
@@ -93,6 +118,26 @@ public class EnemyAttack : MonoBehaviour
         return true;
     }
 
+    //공격 애니메이션 종료 => 다음 상태로 전환 가능
+    public void OnAttackComplete()
+    {
+        _current = null;
+        IsAttacking = false;
+    }
+    //전략 관련
+    protected void RegisterStrategy(int attackID, IActionStrategy strategy)
+    {
+        if (_strategies.ContainsKey(attackID))
+        {
+            Debug.LogWarning($"[EnemyAttack] AttackID {attackID} already registered.");
+            return;
+        }
+
+        _strategies.Add(attackID, strategy);
+        _ids.Add(attackID);
+    }
+
+
     //공격 취소
     public void CancelAttack()
     {
@@ -102,23 +147,6 @@ public class EnemyAttack : MonoBehaviour
         }
 
         OnAttackComplete();
-    }
-
-    public int GetRandomAttackID()
-    {
-        if (_ids.Count == 0)
-        {
-            return -1;
-        }
-
-        return _ids[Random.Range(0, _ids.Count)];
-    }
-
-    //공격 애니메이션 종료 => 다음 상태로 전환 가능
-    public void OnAttackComplete()
-    {
-        _current = null;
-        IsAttacking = false;
     }
 
     #region Animation Events

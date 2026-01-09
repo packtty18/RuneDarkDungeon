@@ -10,8 +10,6 @@ public class EnemyHealth : MonoBehaviour
     [ShowInInspector, ReadOnly] private IReadOnlyConsumable<float> _health;
 
     private bool _canTakeDamage;
-
-    public SafeEvent OnDead = new();
     public bool IsDead => _health.IsEmpty();
 
     private void Awake()
@@ -34,10 +32,6 @@ public class EnemyHealth : MonoBehaviour
         }
 
         _health.Consume(damage);
-        if (IsDead)
-        {
-            OnDead?.Invoke();
-        }
 
         return true;
     }
