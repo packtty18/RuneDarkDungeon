@@ -35,6 +35,13 @@ public class UpgradeEventHandler : MonoBehaviour
         _upgradeManager.OnUpgradeDataChanged -= SetUpgradeInfo;
     }
     
+    public void SetMode(ISlotEventHandler eventHandler)
+    {
+        _eventHandler?.OnExit();
+        _eventHandler = eventHandler;
+        _eventHandler.OnEnter();
+    }
+    
     private void SetUpgradeInfo(UpgradeData data)
     {
         SetSlotCount(data.Count);

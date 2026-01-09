@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class InventoryEventHandler : MonoBehaviour
 {
-    [Header("UI 연결")]
-    [SerializeField] private UI_WindowToggleButton _upgradeUIButton;
-    
     private ISlotEventHandler _eventHandler;
     private IReadOnlyList<UI_Slot> _slots;
 
@@ -19,8 +16,6 @@ public class InventoryEventHandler : MonoBehaviour
             slot.OnSlotClicked += OnClickSlot;
             slot.OnSlotHovered += OnHoverSlot;
         }
-        SetMode(false);
-        _upgradeUIButton.OnUpgradeMode += SetMode;
         
         _upgradeManager = upgradeManager;
         _upgradeManager.OnTargetTypeChanged += RefreshSlotState;
@@ -34,14 +29,13 @@ public class InventoryEventHandler : MonoBehaviour
             slot.OnSlotClicked -= OnClickSlot;
             slot.OnSlotHovered -= OnHoverSlot;
         }
-        _upgradeUIButton.OnUpgradeMode -= SetMode;
         _upgradeManager.OnTargetTypeChanged -= RefreshSlotState;
     }
 
-    private void SetMode(bool isUpgrade)
+    public void SetMode(ISlotEventHandler eventHandler)
     {
         _eventHandler?.OnExit();
-        _eventHandler = isUpgrade ? _registerEventHandler : _swapEventHandler;
+        _eventHandler = eventHandler;
         _eventHandler.OnEnter();
 
         RefreshSlotState(null);

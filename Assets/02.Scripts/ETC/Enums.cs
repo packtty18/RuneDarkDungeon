@@ -74,6 +74,12 @@ public enum EItemGrade
     Legendary
 }
 
+public enum EInventoryMode
+{
+    Normal,
+    Upgrade,
+}
+
 public enum  EPoolType
 {
     None,

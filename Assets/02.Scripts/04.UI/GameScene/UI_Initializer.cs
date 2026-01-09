@@ -16,6 +16,8 @@ public class UI_Initializer : MonoBehaviour
     [SerializeField] private UI_DragIcon _dragIcon;
     [SerializeField] private UI_Background[] _backgrounds;
     
+    [SerializeField] private UI_WindowToggleButton _upgradeUIButton;
+
     private SwapEventHandler _swapEventHandler;
     private RegisterEventHandler _registerEventHandler;
     private UnregisterEventHandler _unregisterEventHandler;
@@ -33,7 +35,21 @@ public class UI_Initializer : MonoBehaviour
         _upgradeEventHandler.Initialize(_upgradeManager, _upgradeUI.Slots);
         
         _swapEventHandler = new(_tooltip, _dragIcon, _backgrounds);
-        _registerEventHandler = new(_eventHandler, _swapEventHandler);
-        _unregisterEventHandler = new UnregisterEventHandler(_upgradeManager);
+        _registerEventHandler = new(_upgradeManager);
+        _unregisterEventHandler = new (_upgradeManager);
+
+        _eventHandler.SetMode(_swapEventHandler);
+        _upgradeEventHandler.SetMode(_unregisterEventHandler);
+        _upgradeUIButton.OnUpgradeMode += ChangeInventoryMode;
+    }
+
+    private void OnDestroy()
+    {
+        _upgradeUIButton.OnUpgradeMode -= ChangeInventoryMode;
+    }
+
+    private void ChangeInventoryMode(bool isUpgrade)
+    {
+        _eventHandler.SetMode(isUpgrade ? _registerEventHandler : _swapEventHandler);
     }
 }
