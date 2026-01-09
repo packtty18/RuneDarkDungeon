@@ -32,6 +32,7 @@ public class Inventory : IInventory
         int indexB = _items.IndexOf(itemB);
 
         _items[indexA] = itemB;
+        
         _items[indexB] = itemA;
 
         Notify();

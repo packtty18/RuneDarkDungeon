@@ -8,6 +8,13 @@ public class UI_SlotContainer : MonoBehaviour
     
     [Header("슬롯 연결")]
     [SerializeField] private List<UI_Slot> _slots;
+
+    [Header("설정")]
+    [SerializeField] private int _minSlotCount;
+    [SerializeField] private UI_Slot _slotPrefab;
+    [SerializeField] private UI_ScrollView _layoutController;
+    [SerializeField] private Transform _slotParent;
+    
     public IReadOnlyList<UI_Slot> Slots => _slots;
     
     public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB)
@@ -27,13 +34,27 @@ public class UI_SlotContainer : MonoBehaviour
     private void Refresh()
     {
         var items = _inventory.Items;
+        int targetCount = Mathf.Max(_minSlotCount, items.Count);
+
+        while (_slots.Count < targetCount)
+        {
+            var newSlot = Instantiate(_slotPrefab, _slotParent);
+            _slots.Add(newSlot);
+        }
 
         for (int i = 0; i < _slots.Count; i++)
         {
+            if (i >= targetCount)
+            {
+                _slots[i].SetActive(false);
+                continue;
+            }
+
+            _slots[i].SetActive(true);
+
             if (i < items.Count)
             {
-                var item = items[i];
-                var data = _itemDB.GetSlotData(item); 
+                var data = _itemDB.GetSlotData(items[i]);
                 _slots[i].SetItem(data);
             }
             else
@@ -41,6 +62,8 @@ public class UI_SlotContainer : MonoBehaviour
                 _slots[i].Clear();
             }
         }
+
+        _layoutController?.UpdateLayout(_slots.Count);
     }
     
     public void Show()
