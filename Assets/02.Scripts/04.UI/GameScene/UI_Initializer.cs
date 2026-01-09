@@ -11,15 +11,16 @@ public class UI_Initializer : MonoBehaviour
     
     [Header("강화 모드 관련")]
     [SerializeField] private UpgradeManager _upgradeManager;
-    [SerializeField] private InventoryEventHandler _eventHandler;
-    [SerializeField] private InventoryEventHandler _upgradeEventHandler;
+    [SerializeField] private SlotEventHandler _eventHandler;
+    [SerializeField] private SlotEventHandler _upgradeEventHandler;
     
     [Header("UI 연결")]
     [SerializeField] private UI_Tooltip _tooltip;
     [SerializeField] private UI_DragIcon _dragIcon;
     [SerializeField] private UI_Background[] _backgrounds;
     
-    [SerializeField] private UI_WindowToggleButton _upgradeUIButton;
+    [SerializeField] private UI_WindowToggleButton _inventoryToggleButton;
+    [SerializeField] private UI_WindowToggleButton _upgradeToggleButton;
 
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
 
@@ -42,30 +43,53 @@ public class UI_Initializer : MonoBehaviour
             { EInventoryMode.Upgrade , new RegisterEventHandler(_upgradeManager)}
         };
         
-        ChangeInventoryMode(EInventoryMode.Normal);
+        ChangeInventoryMode(EInventoryMode.Closed);
         _upgradeEventHandler.SetMode(new UnregisterEventHandler(_upgradeManager));
-        _upgradeUIButton.OnModeChanged += ChangeInventoryMode;
+        
+        _inventoryToggleButton.OnModeChanged += ChangeInventoryMode;
+        _upgradeToggleButton.OnModeChanged += ChangeInventoryMode;
     }
 
     private void OnDestroy()
     {
-        _upgradeUIButton.OnModeChanged -= ChangeInventoryMode;
+        _inventoryToggleButton.OnModeChanged -= ChangeInventoryMode;
+        _upgradeToggleButton.OnModeChanged -= ChangeInventoryMode;
     }
     
     private void ChangeInventoryMode(EInventoryMode mode)
     {
-        _eventHandler.SetMode(_handlerDict[mode]);
+        switch (mode)
+        {
+            case EInventoryMode.Closed:
+                CloseInventory();
+                break;
+            case EInventoryMode.Normal:
+                SetNormalMode();
+                break;
+            case EInventoryMode.Upgrade:
+                SetUpgradeMode();
+                break;
+        }
 
-        if (mode == EInventoryMode.Normal)
-        {
-            _inventoryUI.Show();
-            _upgradeUI.Hide();
-            _controller.ResetSlotState();
-        }
-        else if (mode == EInventoryMode.Upgrade)
-        {
-            _upgradeUI.Show();
-            _controller.RefreshSlotState();
-        }
+        if (!_handlerDict.TryGetValue(mode, out var handler)) return;
+        _eventHandler.SetMode(handler);
+    }
+
+    private void CloseInventory()
+    {
+        _inventoryUI.Hide();
+    }
+
+    private void SetNormalMode()
+    {
+        _inventoryUI.Show();
+        _upgradeUI.Hide();
+        _controller.ResetSlotState();
+    }
+    
+    private void SetUpgradeMode()
+    {
+        _upgradeUI.Show();
+        _controller.RefreshSlotState();
     }
 }

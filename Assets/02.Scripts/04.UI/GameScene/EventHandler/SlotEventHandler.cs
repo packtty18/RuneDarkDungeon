@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryEventHandler : MonoBehaviour
+public class SlotEventHandler : MonoBehaviour
 {
     private ISlotEventHandler _eventHandler;
     private IReadOnlyList<UI_Slot> _slots;

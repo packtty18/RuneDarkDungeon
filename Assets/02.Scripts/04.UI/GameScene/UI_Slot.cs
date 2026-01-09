@@ -62,8 +62,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public bool CanUpgrade(ItemData item)
     {
-        if (item != null) return Item.TypeEquals(item);
-        return !Item.Grade.IsMaxGrade();
+        return Item.CanUpgrade(item);
     }
     
     public void OnPointerEnter(PointerEventData eventData)

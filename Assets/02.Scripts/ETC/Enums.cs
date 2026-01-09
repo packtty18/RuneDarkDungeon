@@ -76,6 +76,7 @@ public enum EItemGrade
 
 public enum EInventoryMode
 {
+    Closed,
     Normal,
     Upgrade,
 }
