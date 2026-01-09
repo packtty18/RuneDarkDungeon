@@ -23,9 +23,9 @@ public class UpgradeManager : MonoBehaviour
         _goldData = goldData;
     }
     
-    public bool TryRegister(ItemData item)
+    public void Register(ItemData item)
     {
-        if (item == null) return false;
+        if (item == null) return;
         
         if (_targetType == null)
         {
@@ -33,11 +33,10 @@ public class UpgradeManager : MonoBehaviour
         }
 
         if (!item.TypeEquals(_targetType) ||
-            IsFull) return false;
+            IsFull) return;
         
         _inventory.Remove(item);
         _upgradeInventory.Add(item);
-        return true;
     }
 
     public void Unregister(ItemData item)

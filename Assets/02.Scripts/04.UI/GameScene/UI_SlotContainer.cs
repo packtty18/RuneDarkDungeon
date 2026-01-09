@@ -7,8 +7,10 @@ public class UI_SlotContainer : MonoBehaviour
     private ItemDatabaseSO _itemDB;
     
     [Header("슬롯 연결")]
-    [SerializeField] protected List<UI_Slot> _slots;
+    [SerializeField] private List<UI_Slot> _slots;
     public IReadOnlyList<UI_Slot> Slots => _slots;
+
+    private Dictionary<ItemData, UI_Slot> _itemSlotDict = new();
     
     public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB)
     {
@@ -19,6 +21,7 @@ public class UI_SlotContainer : MonoBehaviour
 
     private void BindInventory()
     {
+        _itemSlotDict.Clear();
         foreach (var item in _inventory.Items)
         {
             SetSlot(item);
@@ -33,24 +36,23 @@ public class UI_SlotContainer : MonoBehaviour
     
     private void SetSlot(ItemData itemData)
     {
-        SlotData data = _itemDB.GetSlotData(itemData);
-        
+        var data = _itemDB.GetSlotData(itemData);
+
         foreach (var slot in _slots)
         {
             if (!slot.IsEmpty) continue;
             slot.SetItem(data);
+            _itemSlotDict.Add(itemData, slot);
             return;
         }
     }
     
     private void ClearSlot(ItemData itemData)
     {
-        foreach (var slot in _slots)
-        {
-            if (slot.Item != itemData) continue;
-            slot.Clear();
-            return;
-        }
+        if (!_itemSlotDict.TryGetValue(itemData, out var slot)) return;
+
+        slot.Clear();
+        _itemSlotDict.Remove(itemData);
     }
     
     public void Show()
