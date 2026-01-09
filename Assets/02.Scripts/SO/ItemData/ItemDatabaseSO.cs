@@ -9,10 +9,12 @@ public class ItemDatabaseSO : ScriptableObject
     private ItemSO GetItemInfo(ItemData item)
     {
         return _itemDict.GetValueOrDefault(item.ID);
-    }
+    }   
 
     public SlotData GetSlotData(ItemData item)
     {
+        if (item == null) return SlotData.Empty;
+        
         ItemSO itemInfo = GetItemInfo(item);
         Color color = _colorDB.GetColor(item.Grade);
 
