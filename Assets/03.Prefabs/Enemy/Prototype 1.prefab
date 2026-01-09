@@ -48,7 +48,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 8596355717917678292}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -81,8 +82,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -1142,7 +1143,11 @@ MonoBehaviour:
   _team: 1
   _physics: {fileID: 0}
   _target: {fileID: 0}
-  _damageAcceptable: 0
+  _move: {fileID: 0}
+  _attack: {fileID: 0}
+  _health: {fileID: 0}
+  _stat: {fileID: 0}
+  _anim: {fileID: 0}
 --- !u!114 &2750660798940260602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1168,7 +1173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f02b58614e772469678e693af82753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  _controller: {fileID: 0}
 --- !u!114 &27034461710658512
 MonoBehaviour:
   m_ObjectHideFlags: 0

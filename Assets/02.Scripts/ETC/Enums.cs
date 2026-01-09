@@ -25,19 +25,14 @@ public enum EPlayerState
 }
 
 public enum EEnemyState
-{ 
-    Spawn,
+{
     Idle,
-    Patrol,
-    Trace,
-    Comeback,
+    Chase,
     Attack,
     Hit,
-    Death,
-    RageOn,
-    RageMove,
-    RageAttack
+    Dead,
 }
+
 
 public enum EGameKeyType
 {
