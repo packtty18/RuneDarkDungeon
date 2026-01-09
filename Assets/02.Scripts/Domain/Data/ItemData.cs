@@ -19,7 +19,11 @@ public class ItemData
     {
         if (item != null) return TypeEquals(item);
         return !_grade.IsMaxGrade();
-        
+    }
+
+    public ItemData GetUpgradedItem()
+    {
+        return new ItemData(_id, _grade.Next());
     }
     
     public bool TypeEquals(ItemData other)
