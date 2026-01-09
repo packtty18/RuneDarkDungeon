@@ -23,18 +23,6 @@ public class UI_SlotContainer : MonoBehaviour
     {
         _inventory?.Unsubscribe(Refresh);
     }
-    
-    private void SetSlot(ItemData itemData)
-    {
-        var data = _itemDB.GetSlotData(itemData);
-
-        foreach (var slot in _slots)
-        {
-            if (!slot.IsEmpty) continue;
-            slot.SetItem(data);
-            return;
-        }
-    }
 
     private void Refresh()
     {

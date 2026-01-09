@@ -24,6 +24,19 @@ public class Inventory : IInventory
         Notify();
     }
 
+    public void Swap(ItemData itemA, ItemData itemB)
+    {
+        if (itemA == null || itemB == null || itemA == itemB) return;
+
+        int indexA = _items.IndexOf(itemA);
+        int indexB = _items.IndexOf(itemB);
+
+        _items[indexA] = itemB;
+        _items[indexB] = itemA;
+
+        Notify();
+    }
+
     public void Clear()
     {
         _items.Clear();

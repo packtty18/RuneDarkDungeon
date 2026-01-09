@@ -4,14 +4,17 @@ using UnityEngine;
 [Serializable]
 public class SwapEventHandler : ISlotEventHandler
 {
+    private IInventory _inventory;
+
     private UI_Tooltip _tooltip;
     private UI_DragIcon _dragIcon;
     private UI_Background[] _backgrounds;
 
     private UI_Slot _selectedSlot;
 
-    public SwapEventHandler(UI_Tooltip tooltip, UI_DragIcon dragIcon, UI_Background[] backgrounds)
+    public SwapEventHandler(IInventory inventory, UI_Tooltip tooltip, UI_DragIcon dragIcon, UI_Background[] backgrounds)
     {
+        _inventory = inventory;
         _tooltip = tooltip;
         _dragIcon = dragIcon;
         _backgrounds = backgrounds;
@@ -28,7 +31,7 @@ public class SwapEventHandler : ISlotEventHandler
         }
         else
         {
-            _selectedSlot.SwapItem(slot);
+            _inventory.Swap(_selectedSlot.Item, slot.Item);
             DeselectSlot();
         }
     }

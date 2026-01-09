@@ -35,7 +35,7 @@ public class UI_Initializer : MonoBehaviour
         
         _handlerDict = new()
         {
-            { EInventoryMode.Normal, new SwapEventHandler(_tooltip, _dragIcon, _backgrounds)},
+            { EInventoryMode.Normal, new SwapEventHandler(data.Inventory, _tooltip, _dragIcon, _backgrounds)},
             { EInventoryMode.Upgrade , new RegisterEventHandler(_upgradeManager)}
         };
         
