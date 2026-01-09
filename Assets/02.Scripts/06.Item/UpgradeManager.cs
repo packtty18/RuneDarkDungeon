@@ -10,8 +10,6 @@ public class UpgradeManager : MonoBehaviour
     private ItemUpgradeDataSO _upgradeDB;
     private ItemData _targetType;
     private UpgradeData _upgradeData;
-
-    public IInventory UpgradeInventory => _upgradeInventory;
     
     public event Action<ItemData> OnTargetTypeChanged;
     public event Action<UpgradeData> OnUpgradeDataChanged; 
@@ -90,6 +88,6 @@ public class UpgradeManager : MonoBehaviour
         OnUpgradeDataChanged?.Invoke(_upgradeData);
     }
     
-    private bool IsFull => _upgradeInventory.Count == _upgradeData.Count;
-    private bool IsEmpty => _upgradeInventory.Count == 0;
+    private bool IsFull => _upgradeInventory.Items.Count == _upgradeData.Count;
+    private bool IsEmpty => _upgradeInventory.Items.Count == 0;
 }

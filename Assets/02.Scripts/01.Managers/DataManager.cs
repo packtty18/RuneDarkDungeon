@@ -4,7 +4,7 @@ public class DataManager : GlobalSingleton<DataManager>, IDataHandler
 {
     private GameData _data = new();
     
-    private UpgradeInventory _upgradeInventory = new();
+    private Inventory _upgradeInventory;
     
     public IInventory Inventory => _data.Inventory;
     public IInventory UpgradeInventory => _upgradeInventory;

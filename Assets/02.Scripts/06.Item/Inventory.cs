@@ -8,51 +8,40 @@ public class Inventory : IInventory
     [SerializeField] private List<ItemData> _items = new();
     public IReadOnlyList<ItemData> Items => _items;
     
-    private SafeEvent<ItemData> _onItemAdded = new();
-    private SafeEvent<ItemData> _onItemRemoved = new();
+    private SafeEvent _onInventoryChanged = new();
     
     public int Count => _items.Count;
     
     public void Add(ItemData item)
     {
         _items.Add(item);
-        NotifyAdded(item);
+        Notify();
     }
 
     public void Remove(ItemData item)
     {
         _items.Remove(item);
-        NotifyRemoved(item);
+        Notify();
     }
 
     public void Clear()
     {
-        foreach (var item in _items)
-        {
-            NotifyRemoved(item);
-        }
         _items.Clear();
+        Notify();
     }
     
-    public void Subscribe(Action<ItemData> addAction, Action<ItemData> removeAction)
+    public void Subscribe(Action action)
     {
-        _onItemAdded.Subscribe(addAction);
-        _onItemRemoved.Subscribe(removeAction);
+        _onInventoryChanged.Subscribe(action);
     }
 
-    public void Unsubscribe(Action<ItemData> addAction, Action<ItemData> removeAction)
+    public void Unsubscribe(Action action)
     {
-        _onItemAdded.Unsubscribe(addAction);
-        _onItemRemoved.Unsubscribe(removeAction);
+        _onInventoryChanged.Unsubscribe(action);
     }
 
-    private void NotifyAdded(ItemData item)
+    private void Notify()
     {
-        _onItemAdded?.Invoke(item);
-    }
-    
-    private void NotifyRemoved(ItemData item)
-    {
-        _onItemRemoved?.Invoke(item);
+        _onInventoryChanged?.Invoke();
     }
 }

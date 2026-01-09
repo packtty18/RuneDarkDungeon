@@ -9,29 +9,19 @@ public class UI_SlotContainer : MonoBehaviour
     [Header("슬롯 연결")]
     [SerializeField] private List<UI_Slot> _slots;
     public IReadOnlyList<UI_Slot> Slots => _slots;
-
-    private Dictionary<ItemData, UI_Slot> _itemSlotDict = new();
     
     public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB)
     {
         _inventory = inventory;
         _itemDB = itemDB;
-        BindInventory();
-    }
 
-    private void BindInventory()
-    {
-        _itemSlotDict.Clear();
-        foreach (var item in _inventory.Items)
-        {
-            SetSlot(item);
-        }
-        _inventory.Subscribe(SetSlot, ClearSlot);
+        Refresh();
+        _inventory.Subscribe(Refresh);
     }
     
     private void OnDestroy()
     {
-        _inventory?.Unsubscribe(SetSlot, ClearSlot);
+        _inventory?.Unsubscribe(Refresh);
     }
     
     private void SetSlot(ItemData itemData)
@@ -42,17 +32,27 @@ public class UI_SlotContainer : MonoBehaviour
         {
             if (!slot.IsEmpty) continue;
             slot.SetItem(data);
-            _itemSlotDict.Add(itemData, slot);
             return;
         }
     }
-    
-    private void ClearSlot(ItemData itemData)
-    {
-        if (!_itemSlotDict.TryGetValue(itemData, out var slot)) return;
 
-        slot.Clear();
-        _itemSlotDict.Remove(itemData);
+    private void Refresh()
+    {
+        var items = _inventory.Items;
+
+        for (int i = 0; i < _slots.Count; i++)
+        {
+            if (i < items.Count)
+            {
+                var item = items[i];
+                var data = _itemDB.GetSlotData(item); 
+                _slots[i].SetItem(data);
+            }
+            else
+            {
+                _slots[i].Clear();
+            }
+        }
     }
     
     public void Show()
