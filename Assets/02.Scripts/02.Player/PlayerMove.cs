@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -38,6 +39,8 @@ public class PlayerMove : MonoBehaviour
     private bool _jumpRequested = false;
     private float _landOffset = 0.5f;
     private bool _isJumping = false;
+
+    public bool CanMove { get; private set; }
     public bool IsGrounded { get; private set; }
     public bool ShouldRun { get; private set; }
     public bool IsJumping 
@@ -51,6 +54,7 @@ public class PlayerMove : MonoBehaviour
 
     public event Action<bool> OnIsJumpingChanged;
     public event  Action<float> OnMoveSpeedChanged;
+    public event Action<bool> OnCanMoveChanged;
 
     private void Awake()
     {
@@ -89,6 +93,7 @@ public class PlayerMove : MonoBehaviour
         _groundCheckRadius = _controller.radius * 0.9f;
 
         _currentJumpCount = 0;
+        CanMove = true;
         _jumpVelocity = Mathf.Sqrt(_player.GetJumpVelocity() * -2f * _gravity);
         IsJumping = false;
     }
@@ -111,6 +116,7 @@ public class PlayerMove : MonoBehaviour
 
         SpeedUpdate(moveScale);
 
+        if (!CanMove) return;
         if (moveScale > 0.01f)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), _turnRate * Time.deltaTime);
@@ -144,6 +150,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (_inputManager.GetKeyDown(EGameKeyType.Jump))
         {
+            if (!CanMove) return ;
             if (_currentJumpCount < _maxJumpCount)
             {
                 if (_currentJumpCount == 0)
@@ -237,11 +244,11 @@ public class PlayerMove : MonoBehaviour
         _walkSpeed = obj;
         _runSpeed = _walkSpeed * _runSpeedMultiplier;
     }
-
-    /*public void SetShouldRun (bool shouldRun)
+    public void SetCanMove(bool canMove)
     {
-        ShouldRun = shouldRun;
-    }*/
+        CanMove = canMove;
+        OnCanMoveChanged?.Invoke(CanMove);
+    }
 
     #region IsGrounded Check
     private void GroundedCheck()

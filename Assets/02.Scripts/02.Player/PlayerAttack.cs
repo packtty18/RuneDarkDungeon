@@ -23,6 +23,7 @@ public class PlayerAttack : MonoBehaviour
     private bool _attackBuffered;
     private bool _isAttacking;
     private Coroutine _comboWindowCoroutine;
+    private float _finisherTimer;
 
     private PlayerAttackConfigSO __pausedComboConfig;
     private AttackTypeConfig _currentAttackConfig;
@@ -92,13 +93,31 @@ public class PlayerAttack : MonoBehaviour
         }
         if (_playerMove.ShouldRun & _isJumping)
         {
-            ExecuteJumpAttack();
+            StartJumpAttack();
             return;
         }
 
-        StartCombo(EAttackType.Basic);
+        StartComboAttack(EAttackType.Basic);
     }
-    private void StartCombo(EAttackType type)
+
+    private void StartJumpAttack()
+    {
+        StartSingleAttack(EAttackType.Jump);
+        _currentCombo = 1;
+        _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(_currentAttackConfig.GetPhaseData(1).InputWindow));
+    }
+
+    private void StartSingleAttack(EAttackType attackType)
+    {
+        _isAttacking = true;
+
+        _currentAttackConfig = _attackConfig.GetAttackConfig(attackType);
+        if (_currentAttackConfig == null) return;
+
+        ExecuteSingleAttack(attackType, _currentAttackConfig.Damage);
+    }
+
+    private void StartComboAttack(EAttackType type)
     {
         _isAttacking = true;
 
@@ -119,26 +138,65 @@ public class PlayerAttack : MonoBehaviour
             return;
         }
 
-        ExecuteAttack(data, _currentAttackConfig.AttackType, _currentAttackConfig.Damage);
-
         if (_comboTimerCoroutine != null)
             StopCoroutine(_comboTimerCoroutine);
 
         if (_currentCombo < _currentAttackConfig.MaxPhaseCount)
         {
             _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(data.InputWindow));
+            ExecuteComboAttack(data, _currentAttackConfig.AttackType, _currentAttackConfig.Damage);
         }
         else
         {
-            Debug.Log($"[Attack] 콤보 피니셔 {_currentCombo}타");
+            StartCoroutine(ComboFinisherCoroutine(_attackConfig.ChargeTime, data));
         }
     }
 
-    private void ExecuteAttack(AttackPhaseData data, EAttackType type, float damage)
+
+    private IEnumerator ComboFinisherCoroutine(float chargeTime, AttackPhaseData data)
+    {
+        _finisherTimer = 0;
+
+        while (InputManager.Instance.GetKey(EGameKeyType.Attack))
+        {
+            _finisherTimer += Time.deltaTime;
+            if (_finisherTimer > chargeTime)
+            {
+                //차지 피니셔.
+                ExecuteChargeFinisherAttack(_currentAttackConfig.AttackType, _attackConfig.ChargeFinisherDamage);
+                yield break;
+            }
+            yield return null;
+        }
+        //일반 콤보 피니셔.
+        ExecuteComboAttack(data, _currentAttackConfig.AttackType, _currentAttackConfig.Damage);
+        Debug.Log($"[Attack] 콤보 피니셔 {_currentCombo}타");
+        yield return null;
+    }
+
+    //차지 피니셔 실행.
+    private void ExecuteChargeFinisherAttack(EAttackType type, float damage)
+    {
+        _playerMove.SetCanMove(false);
+        Debug.Log($"[Attack] Type: {type} | Charge Finisher | Damage: {damage}");
+        _currentDamage = SetDamage(damage);
+        _animator.PlayChargeFinisher(type);
+    }
+
+    //단일 전신 스킬 실행 - 애니메이션 이벤트로 OnAttackFinish() 실행 필요.
+    private void ExecuteSingleAttack(EAttackType type, float damage)
+    {
+        _playerMove.SetCanMove(false);
+        Debug.Log($"[Attack] Type: {type} | Skill | Damage: {damage}");
+        _currentDamage = SetDamage(damage);
+        _animator.PlaySkill(type);
+    }
+
+    private void ExecuteComboAttack(AttackPhaseData data, EAttackType type, float damage)
     {
         Debug.Log($"[Attack] Type: {type} | PhaseIndex: {data.PhaseIndex} | Damage: {damage}");
         _currentDamage = SetDamage(damage);
-        _animator.PlayAttack(_currentAttackConfig.IsComboAttack, data.PhaseIndex, type);
+        _animator.PlayComboAttack(data.PhaseIndex, type);
     }
 
     private float SetDamage (float damage)
@@ -146,30 +204,7 @@ public class PlayerAttack : MonoBehaviour
         return damage;
     }
 
-    private void ExecuteJumpAttack()
-    {
-        ExecuteAttackSingle(EAttackType.Jump);
-        _currentCombo = 1;
-        _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(_currentAttackConfig.GetPhaseData(1).InputWindow));
-    }
-
-    private void ExecuteAttackSingle(EAttackType attackType)
-    {
-        _isAttacking = true;
-
-        _currentAttackConfig = _attackConfig.GetAttackConfig(attackType);
-        if (_currentAttackConfig == null) return;
-
-
-        AttackPhaseData data = _currentAttackConfig.GetPhaseData(1);
-
-        if (data == null)
-        {
-            return;
-        }
-
-        ExecuteAttack(data, attackType, _currentAttackConfig.Damage);
-    }
+    
 
     #endregion
 
@@ -250,10 +285,18 @@ public class PlayerAttack : MonoBehaviour
         //데미지 값 세팅
     }
 
-    public void OnComboFinisherFinish()
+    public void OnFinisherFinish()
+    {
+        //움직일 수 있는 상태로 전환
+        _playerMove.SetCanMove(true);
+        EndCombo();
+    }
+
+    public void OnAttackFinish()
     {
         _hitboxController.DeActive("Main");
-        EndCombo();
+        //움직일 수 있는 상태로 전환
+        _playerMove.SetCanMove(true);
     }
 
     #endregion
