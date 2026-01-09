@@ -12,16 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a851ae65fd5eeb48a82233f3533eec4, type: 3}
   m_Name: UpgradeData
   m_EditorClassIdentifier: Assembly-CSharp::ItemGradeDataSO
-  _grades:
-  - Grade: 0
-    Cost: 0
-    Count: 0
-    Rate: 0
-  - Grade: 1
-    Cost: 0
-    Count: 0
-    Rate: 0
-  - Grade: 2
-    Cost: 0
-    Count: 0
-    Rate: 0
+  _gradeDict:
+    _pairs:
+    - Key: 0
+      Value:
+        Cost: 50
+        Count: 2
+        Rate: 0.75
+    - Key: 1
+      Value:
+        Cost: 150
+        Count: 3
+        Rate: 0.5
+    - Key: 2
+      Value:
+        Cost: 300
+        Count: 4
+        Rate: 0.25

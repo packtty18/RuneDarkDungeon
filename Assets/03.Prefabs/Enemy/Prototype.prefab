@@ -55,10 +55,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: _hitbox
+    - Name: _hitboxes
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[HitBox,
-        Assembly-CSharp]], mscorlib
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.Collections.Generic.List`1[[HitBox,
+        Assembly-CSharp]], mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
       Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
@@ -76,8 +76,20 @@ MonoBehaviour:
       Entry: 1
       Data: Main
     - Name: $v
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[HitBox, Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
       Entry: 10
       Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -436,7 +448,7 @@ GameObject:
   m_Component:
   - component: {fileID: 442986001267007786}
   m_Layer: 0
-  m_Name: ProjectileSpawnPoint
+  m_Name: ArrowSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -451,7 +463,7 @@ Transform:
   m_GameObject: {fileID: 1404574003094897554}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.302, y: 1.383, z: 0.455}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -574,8 +586,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.3, y: 0.1, z: 0.79}
-  m_Center: {x: 0.3, y: 0.04, z: -0.65}
+  m_Size: {x: 0.38, y: 0.1, z: 1.11}
+  m_Center: {x: 0.3, y: 0.04, z: -0.54}
 --- !u!114 &8596355717917678292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -979,6 +991,7 @@ GameObject:
   - component: {fileID: 4631420703416655599}
   - component: {fileID: 8076806661143990883}
   - component: {fileID: 8746421345826682953}
+  - component: {fileID: 6936449633290105301}
   - component: {fileID: 2750660798940260602}
   - component: {fileID: 2543639924521705484}
   - component: {fileID: 27034461710658512}
@@ -1032,7 +1045,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -1115,6 +1128,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbe30fc56e7616e4aa9793b1abf2c93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimatorController
+--- !u!114 &6936449633290105301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702605027344997685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca6840a58c060cc4392662e8dd9b221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyController
+  _team: 1
+  _physics: {fileID: 0}
+  _target: {fileID: 0}
+  _move: {fileID: 0}
+  _attack: {fileID: 0}
+  _health: {fileID: 0}
+  _stat: {fileID: 0}
+  _anim: {fileID: 0}
 --- !u!114 &2750660798940260602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1127,7 +1160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f32e5ce7c858264280bfa2c16076231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStat
-  _data: {fileID: 0}
+  _data: {fileID: 11400000, guid: 2127cf459051ab34aa902f206c6034cb, type: 2}
 --- !u!114 &2543639924521705484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1140,7 +1173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f02b58614e772469678e693af82753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  _team: 1
 --- !u!114 &27034461710658512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1168,7 +1200,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
   _hitboxController: {fileID: 125286002631472339}
-  _projectileSpawnPoint: {fileID: 0}
+  _controller: {fileID: 0}
+  IsAttacking: 0
+  _arrow: {fileID: 11400000, guid: 2025daeab9089f34d8cef4de087160fe, type: 2}
+  _magic: {fileID: 11400000, guid: 248455a7af601aa4ca62c3df9927657b, type: 2}
+  _arrowSpawnPos: {fileID: 442986001267007786}
+  _magicSpawnPos: {fileID: 442986001267007786}
 --- !u!1 &2704920180650620513
 GameObject:
   m_ObjectHideFlags: 0

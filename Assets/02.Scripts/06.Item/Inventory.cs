@@ -9,37 +9,50 @@ public class Inventory : IInventory
     public IReadOnlyList<ItemData> Items => _items;
     
     private SafeEvent<ItemData> _onItemAdded = new();
+    private SafeEvent<ItemData> _onItemRemoved = new();
     
     public int Count => _items.Count;
     
     public void Add(ItemData item)
     {
         _items.Add(item);
-        Notify(item);
+        NotifyAdded(item);
     }
 
     public void Remove(ItemData item)
     {
         _items.Remove(item);
+        NotifyRemoved(item);
     }
 
     public void Clear()
     {
+        foreach (var item in _items)
+        {
+            NotifyRemoved(item);
+        }
         _items.Clear();
     }
     
-    public void Subscribe(Action<ItemData> action)
+    public void Subscribe(Action<ItemData> addAction, Action<ItemData> removeAction)
     {
-        _onItemAdded.Subscribe(action);
+        _onItemAdded.Subscribe(addAction);
+        _onItemRemoved.Subscribe(removeAction);
     }
 
-    public void Unsubscribe(Action<ItemData> action)
+    public void Unsubscribe(Action<ItemData> addAction, Action<ItemData> removeAction)
     {
-        _onItemAdded.Unsubscribe(action);
+        _onItemAdded.Unsubscribe(addAction);
+        _onItemRemoved.Unsubscribe(removeAction);
     }
 
-    private void Notify(ItemData item)
+    private void NotifyAdded(ItemData item)
     {
         _onItemAdded?.Invoke(item);
+    }
+    
+    private void NotifyRemoved(ItemData item)
+    {
+        _onItemRemoved?.Invoke(item);
     }
 }

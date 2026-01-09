@@ -8,16 +8,21 @@ public class DataManager : GlobalSingleton<DataManager>
     public ICurrency GoldData => _data.Gold;
     
     [SerializeField] private ItemDatabaseSO _itemDB;
-    [SerializeField] private UpgradeDataSO _upgradeDB;
-    [SerializeField] private GradeColorSO _colorDB;
+    [SerializeField] private ItemUpgradeDataSO _upgradeDB;
     
     public ItemDatabaseSO ItemDB => _itemDB;
-    public UpgradeDataSO UpgradeDB => _upgradeDB;
-    public GradeColorSO ColorDB => _colorDB;
+    public ItemUpgradeDataSO UpgradeDB => _upgradeDB;
     
     protected override void OnInit()
     {
         FileIO.Load(_data);
+        TestAdd();
+    }
+
+    private void TestAdd()
+    {
+        GoldData.Add(10000);
+
     }
 
     public void Save()

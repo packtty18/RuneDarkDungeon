@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 5410846014176391662}
   - component: {fileID: 667227511122889976}
   - component: {fileID: 1351667320295905523}
-  m_Layer: 0
+  - component: {fileID: 3583302202529302654}
+  - component: {fileID: 309068252138682077}
+  m_Layer: 7
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,6 +114,35 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3583302202529302654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861007580531136700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0133c8479eb4c34981a6121b80e05cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtBox
+--- !u!114 &309068252138682077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861007580531136700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a36b10419091ab4aae9497145307fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageFeedback
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.5
+  _receiver: {fileID: 0}
+  _managingHurtbox: {fileID: 0}
+  _renderer: {fileID: 0}
 --- !u!1 &1594292469318307116
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,6 +152,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8950267024526096717}
+  - component: {fileID: 7027537025366974757}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -148,6 +180,18 @@ Transform:
   - {fileID: 4588475754881219857}
   m_Father: {fileID: 3612475352170461826}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7027537025366974757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594292469318307116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 367f21b3aa9a8b54894007c1d172261c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageReceiver
 --- !u!1 &1614612715150362452
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,7 +204,9 @@ GameObject:
   - component: {fileID: 60461991250611701}
   - component: {fileID: 6897731617237284124}
   - component: {fileID: 533156215984151484}
-  m_Layer: 0
+  - component: {fileID: 4543130680067621278}
+  - component: {fileID: 7221899335213693293}
+  m_Layer: 7
   m_Name: LArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,6 +306,35 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4543130680067621278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614612715150362452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0133c8479eb4c34981a6121b80e05cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtBox
+--- !u!114 &7221899335213693293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614612715150362452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a36b10419091ab4aae9497145307fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageFeedback
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.5
+  _receiver: {fileID: 0}
+  _managingHurtbox: {fileID: 0}
+  _renderer: {fileID: 0}
 --- !u!1 &2843991830892998511
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +347,9 @@ GameObject:
   - component: {fileID: 6421641935806225162}
   - component: {fileID: 3976101904238721502}
   - component: {fileID: 3699979063345764656}
-  m_Layer: 0
+  - component: {fileID: 8507839800302697786}
+  - component: {fileID: 1852294489742973020}
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -372,6 +449,35 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8507839800302697786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843991830892998511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0133c8479eb4c34981a6121b80e05cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtBox
+--- !u!114 &1852294489742973020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843991830892998511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a36b10419091ab4aae9497145307fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageFeedback
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.5
+  _receiver: {fileID: 7027537025366974757}
+  _managingHurtbox: {fileID: 8507839800302697786}
+  _renderer: {fileID: 3976101904238721502}
 --- !u!1 &3087855680104440590
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,7 +490,9 @@ GameObject:
   - component: {fileID: 2782065131569083121}
   - component: {fileID: 3947458660533438259}
   - component: {fileID: 4848996919668818147}
-  m_Layer: 0
+  - component: {fileID: 8563909718103447966}
+  - component: {fileID: 591009949742488302}
+  m_Layer: 7
   m_Name: Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -484,6 +592,35 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8563909718103447966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3087855680104440590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0133c8479eb4c34981a6121b80e05cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtBox
+--- !u!114 &591009949742488302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3087855680104440590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a36b10419091ab4aae9497145307fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageFeedback
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.5
+  _receiver: {fileID: 0}
+  _managingHurtbox: {fileID: 0}
+  _renderer: {fileID: 0}
 --- !u!1 &4422492892234072989
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,9 +632,10 @@ GameObject:
   - component: {fileID: 3612475352170461826}
   - component: {fileID: 3363045353908011021}
   - component: {fileID: 4723722705235691292}
+  - component: {fileID: 1017309986099481}
   m_Layer: 0
   m_Name: HurtObj
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -543,7 +681,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!136 &4723722705235691292
 CapsuleCollider:
@@ -568,6 +706,19 @@ CapsuleCollider:
   m_Height: 2.3
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &1017309986099481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4422492892234072989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f963f2b42c361047b452b3081f41eca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtHealth
+  team: 0
 --- !u!1 &9079089010202901932
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,7 +731,9 @@ GameObject:
   - component: {fileID: 6948072609025926149}
   - component: {fileID: 7327882329881272565}
   - component: {fileID: 8691473437139500688}
-  m_Layer: 0
+  - component: {fileID: 4886438535190635744}
+  - component: {fileID: 9007139551322621584}
+  m_Layer: 7
   m_Name: RArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -680,3 +833,32 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4886438535190635744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9079089010202901932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0133c8479eb4c34981a6121b80e05cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtBox
+--- !u!114 &9007139551322621584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9079089010202901932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a36b10419091ab4aae9497145307fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageFeedback
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.5
+  _receiver: {fileID: 0}
+  _managingHurtbox: {fileID: 0}
+  _renderer: {fileID: 0}

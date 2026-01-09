@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Video;
 
 
 public class Util : MonoBehaviour
@@ -13,7 +12,6 @@ public class Util : MonoBehaviour
 
         ObjectDestroy(gameObject);
     }
-
 
     public static void ObjectDestroy(GameObject gameObject)
     {

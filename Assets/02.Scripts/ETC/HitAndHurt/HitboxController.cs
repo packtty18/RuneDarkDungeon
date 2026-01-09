@@ -2,57 +2,81 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Controls activation and deactivation of grouped hitboxes
 public class HitboxController : SerializedMonoBehaviour
 {
-    [SerializeField] private Dictionary<string, HitBox> _hitbox = new Dictionary<string, HitBox>();
+    [SerializeField]
+    private Dictionary<string, List<HitBox>> _hitboxes = new();
 
     [Button]
-    public void Active(string key)
+    public void Activate(string key)
     {
-        if(string.IsNullOrEmpty(key))
+        if (!TryGetHitboxes(key, out var hitboxes))
         {
-            Debug.Log($"키가 비어있습니다.");
             return;
         }
-        if(!_hitbox.TryGetValue(key, out HitBox hitbox))
-        {
-            Debug.Log($"{key}에 해당하는 히트박스가 없습니다.");
-            return;
-        }
-
-        hitbox.Activate();
+        SetActive(hitboxes, true);
     }
+
     [Button]
-    public void DeActive(string key)
+    public void Deactivate(string key)
     {
+        if (!TryGetHitboxes(key, out var hitboxes))
+        {
+            return;
+        }
+        SetActive(hitboxes, false);
+    }
+
+    [Button]
+    public void ActivateAll()
+    {
+        foreach (var hitboxes in _hitboxes.Values)
+        {
+            SetActive(hitboxes, true);
+        }
+    }
+
+    [Button]
+    public void DeactivateAll()
+    {
+        foreach (var hitboxes in _hitboxes.Values)
+        {
+            SetActive(hitboxes, false);
+        }
+    }
+
+    private bool TryGetHitboxes(string key, out List<HitBox> hitboxes)
+    {
+        hitboxes = null;
+
         if (string.IsNullOrEmpty(key))
         {
-            Debug.Log($"키가 비어있습니다.");
-            return;
-        }
-        if (!_hitbox.TryGetValue(key, out HitBox hitbox))
-        {
-            Debug.Log($"{key}에 해당하는 히트박스가 없습니다.");
-            return;
+            Debug.LogWarning("[HitboxController] Key is null or empty.");
+            return false;
         }
 
-        hitbox.Deactivate();
+        if (!_hitboxes.TryGetValue(key, out hitboxes))
+        {
+            Debug.LogWarning($"[HitboxController] No hitboxes found for key: {key}");
+            return false;
+        }
+
+        return true;
     }
 
-    [Button]
-    public void ActiveAll()
+    private void SetActive(List<HitBox> hitboxes, bool active, float activeDamage = 0)
     {
-        foreach (HitBox hitbox in _hitbox.Values)
+        foreach (HitBox hitbox in hitboxes)
         {
-            hitbox.Activate();
-        }
-    }
-    [Button]
-    public void DeActiveAll()
-    {
-        foreach (HitBox hitbox in _hitbox.Values)
-        {
-            hitbox.Deactivate();
+            if (active)
+            {
+                hitbox.Activate(activeDamage);
+            }
+            else
+            {
+                hitbox.Deactivate();
+            }
         }
     }
 }
