@@ -41,6 +41,7 @@ public class PlayerAttack : MonoBehaviour
     {
         _player.OnPlayerStatsChanged += OnMovementStateChange;
         _playerMove.OnIsJumpingChanged += OnJumpingChange;
+        _playerMove.OnDashEnd += StartJumpAttack;
 
         Initialized();
     }
@@ -93,13 +94,17 @@ public class PlayerAttack : MonoBehaviour
         }
         if (_playerMove.ShouldRun & _isJumping)
         {
-            StartJumpAttack();
+            TryJumpAttack();
             return;
         }
 
         StartComboAttack(EAttackType.Basic);
     }
 
+    private void TryJumpAttack()
+    {
+        _playerMove.StartGroundDash(30, 50);
+    }
     private void StartJumpAttack()
     {
         StartSingleAttack(EAttackType.Jump);
@@ -262,7 +267,7 @@ public class PlayerAttack : MonoBehaviour
         _isJumping = value;
 
         // 점프 스킬 중에는 리셋 콤보 무시.
-        if (_currentAttackConfig != null && _currentAttackConfig.AttackType == EAttackType.Jump)
+        if ( _currentAttackConfig != null && _currentAttackConfig.AttackType == EAttackType.Jump)
         {
             _currentAttackConfig = _attackConfig.GetAttackConfig(EAttackType.Basic);
             return;

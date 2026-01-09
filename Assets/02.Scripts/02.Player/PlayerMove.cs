@@ -1,6 +1,7 @@
 using System;
-using Unity.VisualScripting;
+using System.Collections;
 using UnityEngine;
+
 
 
 [RequireComponent(typeof(PlayerAnimator))]
@@ -55,6 +56,7 @@ public class PlayerMove : MonoBehaviour
     public event Action<bool> OnIsJumpingChanged;
     public event  Action<float> OnMoveSpeedChanged;
     public event Action<bool> OnCanMoveChanged;
+    public event Action OnDashEnd;
 
     private void Awake()
     {
@@ -244,12 +246,58 @@ public class PlayerMove : MonoBehaviour
         _walkSpeed = obj;
         _runSpeed = _walkSpeed * _runSpeedMultiplier;
     }
+
     public void SetCanMove(bool canMove)
     {
         CanMove = canMove;
         OnCanMoveChanged?.Invoke(CanMove);
     }
 
+    #region Dash
+    public void StartGroundDash(float dashAngle, float dashSpeed)
+    {
+        if (IsGrounded || !IsJumping) return;
+
+        SetCanMove(false);
+
+        _currentJumpCount = _maxJumpCount;
+        _verticalVelocity = 0f;
+
+        // 현재 입력 방향 또는 플레이어가 보는 방향
+        Vector3 moveInput = GetMoveDirection();
+        Vector3 horizontal = moveInput.magnitude > 0.1f ? moveInput : transform.forward;
+
+        Vector3 dashDirection = CalculateDashDirection(horizontal, dashAngle);
+        StartCoroutine(DashToGroundCoroutine(dashDirection, dashSpeed));
+    }
+
+    private Vector3 CalculateDashDirection(Vector3 horizontalDir, float angle)
+    {
+        float angleRad = angle * Mathf.Deg2Rad;
+
+        Vector3 direction = horizontalDir.normalized * Mathf.Cos(angleRad)
+                            + Vector3.down * Mathf.Sin(angleRad);
+
+        return direction.normalized;
+    }
+
+    private IEnumerator DashToGroundCoroutine(Vector3 direction, float speed)
+    {
+        float currentSpeed = 0;
+        float acceleration = 100f; // 가속도
+
+        while (!IsGrounded)
+        {
+            currentSpeed = Mathf.MoveTowards(currentSpeed, speed, acceleration * Time.deltaTime);
+            _controller.Move(direction * speed * Time.deltaTime);
+
+            yield return null;
+        }
+
+        OnDashEnd?.Invoke();
+    }
+
+    #endregion
     #region IsGrounded Check
     private void GroundedCheck()
     {
