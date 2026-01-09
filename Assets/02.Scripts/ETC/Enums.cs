@@ -1,8 +1,32 @@
-﻿public enum EGameState
+public enum EGameState
 { 
     Ready,
     Playing,
     GameOver
+}
+
+public enum EAttackType
+{
+    Basic, 
+    Jump,   
+}
+
+public enum EMovementState
+{
+    Idle,
+    Walk,
+    Run,
+    Jump,
+    Stagger, //경직   
+    Dead,
+}
+
+public enum EActionState
+{
+    None,
+    Attack,
+    DashAttack,
+    Skill,
 }
 
 public enum EEnemyState
@@ -20,6 +44,47 @@ public enum EEnemyState
     RageAttack
 }
 
+public enum EGameKeyType
+{
+    Front,
+    Back,
+    Left,
+    Right,
+    Jump,
+    Attack,
+    Run,
+    Enter,
+}
+
+public enum ESceneType
+{
+    MainMenu,
+    Gameplay,
+    Lobby,
+    Loading,
+}
+
+public enum ETeamType
+{
+    Player,
+    Enemy,
+    Neutral
+}
+
+public enum EItemGrade
+{
+    Normal,
+    Rare,
+    Unique,
+    Legendary
+}
+
+public enum  EPoolType
+{
+    None,
+    Box,
+    Sound,
+}
 
 #region PlayerStat
 public enum EConsumableFloat
