@@ -2237,7 +2237,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 5818967200685529976}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -2270,8 +2271,8 @@ MonoBehaviour:
       Entry: 12
       Data: 1
     - Name: 
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -2766,6 +2767,7 @@ GameObject:
   - component: {fileID: 5251428063860501268}
   - component: {fileID: 4718409816780025331}
   - component: {fileID: 6019706068357259016}
+  - component: {fileID: 275897205288014369}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2807,7 +2809,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
@@ -2832,7 +2834,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: aaa573eaf80249d46ad28c6a52e36478, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -2944,7 +2946,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e090d39ff2caf42a1bd5aa4ed78d1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  _hitBox: {fileID: 0}
   _attackConfig: {fileID: 11400000, guid: 1b371a66a71756a40ab75888da217879, type: 2}
+  _hitboxController: {fileID: 3872139809204004901}
 --- !u!114 &6019706068357259016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2957,6 +2961,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cde4760b9d015104f931e57ea22a5f49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+--- !u!54 &275897205288014369
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7897478960710564786}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7900473698873661027
 GameObject:
   m_ObjectHideFlags: 0
