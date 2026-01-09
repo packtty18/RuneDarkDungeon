@@ -5,17 +5,15 @@ public class UI_SlotContainer : MonoBehaviour
 {
     private IReadOnlyInventory _inventory;
     private ItemDatabaseSO _itemDB;
-    private ItemColorSO _colorDB;
     
     [Header("슬롯 연결")]
     [SerializeField] protected List<UI_Slot> _slots;
     public IReadOnlyList<UI_Slot> Slots => _slots;
     
-    public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB, ItemColorSO colorDB)
+    public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB)
     {
         _inventory = inventory;
         _itemDB = itemDB;
-        _colorDB = colorDB;
         BindInventory();
     }
 
@@ -35,10 +33,7 @@ public class UI_SlotContainer : MonoBehaviour
     
     private void SetSlot(ItemData itemData)
     {
-        ItemSO itemInfo = _itemDB.GetItemInfo(itemData);
-        Color color = _colorDB.GetColor(itemData.Grade);
-
-        SlotData data = new(itemData, itemInfo, color);
+        SlotData data = _itemDB.GetSlotData(itemData);
         
         foreach (var slot in _slots)
         {

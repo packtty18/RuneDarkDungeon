@@ -4,9 +4,12 @@ using UnityEngine;
 public class ParticleItemEffectSO : ItemEffectBaseSO
 {
     [Header("이펙트 프리팹 연결")]
-    [SerializeField] private SerializableDictionary<EItemGrade, GameObject> _effectDict;
+    [SerializeField] private SerializableDictionary<EItemGrade, ParticleEffect> _effectDict;
 
-    private GameObject GetEffect(EItemGrade grade)
+    [Header("사용자 위치를 추적")]
+    [SerializeField] private bool _isFollowUser;
+    
+    private ParticleEffect GetEffect(EItemGrade grade)
     {
         return _effectDict.GetValueOrDefault(grade);
     }
@@ -14,8 +17,14 @@ public class ParticleItemEffectSO : ItemEffectBaseSO
     public override void OnUse(GameObject user, EItemGrade grade)
     {
         var effect = GetEffect(grade);
-        effect.SetActive(false);
-        effect.SetActive(true);
-        effect.transform.position = user.transform.position;
+
+        if (_isFollowUser)
+        {
+            Instantiate(effect, user.transform);
+        }
+        else
+        {
+            Instantiate(effect, user.transform.position, Quaternion.identity);
+        }
     }
 }

@@ -29,8 +29,8 @@ public class UI_Initializer : MonoBehaviour
         //var data = DataManager.Instance;
         var data = RuneUser.Instance;
 
-        _inventoryUI.Initialize(data.Inventory, data.ItemDB, data.ColorDB);
-        _upgradeUI.Initialize(_upgradeManager.UpgradeInventory, data.ItemDB, data.ColorDB);
+        _inventoryUI.Initialize(data.Inventory, data.ItemDB);
+        _upgradeUI.Initialize(_upgradeManager.UpgradeInventory, data.ItemDB);
         _controller.Initialize(_upgradeManager, _inventoryUI.Slots, _upgradeUI.Slots);
         
         _upgradeManager.Initialize(data.UpgradeDB, data.Inventory, data.GoldData);
