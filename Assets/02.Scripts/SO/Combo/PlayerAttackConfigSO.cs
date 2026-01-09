@@ -8,6 +8,13 @@ public class PlayerAttackConfigSO : ScriptableObject
     [Tooltip("지상/공중 공격 설정 목록")]
     public AttackTypeConfig[] AttackConfigs;
 
+    [Tooltip("차지 피니셔 데미지")]
+    public float ChargeFinisherDamage;
+
+    [Tooltip("차지 피니셔 홀드 타임")]
+    public float ChargeTime;
+
+
     public AttackTypeConfig GetAttackConfig(EAttackType attackType)
     {
         foreach(var config in AttackConfigs)

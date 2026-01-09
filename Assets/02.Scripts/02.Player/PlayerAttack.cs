@@ -6,6 +6,8 @@ public class PlayerAttack : MonoBehaviour
     private Player _player;
     private PlayerAnimator _animator;
     private PlayerMove _playerMove;
+    [SerializeField]
+    private HitBox _hitBox;
 
     private EMovementState _moveState;
 
@@ -25,6 +27,7 @@ public class PlayerAttack : MonoBehaviour
     private PlayerAttackConfigSO __pausedComboConfig;
     private AttackTypeConfig _currentAttackConfig;
     private int _currentCombo;
+    private float _currentDamage;
 
     #region Life Cycle
     private void Awake()
@@ -131,11 +134,16 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    private void ExecuteAttack(AttackPhaseData data, EAttackType type, DamageData damage)
+    private void ExecuteAttack(AttackPhaseData data, EAttackType type, float damage)
     {
-        Debug.Log($"[Attack] Type: {type} | PhaseIndex: {data.PhaseIndex} | Damage: {damage.Damage}");
-
+        Debug.Log($"[Attack] Type: {type} | PhaseIndex: {data.PhaseIndex} | Damage: {damage}");
+        _currentDamage = SetDamage(damage);
         _animator.PlayAttack(_currentAttackConfig.IsComboAttack, data.PhaseIndex, type);
+    }
+
+    private float SetDamage (float damage)
+    {
+        return damage;
     }
 
     private void ExecuteJumpAttack()
@@ -239,6 +247,7 @@ public class PlayerAttack : MonoBehaviour
     public void AttackStart()
     {
         _hitboxController.Active("Main");
+        //데미지 값 세팅
     }
 
     public void OnComboFinisherFinish()

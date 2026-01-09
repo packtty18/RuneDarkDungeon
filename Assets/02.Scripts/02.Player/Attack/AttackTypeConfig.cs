@@ -12,7 +12,7 @@ public class AttackTypeConfig
     public AttackPhaseData[] AttackPhases;
 
     [Tooltip("데미지")]
-    public DamageData Damage;
+    public float Damage;
 
     [Tooltip("연속(콤보) 공격 가능 여부")]
     public bool IsComboAttack => AttackPhases.Length > 1;
