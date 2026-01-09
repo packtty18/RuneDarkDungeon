@@ -13,7 +13,7 @@ public class BattleManager : LocalSingleton<BattleManager>
     [SerializeField] private UnityEvent _battleSetting; //전투환경 조정(플레이어 및 적 생성)
     [SerializeField] private UnityEvent _battleStart;   //플레이어 인풋 활성화 및 적 활성화)
 
-    public GameObject Player => _player;
+    public Transform PlayerTransform => _player?.transform;
 
     protected override void OnInit()
     {
