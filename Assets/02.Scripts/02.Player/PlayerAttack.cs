@@ -6,9 +6,7 @@ public class PlayerAttack : MonoBehaviour
     private Player _player;
     private PlayerAnimator _animator;
     private PlayerMove _playerMove;
-    [SerializeField]
-    private HitBox _hitBox;
-
+    
     private EMovementState _moveState;
 
     private bool _isJumping;
@@ -53,7 +51,7 @@ public class PlayerAttack : MonoBehaviour
             if (_currentAttackConfig != null && _currentAttackConfig.AttackType == EAttackType.Jump) return;
             _attackBuffered = true;
         }
-
+        
         if (!_isAttacking && _attackBuffered)
         {
             _attackBuffered = false;
@@ -103,16 +101,21 @@ public class PlayerAttack : MonoBehaviour
 
     private void TryJumpAttack()
     {
+        _isAttacking = true;
+
+        _currentAttackConfig = _attackConfig.GetAttackConfig(EAttackType.Jump);
+        if (_currentAttackConfig == null) return;
+
         _playerMove.StartGroundDash(30, 50);
+
     }
     private void StartJumpAttack()
     {
-        StartSingleAttack(EAttackType.Jump);
+        ExecuteSingleAttack(EAttackType.Jump, _currentAttackConfig.Damage);
         _currentCombo = 1;
-        _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(_currentAttackConfig.GetPhaseData(1).InputWindow));
     }
 
-    private void StartSingleAttack(EAttackType attackType)
+    private void StartSkillAttack(EAttackType attackType)
     {
         _isAttacking = true;
 
@@ -269,7 +272,7 @@ public class PlayerAttack : MonoBehaviour
         // 점프 스킬 중에는 리셋 콤보 무시.
         if ( _currentAttackConfig != null && _currentAttackConfig.AttackType == EAttackType.Jump)
         {
-            _currentAttackConfig = _attackConfig.GetAttackConfig(EAttackType.Basic);
+              _currentAttackConfig = _attackConfig.GetAttackConfig(EAttackType.Basic);
             return;
         }
         EndCombo();
@@ -297,11 +300,20 @@ public class PlayerAttack : MonoBehaviour
         EndCombo();
     }
 
+    public void OnJumpDashAttackFinish()
+    {
+        _hitboxController.Deactivate("Main");
+        //움직일 수 있는 상태로 전환
+        _playerMove.SetCanMove(true);
+        _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(_currentAttackConfig.GetPhaseData(1).InputWindow));
+    }
+
     public void OnAttackFinish()
     {
         _hitboxController.Deactivate("Main");
         //움직일 수 있는 상태로 전환
         _playerMove.SetCanMove(true);
+        _isAttacking = false;
     }
 
     #endregion

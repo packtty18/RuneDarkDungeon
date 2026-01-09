@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -57,7 +58,7 @@ public class PlayerAnimator : MonoBehaviour
     {
         string stateName = $"AttackSubStateMachine.{attackType.ToString()}";
 
-        _animator.CrossFade(stateName, 0.05f, 0, 0);
+        _animator.CrossFade(stateName, 0.1f, 0, 0);
     }
 
     public void SetCanMove(bool canMove)
