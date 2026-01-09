@@ -45,7 +45,6 @@ public class SwapEventHandler : ISlotEventHandler
 
     public void OnEnter()
     {
-        SetBackgroundsActive(true);
         foreach (var background in _backgrounds)
         {
             background.OnBackgroundClicked += OnClickBackground;
