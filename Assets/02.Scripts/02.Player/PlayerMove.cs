@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+
 
 
 [RequireComponent(typeof(PlayerAnimator))]
@@ -38,8 +40,9 @@ public class PlayerMove : MonoBehaviour
     private bool _jumpRequested = false;
     private float _landOffset = 0.5f;
     private bool _isJumping = false;
-    public bool IsGrounded { get; private set; }
 
+    public bool CanMove { get; private set; }
+    public bool IsGrounded { get; private set; }
     public bool ShouldRun { get; private set; }
     public bool IsJumping 
     {   get { return _isJumping; }
@@ -52,9 +55,18 @@ public class PlayerMove : MonoBehaviour
 
     public event Action<bool> OnIsJumpingChanged;
     public event  Action<float> OnMoveSpeedChanged;
+    public event Action<bool> OnCanMoveChanged;
+    public event Action OnDashEnd;
 
-    void Start()
-    {  
+    private void Awake()
+    {
+        _animator = GetComponent<PlayerAnimator>();
+        _controller = GetComponent<CharacterController>();
+        _player = GetComponent<Player>();
+        
+    }
+    private void Start()
+    {
         Initialize();
         SubscribeEvents();
     }
@@ -75,10 +87,6 @@ public class PlayerMove : MonoBehaviour
     private void Initialize()
     {
         _inputManager = InputManager.Instance;
-
-        _controller = GetComponent<CharacterController>();
-        _player = GetComponent<Player>();
-
         HandleMoveSpeedChanged(_player.GetSpeed());
         _currentSpeed = 0;
 
@@ -87,10 +95,9 @@ public class PlayerMove : MonoBehaviour
         _groundCheckRadius = _controller.radius * 0.9f;
 
         _currentJumpCount = 0;
+        CanMove = true;
         _jumpVelocity = Mathf.Sqrt(_player.GetJumpVelocity() * -2f * _gravity);
         IsJumping = false;
-
-        _animator = GetComponent<PlayerAnimator>();
     }
 
     private void SubscribeEvents()
@@ -111,6 +118,7 @@ public class PlayerMove : MonoBehaviour
 
         SpeedUpdate(moveScale);
 
+        if (!CanMove) return;
         if (moveScale > 0.01f)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), _turnRate * Time.deltaTime);
@@ -144,6 +152,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (_inputManager.GetKeyDown(EGameKeyType.Jump))
         {
+            if (!CanMove) return ;
             if (_currentJumpCount < _maxJumpCount)
             {
                 if (_currentJumpCount == 0)
@@ -191,16 +200,7 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        if (_inputManager.GetKeyDown(EGameKeyType.Run))
-        {
-            ShouldRun = true;
-        }
-
-        if (_inputManager.GetKeyUp(EGameKeyType.Run))
-        {
-            ShouldRun = false;
-        }
-
+        ShouldRun = _inputManager.GetKey(EGameKeyType.Run);
 
         float targetSpeed = ShouldRun ? _runSpeed : _walkSpeed;
 
@@ -247,11 +247,57 @@ public class PlayerMove : MonoBehaviour
         _runSpeed = _walkSpeed * _runSpeedMultiplier;
     }
 
-    public void SetShouldRun (bool shouldRun)
+    public void SetCanMove(bool canMove)
     {
-        ShouldRun = shouldRun;
+        CanMove = canMove;
+        OnCanMoveChanged?.Invoke(CanMove);
     }
 
+    #region Dash
+    public void StartGroundDash(float dashAngle, float dashSpeed)
+    {
+        if (IsGrounded || !IsJumping) return;
+
+        SetCanMove(false);
+
+        _currentJumpCount = _maxJumpCount;
+        _verticalVelocity = 0f;
+
+        // 현재 입력 방향 또는 플레이어가 보는 방향
+        Vector3 moveInput = GetMoveDirection();
+        Vector3 horizontal = moveInput.magnitude > 0.1f ? moveInput : transform.forward;
+
+        Vector3 dashDirection = CalculateDashDirection(horizontal, dashAngle);
+        StartCoroutine(DashToGroundCoroutine(dashDirection, dashSpeed));
+    }
+
+    private Vector3 CalculateDashDirection(Vector3 horizontalDir, float angle)
+    {
+        float angleRad = angle * Mathf.Deg2Rad;
+
+        Vector3 direction = horizontalDir.normalized * Mathf.Cos(angleRad)
+                            + Vector3.down * Mathf.Sin(angleRad);
+
+        return direction.normalized;
+    }
+
+    private IEnumerator DashToGroundCoroutine(Vector3 direction, float speed)
+    {
+        float currentSpeed = 0;
+        float acceleration = 100f; // 가속도
+
+        while (!IsGrounded)
+        {
+            currentSpeed = Mathf.MoveTowards(currentSpeed, speed, acceleration * Time.deltaTime);
+            _controller.Move(direction * speed * Time.deltaTime);
+
+            yield return null;
+        }
+
+        OnDashEnd?.Invoke();
+    }
+
+    #endregion
     #region IsGrounded Check
     private void GroundedCheck()
     {
