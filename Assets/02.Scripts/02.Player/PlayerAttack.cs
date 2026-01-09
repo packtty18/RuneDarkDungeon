@@ -256,7 +256,7 @@ public class PlayerAttack : MonoBehaviour
         _currentCombo = 0;
         _currentAttackConfig = null;
 
-        _hitboxController.DeActive("Main");
+        _hitboxController.Deactivate("Main");
     }
 
     #endregion
@@ -286,7 +286,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void AttackStart()
     {
-        _hitboxController.Active("Main");
+        _hitboxController.Activate("Main");
         //데미지 값 세팅
     }
 
@@ -299,7 +299,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnAttackFinish()
     {
-        _hitboxController.DeActive("Main");
+        _hitboxController.Deactivate("Main");
         //움직일 수 있는 상태로 전환
         _playerMove.SetCanMove(true);
     }

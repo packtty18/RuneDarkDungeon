@@ -30,6 +30,11 @@ public class SoundManager : GlobalSingleton<SoundManager>
             CreateBgmSource();
         }
         
+        
+    }
+
+    private void Start()
+    {
         _soundFactory = new SoundFactory(PoolManager.Instance, EPoolType.SFX);
     }
 

@@ -16,6 +16,13 @@ public class DataManager : GlobalSingleton<DataManager>
     protected override void OnInit()
     {
         FileIO.Load(_data);
+        TestAdd();
+    }
+
+    private void TestAdd()
+    {
+        GoldData.Add(10000);
+
     }
 
     public void Save()

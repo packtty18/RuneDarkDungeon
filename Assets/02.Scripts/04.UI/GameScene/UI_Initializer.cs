@@ -24,10 +24,9 @@ public class UI_Initializer : MonoBehaviour
 
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
 
-    private void Awake()
+    private void Start()
     {
-        //var data = DataManager.Instance;
-        var data = RuneUser.Instance;
+        var data = DataManager.Instance;
 
         _inventoryUI.Initialize(data.Inventory, data.ItemDB);
         _upgradeUI.Initialize(_upgradeManager.UpgradeInventory, data.ItemDB);
