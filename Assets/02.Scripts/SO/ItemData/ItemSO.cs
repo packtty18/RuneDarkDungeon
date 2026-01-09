@@ -9,31 +9,26 @@ public class ItemSO : ScriptableObject
     [SerializeField] private string _name;
     [SerializeField, TextArea] private string _tooltip;
     
-    [Header("아이템 사용 효과")]
-    [SerializeField] private SerializableDictionary<EItemGrade, ItemEffectBaseSO> _effectDict;    
+    [Header("아이템 효과")]
+    [SerializeField] private ItemEffectBaseSO _effect; 
     
     public int ID => _id;
     public Sprite Icon => _icon;
     public string Name => _name;
     public string Tooltip => _tooltip;
-
-    private ItemEffectBaseSO GetEffect(EItemGrade grade)
-    {
-        return _effectDict.GetValueOrDefault(grade);
-    }
     
     public void Use(GameObject user, EItemGrade grade)
     {
-        GetEffect(grade)?.OnUse(user);
+        _effect.OnUse(user, grade);
     }
 
     public void Equip(GameObject user, EItemGrade grade)
     {
-        GetEffect(grade)?.OnEquip(user);
+        _effect.OnEquip(user, grade);
     }
 
     public void UnEquip(GameObject user, EItemGrade grade)
     {
-        GetEffect(grade)?.OnUnequip(user);
+        _effect.OnUnequip(user, grade);
     }
 }

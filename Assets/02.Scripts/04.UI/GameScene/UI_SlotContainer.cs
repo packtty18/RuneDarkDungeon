@@ -35,7 +35,7 @@ public class UI_SlotContainer : MonoBehaviour
     
     private void SetSlot(ItemData itemData)
     {
-        ItemSO itemInfo = _itemDB.GetItemInfo(itemData.ID);
+        ItemSO itemInfo = _itemDB.GetItemInfo(itemData);
         Color color = _colorDB.GetColor(itemData.Grade);
 
         SlotData data = new(itemData, itemInfo, color);

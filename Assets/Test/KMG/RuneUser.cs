@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RuneUser : LocalSingleton<RuneUser>
@@ -11,13 +10,26 @@ public class RuneUser : LocalSingleton<RuneUser>
     public ItemUpgradeDataSO UpgradeDB;
     public ItemDatabaseSO ItemDB;
     public ItemColorSO ColorDB;
+
+    public ItemData ItemQ;
+    public ItemData ItemE;
+    public ItemData ItemR;
     
-    private void Start()
+    private void Update()
     {
-        Test();
-    }
-    
-    private void Test()
-    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            ItemDB.UseItem(gameObject, ItemQ);
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ItemDB.UseItem(gameObject, ItemE);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ItemDB.UseItem(gameObject, ItemR);
+        }
     }
 }
