@@ -65,13 +65,13 @@ public class HitboxController : SerializedMonoBehaviour
         return true;
     }
 
-    private void SetActive(List<HitBox> hitboxes, bool active)
+    private void SetActive(List<HitBox> hitboxes, bool active, float activeDamage = 0)
     {
         foreach (HitBox hitbox in hitboxes)
         {
             if (active)
             {
-                hitbox.Activate();
+                hitbox.Activate(activeDamage);
             }
             else
             {
