@@ -221,6 +221,57 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &848341698123820901
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1208347781879748288}
+  - component: {fileID: 7712452901414016819}
+  m_Layer: 5
+  m_Name: EventHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1208347781879748288
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848341698123820901}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8300601016157770880}
+  - {fileID: 8578914084214224942}
+  m_Father: {fileID: 5988763344636117937}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7712452901414016819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848341698123820901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71f6e6edbac2eb47a52325b624ee7cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlotEventHandler
+  _container: {fileID: 2755717572291621418}
 --- !u!1 &1221581391082875070
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,7 +284,6 @@ GameObject:
   - component: {fileID: 3327969915131573090}
   - component: {fileID: 8217297223843890121}
   - component: {fileID: 7919360812787271630}
-  - component: {fileID: 9048525779447733281}
   m_Layer: 5
   m_Name: UI_Upgrade
   m_TagString: Untagged
@@ -253,6 +303,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3719300811859050924}
   - {fileID: 1632876927527065030}
   - {fileID: 2450512694651532277}
   - {fileID: 4868731750575061851}
@@ -324,18 +375,6 @@ MonoBehaviour:
   _slotParent: {fileID: 0}
   _slotPrefab: {fileID: 0}
   _layoutController: {fileID: 0}
---- !u!114 &9048525779447733281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1221581391082875070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d71f6e6edbac2eb47a52325b624ee7cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SlotEventHandler
 --- !u!1 &1253163758641949482
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,7 +387,6 @@ GameObject:
   - component: {fileID: 590164111584174966}
   - component: {fileID: 5179519073368325473}
   - component: {fileID: 2755717572291621418}
-  - component: {fileID: 3983554841728651067}
   m_Layer: 5
   m_Name: UI_Inventory
   m_TagString: Untagged
@@ -368,8 +406,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 866140119019312509}
   - {fileID: 1372640588307739862}
+  - {fileID: 1208347781879748288}
+  - {fileID: 866140119019312509}
   - {fileID: 387123205005420140}
   - {fileID: 5171031600407364332}
   - {fileID: 9159795382329283144}
@@ -450,18 +489,6 @@ MonoBehaviour:
   _slotParent: {fileID: 6125664443031535226}
   _slotPrefab: {fileID: 2352029541211525690, guid: 5ee79a54f40889340bff616e0c5658c4, type: 3}
   _layoutController: {fileID: 8661708948891442726}
---- !u!114 &3983554841728651067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1253163758641949482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d71f6e6edbac2eb47a52325b624ee7cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SlotEventHandler
 --- !u!1 &1286278339802385387
 GameObject:
   m_ObjectHideFlags: 0
@@ -807,6 +834,55 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2922432577862115851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4261918398753523159}
+  - component: {fileID: 2063756244503112273}
+  m_Layer: 5
+  m_Name: UnregisterEventHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4261918398753523159
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2922432577862115851}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3719300811859050924}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2063756244503112273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2922432577862115851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5adeaeb3f6e74f74c9ed3e7c50765c0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnregisterEventHandler
+  _upgradeManager: {fileID: 3141209493045464739}
 --- !u!1 &3096158908226969148
 GameObject:
   m_ObjectHideFlags: 0
@@ -1272,7 +1348,7 @@ GameObject:
   - component: {fileID: 866140119019312509}
   - component: {fileID: 5315347943909688003}
   m_Layer: 5
-  m_Name: Filter
+  m_Name: SlotFilter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1584,6 +1660,12 @@ MonoBehaviour:
   _upgradeFilter: {fileID: 179824119962021915}
   _inventoryToggleButton: {fileID: 8770118525212280962}
   _upgradeToggleButton: {fileID: 5259715143742904478}
+  _eventHandler: {fileID: 7712452901414016819}
+  _upgradeEventHandler: {fileID: 5825760357582198012}
+  _swapEventHandler: {fileID: 6064746310308981858}
+  _registerEventHandler: {fileID: 6277761378731440837}
+  _unregisterEventHandler: {fileID: 2063756244503112273}
+  _upgradeManager: {fileID: 3141209493045464739}
 --- !u!1 &4282173932838358395
 GameObject:
   m_ObjectHideFlags: 0
@@ -1721,6 +1803,109 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &4340909710972065388
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3719300811859050924}
+  - component: {fileID: 5825760357582198012}
+  m_Layer: 5
+  m_Name: EventHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3719300811859050924
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4340909710972065388}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4261918398753523159}
+  m_Father: {fileID: 3883277655994093438}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -720, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5825760357582198012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4340909710972065388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71f6e6edbac2eb47a52325b624ee7cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlotEventHandler
+  _container: {fileID: 7919360812787271630}
+--- !u!1 &4635142472083622429
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8300601016157770880}
+  - component: {fileID: 6064746310308981858}
+  m_Layer: 5
+  m_Name: SwapEventHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8300601016157770880
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4635142472083622429}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1208347781879748288}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6064746310308981858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4635142472083622429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d30241b49510e664088215d117b55a9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwapEventHandler
+  _tooltip: {fileID: 2323932274433693498}
+  _dragIcon: {fileID: 417074864319703518}
+  _backgrounds:
+  - {fileID: 4350888847545452710}
+  - {fileID: 4656700834668420579}
 --- !u!1 &4745007449252179719
 GameObject:
   m_ObjectHideFlags: 0
@@ -1810,6 +1995,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_GhostIcon
   _iconImage: {fileID: 7746512204704026907}
+--- !u!1 &5048078678425625357
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8578914084214224942}
+  - component: {fileID: 6277761378731440837}
+  m_Layer: 5
+  m_Name: RegisterEventHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8578914084214224942
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5048078678425625357}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1208347781879748288}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6277761378731440837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5048078678425625357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1589fee3ffe8f67409aafb29c3aaa3da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RegisterEventHandler
+  _upgradeManager: {fileID: 3141209493045464739}
 --- !u!1 &5671261368892868083
 GameObject:
   m_ObjectHideFlags: 0
@@ -2382,13 +2616,7 @@ MonoBehaviour:
   _upgradeFilter: {fileID: 179824119962021915}
   _controller: {fileID: 7663695966895175748}
   _upgradeManager: {fileID: 3141209493045464739}
-  _eventHandler: {fileID: 3983554841728651067}
-  _upgradeEventHandler: {fileID: 9048525779447733281}
-  _tooltip: {fileID: 2323932274433693498}
-  _dragIcon: {fileID: 417074864319703518}
-  _backgrounds:
-  - {fileID: 4350888847545452710}
-  - {fileID: 4656700834668420579}
+  _swapEventHandler: {fileID: 6064746310308981858}
 --- !u!1 &7909659676956741745
 GameObject:
   m_ObjectHideFlags: 0
@@ -2537,7 +2765,7 @@ GameObject:
   - component: {fileID: 1632876927527065030}
   - component: {fileID: 179824119962021915}
   m_Layer: 5
-  m_Name: Filter
+  m_Name: SlotFilter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

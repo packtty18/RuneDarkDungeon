@@ -13,17 +13,28 @@ public class InventoryController : MonoBehaviour
     [SerializeField] private UI_WindowToggleButton _inventoryToggleButton;
     [SerializeField] private UI_WindowToggleButton _upgradeToggleButton;
     
-    private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
-    private SlotEventHandler _eventHandler;
-    private UpgradeManager _upgradeManager;
+    [Header("이벤트 핸들러")]
+    [SerializeField] private SlotEventHandler _eventHandler;
+    [SerializeField] private SlotEventHandler _upgradeEventHandler;
     
-    public void Initialize(Dictionary<EInventoryMode, ISlotEventHandler> handlers, SlotEventHandler eventHandler, UpgradeManager upgradeManager)
+    [SerializeField] private SwapEventHandler _swapEventHandler;
+    [SerializeField] private RegisterEventHandler _registerEventHandler;
+    [SerializeField] private UnregisterEventHandler _unregisterEventHandler;
+    
+    [SerializeField] private UpgradeManager _upgradeManager;
+    
+    private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
+    
+    private void Awake()
     {
-        _handlerDict = handlers;
-        _eventHandler = eventHandler;
-        _upgradeManager = upgradeManager;
+        _handlerDict = new()
+        {
+            { EInventoryMode.Normal, _swapEventHandler },
+            { EInventoryMode.Upgrade , _registerEventHandler }
+        };
         
         ChangeInventoryMode(EInventoryMode.Closed);
+        _upgradeEventHandler.SetMode(_unregisterEventHandler);
         
         _inventoryToggleButton.OnModeChanged += ChangeInventoryMode;
         _upgradeToggleButton.OnModeChanged += ChangeInventoryMode;

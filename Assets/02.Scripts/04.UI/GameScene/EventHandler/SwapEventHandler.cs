@@ -1,23 +1,32 @@
-using System;
 using UnityEngine;
 
-[Serializable]
-public class SwapEventHandler : ISlotEventHandler
+public class SwapEventHandler : MonoBehaviour, ISlotEventHandler
 {
+    [Header("UI 연결")]
+    [SerializeField] private UI_Tooltip _tooltip;
+    [SerializeField] private UI_DragIcon _dragIcon;
+    [SerializeField] private UI_Background[] _backgrounds;
+
     private IInventory _inventory;
-
-    private UI_Tooltip _tooltip;
-    private UI_DragIcon _dragIcon;
-    private UI_Background[] _backgrounds;
-
     private UI_Slot _selectedSlot;
 
-    public SwapEventHandler(IInventory inventory, UI_Tooltip tooltip, UI_DragIcon dragIcon, UI_Background[] backgrounds)
+    public void Initialize(IInventory inventory)
     {
         _inventory = inventory;
-        _tooltip = tooltip;
-        _dragIcon = dragIcon;
-        _backgrounds = backgrounds;
+        
+        foreach (var background in _backgrounds)
+        {
+            background.OnBackgroundClicked += OnClickBackground;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var background in _backgrounds)
+        {
+            if (background == null) continue;
+            background.OnBackgroundClicked -= OnClickBackground;
+        }
     }
 
     public void OnClickSlot(UI_Slot slot)
@@ -48,19 +57,11 @@ public class SwapEventHandler : ISlotEventHandler
 
     public void OnEnter()
     {
-        foreach (var background in _backgrounds)
-        {
-            background.OnBackgroundClicked += OnClickBackground;
-        }
     }
 
     public void OnExit()
     {
-       DeselectSlot();
-       foreach (var background in _backgrounds)
-       {
-           background.OnBackgroundClicked -= OnClickBackground;
-       }
+        DeselectSlot();
     }
     
     private void DeselectSlot()

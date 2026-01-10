@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class SlotEventHandler : MonoBehaviour
 {
+    [Header("UI 연결")]
+    [SerializeField] private UI_SlotContainer _container;
     private ISlotEventHandler _eventHandler;
-    private UI_SlotContainer _container;
     
-    public void Initialize(UI_SlotContainer container)
+    private void Awake()
     {
-        _container = container;
         foreach (var slot in _container.Slots)
         {
             slot.OnSlotClicked += OnClickSlot;
