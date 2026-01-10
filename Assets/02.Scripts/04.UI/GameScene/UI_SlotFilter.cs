@@ -51,7 +51,6 @@ public class UI_SlotFilter : UI_Base
     
     private void RefreshSlotState(ItemData item)
     {
-        Debug.Log(item);
         foreach (var slot in _inventorySlots)
         {
             if (slot.IsEmpty) continue;

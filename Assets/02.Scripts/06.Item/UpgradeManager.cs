@@ -40,11 +40,13 @@ public class UpgradeManager : MonoBehaviour
 
     public void Unregister(ItemData item)
     {
-        _upgradeInventory.Remove(item);
+        if (_upgradeInventory.Items.Count == 1)
+        {
+            ResetTargetType();
+        }
+        
         _inventory.Add(item);
-
-        if (!IsEmpty) return;
-        ResetTargetType();
+        _upgradeInventory.Remove(item);
     }
     
     public void UnregisterAll()
@@ -63,9 +65,10 @@ public class UpgradeManager : MonoBehaviour
             || !_goldData.TryConsume(_upgradeData.Cost)) return;
         
         ItemData newItem = _targetType.GetUpgradedItem();
+        ResetTargetType();
+        
         _inventory.Add(newItem);
         _upgradeInventory.Clear();
-        ResetTargetType();
     }
     
     private void RegisterTargetType(ItemData item)
