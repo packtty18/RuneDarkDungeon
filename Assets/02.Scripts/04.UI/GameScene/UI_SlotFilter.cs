@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -21,24 +22,28 @@ public class UI_SlotFilter : UI_Base
         
         _inventorySlots = inventorySlots;
         _upgradeSlots = upgradeSlots;
+        
+        upgradeManager.OnChanged.Subscribe(Refresh);
     }
 
-    public override void Refresh()
+    private void OnDestroy()
     {
-        // 강화 정보 바뀔 때
+        _upgradeManager.OnChanged.Unsubscribe(Refresh);
+    }
+
+    private void Refresh()
+    {
         RefreshSlotState();
         SetUpgradeInfo();
     }
 
     public override void Show()
     {
-        // 강화 모드 들어올 때
         RefreshSlotState();
     }
 
     public override void Hide()
     {
-        // 강화 모드 나갈 때
         ResetSlotState();
     }
 

@@ -19,10 +19,15 @@ public class UI_SlotContainer : UI_Base
         _inventory = inventory;
         _itemDB = itemDB;
 
-        Refresh();
+        _inventory.Subscribe(Refresh);
     }
 
-    public override void Refresh()
+    private void OnDestroy()
+    {
+        _inventory.Unsubscribe(Refresh);
+    }
+
+    private void Refresh()
     {
         var items = _inventory.Items;
         int targetCount = items.Count;

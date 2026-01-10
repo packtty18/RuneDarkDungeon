@@ -11,6 +11,4 @@ public abstract class UI_Base : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-
-    public abstract void Refresh();
 }

@@ -9,6 +9,7 @@ public class UpgradeManager : MonoBehaviour
     private ICurrency _currency;
 
     private ItemUpgradeDataSO _upgradeDB;
+    private ItemData _baseItem;
     private UpgradeData _upgradeData;
     
     public UpgradeData UpgradeData => _upgradeData;
@@ -67,7 +68,7 @@ public class UpgradeManager : MonoBehaviour
     {
         if (!IsFull || !_currency.TryConsume(_upgradeData.Cost)) return;
         
-        ItemData newItem = _upgradeInventory.Items.First().GetUpgradedItem();
+        ItemData newItem = _baseItem.GetUpgradedItem();
         ResetUpgradeData();
         
         _inventory.Add(newItem);
@@ -81,11 +82,13 @@ public class UpgradeManager : MonoBehaviour
         var info = _upgradeDB.GetGradeInfo(item.Grade);
         if (info == null) return;
 
+        _baseItem = item;
         _upgradeData = info.Value;
     }
 
     private void ResetUpgradeData()
     {
+        _baseItem = null;
         _upgradeData = UpgradeData.Empty;
     }
     

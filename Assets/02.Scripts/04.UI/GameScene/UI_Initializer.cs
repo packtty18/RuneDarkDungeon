@@ -23,11 +23,6 @@ public class UI_Initializer : MonoBehaviour
     [SerializeField] private UI_WindowToggleButton _upgradeToggleButton;
 
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
-
-    private IReadOnlyInventory _inventory;
-    private IReadOnlyInventory _upInventory;
-
-    private EInventoryMode _mode = EInventoryMode.Closed;
     
     public void Initialize(IDataHandler data)
     {
@@ -50,27 +45,16 @@ public class UI_Initializer : MonoBehaviour
         
         _inventoryToggleButton.OnModeChanged += ChangeInventoryMode;
         _upgradeToggleButton.OnModeChanged += ChangeInventoryMode;
-
-        _inventory = data.Inventory;
-        _upInventory = data.UpgradeInventory;
-        
-        _inventory.Subscribe(RefreshInventory);
-        _upInventory.Subscribe(RefreshUpgrade);
     }
 
     private void OnDestroy()
     {
         _inventoryToggleButton.OnModeChanged -= ChangeInventoryMode;
         _upgradeToggleButton.OnModeChanged -= ChangeInventoryMode;
-        
-        _inventory.Unsubscribe(RefreshInventory);
-        _upInventory.Unsubscribe(RefreshUpgrade);
     }
     
     private void ChangeInventoryMode(EInventoryMode mode)
     {
-        _mode = mode;
-        
         switch (mode)
         {
             case EInventoryMode.Closed:
@@ -105,16 +89,5 @@ public class UI_Initializer : MonoBehaviour
     {
         _upgradeUI.Show();
         _filter.Show();
-    }
-
-    private void RefreshInventory()
-    {
-        _inventoryUI.Refresh();
-    }
-
-    private void RefreshUpgrade()
-    {
-        _upgradeUI.Refresh();
-        _filter.Refresh();
     }
 }
