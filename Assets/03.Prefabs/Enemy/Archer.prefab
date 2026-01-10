@@ -109,6 +109,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HurtboxFollower
   _target: {fileID: 6707943752986113777}
+  _positionOffset: {x: 0, y: 0, z: 0}
+  _rotationOffsetEuler: {x: 0, y: 0, z: 0}
 --- !u!1 &2702605027344997685
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +131,7 @@ GameObject:
   - component: {fileID: 27034461710658512}
   - component: {fileID: 777204635896708742}
   m_Layer: 0
-  m_Name: Prototype 1
+  m_Name: Archer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
