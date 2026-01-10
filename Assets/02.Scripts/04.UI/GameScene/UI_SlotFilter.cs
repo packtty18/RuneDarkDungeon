@@ -12,10 +12,12 @@ public class UI_SlotFilter : UI_Base
     private IReadOnlyList<UI_Slot> _upgradeSlots;
     
     private UpgradeManager _upgradeManager;
+    private IReadOnlyInventory _upgradeInventory;
 
-    public void Initialize(UpgradeManager upgradeManager, IReadOnlyList<UI_Slot> inventorySlots, IReadOnlyList<UI_Slot> upgradeSlots)
+    public void Initialize(UpgradeManager upgradeManager, IReadOnlyInventory upgradeInventory, IReadOnlyList<UI_Slot> inventorySlots, IReadOnlyList<UI_Slot> upgradeSlots)
     {
         _upgradeManager = upgradeManager;
+        _upgradeInventory = upgradeInventory;
         
         _inventorySlots = inventorySlots;
         _upgradeSlots = upgradeSlots;
@@ -24,14 +26,14 @@ public class UI_SlotFilter : UI_Base
     public override void Refresh()
     {
         // 강화 정보 바뀔 때
-        RefreshSlotState(_upgradeManager.TargetType);
+        RefreshSlotState();
         SetUpgradeInfo();
     }
 
     public override void Show()
     {
         // 강화 모드 들어올 때
-        RefreshSlotState(null);
+        RefreshSlotState();
     }
 
     public override void Hide()
@@ -49,12 +51,12 @@ public class UI_SlotFilter : UI_Base
         }
     }
     
-    private void RefreshSlotState(ItemData item)
+    private void RefreshSlotState()
     {
         foreach (var slot in _inventorySlots)
         {
             if (slot.IsEmpty) continue;
-            bool isOn = slot.CanUpgrade(item);
+            bool isOn = _upgradeInventory.CanAdd(slot.Item);
             slot.SetInteractable(isOn);
         }
     }

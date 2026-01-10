@@ -59,11 +59,6 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         _iconCover.SetActive(!isOn);
         _isInteractable = isOn;
     }
-
-    public bool CanUpgrade(ItemData item)
-    {
-        return Item.CanUpgrade(item);
-    }
     
     public void OnPointerEnter(PointerEventData eventData)
     {

@@ -7,7 +7,7 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
     public IInventory Inventory => _inventory;
     public ICurrency GoldData => _goldData;
     
-    private Inventory _upgradeInventory = new();
+    private UpgradeInventory _upgradeInventory = new();
     public IInventory UpgradeInventory => _upgradeInventory;
 
     [SerializeField] private ItemDatabaseSO _itemDB;

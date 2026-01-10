@@ -1,52 +1,54 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
 {
     private IInventory _upgradeInventory;
     private IInventory _inventory;
-    private ICurrency _goldData;
+    private ICurrency _currency;
 
     private ItemUpgradeDataSO _upgradeDB;
-    private ItemData _targetType;
     private UpgradeData _upgradeData;
-
-    public ItemData TargetType => _targetType;
-    public UpgradeData UpgradeData => _upgradeData;
     
-    public void Initialize(ItemUpgradeDataSO upgradeDB, IInventory upgradeInventory, IInventory inventory, ICurrency goldData)
+    public UpgradeData UpgradeData => _upgradeData;
+
+    public SafeEvent OnChanged = new();
+    
+    public void Initialize(ItemUpgradeDataSO upgradeDB, IInventory upgradeInventory, IInventory inventory, ICurrency currency)
     {
         _upgradeDB = upgradeDB;
         _upgradeInventory = upgradeInventory;
         _inventory = inventory;
-        _goldData = goldData;
+        _currency = currency;
     }
     
     public void Register(ItemData item)
     {
-        if (item == null) return;
-        
-        if (_targetType == null)
-        {
-            RegisterTargetType(item);
-        }
+        if (IsFull || !_upgradeInventory.CanAdd(item)) return;
 
-        if (!item.TypeEquals(_targetType) ||
-            IsFull) return;
+        if (IsEmpty)
+        {
+            SetUpgradeData(item);
+        }
         
         _inventory.Remove(item);
         _upgradeInventory.Add(item);
+        
+        OnChanged?.Invoke();
     }
 
     public void Unregister(ItemData item)
     {
-        if (_upgradeInventory.Items.Count == 1)
+        _upgradeInventory.Remove(item);
+        _inventory.Add(item);
+        
+        if (IsEmpty)
         {
-            ResetTargetType();
+            ResetUpgradeData();
         }
         
-        _inventory.Add(item);
-        _upgradeInventory.Remove(item);
+        OnChanged?.Invoke();
     }
     
     public void UnregisterAll()
@@ -56,36 +58,37 @@ public class UpgradeManager : MonoBehaviour
             _inventory.Add(item);
         }
         _upgradeInventory.Clear();
+        ResetUpgradeData();
+        
+        OnChanged?.Invoke();
     }
 
     public void Upgrade()
     {
-        if (_targetType == null 
-            || !IsFull
-            || !_goldData.TryConsume(_upgradeData.Cost)) return;
+        if (!IsFull || !_currency.TryConsume(_upgradeData.Cost)) return;
         
-        ItemData newItem = _targetType.GetUpgradedItem();
-        ResetTargetType();
+        ItemData newItem = _upgradeInventory.Items.First().GetUpgradedItem();
+        ResetUpgradeData();
         
         _inventory.Add(newItem);
         _upgradeInventory.Clear();
+        
+        OnChanged?.Invoke();
     }
     
-    private void RegisterTargetType(ItemData item)
+    private void SetUpgradeData(ItemData item)
     {
         var info = _upgradeDB.GetGradeInfo(item.Grade);
         if (info == null) return;
-        
-        _targetType = item;
+
         _upgradeData = info.Value;
     }
 
-    private void ResetTargetType()
+    private void ResetUpgradeData()
     {
-        _targetType = null;
         _upgradeData = UpgradeData.Empty;
     }
     
-    private bool IsFull => _upgradeInventory.Items.Count == _upgradeData.Count;
-    private bool IsEmpty => _upgradeInventory.Items.Count == 0;
+    private bool IsFull => _upgradeInventory.Count > 0 && _upgradeInventory.Count == _upgradeData.Count;
+    private bool IsEmpty => _upgradeInventory.Count == 0;
 }

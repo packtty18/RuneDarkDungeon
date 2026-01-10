@@ -33,7 +33,7 @@ public class UI_Initializer : MonoBehaviour
     {
         _inventoryUI.Initialize(data.Inventory, data.ItemDB);
         _upgradeUI.Initialize(data.UpgradeInventory, data.ItemDB);
-        _filter.Initialize(_upgradeManager, _inventoryUI.Slots, _upgradeUI.Slots);
+        _filter.Initialize(_upgradeManager, data.UpgradeInventory, _inventoryUI.Slots, _upgradeUI.Slots);
         
         _upgradeManager.Initialize(data.UpgradeDB, data.UpgradeInventory, data.Inventory, data.GoldData);
         _eventHandler.Initialize(_inventoryUI.Slots);
