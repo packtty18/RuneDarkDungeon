@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class UI_SlotController : MonoBehaviour
+public class UI_SlotFilter : UI_Base
 {
     [Header("UI 연결")]
     [SerializeField] private TextMeshProUGUI _costTextUI;
@@ -16,20 +16,31 @@ public class UI_SlotController : MonoBehaviour
     public void Initialize(UpgradeManager upgradeManager, IReadOnlyList<UI_Slot> inventorySlots, IReadOnlyList<UI_Slot> upgradeSlots)
     {
         _upgradeManager = upgradeManager;
-        _upgradeManager.OnUpgradeDataChanged += SetUpgradeInfo;
-        _upgradeManager.OnTargetTypeChanged += RefreshSlotState;
         
         _inventorySlots = inventorySlots;
         _upgradeSlots = upgradeSlots;
     }
-    
-    private void OnDestroy()
+
+    public override void Refresh()
     {
-        _upgradeManager.OnUpgradeDataChanged -= SetUpgradeInfo;
-        _upgradeManager.OnTargetTypeChanged -= RefreshSlotState;
+        // 강화 정보 바뀔 때
+        RefreshSlotState(_upgradeManager.TargetType);
+        SetUpgradeInfo();
     }
-    
-    public void ResetSlotState()
+
+    public override void Show()
+    {
+        // 강화 모드 들어올 때
+        RefreshSlotState(null);
+    }
+
+    public override void Hide()
+    {
+        // 강화 모드 나갈 때
+        ResetSlotState();
+    }
+
+    private void ResetSlotState()
     {
         foreach (var slot in _inventorySlots)
         {
@@ -38,23 +49,21 @@ public class UI_SlotController : MonoBehaviour
         }
     }
     
-    public void RefreshSlotState()
+    private void RefreshSlotState(ItemData item)
     {
-        RefreshSlotState(null);
-    }
-    
-    private void RefreshSlotState(ItemData targetItem)
-    {
+        Debug.Log(item);
         foreach (var slot in _inventorySlots)
         {
             if (slot.IsEmpty) continue;
-            bool isOn = slot.CanUpgrade(targetItem);
+            bool isOn = slot.CanUpgrade(item);
             slot.SetInteractable(isOn);
         }
     }
     
-    private void SetUpgradeInfo(UpgradeData data)
+    private void SetUpgradeInfo()
     {
+        var data = _upgradeManager.UpgradeData;
+        
         SetUpgradeSlotCount(data.Count);
         _costTextUI.SetText("{0} 골드", data.Cost);
         _rateTextUI.SetText("{0}% 성공", data.Rate * 100);

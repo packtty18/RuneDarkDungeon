@@ -320,10 +320,9 @@ MonoBehaviour:
   - {fileID: 4211861815592093431}
   - {fileID: 7968511331296184699}
   - {fileID: 5008088112924383890}
-  _minSlotCount: 0
+  _slotParent: {fileID: 0}
   _slotPrefab: {fileID: 0}
   _layoutController: {fileID: 0}
-  _slotParent: {fileID: 0}
 --- !u!1 &1253163758641949482
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,10 +434,9 @@ MonoBehaviour:
   - {fileID: 7712399024641739319}
   - {fileID: 6981667899781088137}
   - {fileID: 8025538131854703088}
-  _minSlotCount: 15
+  _slotParent: {fileID: 6125664443031535226}
   _slotPrefab: {fileID: 2352029541211525690, guid: 5ee79a54f40889340bff616e0c5658c4, type: 3}
   _layoutController: {fileID: 8661708948891442726}
-  _slotParent: {fileID: 6125664443031535226}
 --- !u!1 &1286278339802385387
 GameObject:
   m_ObjectHideFlags: 0
@@ -1899,7 +1897,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_ScrollView
   _content: {fileID: 6125664443031535226}
-  _grid: {fileID: 2438148436133851196}
+  _columns: 5
+  _slotHeight: 100
+  _spacing: 50
+  _topPadding: 32
+  _bottomPadding: 32
 --- !u!1 &5956103144398175074
 GameObject:
   m_ObjectHideFlags: 0
@@ -2348,7 +2350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI_Initializer
   _inventoryUI: {fileID: 2755717572291621418}
   _upgradeUI: {fileID: 7919360812787271630}
-  _controller: {fileID: 2874561999451959032}
+  _filter: {fileID: 2874561999451959032}
   _upgradeManager: {fileID: 3141209493045464739}
   _eventHandler: {fileID: 1564855421766064931}
   _upgradeEventHandler: {fileID: 3987962313938726054}

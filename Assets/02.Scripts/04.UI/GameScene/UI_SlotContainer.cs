@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_SlotContainer : MonoBehaviour
+public class UI_SlotContainer : UI_Base
 {
     private IReadOnlyInventory _inventory;
     private ItemDatabaseSO _itemDB;
@@ -20,15 +20,9 @@ public class UI_SlotContainer : MonoBehaviour
         _itemDB = itemDB;
 
         Refresh();
-        _inventory.Subscribe(Refresh);
-    }
-    
-    private void OnDestroy()
-    {
-        _inventory?.Unsubscribe(Refresh);
     }
 
-    private void Refresh()
+    public override void Refresh()
     {
         var items = _inventory.Items;
         int targetCount = items.Count;
@@ -49,6 +43,7 @@ public class UI_SlotContainer : MonoBehaviour
             }
             else
             {
+                _slots[i].Clear();
                 _slots[i].SetActive(false);
             }
         }
@@ -56,13 +51,9 @@ public class UI_SlotContainer : MonoBehaviour
         _layoutController?.UpdateLayout(targetCount);
     }
     
-    public void Show()
+    public override void Show()
     {
-        gameObject.SetActive(true);
-    }
-
-    public void Hide()
-    {
-        gameObject.SetActive(false);
+        base.Show();
+        Refresh();
     }
 }

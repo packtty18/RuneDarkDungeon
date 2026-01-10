@@ -10,9 +10,9 @@ public class UpgradeManager : MonoBehaviour
     private ItemUpgradeDataSO _upgradeDB;
     private ItemData _targetType;
     private UpgradeData _upgradeData;
-    
-    public event Action<ItemData> OnTargetTypeChanged;
-    public event Action<UpgradeData> OnUpgradeDataChanged; 
+
+    public ItemData TargetType => _targetType;
+    public UpgradeData UpgradeData => _upgradeData;
     
     public void Initialize(ItemUpgradeDataSO upgradeDB, IInventory upgradeInventory, IInventory inventory, ICurrency goldData)
     {
@@ -75,17 +75,12 @@ public class UpgradeManager : MonoBehaviour
         
         _targetType = item;
         _upgradeData = info.Value;
-        
-        OnTargetTypeChanged?.Invoke(_targetType);
-        OnUpgradeDataChanged?.Invoke(_upgradeData);
     }
 
     private void ResetTargetType()
     {
         _targetType = null;
         _upgradeData = UpgradeData.Empty;
-        OnTargetTypeChanged?.Invoke(_targetType);
-        OnUpgradeDataChanged?.Invoke(_upgradeData);
     }
     
     private bool IsFull => _upgradeInventory.Items.Count == _upgradeData.Count;

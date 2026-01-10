@@ -621,7 +621,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6125664443031535226, guid: bb167001d6e624a4e9aa32c3a54a54fe, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00064086914
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7307154458136933018, guid: bb167001d6e624a4e9aa32c3a54a54fe, type: 3}
       propertyPath: m_AnchorMax.y
@@ -646,6 +646,10 @@ PrefabInstance:
     - target: {fileID: 7307154458136933018, guid: bb167001d6e624a4e9aa32c3a54a54fe, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7950109321524667081, guid: bb167001d6e624a4e9aa32c3a54a54fe, type: 3}
+      propertyPath: m_ScrollSensitivity
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8661708948891442726, guid: bb167001d6e624a4e9aa32c3a54a54fe, type: 3}
       propertyPath: m_Enabled
@@ -766,11 +770,19 @@ MonoBehaviour:
     - _id: 1
       _grade: 3
     - _id: 0
-      _grade: 1
+      _grade: 2
+    - _id: 0
+      _grade: 2
+    - _id: 0
+      _grade: 2
     - _id: 0
       _grade: 1
     - _id: 0
       _grade: 1
+    - _id: 0
+      _grade: 0
+    - _id: 0
+      _grade: 0
   _goldData:
     _value: 1000
   _itemDB: {fileID: 11400000, guid: 94c151185365da44fab1ee6851781f21, type: 2}

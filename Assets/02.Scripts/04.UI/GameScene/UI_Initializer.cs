@@ -6,28 +6,34 @@ public class UI_Initializer : MonoBehaviour
     [Header("슬롯 관련 UI")]
     [SerializeField] private UI_SlotContainer _inventoryUI;
     [SerializeField] private UI_SlotContainer _upgradeUI;
-    [SerializeField] private UI_SlotController _controller;
+    [SerializeField] private UI_SlotFilter _filter;
     
     [Header("강화 모드 관련")]
     [SerializeField] private UpgradeManager _upgradeManager;
     [SerializeField] private SlotEventHandler _eventHandler;
     [SerializeField] private SlotEventHandler _upgradeEventHandler;
     
-    [Header("UI 연결")]
+    [Header("기타 UI")]
     [SerializeField] private UI_Tooltip _tooltip;
     [SerializeField] private UI_DragIcon _dragIcon;
     [SerializeField] private UI_Background[] _backgrounds;
     
+    [Header("버튼 UI")]
     [SerializeField] private UI_WindowToggleButton _inventoryToggleButton;
     [SerializeField] private UI_WindowToggleButton _upgradeToggleButton;
 
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
 
+    private IReadOnlyInventory _inventory;
+    private IReadOnlyInventory _upInventory;
+
+    private EInventoryMode _mode = EInventoryMode.Closed;
+    
     public void Initialize(IDataHandler data)
     {
         _inventoryUI.Initialize(data.Inventory, data.ItemDB);
         _upgradeUI.Initialize(data.UpgradeInventory, data.ItemDB);
-        _controller.Initialize(_upgradeManager, _inventoryUI.Slots, _upgradeUI.Slots);
+        _filter.Initialize(_upgradeManager, _inventoryUI.Slots, _upgradeUI.Slots);
         
         _upgradeManager.Initialize(data.UpgradeDB, data.UpgradeInventory, data.Inventory, data.GoldData);
         _eventHandler.Initialize(_inventoryUI.Slots);
@@ -44,16 +50,27 @@ public class UI_Initializer : MonoBehaviour
         
         _inventoryToggleButton.OnModeChanged += ChangeInventoryMode;
         _upgradeToggleButton.OnModeChanged += ChangeInventoryMode;
+
+        _inventory = data.Inventory;
+        _upInventory = data.UpgradeInventory;
+        
+        _inventory.Subscribe(RefreshInventory);
+        _upInventory.Subscribe(RefreshUpgrade);
     }
 
     private void OnDestroy()
     {
         _inventoryToggleButton.OnModeChanged -= ChangeInventoryMode;
         _upgradeToggleButton.OnModeChanged -= ChangeInventoryMode;
+        
+        _inventory.Unsubscribe(RefreshInventory);
+        _upInventory.Unsubscribe(RefreshUpgrade);
     }
     
     private void ChangeInventoryMode(EInventoryMode mode)
     {
+        _mode = mode;
+        
         switch (mode)
         {
             case EInventoryMode.Closed:
@@ -80,12 +97,24 @@ public class UI_Initializer : MonoBehaviour
     {
         _inventoryUI.Show();
         _upgradeUI.Hide();
-        _controller.ResetSlotState();
+        _upgradeManager.UnregisterAll();
+        _filter.Hide();
     }
     
     private void SetUpgradeMode()
     {
         _upgradeUI.Show();
-        _controller.RefreshSlotState();
+        _filter.Show();
+    }
+
+    private void RefreshInventory()
+    {
+        _inventoryUI.Refresh();
+    }
+
+    private void RefreshUpgrade()
+    {
+        _upgradeUI.Refresh();
+        _filter.Refresh();
     }
 }
