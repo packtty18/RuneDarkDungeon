@@ -6,7 +6,8 @@ public class UI_Initializer : MonoBehaviour
     [Header("슬롯 관련 UI")]
     [SerializeField] private UI_SlotContainer _inventoryUI;
     [SerializeField] private UI_SlotContainer _upgradeUI;
-    [SerializeField] private UI_SlotFilter _filter;
+    [SerializeField] private UI_InventoryFilter _inventoryFilter;
+    [SerializeField] private UI_UpgradeFilter _upgradefilter;
     
     [Header("강화 모드 관련")]
     [SerializeField] private UpgradeManager _upgradeManager;
@@ -28,7 +29,9 @@ public class UI_Initializer : MonoBehaviour
     {
         _inventoryUI.Initialize(data.Inventory, data.ItemDB);
         _upgradeUI.Initialize(data.UpgradeInventory, data.ItemDB);
-        _filter.Initialize(_upgradeManager, data.UpgradeInventory, _inventoryUI.Slots, _upgradeUI.Slots);
+        
+        _inventoryFilter.Initialize(_upgradeManager, data.UpgradeInventory, _inventoryUI.Slots);
+        _upgradefilter.Initialize(_upgradeManager, _upgradeUI.Slots);
         
         _upgradeManager.Initialize(data.UpgradeDB, data.UpgradeInventory, data.Inventory, data.GoldData);
         _eventHandler.Initialize(_inventoryUI.Slots);
@@ -82,12 +85,14 @@ public class UI_Initializer : MonoBehaviour
         _inventoryUI.Show();
         _upgradeUI.Hide();
         _upgradeManager.UnregisterAll();
-        _filter.Hide();
+        _inventoryFilter.Hide();
+        _upgradefilter.Hide();
     }
     
     private void SetUpgradeMode()
     {
         _upgradeUI.Show();
-        _filter.Show();
+        _inventoryFilter.Show();
+        _upgradefilter.Show();
     }
 }

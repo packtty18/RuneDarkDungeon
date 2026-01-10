@@ -26,6 +26,12 @@ public class SlotEventHandler : MonoBehaviour
         }
     }
 
+    private void RegisterSlot(UI_Slot slot)
+    {
+        slot.OnSlotClicked += OnClickSlot;
+        slot.OnSlotHovered += OnHoverSlot;
+    }
+
     public void SetMode(ISlotEventHandler eventHandler)
     {
         _eventHandler?.OnExit();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,9 @@ public class UI_SlotContainer : UI_Base
     [SerializeField] private Transform _slotParent;
     [SerializeField] private UI_Slot _slotPrefab;
     [SerializeField] private UI_ScrollView _layoutController;
+
+    public event Action OnRefreshed;
+    public event Action<UI_Slot> OnSlotAdded;
     
     public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB)
     {
@@ -36,24 +40,24 @@ public class UI_SlotContainer : UI_Base
         {
             var newSlot = Instantiate(_slotPrefab, _slotParent);
             _slots.Add(newSlot);
+            OnSlotAdded?.Invoke(newSlot);
         }
 
         for (int i = 0; i < _slots.Count; i++)
         {
             if (i < targetCount)
             {
-                _slots[i].SetActive(true);
                 var data = _itemDB.GetSlotData(items[i]);
                 _slots[i].SetItem(data);
             }
             else
             {
                 _slots[i].Clear();
-                _slots[i].SetActive(false);
             }
         }
 
         _layoutController?.UpdateLayout(targetCount);
+        OnRefreshed?.Invoke();
     }
     
     public override void Show()

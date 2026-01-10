@@ -233,6 +233,8 @@ GameObject:
   - component: {fileID: 3327969915131573090}
   - component: {fileID: 8217297223843890121}
   - component: {fileID: 7919360812787271630}
+  - component: {fileID: 1442170349872775641}
+  - component: {fileID: 9048525779447733281}
   m_Layer: 5
   m_Name: UI_Upgrade
   m_TagString: Untagged
@@ -252,7 +254,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3076762360840143487}
   - {fileID: 2450512694651532277}
   - {fileID: 4868731750575061851}
   - {fileID: 3348149512040861128}
@@ -323,6 +324,32 @@ MonoBehaviour:
   _slotParent: {fileID: 0}
   _slotPrefab: {fileID: 0}
   _layoutController: {fileID: 0}
+--- !u!114 &1442170349872775641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221581391082875070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca6315dd439f7b14b991d307c73a98fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_UpgradeFilter
+  _costTextUI: {fileID: 8664488661434838639}
+  _rateTextUI: {fileID: 6875904285357189181}
+--- !u!114 &9048525779447733281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221581391082875070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71f6e6edbac2eb47a52325b624ee7cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlotEventHandler
 --- !u!1 &1253163758641949482
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,6 +362,8 @@ GameObject:
   - component: {fileID: 590164111584174966}
   - component: {fileID: 5179519073368325473}
   - component: {fileID: 2755717572291621418}
+  - component: {fileID: 7507440910916290010}
+  - component: {fileID: 3983554841728651067}
   m_Layer: 5
   m_Name: UI_Inventory
   m_TagString: Untagged
@@ -354,7 +383,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8280464245697744137}
   - {fileID: 1372640588307739862}
   - {fileID: 387123205005420140}
   - {fileID: 5171031600407364332}
@@ -437,6 +465,30 @@ MonoBehaviour:
   _slotParent: {fileID: 6125664443031535226}
   _slotPrefab: {fileID: 2352029541211525690, guid: 5ee79a54f40889340bff616e0c5658c4, type: 3}
   _layoutController: {fileID: 8661708948891442726}
+--- !u!114 &7507440910916290010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253163758641949482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b12e54c9645bab741b18f76f1099c9d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_InventoryFilter
+--- !u!114 &3983554841728651067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253163758641949482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71f6e6edbac2eb47a52325b624ee7cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlotEventHandler
 --- !u!1 &1286278339802385387
 GameObject:
   m_ObjectHideFlags: 0
@@ -2092,102 +2144,6 @@ MonoBehaviour:
   m_Spacing: {x: 50, y: 50}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!1 &6366746113775764996
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8280464245697744137}
-  - component: {fileID: 1564855421766064931}
-  m_Layer: 5
-  m_Name: EventHandler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &8280464245697744137
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6366746113775764996}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5988763344636117937}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1564855421766064931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6366746113775764996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d71f6e6edbac2eb47a52325b624ee7cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SlotEventHandler
---- !u!1 &7044152849705748171
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3076762360840143487}
-  - component: {fileID: 3987962313938726054}
-  m_Layer: 5
-  m_Name: EventHandler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &3076762360840143487
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7044152849705748171}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3883277655994093438}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -720, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3987962313938726054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7044152849705748171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d71f6e6edbac2eb47a52325b624ee7cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SlotEventHandler
 --- !u!1 &7537422230616536797
 GameObject:
   m_ObjectHideFlags: 0
@@ -2309,7 +2265,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7133636247271260766}
   - component: {fileID: 3706029462830553327}
-  - component: {fileID: 2874561999451959032}
   m_Layer: 5
   m_Name: UI_Initializer
   m_TagString: Untagged
@@ -2350,10 +2305,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI_Initializer
   _inventoryUI: {fileID: 2755717572291621418}
   _upgradeUI: {fileID: 7919360812787271630}
-  _filter: {fileID: 2874561999451959032}
+  _inventoryFilter: {fileID: 7507440910916290010}
+  _upgradefilter: {fileID: 1442170349872775641}
   _upgradeManager: {fileID: 3141209493045464739}
-  _eventHandler: {fileID: 1564855421766064931}
-  _upgradeEventHandler: {fileID: 3987962313938726054}
+  _eventHandler: {fileID: 3983554841728651067}
+  _upgradeEventHandler: {fileID: 9048525779447733281}
   _tooltip: {fileID: 2323932274433693498}
   _dragIcon: {fileID: 417074864319703518}
   _backgrounds:
@@ -2361,20 +2317,6 @@ MonoBehaviour:
   - {fileID: 4656700834668420579}
   _inventoryToggleButton: {fileID: 8770118525212280962}
   _upgradeToggleButton: {fileID: 5259715143742904478}
---- !u!114 &2874561999451959032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7717594224855329536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca6315dd439f7b14b991d307c73a98fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_SlotController
-  _costTextUI: {fileID: 8664488661434838639}
-  _rateTextUI: {fileID: 6875904285357189181}
 --- !u!1 &7909659676956741745
 GameObject:
   m_ObjectHideFlags: 0
