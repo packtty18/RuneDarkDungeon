@@ -7,7 +7,8 @@ public class UI_Initializer : MonoBehaviour
     [SerializeField] private UI_SlotContainer _inventoryUI;
     [SerializeField] private UI_SlotContainer _upgradeUI;
     [SerializeField] private UI_InventoryFilter _inventoryFilter;
-    [SerializeField] private UI_UpgradeFilter _upgradefilter;
+    [SerializeField] private UI_UpgradeFilter _upgradeFilter;
+    [SerializeField] private InventoryController _controller;
     
     [Header("강화 모드 관련")]
     [SerializeField] private UpgradeManager _upgradeManager;
@@ -19,10 +20,6 @@ public class UI_Initializer : MonoBehaviour
     [SerializeField] private UI_DragIcon _dragIcon;
     [SerializeField] private UI_Background[] _backgrounds;
     
-    [Header("버튼 UI")]
-    [SerializeField] private UI_WindowToggleButton _inventoryToggleButton;
-    [SerializeField] private UI_WindowToggleButton _upgradeToggleButton;
-
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
     
     public void Initialize(IDataHandler data)
@@ -31,7 +28,7 @@ public class UI_Initializer : MonoBehaviour
         _upgradeUI.Initialize(data.UpgradeInventory, data.ItemDB);
         
         _inventoryFilter.Initialize(_upgradeManager, data.UpgradeInventory, _inventoryUI.Slots);
-        _upgradefilter.Initialize(_upgradeManager, _upgradeUI.Slots);
+        _upgradeFilter.Initialize(_upgradeManager, _upgradeUI.Slots);
         
         _upgradeManager.Initialize(data.UpgradeDB, data.UpgradeInventory, data.Inventory, data.GoldData);
         _eventHandler.Initialize(_inventoryUI);
@@ -43,56 +40,7 @@ public class UI_Initializer : MonoBehaviour
             { EInventoryMode.Upgrade , new RegisterEventHandler(_upgradeManager)}
         };
         
-        ChangeInventoryMode(EInventoryMode.Closed);
         _upgradeEventHandler.SetMode(new UnregisterEventHandler(_upgradeManager));
-        
-        _inventoryToggleButton.OnModeChanged += ChangeInventoryMode;
-        _upgradeToggleButton.OnModeChanged += ChangeInventoryMode;
-    }
-
-    private void OnDestroy()
-    {
-        _inventoryToggleButton.OnModeChanged -= ChangeInventoryMode;
-        _upgradeToggleButton.OnModeChanged -= ChangeInventoryMode;
-    }
-    
-    private void ChangeInventoryMode(EInventoryMode mode)
-    {
-        switch (mode)
-        {
-            case EInventoryMode.Closed:
-                CloseInventory();
-                break;
-            case EInventoryMode.Normal:
-                SetNormalMode();
-                break;
-            case EInventoryMode.Upgrade:
-                SetUpgradeMode();
-                break;
-        }
-
-        if (!_handlerDict.TryGetValue(mode, out var handler)) return;
-        _eventHandler.SetMode(handler);
-    }
-
-    private void CloseInventory()
-    {
-        _inventoryUI.Hide();
-    }
-
-    private void SetNormalMode()
-    {
-        _inventoryUI.Show();
-        _upgradeUI.Hide();
-        _upgradeManager.UnregisterAll();
-        _inventoryFilter.Hide();
-        _upgradefilter.Hide();
-    }
-    
-    private void SetUpgradeMode()
-    {
-        _upgradeUI.Show();
-        _inventoryFilter.Show();
-        _upgradefilter.Show();
+        _controller.Initialize(_handlerDict, _eventHandler, _upgradeManager);
     }
 }

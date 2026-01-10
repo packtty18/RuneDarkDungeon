@@ -15,7 +15,6 @@ public class UI_SlotContainer : UI_Base
     [SerializeField] private UI_Slot _slotPrefab;
     [SerializeField] private UI_ScrollView _layoutController;
 
-    public event Action OnRefreshed;
     public event Action<UI_Slot> OnSlotAdded;
     
     public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB)
@@ -57,7 +56,6 @@ public class UI_SlotContainer : UI_Base
         }
         
         _layoutController?.UpdateLayout(targetCount);
-        OnRefreshed?.Invoke();
     }
     
     public override void Show()

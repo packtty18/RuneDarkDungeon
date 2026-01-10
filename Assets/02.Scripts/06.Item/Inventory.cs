@@ -41,6 +41,21 @@ public class Inventory : IInventory
 
         Notify();
     }
+    
+    public void Sort()
+    {
+        if (_items.Count <= 1) return;
+
+        _items.Sort((itemA, itemB) => 
+        {
+            int idComp = itemA.ID.CompareTo(itemB.ID);
+            if (idComp != 0) return idComp;
+
+            return itemA.Grade.CompareTo(itemB.Grade);
+        });
+
+        Notify();
+    }
 
     public void Clear()
     {
