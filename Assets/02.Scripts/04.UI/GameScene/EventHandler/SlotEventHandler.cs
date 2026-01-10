@@ -1,29 +1,30 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SlotEventHandler : MonoBehaviour
 {
     private ISlotEventHandler _eventHandler;
-    private IReadOnlyList<UI_Slot> _slots;
+    private UI_SlotContainer _container;
     
-    public void Initialize(IReadOnlyList<UI_Slot> slots)
+    public void Initialize(UI_SlotContainer container)
     {
-        _slots = slots;
-        foreach (var slot in _slots)
+        _container = container;
+        foreach (var slot in _container.Slots)
         {
             slot.OnSlotClicked += OnClickSlot;
             slot.OnSlotHovered += OnHoverSlot;
         }
+        _container.OnSlotAdded += RegisterSlot;
     }
 
     private void OnDestroy()
     {
-        if (_slots == null) return;
-        foreach (var slot in _slots)
+        if (_container == null) return;
+        foreach (var slot in _container.Slots)
         {
             slot.OnSlotClicked -= OnClickSlot;
             slot.OnSlotHovered -= OnHoverSlot;
         }
+        _container.OnSlotAdded -= RegisterSlot;
     }
 
     private void RegisterSlot(UI_Slot slot)

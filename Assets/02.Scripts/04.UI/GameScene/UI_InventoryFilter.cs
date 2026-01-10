@@ -15,7 +15,7 @@ public class UI_InventoryFilter : UI_Base
         
         _slots = inventorySlots;
         
-        upgradeManager.Subscribe(Refresh);
+        _upgradeManager.Subscribe(Refresh);
     }
 
     private void OnDestroy()
@@ -38,7 +38,6 @@ public class UI_InventoryFilter : UI_Base
         ResetSlotState();
     }
 
-    // 강화 모드를 끌 때 인벤토리 슬롯 참조, 어차피 다 끄므로 순서 상관없음
     private void ResetSlotState()
     {
         foreach (var slot in _slots)
@@ -52,8 +51,6 @@ public class UI_InventoryFilter : UI_Base
         }
     }
     
-    // 얘 차라리 슬롯 컨테이너를 구독해서 슬롯도 직접 받아오고 슬롯이 refresh할 때마다 필터링해주는건 어떤가용..
-    // 왜냐하면 아무래도 강화 정보가 바뀔 때 갱신하는 느낌보다는 인벤토리가 갱신될 때 바뀌는 느낌이자나요
     private void RefreshSlotState()
     {
         foreach (var slot in _slots)

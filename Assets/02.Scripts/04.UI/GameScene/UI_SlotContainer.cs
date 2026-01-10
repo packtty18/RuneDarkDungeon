@@ -55,7 +55,7 @@ public class UI_SlotContainer : UI_Base
                 _slots[i].Clear();
             }
         }
-
+        
         _layoutController?.UpdateLayout(targetCount);
         OnRefreshed?.Invoke();
     }

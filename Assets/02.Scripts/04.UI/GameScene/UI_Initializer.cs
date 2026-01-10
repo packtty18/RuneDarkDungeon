@@ -34,8 +34,8 @@ public class UI_Initializer : MonoBehaviour
         _upgradefilter.Initialize(_upgradeManager, _upgradeUI.Slots);
         
         _upgradeManager.Initialize(data.UpgradeDB, data.UpgradeInventory, data.Inventory, data.GoldData);
-        _eventHandler.Initialize(_inventoryUI.Slots);
-        _upgradeEventHandler.Initialize(_upgradeUI.Slots);
+        _eventHandler.Initialize(_inventoryUI);
+        _upgradeEventHandler.Initialize(_upgradeUI);
         
         _handlerDict = new()
         {
