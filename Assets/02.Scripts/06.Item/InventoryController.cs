@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ModeController : MonoBehaviour
+public class InventoryController : MonoBehaviour
 {
     [Header("UI 연결")]
-    [SerializeField] private UI_Base _inventory;
-    [SerializeField] private UI_Base _upgrade;
-    [SerializeField] private UI_Base _inventoryFilter;
-    [SerializeField] private UI_Base _upgradeFilter;
+    [SerializeField] private UI_SlotContainer _inventoryUI;
+    [SerializeField] private UI_SlotContainer _upgradeUI;
+    private UI_InventoryFilter _inventoryFilter = new();
+    [SerializeField] private UI_UpgradeInfo _upgradeInfo;
     
     [Header("버튼 UI")]
     [SerializeField] private UI_WindowToggleButton _inventoryToggleButton;
@@ -24,9 +24,19 @@ public class ModeController : MonoBehaviour
     [SerializeField] private UpgradeManager _upgradeManager;
     
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
+
+    private IInventory _inventory;
+    private IInventory _upgradeInventory;
     
-    private void Awake()
+    public void Initialize(IDataHandler data)
     {
+        _inventory = data.Inventory;
+        _upgradeInventory = data.UpgradeInventory;
+        
+        _inventory.Subscribe(RefreshInventory);
+        _upgradeInventory.Subscribe(RefreshUpgradeInventory);
+        _upgradeManager.Subscribe(RefreshUpgradeInfo);
+        
         _handlerDict = new()
         {
             { EInventoryMode.Normal, _swapEventHandler },
@@ -42,6 +52,10 @@ public class ModeController : MonoBehaviour
 
     private void OnDestroy()
     {
+        _inventory.Unsubscribe(RefreshInventory);
+        _upgradeInventory.Unsubscribe(RefreshUpgradeInventory);
+        _upgradeManager.Unsubscribe(RefreshUpgradeInfo);
+        
         _inventoryToggleButton.OnModeChanged -= ChangeInventoryMode;
         _upgradeToggleButton.OnModeChanged -= ChangeInventoryMode;
     }
@@ -67,22 +81,39 @@ public class ModeController : MonoBehaviour
 
     private void CloseInventory()
     {
-        _inventory.Hide();
+        _inventoryUI.Hide();
     }
 
     private void SetNormalMode()
     {
-        _inventory.Show();
-        _upgrade.Hide();
+        _inventoryUI.Show();
+        _inventoryUI.Refresh(_inventory.Items);
+        _upgradeUI.Hide();
         _upgradeManager.UnregisterAll();
-        _inventoryFilter.Hide();
-        _upgradeFilter.Hide();
+        _inventoryFilter.ResetFilter(_inventoryUI.Slots);
     }
     
     private void SetUpgradeMode()
     {
-        _upgrade.Show();
-        _inventoryFilter.Show();
-        _upgradeFilter.Show();
+        _upgradeUI.Show();
+        _upgradeUI.Refresh(_upgradeInventory.Items);
+        _inventoryFilter.RefreshFilter(_upgradeInventory, _inventoryUI.Slots);
+        _upgradeInfo.Refresh(_upgradeManager.UpgradeData, _upgradeUI.Slots);
+    }
+
+    private void RefreshInventory()
+    {
+        _inventoryUI.Refresh(_inventory.Items);
+    }
+
+    private void RefreshUpgradeInventory()
+    {
+        _upgradeUI.Refresh(_upgradeInventory.Items);
+    }
+
+    private void RefreshUpgradeInfo()
+    {
+        _inventoryFilter.RefreshFilter(_upgradeInventory, _inventoryUI.Slots);
+        _upgradeInfo.Refresh(_upgradeManager.UpgradeData, _upgradeUI.Slots);
     }
 }

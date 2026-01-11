@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
@@ -10,7 +9,7 @@ public class UpgradeManager : MonoBehaviour
 
     private ItemUpgradeDataSO _upgradeDB;
     private ItemData _baseItem;
-    private UpgradeData _upgradeData;
+    private UpgradeData _upgradeData = UpgradeData.Empty;
 
     public UpgradeData UpgradeData => _upgradeData;
 
@@ -61,9 +60,7 @@ public class UpgradeManager : MonoBehaviour
         }
 
         _upgradeInventory.Clear();
-        ResetUpgradeData();
-
-        _onChanged?.Invoke();
+        ResetUpgradeData(); 
     }
 
     public void Upgrade()

@@ -304,7 +304,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3719300811859050924}
-  - {fileID: 1632876927527065030}
   - {fileID: 2450512694651532277}
   - {fileID: 4868731750575061851}
   - {fileID: 3348149512040861128}
@@ -408,7 +407,6 @@ RectTransform:
   m_Children:
   - {fileID: 1372640588307739862}
   - {fileID: 1208347781879748288}
-  - {fileID: 866140119019312509}
   - {fileID: 387123205005420140}
   - {fileID: 5171031600407364332}
   - {fileID: 9159795382329283144}
@@ -806,6 +804,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4022507442874050276}
+  - component: {fileID: 1085882623287246297}
   m_Layer: 5
   m_Name: UI_UpgradeInfo
   m_TagString: Untagged
@@ -834,6 +833,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1085882623287246297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2644518437535693772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca6315dd439f7b14b991d307c73a98fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_UpgradeFilter
+  _costTextUI: {fileID: 8664488661434838639}
+  _rateTextUI: {fileID: 6875904285357189181}
 --- !u!1 &2922432577862115851
 GameObject:
   m_ObjectHideFlags: 0
@@ -1337,54 +1350,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Mask
   m_ShowMaskGraphic: 0
---- !u!1 &3432991222683141157
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 866140119019312509}
-  - component: {fileID: 5315347943909688003}
-  m_Layer: 5
-  m_Name: SlotFilter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &866140119019312509
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3432991222683141157}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5988763344636117937}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5315347943909688003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3432991222683141157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b12e54c9645bab741b18f76f1099c9d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_InventoryFilter
 --- !u!1 &3571143294082099098
 GameObject:
   m_ObjectHideFlags: 0
@@ -1654,10 +1619,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 975a956337c44d647a1fb83618fff10d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryController
-  _inventory: {fileID: 2755717572291621418}
-  _upgrade: {fileID: 7919360812787271630}
-  _inventoryFilter: {fileID: 5315347943909688003}
-  _upgradeFilter: {fileID: 179824119962021915}
+  _inventoryUI: {fileID: 2755717572291621418}
+  _upgradeUI: {fileID: 7919360812787271630}
+  _upgradeInfo: {fileID: 1085882623287246297}
   _inventoryToggleButton: {fileID: 8770118525212280962}
   _upgradeToggleButton: {fileID: 5259715143742904478}
   _eventHandler: {fileID: 7712452901414016819}
@@ -2232,7 +2196,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 10
   m_Viewport: {fileID: 1214550639376245287}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 5231717386230018741}
@@ -2612,11 +2576,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI_Initializer
   _inventoryUI: {fileID: 2755717572291621418}
   _upgradeUI: {fileID: 7919360812787271630}
-  _inventoryFilter: {fileID: 5315347943909688003}
-  _upgradeFilter: {fileID: 179824119962021915}
-  _controller: {fileID: 7663695966895175748}
   _upgradeManager: {fileID: 3141209493045464739}
   _swapEventHandler: {fileID: 6064746310308981858}
+  _controller: {fileID: 7663695966895175748}
 --- !u!1 &7909659676956741745
 GameObject:
   m_ObjectHideFlags: 0
@@ -2754,56 +2716,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &8017667170777318609
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1632876927527065030}
-  - component: {fileID: 179824119962021915}
-  m_Layer: 5
-  m_Name: SlotFilter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1632876927527065030
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8017667170777318609}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3883277655994093438}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -720, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &179824119962021915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8017667170777318609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca6315dd439f7b14b991d307c73a98fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_UpgradeFilter
-  _costTextUI: {fileID: 8664488661434838639}
-  _rateTextUI: {fileID: 6875904285357189181}
 --- !u!1 &8075484808070280442
 GameObject:
   m_ObjectHideFlags: 0

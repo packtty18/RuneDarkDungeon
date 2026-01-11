@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UI_SlotContainer : UI_Base
-{
-    private IReadOnlyInventory _inventory;
+{ 
     private ItemDatabaseSO _itemDB;
     
     [Header("슬롯 연결")]
@@ -18,12 +17,9 @@ public class UI_SlotContainer : UI_Base
     public event Action<UI_Slot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
     
-    public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB)
+    public void Initialize(ItemDatabaseSO itemDB)
     {
-        _inventory = inventory;
         _itemDB = itemDB;
-
-        _inventory.Subscribe(Refresh);
         
         foreach (var slot in _slots)
         {
@@ -34,8 +30,6 @@ public class UI_SlotContainer : UI_Base
 
     private void OnDestroy()
     {
-        _inventory.Unsubscribe(Refresh);
-        
         foreach (var slot in _slots)
         {
             slot.OnSlotClicked -= NotifySlotClicked;
@@ -43,9 +37,8 @@ public class UI_SlotContainer : UI_Base
         }
     }
 
-    private void Refresh()
+    public void Refresh(IReadOnlyList<ItemData> items)
     {
-        var items = _inventory.Items;
         int targetCount = items.Count;
 
         while (_slots.Count < targetCount)
@@ -80,11 +73,5 @@ public class UI_SlotContainer : UI_Base
     private void NotifySlotHovered(UI_Slot slot)
     {
         OnSlotHovered?.Invoke(slot);   
-    }
-    
-    public override void Show()
-    {
-        base.Show();
-        Refresh();
     }
 }

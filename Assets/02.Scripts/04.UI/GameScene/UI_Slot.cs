@@ -47,7 +47,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         gameObject.SetActive(active);
     }
     
-    public void SetInteractable(bool isOn)
+    public void SetFilter(bool isOn)
     {
         _iconCover.SetActive(!isOn);
         _isInteractable = isOn;
