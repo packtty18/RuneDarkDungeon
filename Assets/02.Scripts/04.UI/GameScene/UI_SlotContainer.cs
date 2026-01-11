@@ -8,8 +8,6 @@ public class UI_SlotContainer : UI_Base
     
     [Header("슬롯 연결")]
     [SerializeField] private List<UI_Slot> _slots;
-    public IReadOnlyList<UI_Slot> Slots => _slots;
-
     [SerializeField] private Transform _slotParent;
     [SerializeField] private UI_Slot _slotPrefab;
     [SerializeField] private UI_ScrollView _layoutController;
@@ -40,7 +38,6 @@ public class UI_SlotContainer : UI_Base
     public void Refresh(IReadOnlyList<ItemData> items)
     {
         int targetCount = items.Count;
-
         while (_slots.Count < targetCount)
         {
             var newSlot = Instantiate(_slotPrefab, _slotParent);
@@ -64,7 +61,43 @@ public class UI_SlotContainer : UI_Base
         
         _layoutController?.UpdateLayout(targetCount);
     }
-
+    
+    public void ResetFilter()
+    {
+        foreach (var slot in _slots)
+        {
+            if (slot.IsEmpty)
+            {
+                slot.SetActive(false);
+                continue;
+            }
+            slot.SetActive(true);
+            slot.SetFilter(true);
+        }
+    }
+    public void RefreshFilter(IInventory inventory)
+    {
+        foreach (var slot in _slots)
+        {
+            if (slot.IsEmpty)
+            {
+                slot.SetActive(false);
+                continue;
+            }
+            bool isOn = inventory.CanAdd(slot.Item);
+            slot.SetFilter(isOn);
+            slot.SetActive(true);
+        }
+    }
+    
+    public void SetSlotCount(int count)
+    {
+        foreach (var slot in _slots)
+        {
+            slot.SetActive(count-- > 0);
+        }
+    }
+    
     private void NotifySlotClicked(UI_Slot slot)
     {
         OnSlotClicked?.Invoke(slot);

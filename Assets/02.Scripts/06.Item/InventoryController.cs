@@ -6,8 +6,7 @@ public class InventoryController : MonoBehaviour
     [Header("UI 연결")]
     [SerializeField] private UI_SlotContainer _inventoryUI;
     [SerializeField] private UI_SlotContainer _upgradeUI;
-    private UI_InventoryFilter _inventoryFilter = new();
-    [SerializeField] private UI_UpgradeInfo _upgradeInfo;
+    [SerializeField] private UI_UpgradeInfo _upgradeInfoUI;
     
     [Header("버튼 UI")]
     [SerializeField] private UI_WindowToggleButton _inventoryToggleButton;
@@ -86,19 +85,18 @@ public class InventoryController : MonoBehaviour
 
     private void SetNormalMode()
     {
-        _inventoryUI.Show();
-        _inventoryUI.Refresh(_inventory.Items);
-        _upgradeUI.Hide();
         _upgradeManager.UnregisterAll();
-        _inventoryFilter.ResetFilter(_inventoryUI.Slots);
+        _inventoryUI.Show();
+        RefreshInventory();
+        _upgradeUI.Hide();
+        _inventoryUI.ResetFilter();
     }
     
     private void SetUpgradeMode()
     {
         _upgradeUI.Show();
-        _upgradeUI.Refresh(_upgradeInventory.Items);
-        _inventoryFilter.RefreshFilter(_upgradeInventory, _inventoryUI.Slots);
-        _upgradeInfo.Refresh(_upgradeManager.UpgradeData, _upgradeUI.Slots);
+        RefreshUpgradeInventory();
+        RefreshUpgradeInfo();
     }
 
     private void RefreshInventory()
@@ -113,7 +111,8 @@ public class InventoryController : MonoBehaviour
 
     private void RefreshUpgradeInfo()
     {
-        _inventoryFilter.RefreshFilter(_upgradeInventory, _inventoryUI.Slots);
-        _upgradeInfo.Refresh(_upgradeManager.UpgradeData, _upgradeUI.Slots);
+        _inventoryUI.RefreshFilter(_upgradeInventory);
+        _upgradeUI.SetSlotCount(_upgradeManager.UpgradeData.Count);
+        _upgradeInfoUI.Refresh(_upgradeManager.UpgradeData);
     }
 }
