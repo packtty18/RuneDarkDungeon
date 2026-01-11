@@ -5,6 +5,10 @@ public class TransformFollower : MonoBehaviour
 {
     [SerializeField] private Transform _target;
 
+    [Header("Offset")]
+    [SerializeField] private Vector3 _positionOffset;
+    [SerializeField] private Vector3 _rotationOffsetEuler;
+
     private void LateUpdate()
     {
         if (_target == null)
@@ -12,9 +16,14 @@ public class TransformFollower : MonoBehaviour
             return;
         }
 
+        Quaternion rotationOffset = Quaternion.Euler(_rotationOffsetEuler);
+
+        Vector3 finalPosition = _target.TransformPoint(_positionOffset);
+        Quaternion finalRotation = _target.rotation * rotationOffset;
+
         transform.SetPositionAndRotation(
-            _target.position,
-            _target.rotation
+            finalPosition,
+            finalRotation
         );
     }
 }
