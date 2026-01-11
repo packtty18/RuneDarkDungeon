@@ -62,7 +62,7 @@ public class UI_SlotContainer : UI_Base
         _layoutController?.UpdateLayout(targetCount);
     }
     
-    public void ResetFilter()
+    public void RefreshFilter(IReadOnlyInventory inventory = null)
     {
         foreach (var slot in _slots)
         {
@@ -71,22 +71,9 @@ public class UI_SlotContainer : UI_Base
                 slot.SetActive(false);
                 continue;
             }
+            bool isOn = inventory == null || inventory.CanAdd(slot.Item);
             slot.SetActive(true);
-            slot.SetFilter(true);
-        }
-    }
-    public void RefreshFilter(IInventory inventory)
-    {
-        foreach (var slot in _slots)
-        {
-            if (slot.IsEmpty)
-            {
-                slot.SetActive(false);
-                continue;
-            }
-            bool isOn = inventory.CanAdd(slot.Item);
             slot.SetFilter(isOn);
-            slot.SetActive(true);
         }
     }
     

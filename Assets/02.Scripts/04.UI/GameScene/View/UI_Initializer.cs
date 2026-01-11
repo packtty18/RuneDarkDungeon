@@ -19,6 +19,6 @@ public class UI_Initializer : MonoBehaviour
         _upgradeManager.Initialize(data.UpgradeDB, data.UpgradeInventory, data.Inventory, data.GoldData);
         _swapEventHandler.Initialize(data.Inventory);
         
-        _controller.Initialize(data);
+        _controller.Initialize(data.Inventory, data.UpgradeInventory);
     }
 }

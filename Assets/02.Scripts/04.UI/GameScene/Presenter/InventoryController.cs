@@ -24,13 +24,13 @@ public class InventoryController : MonoBehaviour
     
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
 
-    private IInventory _inventory;
-    private IInventory _upgradeInventory;
+    private IReadOnlyInventory _inventory;
+    private IReadOnlyInventory _upgradeInventory;
     
-    public void Initialize(IDataHandler data)
+    public void Initialize(IReadOnlyInventory inventory, IReadOnlyInventory upgradeInventory)
     {
-        _inventory = data.Inventory;
-        _upgradeInventory = data.UpgradeInventory;
+        _inventory = inventory;
+        _upgradeInventory = upgradeInventory;
         
         _inventory.Subscribe(RefreshInventory);
         _upgradeInventory.Subscribe(RefreshUpgradeInventory);
@@ -89,7 +89,7 @@ public class InventoryController : MonoBehaviour
         _inventoryUI.Show();
         RefreshInventory();
         _upgradeUI.Hide();
-        _inventoryUI.ResetFilter();
+        _inventoryUI.RefreshFilter();
     }
     
     private void SetUpgradeMode()
