@@ -15,7 +15,8 @@ public class UI_SlotContainer : UI_Base
     [SerializeField] private UI_Slot _slotPrefab;
     [SerializeField] private UI_ScrollView _layoutController;
 
-    public event Action<UI_Slot> OnSlotAdded;
+    public event Action<UI_Slot> OnSlotClicked;
+    public event Action<UI_Slot> OnSlotHovered;
     
     public void Initialize(IReadOnlyInventory inventory, ItemDatabaseSO itemDB)
     {
@@ -23,11 +24,23 @@ public class UI_SlotContainer : UI_Base
         _itemDB = itemDB;
 
         _inventory.Subscribe(Refresh);
+        
+        foreach (var slot in _slots)
+        {
+            slot.OnSlotClicked += NotifySlotClicked;
+            slot.OnSlotHovered += NotifySlotHovered;
+        }
     }
 
     private void OnDestroy()
     {
         _inventory.Unsubscribe(Refresh);
+        
+        foreach (var slot in _slots)
+        {
+            slot.OnSlotClicked -= NotifySlotClicked;
+            slot.OnSlotHovered -= NotifySlotHovered;
+        }
     }
 
     private void Refresh()
@@ -39,7 +52,8 @@ public class UI_SlotContainer : UI_Base
         {
             var newSlot = Instantiate(_slotPrefab, _slotParent);
             _slots.Add(newSlot);
-            OnSlotAdded?.Invoke(newSlot);
+            newSlot.OnSlotClicked += NotifySlotClicked;
+            newSlot.OnSlotHovered += NotifySlotHovered;
         }
 
         for (int i = 0; i < _slots.Count; i++)
@@ -56,6 +70,16 @@ public class UI_SlotContainer : UI_Base
         }
         
         _layoutController?.UpdateLayout(targetCount);
+    }
+
+    private void NotifySlotClicked(UI_Slot slot)
+    {
+        OnSlotClicked?.Invoke(slot);
+    }
+
+    private void NotifySlotHovered(UI_Slot slot)
+    {
+        OnSlotHovered?.Invoke(slot);   
     }
     
     public override void Show()

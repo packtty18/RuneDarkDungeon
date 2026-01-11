@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryController : MonoBehaviour
+public class ModeController : MonoBehaviour
 {
     [Header("UI 연결")]
     [SerializeField] private UI_Base _inventory;

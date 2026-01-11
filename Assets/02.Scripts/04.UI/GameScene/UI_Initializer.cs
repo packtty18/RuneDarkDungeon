@@ -7,7 +7,7 @@ public class UI_Initializer : MonoBehaviour
     [SerializeField] private UI_SlotContainer _upgradeUI;
     [SerializeField] private UI_InventoryFilter _inventoryFilter;
     [SerializeField] private UI_UpgradeFilter _upgradeFilter;
-    [SerializeField] private InventoryController _controller;
+    [SerializeField] private ModeController _controller;
     [SerializeField] private UpgradeManager _upgradeManager;
     [SerializeField] private SwapEventHandler _swapEventHandler;
     

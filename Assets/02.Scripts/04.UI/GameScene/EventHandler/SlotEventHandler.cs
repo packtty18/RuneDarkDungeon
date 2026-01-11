@@ -8,29 +8,15 @@ public class SlotEventHandler : MonoBehaviour
     
     private void Awake()
     {
-        foreach (var slot in _container.Slots)
-        {
-            slot.OnSlotClicked += OnClickSlot;
-            slot.OnSlotHovered += OnHoverSlot;
-        }
-        _container.OnSlotAdded += RegisterSlot;
+        _container.OnSlotClicked += OnClickSlot;
+        _container.OnSlotHovered += OnHoverSlot;
     }
 
     private void OnDestroy()
     {
         if (_container == null) return;
-        foreach (var slot in _container.Slots)
-        {
-            slot.OnSlotClicked -= OnClickSlot;
-            slot.OnSlotHovered -= OnHoverSlot;
-        }
-        _container.OnSlotAdded -= RegisterSlot;
-    }
-
-    private void RegisterSlot(UI_Slot slot)
-    {
-        slot.OnSlotClicked += OnClickSlot;
-        slot.OnSlotHovered += OnHoverSlot;
+        _container.OnSlotClicked -= OnClickSlot;
+        _container.OnSlotHovered -= OnHoverSlot;
     }
 
     public void SetMode(ISlotEventHandler eventHandler)
