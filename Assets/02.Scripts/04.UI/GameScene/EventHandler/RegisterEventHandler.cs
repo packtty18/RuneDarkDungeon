@@ -1,8 +1,13 @@
 using UnityEngine;
 
-public class RegisterEventHandler : MonoBehaviour, ISlotEventHandler
+public class RegisterEventHandler : ISlotEventHandler
 {
-    [SerializeField] private UpgradeManager _upgradeManager;
+    private readonly UpgradeManager _upgradeManager;
+    
+    public RegisterEventHandler(UpgradeManager upgradeManager)
+    {
+        _upgradeManager = upgradeManager;
+    }
     
     public void OnClickSlot(UI_Slot slot)
     {

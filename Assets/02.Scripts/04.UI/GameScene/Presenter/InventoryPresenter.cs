@@ -1,23 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryController : MonoBehaviour
+public class InventoryPresenter : MonoBehaviour
 {
     [Header("UI 연결")]
     [SerializeField] private UI_SlotContainer _inventoryUI;
     [SerializeField] private UpgradePresenter _upgradePresenter;
-    
+    [SerializeField] private InventoryManager _inventoryManager;
+
     [Header("버튼 UI")]
     [SerializeField] private UI_WindowToggleButton _inventoryToggleButton;
     [SerializeField] private UI_WindowToggleButton _upgradeToggleButton;
     
-    [Header("이벤트 핸들러")]
+    [Header("로직 연결")]
+    [SerializeField] private UpgradeManager _upgradeManager;
     [SerializeField] private SlotEventHandler _eventHandler;
     
-    [SerializeField] private SwapEventHandler _swapEventHandler;
-    [SerializeField] private RegisterEventHandler _registerEventHandler;
-    
-    [SerializeField] private UpgradeManager _upgradeManager;
     
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
 
@@ -30,8 +28,8 @@ public class InventoryController : MonoBehaviour
         
         _handlerDict = new()
         {
-            { EInventoryMode.Normal, _swapEventHandler },
-            { EInventoryMode.Upgrade , _registerEventHandler }
+            { EInventoryMode.Normal, new SwapEventHandler(_inventoryManager) },
+            { EInventoryMode.Upgrade , new RegisterEventHandler(_upgradeManager) }
         };
         
         ChangeInventoryMode(EInventoryMode.Closed);

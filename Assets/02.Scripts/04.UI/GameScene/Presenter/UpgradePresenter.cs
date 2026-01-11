@@ -9,9 +9,7 @@ public class UpgradePresenter : MonoBehaviour
 
     [Header("로직 연결")]
     [SerializeField] private UpgradeManager _upgradeManager;
-    
     [SerializeField] private SlotEventHandler _upgradeEventHandler;
-    [SerializeField] private UnregisterEventHandler _unregisterEventHandler;
 
     private IInventory _upgradeInventory;
 
@@ -21,7 +19,7 @@ public class UpgradePresenter : MonoBehaviour
         _upgradeInventory.Subscribe(RefreshView);
         _upgradeManager.Subscribe(RefreshInfo);
         
-        _upgradeEventHandler.SetMode(_unregisterEventHandler);
+        _upgradeEventHandler.SetMode(new UnregisterEventHandler(_upgradeManager));
     }
 
     private void OnDestroy()
