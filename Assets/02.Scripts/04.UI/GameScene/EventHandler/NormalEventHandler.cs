@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class SwapEventHandler : ISlotEventHandler
+public class NormalEventHandler : ISlotEventHandler
 {
     private InventoryManager _inventoryManager;
 
-    public SwapEventHandler(InventoryManager inventoryManager)
+    public NormalEventHandler(InventoryManager inventoryManager)
     {
         _inventoryManager = inventoryManager;
     }

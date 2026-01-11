@@ -559,6 +559,8 @@ RectTransform:
   - {fileID: 6725689593445308977}
   - {fileID: 5947274558271764559}
   - {fileID: 5988763344636117937}
+  - {fileID: 5824825984188919536}
+  - {fileID: 5835450283261788237}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -657,9 +659,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5824825984188919536}
-  - {fileID: 5835450283261788237}
+  m_Children: []
   m_Father: {fileID: 4353936184140347600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1625,7 +1625,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryController
   _inventoryUI: {fileID: 2755717572291621418}
   _upgradePresenter: {fileID: 7501577030098615944}
-  _inventoryManager: {fileID: 0}
+  _inventoryManager: {fileID: 8474049524372040592}
   _inventoryToggleButton: {fileID: 8770118525212280962}
   _upgradeToggleButton: {fileID: 5259715143742904478}
   _upgradeManager: {fileID: 3141209493045464739}
@@ -1864,7 +1864,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4900519851925453862}
+  m_Father: {fileID: 4353936184140347600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2665,7 +2665,7 @@ RectTransform:
   m_Children:
   - {fileID: 1770241266453865555}
   - {fileID: 8663490018880936044}
-  m_Father: {fileID: 4900519851925453862}
+  m_Father: {fileID: 4353936184140347600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

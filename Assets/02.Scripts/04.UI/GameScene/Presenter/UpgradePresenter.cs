@@ -11,9 +11,9 @@ public class UpgradePresenter : MonoBehaviour
     [SerializeField] private UpgradeManager _upgradeManager;
     [SerializeField] private SlotEventHandler _upgradeEventHandler;
 
-    private IInventory _upgradeInventory;
+    private IReadOnlyInventory _upgradeInventory;
 
-    public void Initialize(IInventory upgradeInventory)
+    public void Initialize(IReadOnlyInventory upgradeInventory)
     {
         _upgradeInventory = upgradeInventory;
         _upgradeInventory.Subscribe(RefreshView);

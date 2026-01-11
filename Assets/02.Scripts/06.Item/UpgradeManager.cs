@@ -101,6 +101,6 @@ public class UpgradeManager : MonoBehaviour
         _onChanged.Unsubscribe(action);
     }
 
-private bool IsFull => _upgradeInventory.Count > 0 && _upgradeInventory.Count == _upgradeData.Count;
+    private bool IsFull => _upgradeInventory.Count > 0 && _upgradeInventory.Count == _upgradeData.Count;
     private bool IsEmpty => _upgradeInventory.Count == 0;
 }

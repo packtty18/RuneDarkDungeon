@@ -28,7 +28,7 @@ public class InventoryPresenter : MonoBehaviour
         
         _handlerDict = new()
         {
-            { EInventoryMode.Normal, new SwapEventHandler(_inventoryManager) },
+            { EInventoryMode.Normal, new NormalEventHandler(_inventoryManager) },
             { EInventoryMode.Upgrade , new RegisterEventHandler(_upgradeManager) }
         };
         
