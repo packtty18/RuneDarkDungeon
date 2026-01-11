@@ -10,6 +10,7 @@ public class UI_Initializer : MonoBehaviour
     [SerializeField] private SwapEventHandler _swapEventHandler;
     
     [SerializeField] private InventoryController _controller;
+    [SerializeField] private UpgradePresenter _upgradePresenter;
     
     public void Initialize(IDataHandler data)
     {
@@ -19,6 +20,7 @@ public class UI_Initializer : MonoBehaviour
         _upgradeManager.Initialize(data.UpgradeDB, data.UpgradeInventory, data.Inventory, data.GoldData);
         _swapEventHandler.Initialize(data.Inventory);
         
-        _controller.Initialize(data.Inventory, data.UpgradeInventory);
+        _controller.Initialize(data.Inventory);
+        _upgradePresenter.Initialize(data.UpgradeInventory);
     }
 }
