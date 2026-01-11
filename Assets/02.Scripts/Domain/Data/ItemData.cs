@@ -15,11 +15,7 @@ public class ItemData
         _grade = grade;
     }
 
-    public bool CanUpgrade(ItemData item)
-    {
-        if (item != null) return TypeEquals(item);
-        return !_grade.IsMaxGrade();
-    }
+    public bool IsMaxGrade=> _grade.IsMaxGrade();
 
     public ItemData GetUpgradedItem()
     {

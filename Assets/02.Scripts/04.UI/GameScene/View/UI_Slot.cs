@@ -42,27 +42,15 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         _outlineImage.color = Color.white;
     }
 
-    public void SwapItem(UI_Slot slot)
-    {
-        SlotData data = _data;
-        SetItem(slot._data);
-        slot.SetItem(data);
-    }
-
     public void SetActive(bool active)
     {
         gameObject.SetActive(active);
     }
     
-    public void SetInteractable(bool isOn)
+    public void SetFilter(bool isOn)
     {
         _iconCover.SetActive(!isOn);
         _isInteractable = isOn;
-    }
-
-    public bool CanUpgrade(ItemData item)
-    {
-        return Item.CanUpgrade(item);
     }
     
     public void OnPointerEnter(PointerEventData eventData)

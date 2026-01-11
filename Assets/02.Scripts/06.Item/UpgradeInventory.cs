@@ -1,24 +1,33 @@
-using UnityEngine;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
-[Serializable]
-public class Inventory : IInventory
+public class UpgradeInventory : IInventory
 {
-    [SerializeField] private List<ItemData> _items = new();
+    private List<ItemData> _items = new();
     public IReadOnlyList<ItemData> Items => _items;
     
     private SafeEvent _onChanged = new();
+
+    private ItemData _targetType;
     
     public int Count => _items.Count;
 
     public bool CanAdd(ItemData item)
     {
-        return item != null;
+        if (item == null || item.IsMaxGrade) return false;
+        
+        return _targetType == null || _targetType.TypeEquals(item);
     }
     
     public void Add(ItemData item)
     {
+        if (!CanAdd(item)) return;
+
+        if (_items.Count == 0)
+        {
+            _targetType = item;
+        }
         _items.Add(item);
         Notify();
     }
@@ -26,6 +35,11 @@ public class Inventory : IInventory
     public void Remove(ItemData item)
     {
         if (!_items.Remove(item)) return;
+        
+        if (_items.Count == 0)
+        {
+            _targetType = null;
+        }
         Notify();
     }
 
@@ -41,24 +55,10 @@ public class Inventory : IInventory
 
         Notify();
     }
-    
-    public void Sort()
-    {
-        if (_items.Count <= 1) return;
-
-        _items.Sort((itemA, itemB) => 
-        {
-            int idComp = itemA.ID.CompareTo(itemB.ID);
-            if (idComp != 0) return idComp;
-
-            return itemA.Grade.CompareTo(itemB.Grade);
-        });
-
-        Notify();
-    }
 
     public void Clear()
     {
+        _targetType = null;
         _items.Clear();
         Notify();
     }

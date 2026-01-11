@@ -1,29 +1,22 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SlotEventHandler : MonoBehaviour
 {
+    [Header("UI 연결")]
+    [SerializeField] private UI_SlotContainer _container;
     private ISlotEventHandler _eventHandler;
-    private IReadOnlyList<UI_Slot> _slots;
     
-    public void Initialize(IReadOnlyList<UI_Slot> slots)
+    private void Awake()
     {
-        _slots = slots;
-        foreach (var slot in _slots)
-        {
-            slot.OnSlotClicked += OnClickSlot;
-            slot.OnSlotHovered += OnHoverSlot;
-        }
+        _container.OnSlotClicked += OnClickSlot;
+        _container.OnSlotHovered += OnHoverSlot;
     }
 
     private void OnDestroy()
     {
-        if (_slots == null) return;
-        foreach (var slot in _slots)
-        {
-            slot.OnSlotClicked -= OnClickSlot;
-            slot.OnSlotHovered -= OnHoverSlot;
-        }
+        if (_container == null) return;
+        _container.OnSlotClicked -= OnClickSlot;
+        _container.OnSlotHovered -= OnHoverSlot;
     }
 
     public void SetMode(ISlotEventHandler eventHandler)

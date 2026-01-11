@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UnregisterEventHandler : ISlotEventHandler
 {
-    private UpgradeManager _upgradeManager;
+    private readonly UpgradeManager _upgradeManager;
     
     public UnregisterEventHandler(UpgradeManager upgradeManager)
     {

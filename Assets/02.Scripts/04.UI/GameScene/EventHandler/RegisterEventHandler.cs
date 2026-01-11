@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class RegisterEventHandler : ISlotEventHandler
 {
-    private UpgradeManager _upgradeManager;
+    private readonly UpgradeManager _upgradeManager;
     
     public RegisterEventHandler(UpgradeManager upgradeManager)
     {

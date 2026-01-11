@@ -4,6 +4,8 @@ using System;
 public interface IReadOnlyInventory
 {
     IReadOnlyList<ItemData> Items { get; }
-    void Subscribe(Action<ItemData> addAction, Action<ItemData> removeAction);
-    void Unsubscribe(Action<ItemData> addAction, Action<ItemData> removeAction);
+    int Count { get; }
+    bool CanAdd(ItemData item);
+    void Subscribe(Action action);
+    void Unsubscribe(Action action);
 }
