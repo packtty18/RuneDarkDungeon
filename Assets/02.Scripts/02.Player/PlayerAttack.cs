@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -20,10 +21,11 @@ public class PlayerAttack : MonoBehaviour
 
     private bool _attackBuffered;
     private bool _isAttacking;
+    private bool _isSkillActive;
+
     private Coroutine _comboWindowCoroutine;
     private float _finisherTimer;
 
-    private PlayerAttackConfigSO __pausedComboConfig;
     private AttackTypeConfig _currentAttackConfig;
     private int _currentCombo;
     private float _currentDamage;
@@ -44,8 +46,36 @@ public class PlayerAttack : MonoBehaviour
         Initialized();
     }
 
+    public void SetSkillActive()
+    {
+        if (_currentAttackConfig != null)
+        {
+            if (_comboTimerCoroutine != null)
+            {
+                StopCoroutine(_comboTimerCoroutine);
+            }
+            else
+            {
+                OnAttackFinish();
+            }
+        }
+
+        _isSkillActive = true;
+    }
+
+    public void SetSkillDeactive()
+    {
+        if (_comboTimerCoroutine != null)
+        {
+            StartCoroutine(ComboTimerCoroutine(0.5f));
+        }
+        _isSkillActive = false;
+    }
+
     private void Update()
     {
+        if (_isSkillActive) return;
+
         if (InputManager.Instance.GetKeyDown(EGameKeyType.Attack))
         {
             if (_currentAttackConfig != null && _currentAttackConfig.AttackType == EAttackType.Jump) return;
@@ -57,8 +87,6 @@ public class PlayerAttack : MonoBehaviour
             _attackBuffered = false;
             TryStartAttack();
         }
-
-        //콤보 중인 스킬이 있다면 코루틴을 중지시키고 _pausedComboConfig 에 저장 후 스킬이 끝나면 복구 시킨 후 다시 코루틴(0.5초)를 실행.
     }
     private void OnDestroy()
     {
@@ -306,6 +334,8 @@ public class PlayerAttack : MonoBehaviour
         //움직일 수 있는 상태로 전환
         _playerMove.SetCanMove(true);
         _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(_currentAttackConfig.GetPhaseData(1).InputWindow));
+
+        _attackBuffered = false;
     }
 
     public void OnAttackFinish()
@@ -313,7 +343,9 @@ public class PlayerAttack : MonoBehaviour
         _hitboxController.Deactivate("Main");
         //움직일 수 있는 상태로 전환
         _playerMove.SetCanMove(true);
+
         _isAttacking = false;
+        _attackBuffered = false;
     }
 
     #endregion
