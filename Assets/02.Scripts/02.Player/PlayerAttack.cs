@@ -7,6 +7,7 @@ public class PlayerAttack : MonoBehaviour
     private Player _player;
     private PlayerAnimator _animator;
     private PlayerMove _playerMove;
+    private PlayerSkillCaster _skillCaster;
     
     private EMovementState _moveState;
 
@@ -27,7 +28,6 @@ public class PlayerAttack : MonoBehaviour
 
     private bool _attackBuffered;
     private bool _isAttacking;
-    private bool _isSkillActive;
 
     private Coroutine _comboWindowCoroutine;
     private float _finisherTimer;
@@ -42,6 +42,7 @@ public class PlayerAttack : MonoBehaviour
         _player = GetComponent<Player>();
         _playerMove = GetComponent<PlayerMove>();
         _animator = GetComponent<PlayerAnimator>();
+        _skillCaster = GetComponent<PlayerSkillCaster>();
 
         _playerRenderers = GetComponentsInChildren<Renderer>();
 
@@ -57,7 +58,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        if (_isSkillActive) return;
+        if (_skillCaster.IsCasting) return;
 
         if (InputManager.Instance.GetKeyDown(EGameKeyType.Attack))
         {
@@ -284,9 +285,9 @@ public class PlayerAttack : MonoBehaviour
     }
 
     #region Public Method
-    public void SetSkillActivate()
+    public void OnSkillInterrupt()
     {
-        if (_currentAttack == EAttackType.None)
+        if (_currentAttack != EAttackType.None)
         {
             if (_comboTimerCoroutine != null)
             {
@@ -298,16 +299,16 @@ public class PlayerAttack : MonoBehaviour
             }
         }
 
-        _isSkillActive = true;
+        _attackBuffered = false;
+
     }
 
-    public void SetSkillDeactivate()
+    public void OnSkillComplete()
     {
         if (_comboTimerCoroutine != null)
         {
             StartCoroutine(ComboTimerCoroutine(_comboReturnTime));
         }
-        _isSkillActive = false;
     }
 
     #endregion
@@ -335,10 +336,19 @@ public class PlayerAttack : MonoBehaviour
 
     #region Animation Event
 
-    public void AttackStart()
+    public void OnAttackStart()
     {
         _hitboxController.Activate("Main");
         //데미지 값 세팅
+    }
+    public void OnAttackFinish()
+    {
+        _hitboxController.Deactivate("Main");
+        //움직일 수 있는 상태로 전환
+        _playerMove.SetCanMove(true);
+
+        _isAttacking = false;
+        _attackBuffered = false;
     }
 
     public void OnFinisherFinish()
@@ -357,16 +367,5 @@ public class PlayerAttack : MonoBehaviour
 
         _attackBuffered = false;
     }
-
-    public void OnAttackFinish()
-    {
-        _hitboxController.Deactivate("Main");
-        //움직일 수 있는 상태로 전환
-        _playerMove.SetCanMove(true);
-
-        _isAttacking = false;
-        _attackBuffered = false;
-    }
-
     #endregion
 }
