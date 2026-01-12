@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 [CreateAssetMenu(menuName = "Item/Item Drop Table")]
 public class ItemDropTableSO : ScriptableObject
 {
-    [SerializeField] private List<ItemDropEntry> entries = new();
+    [SerializeField] private List<ItemDropData> entries = new();
 
     public List<EPoolType> GetDropResult()
     {
@@ -36,8 +36,8 @@ public class ItemDropTableSO : ScriptableObject
         }
 
         //랜덤 추가
-        List<ItemDropEntry> randomPool = GetRandomPool();
-        ItemDropEntry selected = GetWeightedRandom(randomPool);
+        List<ItemDropData> randomPool = GetRandomPool();
+        ItemDropData selected = GetWeightedRandom(randomPool);
         if (selected == null)
         {
             return result;
@@ -51,9 +51,9 @@ public class ItemDropTableSO : ScriptableObject
 
     #region Utility
 
-    private List<ItemDropEntry> GetRandomPool()
+    private List<ItemDropData> GetRandomPool()
     {
-        List<ItemDropEntry> pool = new();
+        List<ItemDropData> pool = new();
 
         foreach (var entry in entries)
         {
@@ -66,7 +66,7 @@ public class ItemDropTableSO : ScriptableObject
         return pool;
     }
 
-    private ItemDropEntry GetWeightedRandom(List<ItemDropEntry> pool)
+    private ItemDropData GetWeightedRandom(List<ItemDropData> pool)
     {
         int totalWeight = 0;
 
@@ -99,7 +99,7 @@ public class ItemDropTableSO : ScriptableObject
 }
 
 [Serializable]
-public class ItemDropEntry
+public class ItemDropData
 {
     public EPoolType PoolType;
 
@@ -108,7 +108,6 @@ public class ItemDropEntry
     [Min(0), HideIf(nameof(IsGuaranteed))]
     public int Weight = 1;
 
-    [Tooltip("MinCount ~ MaxCount만큼 생성")]
     [Min(0)]
     public int Count = 1;
 
