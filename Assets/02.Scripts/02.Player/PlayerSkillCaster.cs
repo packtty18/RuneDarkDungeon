@@ -25,11 +25,6 @@ public class PlayerSkillCaster : MonoBehaviour
         _playerAttack = GetComponent<PlayerAttack>();
     }
 
-    private void Start()
-    {
-
-    }
-
     private void Update()
     {
         // 쿨다운 감소.
@@ -96,15 +91,15 @@ public class PlayerSkillCaster : MonoBehaviour
     private void OnSkillStart()
     {
         _isCasting = true;
-        _playerAttack.SetSkillActive();
+        _playerAttack.SetSkillActivate();
         Debug.Log($"[Skill] 스킬 실행");
     }
 
     //스킬 사용 종료 타이밍에 맞춰 애니메이션 이벤트로 호출.
     private void OnSkillEnd()
     {
-        _isCasting = false;
-        _playerAttack.SetSkillDeactive();
         Debug.Log($"[Skill] 스킬 종료");
+        _isCasting = false;
+        _playerAttack.SetSkillDeactivate();      
     }
 }

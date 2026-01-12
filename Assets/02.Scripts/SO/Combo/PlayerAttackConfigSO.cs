@@ -14,6 +14,9 @@ public class PlayerAttackConfigSO : ScriptableObject
     [Tooltip("차지 피니셔 홀드 타임")]
     public float ChargeTime;
 
+    [Tooltip("스킬 시전 후 콤보 복귀 타임")]
+    public float ComboReturnTime;
+
 
     public AttackTypeConfig GetAttackConfig(EAttackType attackType)
     {

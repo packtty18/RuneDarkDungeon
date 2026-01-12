@@ -19,6 +19,8 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private HitboxController _hitboxController;
 
+    private float _comboReturnTime;
+
     private bool _attackBuffered;
     private bool _isAttacking;
     private bool _isSkillActive;
@@ -36,6 +38,7 @@ public class PlayerAttack : MonoBehaviour
         _player = GetComponent<Player>();
         _playerMove = GetComponent<PlayerMove>();
         _animator = GetComponent<PlayerAnimator>();
+
     }
     private void Start()
     {
@@ -44,32 +47,6 @@ public class PlayerAttack : MonoBehaviour
         _playerMove.OnDashEnd += StartJumpAttack;
 
         Initialized();
-    }
-
-    public void SetSkillActive()
-    {
-        if (_currentAttackConfig != null)
-        {
-            if (_comboTimerCoroutine != null)
-            {
-                StopCoroutine(_comboTimerCoroutine);
-            }
-            else
-            {
-                OnAttackFinish();
-            }
-        }
-
-        _isSkillActive = true;
-    }
-
-    public void SetSkillDeactive()
-    {
-        if (_comboTimerCoroutine != null)
-        {
-            StartCoroutine(ComboTimerCoroutine(0.5f));
-        }
-        _isSkillActive = false;
     }
 
     private void Update()
@@ -107,6 +84,7 @@ public class PlayerAttack : MonoBehaviour
     {
         _moveState = _player.CurrentState;
         _isJumping = _playerMove.IsJumping;
+        _comboReturnTime = _attackConfig.ComboReturnTime;
     }
 
 
@@ -288,6 +266,35 @@ public class PlayerAttack : MonoBehaviour
         _currentAttackConfig = null;
 
         _hitboxController.Deactivate("Main");
+    }
+
+    #endregion
+
+    #region Public Method
+    public void SetSkillActivate()
+    {
+        if (_currentAttackConfig != null)
+        {
+            if (_comboTimerCoroutine != null)
+            {
+                StopCoroutine(_comboTimerCoroutine);
+            }
+            else
+            {
+                OnAttackFinish();
+            }
+        }
+
+        _isSkillActive = true;
+    }
+
+    public void SetSkillDeactivate()
+    {
+        if (_comboTimerCoroutine != null)
+        {
+            StartCoroutine(ComboTimerCoroutine(_comboReturnTime));
+        }
+        _isSkillActive = false;
     }
 
     #endregion
