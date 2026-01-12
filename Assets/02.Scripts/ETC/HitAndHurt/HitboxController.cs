@@ -9,13 +9,14 @@ public class HitboxController : SerializedMonoBehaviour
     private Dictionary<string, List<HitBox>> _hitboxes = new();
 
     [Button]
-    public void Activate(string key)
+    public void Activate(string key, float damage = 0)
     {
         if (!TryGetHitboxes(key, out var hitboxes))
         {
             return;
         }
-        SetActive(hitboxes, true);
+
+        SetActive(hitboxes, true, damage);
     }
 
     [Button]
