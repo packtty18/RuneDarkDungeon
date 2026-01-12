@@ -14,8 +14,6 @@ public class InventoryPresenter : MonoBehaviour
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
 
     private IReadOnlyInventory _inventory;
-
-    private bool _isOn;
     
     public void Initialize(IReadOnlyInventory inventory, IForge forge)
     {
