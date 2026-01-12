@@ -25,10 +25,6 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
         equipmentManager = new(_equipment, _inventory, _itemDB);
     }
 
-    public float QCooltime;
-    public float ECooltime;
-    public float RCooltime;
-
     public float NextQ;
     public float NextE;
     public float NextR;
@@ -38,22 +34,22 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
         if (Input.GetKeyDown(KeyCode.Q) && Time.time > NextQ)
         {
             Debug.Log("Q 사용");
-            equipmentManager.UseItem(gameObject, ESkillSlot.Q, out QCooltime);
-            NextQ = Time.time + QCooltime;
+            equipmentManager.UseItem(gameObject, ESkillSlot.Q, out var qCooltime);
+            NextQ = Time.time + qCooltime;
         }
 
         if (Input.GetKeyDown(KeyCode.E) && Time.time > NextE)
         {
             Debug.Log("E 사용");
-            equipmentManager.UseItem(gameObject, ESkillSlot.E, out ECooltime);
-            NextE = Time.time + ECooltime;
+            equipmentManager.UseItem(gameObject, ESkillSlot.E, out var eCooltime);
+            NextE = Time.time + eCooltime;
         }
 
         if (Input.GetKeyDown(KeyCode.R) && Time.time > NextR)
         {
             Debug.Log("R 사용");
-            equipmentManager.UseItem(gameObject, ESkillSlot.R, out RCooltime);
-            NextR = Time.time + RCooltime;
+            equipmentManager.UseItem(gameObject, ESkillSlot.R, out var rCooltime);
+            NextR = Time.time + rCooltime;
         }
     }
 
