@@ -4,8 +4,10 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
 {
     [SerializeField] private Inventory _inventory;
     [SerializeField] private GoldData _goldData;
+    [SerializeField] private Equipment _equipment;
     public IInventory Inventory => _inventory;
     public ICurrency GoldData => _goldData;
+    public IEquipment Equipment => _equipment;
     
     private UpgradeInventory _upgradeInventory = new();
     public IInventory UpgradeInventory => _upgradeInventory;
@@ -15,14 +17,13 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
     
     public ItemDatabaseSO ItemDB => _itemDB;
     public ItemUpgradeDataSO UpgradeDB => _upgradeDB;
-    
-    public ItemData ItemQ;
-    public ItemData ItemE;
-    public ItemData ItemR;
 
-    public float QCooltime;
-    public float ECooltime;
-    public float RCooltime;
+    public EquipmentManager equipmentManager;
+
+    private void Start()
+    {
+        equipmentManager = new(_equipment, _inventory, _itemDB);
+    }
 
     public float NextQ;
     public float NextE;
@@ -33,22 +34,22 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
         if (Input.GetKeyDown(KeyCode.Q) && Time.time > NextQ)
         {
             Debug.Log("Q 사용");
-            ItemDB.UseItem(gameObject, ItemQ);
-            NextQ = Time.time + QCooltime;
+            equipmentManager.UseItem(gameObject, ESkillSlot.Q, out var qCooltime);
+            NextQ = Time.time + qCooltime;
         }
 
         if (Input.GetKeyDown(KeyCode.E) && Time.time > NextE)
         {
             Debug.Log("E 사용");
-            ItemDB.UseItem(gameObject, ItemE);
-            NextE = Time.time + ECooltime;
+            equipmentManager.UseItem(gameObject, ESkillSlot.E, out var eCooltime);
+            NextE = Time.time + eCooltime;
         }
 
         if (Input.GetKeyDown(KeyCode.R) && Time.time > NextR)
         {
             Debug.Log("R 사용");
-            ItemDB.UseItem(gameObject, ItemR);
-            NextR = Time.time + RCooltime;
+            equipmentManager.UseItem(gameObject, ESkillSlot.R, out var rCooltime);
+            NextR = Time.time + rCooltime;
         }
     }
 
