@@ -15,7 +15,6 @@ public class InventoryPresenter : MonoBehaviour
     [SerializeField] private UI_WindowToggleButton _equipmentToggleButton;
     
     [Header("로직 연결")]
-    [SerializeField] private UpgradeManager _upgradeManager;
     [SerializeField] private SlotEventHandler _eventHandler;
     
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
@@ -24,7 +23,7 @@ public class InventoryPresenter : MonoBehaviour
 
     private EInventoryMode _mode = EInventoryMode.Closed;
     
-    public void Initialize(IReadOnlyInventory inventory)
+    public void Initialize(IReadOnlyInventory inventory, IForge forge)
     {
         _inventory = inventory;
         _inventory.Subscribe(RefreshInventory);
@@ -33,7 +32,7 @@ public class InventoryPresenter : MonoBehaviour
         _handlerDict = new()
         {
             { EInventoryMode.Normal, new NormalEventHandler(_inventoryManager) },
-            { EInventoryMode.Upgrade , new RegisterEventHandler(_upgradeManager) },
+            { EInventoryMode.Upgrade , new RegisterEventHandler(forge) },
             { EInventoryMode.Equipment, new EquipEventHandler(_inventoryManager) },
         };
         

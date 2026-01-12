@@ -8,7 +8,6 @@ public class UI_Initializer : MonoBehaviour
     [SerializeField] private UI_EquipmentView _equipmentUI;
     
     [SerializeField] private InventoryManager _inventoryManager;
-    [SerializeField] private UpgradeManager _upgradeManager;
     
     [SerializeField] private InventoryPresenter _inventoryPresenter;
     [SerializeField] private UpgradePresenter _upgradePresenter;
@@ -21,11 +20,10 @@ public class UI_Initializer : MonoBehaviour
         _equipmentUI.Initialize(data.ItemDB);
         
         _inventoryManager.Initialize(data.Inventory);
-        _upgradeManager.Initialize(data.UpgradeDB, data.UpgradeInventory, data.Inventory, data.GoldData);
         EquipmentManager equipmentManager = new(data.Equipment, data.Inventory, data.ItemDB);
         
-        _inventoryPresenter.Initialize(data.Inventory);
-        _upgradePresenter.Initialize(data.UpgradeInventory);
+        _inventoryPresenter.Initialize(data.Inventory, data.Forge);
+        _upgradePresenter.Initialize(data.UpgradeInventory, data.Forge);
         _equipmentPresenter.Initialize(equipmentManager, data.Equipment);
     }
 }

@@ -5,10 +5,12 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
     [SerializeField] private Inventory _inventory;
     [SerializeField] private GoldData _goldData;
     [SerializeField] private Equipment _equipment;
+    private Forge _forge;
+    
     public IInventory Inventory => _inventory;
     public ICurrency GoldData => _goldData;
     public IEquipment Equipment => _equipment;
-    
+    public IForge Forge => _forge;
     private UpgradeInventory _upgradeInventory = new();
     public IInventory UpgradeInventory => _upgradeInventory;
 
@@ -23,6 +25,7 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
     private void Start()
     {
         equipmentManager = new(_equipment, _inventory, _itemDB);
+        _forge = new(_upgradeDB, _upgradeInventory, _inventory, _goldData);
     }
 
     public float NextQ;

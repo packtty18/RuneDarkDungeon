@@ -6,6 +6,7 @@ public interface IDataHandler
     IInventory UpgradeInventory { get; }
     IEquipment Equipment { get; }
     ICurrency GoldData { get; }
+    IForge Forge { get; }
     
     ItemDatabaseSO ItemDB { get; }
     ItemUpgradeDataSO UpgradeDB { get; }

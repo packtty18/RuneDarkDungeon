@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class UpgradeManager : MonoBehaviour
+public class Forge : IForge
 {
     private IInventory _upgradeInventory;
     private IInventory _inventory;
@@ -15,7 +15,7 @@ public class UpgradeManager : MonoBehaviour
 
     private SafeEvent _onChanged = new();
 
-    public void Initialize(ItemUpgradeDataSO upgradeDB, IInventory upgradeInventory, IInventory inventory,
+    public Forge(ItemUpgradeDataSO upgradeDB, IInventory upgradeInventory, IInventory inventory,
         ICurrency currency)
     {
         _upgradeDB = upgradeDB;

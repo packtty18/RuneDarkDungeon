@@ -8,24 +8,26 @@ public class UpgradePresenter : MonoBehaviour
     [SerializeField] private UI_SlotContainer _inventoryUI;
 
     [Header("로직 연결")]
-    [SerializeField] private UpgradeManager _upgradeManager;
     [SerializeField] private SlotEventHandler _upgradeEventHandler;
 
     private IReadOnlyInventory _upgradeInventory;
-
-    public void Initialize(IReadOnlyInventory upgradeInventory)
+    private IForge _forge;
+    
+    public void Initialize(IReadOnlyInventory upgradeInventory, IForge forge)
     {
         _upgradeInventory = upgradeInventory;
         _upgradeInventory.Subscribe(RefreshView);
-        _upgradeManager.Subscribe(RefreshInfo);
         
-        _upgradeEventHandler.SetMode(new UnregisterEventHandler(_upgradeManager));
+        _forge = forge;
+        _forge.Subscribe(RefreshInfo);
+        
+        _upgradeEventHandler.SetMode(new UnregisterEventHandler(forge));
     }
 
     private void OnDestroy()
     {
         _upgradeInventory.Unsubscribe(RefreshView);
-        _upgradeManager.Unsubscribe(RefreshInfo);
+        _forge.Unsubscribe(RefreshInfo);
     }
 
     public void Show()
@@ -48,8 +50,13 @@ public class UpgradePresenter : MonoBehaviour
 
     private void RefreshInfo()
     {
-        _upgradeUI.SetSlotCount(_upgradeManager.UpgradeData.Count);
-        _upgradeInfoUI.Refresh(_upgradeManager.UpgradeData);
+        _upgradeUI.SetSlotCount(_forge.UpgradeData.Count);
+        _upgradeInfoUI.Refresh(_forge.UpgradeData);
         _inventoryUI.RefreshFilter(_upgradeInventory);
+    }
+
+    public void Upgrade()
+    {
+        _forge.Upgrade();
     }
 }
