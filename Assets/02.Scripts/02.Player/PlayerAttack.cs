@@ -99,10 +99,6 @@ public class PlayerAttack : MonoBehaviour
 
     private void TryStartAttack()
     {
-        if (_moveState == EMovementState.Stagger)
-        {
-            return;
-        }
         if (_playerMove.ShouldRun & _isJumping)
         {
             TryJumpAttack();

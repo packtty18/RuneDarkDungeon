@@ -41,6 +41,9 @@ public class PlayerMove : MonoBehaviour
     private float _landOffset = 0.5f;
     private bool _isJumping = false;
 
+    private bool _isDodging = false;
+    private float _dodgeSpeed = 15f;
+
     public bool CanMove { get; private set; }
     public bool IsGrounded { get; private set; }
     public bool ShouldRun { get; private set; }
@@ -132,12 +135,22 @@ public class PlayerMove : MonoBehaviour
         if (InputManager.Instance.GetKeyDown(EGameKeyType.Dodge))
         {
             SetCanMove(false);
-            _animator.SetDodgeTrigger();
+            _animator.SetDodge(true);
         }  
+        if (_isDodging)
+        {
+            _controller.Move(-transform.forward * Time.deltaTime * _dodgeSpeed);
+        }
     }
 
+    public void OnDodgeStart()
+    {
+        _isDodging = true;
+    }
     public void OnDodgeFinish()
     {
+        _isDodging = false;
+        _animator.SetDodge(false);
         SetCanMove(true);
     }
 

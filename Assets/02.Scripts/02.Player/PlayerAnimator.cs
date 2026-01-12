@@ -40,10 +40,11 @@ public class PlayerAnimator : MonoBehaviour
         _animator.SetTrigger(_attackHash);
     }
 
-    public void SetDodgeTrigger()
+    public void SetDodge(bool isDodging)
     {
-        _animator.SetTrigger(_dodgeHash);
+        _animator.SetBool(_dodgeHash, isDodging);
     }
+
 
     public void PlayComboAttack(int comboIndex)
     {

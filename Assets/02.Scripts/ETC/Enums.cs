@@ -25,7 +25,7 @@ public enum EMovementState
     Walk,
     Run,
     Jump,
-    Stagger, //경직   
+    Dodge,   
     Dead,
 }
 
