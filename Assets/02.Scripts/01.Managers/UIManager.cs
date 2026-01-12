@@ -20,7 +20,6 @@ public class UIManager : GlobalSingleton<UIManager>
     // 씬 전환시 해당 씬에 맞는 UI상태 적용
     public void ApplySceneUIState(ESceneType state)
     {
-        CloseAllPopups();
 
         switch (state)
         {
