@@ -9,6 +9,10 @@ public class PlayerAttackConfigSO : ScriptableObject
     [Tooltip("점프 데쉬 데미지")]
     public float JumpDashDamage;
 
+    [Tooltip("점프 데쉬 설정")]
+    public float JumpDashAngle;
+    public float JumpDashSpeed;
+
     [Tooltip("차지 피니셔 데미지")]
     public float ChargeFinisherDamage;
 

@@ -15,6 +15,10 @@ public class PlayerAttack : MonoBehaviour
     private Coroutine _comboTimerCoroutine;
 
     [SerializeField] 
+    private Renderer[] _playerRenderers;
+    [SerializeField]
+    private ParticleSystem _dashVFX;
+    [SerializeField] 
     private PlayerAttackConfigSO _attackConfig;
     [SerializeField]
     private HitboxController _hitboxController;
@@ -38,6 +42,8 @@ public class PlayerAttack : MonoBehaviour
         _player = GetComponent<Player>();
         _playerMove = GetComponent<PlayerMove>();
         _animator = GetComponent<PlayerAnimator>();
+
+        _playerRenderers = GetComponentsInChildren<Renderer>();
 
     }
     private void Start()
@@ -111,11 +117,12 @@ public class PlayerAttack : MonoBehaviour
 
         _currentAttack = EAttackType.Jump;
 
-        _playerMove.StartGroundDash(30, 50);
-
+        _playerMove.StartGroundDash(_attackConfig.JumpDashAngle, _attackConfig.JumpDashSpeed);
+        VisualHide();  
     }
     private void StartJumpAttack()
     {
+        VisualShow();
         ExecuteSingleAttack(EAttackType.Jump, _attackConfig.JumpDashDamage);
         _currentCombo = 1;
     }
@@ -257,6 +264,24 @@ public class PlayerAttack : MonoBehaviour
     }
 
     #endregion
+
+    public void VisualHide()
+    {
+        _dashVFX.Play();
+        foreach (Renderer renderer in _playerRenderers)
+        {
+            renderer.enabled = false;
+        }
+    }
+
+    public void VisualShow()
+    {
+        _dashVFX.Play();
+        foreach (Renderer renderer in _playerRenderers)
+        {
+            renderer.enabled = true;
+        }
+    }
 
     #region Public Method
     public void SetSkillActivate()
