@@ -3,41 +3,40 @@ using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
 {
-    private Inventory _upgradeInventory = new();
+    private IInventory _upgradeInventory;
     private IInventory _inventory;
-    private ICurrency _goldData;
+    private ICurrency _currency;
 
     private ItemUpgradeDataSO _upgradeDB;
-    private ItemData _targetType;
-    private UpgradeData _upgradeData;
+    private ItemData _baseItem;
+    private UpgradeData _upgradeData = UpgradeData.Empty;
 
-    public IInventory UpgradeInventory => _upgradeInventory;
-    
-    public event Action<ItemData> OnTargetTypeChanged;
-    public event Action<UpgradeData> OnUpgradeDataChanged; 
-    
-    public void Initialize(ItemUpgradeDataSO upgradeDB, IInventory inventory, ICurrency goldData)
+    public UpgradeData UpgradeData => _upgradeData;
+
+    private SafeEvent _onChanged = new();
+
+    public void Initialize(ItemUpgradeDataSO upgradeDB, IInventory upgradeInventory, IInventory inventory,
+        ICurrency currency)
     {
         _upgradeDB = upgradeDB;
+        _upgradeInventory = upgradeInventory;
         _inventory = inventory;
-        _goldData = goldData;
+        _currency = currency;
     }
-    
-    public bool TryRegister(ItemData item)
+
+    public void Register(ItemData item)
     {
-        if (item == null) return false;
-        
-        if (_targetType == null)
+        if (IsFull || !_upgradeInventory.CanAdd(item)) return;
+
+        if (IsEmpty)
         {
-            RegisterTargetType(item);
+            SetUpgradeData(item);
         }
 
-        if (!item.TypeEquals(_targetType) ||
-            IsFull) return false;
-        
         _inventory.Remove(item);
         _upgradeInventory.Add(item);
-        return true;
+
+        _onChanged?.Invoke();
     }
 
     public void Unregister(ItemData item)
@@ -45,51 +44,63 @@ public class UpgradeManager : MonoBehaviour
         _upgradeInventory.Remove(item);
         _inventory.Add(item);
 
-        if (!IsEmpty) return;
-        ResetTargetType();
+        if (IsEmpty)
+        {
+            ResetUpgradeData();
+        }
+
+        _onChanged?.Invoke();
     }
-    
+
     public void UnregisterAll()
     {
         foreach (var item in _upgradeInventory.Items)
         {
             _inventory.Add(item);
         }
+
         _upgradeInventory.Clear();
+        ResetUpgradeData(); 
     }
 
     public void Upgrade()
     {
-        if (_targetType == null 
-            || !IsFull
-            || !_goldData.TryConsume(_upgradeData.Cost)) return;
-        
-        ItemData newItem = _targetType.GetUpgradedItem();
+        if (!IsFull || !_currency.TryConsume(_upgradeData.Cost)) return;
+
+        ItemData newItem = _baseItem.GetUpgradedItem();
+        ResetUpgradeData();
+
         _inventory.Add(newItem);
         _upgradeInventory.Clear();
-        ResetTargetType();
+
+        _onChanged?.Invoke();
     }
-    
-    private void RegisterTargetType(ItemData item)
+
+    private void SetUpgradeData(ItemData item)
     {
         var info = _upgradeDB.GetGradeInfo(item.Grade);
         if (info == null) return;
-        
-        _targetType = item;
+
+        _baseItem = item;
         _upgradeData = info.Value;
-        
-        OnTargetTypeChanged?.Invoke(_targetType);
-        OnUpgradeDataChanged?.Invoke(_upgradeData);
     }
 
-    private void ResetTargetType()
+    private void ResetUpgradeData()
     {
-        _targetType = null;
+        _baseItem = null;
         _upgradeData = UpgradeData.Empty;
-        OnTargetTypeChanged?.Invoke(_targetType);
-        OnUpgradeDataChanged?.Invoke(_upgradeData);
     }
-    
-    private bool IsFull => _upgradeInventory.Count == _upgradeData.Count;
+
+    public void Subscribe(Action action)
+    {
+        _onChanged.Subscribe(action);
+    }
+
+    public void Unsubscribe(Action action)
+    {
+        _onChanged.Unsubscribe(action);
+    }
+
+    private bool IsFull => _upgradeInventory.Count > 0 && _upgradeInventory.Count == _upgradeData.Count;
     private bool IsEmpty => _upgradeInventory.Count == 0;
 }

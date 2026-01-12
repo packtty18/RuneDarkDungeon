@@ -12,6 +12,10 @@ public class ItemSO : ScriptableObject
     [Header("아이템 효과")]
     [SerializeField] private ItemEffectBaseSO _effect; 
     
+    [Header("쿨타임")]
+    [SerializeField] private float _coolTime;
+    public float CoolTime => _coolTime;
+    
     public int ID => _id;
     public Sprite Icon => _icon;
     public string Name => _name;

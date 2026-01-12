@@ -15,6 +15,7 @@ public class EnemySpawner : PoolSpawner
             return null;
         }
 
+        enemy.transform.position = transform.position;
         return enemy;
     }
 }

@@ -1,11 +1,16 @@
 using UnityEngine;
 
-public class DataManager : GlobalSingleton<DataManager>
+public class DataManager : GlobalSingleton<DataManager>, IDataHandler
 {
     private GameData _data = new();
-
+    
+    private UpgradeInventory _upgradeInventory = new();
+    
     public IInventory Inventory => _data.Inventory;
+    public IInventory UpgradeInventory => _upgradeInventory;
+    public IEquipment Equipment => _data.Equipment;
     public ICurrency GoldData => _data.Gold;
+    
     
     [SerializeField] private ItemDatabaseSO _itemDB;
     [SerializeField] private ItemUpgradeDataSO _upgradeDB;
@@ -16,13 +21,6 @@ public class DataManager : GlobalSingleton<DataManager>
     protected override void OnInit()
     {
         FileIO.Load(_data);
-        TestAdd();
-    }
-
-    private void TestAdd()
-    {
-        GoldData.Add(10000);
-
     }
 
     public void Save()
