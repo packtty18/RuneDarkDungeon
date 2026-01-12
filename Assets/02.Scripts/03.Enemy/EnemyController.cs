@@ -77,11 +77,6 @@ public class EnemyController : PoolableObject, IDamageable
     {
         SetDamageAcceptable(false);
         _fsm.Reset();
-
-        _move.PauseAgent();
-        CancelAttack();
-        _anim.SetTrigger(AnimatorController.s_deadTrigger);
-
         // 물리 Collider 비활성화
         _physics.isKinematic = true;
         ReturnToPoolAfter(3f);
@@ -159,20 +154,37 @@ public class EnemyController : PoolableObject, IDamageable
             return;
         }
 
+        int dir = DirectionConvert(data.HitDirection);
+        Anim.SetInt(AnimatorController.s_hitDirInt, dir);
+
         if (_health.IsDead)
         {
             HandleDead();
         }
         else
         {
-            HandleDamaged(data);
+            HandleDamaged();
         }
 
-        Debug.Log($"{gameObject.name} 피격, {data.AttackId}");
+        Debug.Log($"{gameObject.name} 피격, {data.AttackId}, {data.HitDirection}, {dir}");
+    }
+
+    private int DirectionConvert( Vector3 hitDirection)
+    {
+        Vector3 localDir = transform.InverseTransformDirection(hitDirection);
+        localDir.y = 0f;
+
+        // Decide by dominant axis
+        if (Mathf.Abs(localDir.x) > Mathf.Abs(localDir.z))
+        {
+            return localDir.x < 0f? (int)EHitDirection.Right : (int)EHitDirection.Left;
+        }
+
+        return localDir.z < 0f ? (int)EHitDirection.Front : (int)EHitDirection.Back;
     }
 
     [Button]
-    private void HandleDamaged(DamageData data)
+    private void HandleDamaged()
     {
         if (FSM.CurrentState is DeadState)
         {

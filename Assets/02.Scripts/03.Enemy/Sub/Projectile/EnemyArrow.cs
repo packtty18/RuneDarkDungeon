@@ -4,7 +4,7 @@ public class EnemyArrow : EnemyProjectile
 {
     [SerializeField] HitBox _hitbox;
 
-    public override void Init(int damage)
+    public override void Init(float damage)
     {
         base.Init(damage);
         _hitbox?.Activate();

@@ -6,6 +6,7 @@ public class AnimatorController : MonoBehaviour
 {
     public static string s_attackTrigger = "Attack";
     public static string s_attackIdInt = "AttackID";
+    public static string s_hitDirInt = "HitDir";
     public static string s_hitTrigger = "Hit";
     public static string s_deadTrigger = "Dead";
     public static string s_moveBool = "IsMove";

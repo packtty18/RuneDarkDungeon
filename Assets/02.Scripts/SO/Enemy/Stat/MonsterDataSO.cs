@@ -15,10 +15,10 @@ public class MonsterDataSO : ScriptableObject
     public int maxHP;
 
     [FoldoutGroup("Base Stats")]
-    public int attack;
+    public float attack;
 
     [FoldoutGroup("Base Stats")]
-    public int defense;
+    public float defense;
 
     [FoldoutGroup("Base Stats")]
     public float moveSpeed;

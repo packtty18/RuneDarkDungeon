@@ -5,19 +5,21 @@ public class ProtoMeleeAttack : IActionStrategy
 {
     private readonly HitboxController _hitbox;
     private readonly string _key;
+    private readonly float _damage;
 
     private float _loopDelay = 0;
     public float LoopDelay => _loopDelay;
 
-    public ProtoMeleeAttack(HitboxController hitbox, string key)
+    public ProtoMeleeAttack(HitboxController hitbox, string key, float damage)
     {
         _hitbox = hitbox;
         _key = key;
+        _damage = damage;
     }
 
     public void BeginAction()
     {
-        _hitbox.Activate(_key);
+        _hitbox.Activate(_key, _damage);
     }
 
     public void EndAction()
@@ -31,14 +33,17 @@ public class ProtoRangedAttack : IActionStrategy
 {
     private readonly EnemyDelaySOBase _windup;
     private readonly Transform _spanwPos;
+    private readonly float _damage;
     public float LoopDelay => _windup.Delay;
 
     public ProtoRangedAttack(
         EnemyDelaySOBase windup,
-        Transform spawnPos)
+        Transform spawnPos,
+        float damage)
     {
         _windup = windup;
         _spanwPos = spawnPos;
+        _damage = damage;
     }
 
     public void BeginAction()
@@ -48,7 +53,7 @@ public class ProtoRangedAttack : IActionStrategy
 
     public void EndAction()
     {
-        _windup.Execute(_spanwPos);
+        _windup.Execute(_spanwPos, _damage);
     }
 }
 

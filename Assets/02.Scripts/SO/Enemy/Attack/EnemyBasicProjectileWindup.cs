@@ -5,9 +5,8 @@ public class EnemyAimDelaySO : EnemyDelaySOBase
 {
     [Header("Projectile")]
     [SerializeField] private GameObject _targetPrefab;
-    [SerializeField] private int _damage;
 
-    public override void Execute(Transform spawnPos)
+    public override void Execute(Transform spawnPos, float damage)
     {
         GameObject arrow = Instantiate(
             _targetPrefab,
@@ -19,7 +18,7 @@ public class EnemyAimDelaySO : EnemyDelaySOBase
             Util.ObjectDestroy(arrow);
             return;
         }
-        proj.Init(_damage);
+        proj.Init(damage);
 
         Debug.Log("[Windup] Arrow Fired");
     }

@@ -4,9 +4,9 @@ public abstract class EnemyProjectile : MonoBehaviour
 {
     [Header("Base Stats")]
     [SerializeField] protected float speed = 10f;
-    [SerializeField] protected int damage;
+    [SerializeField] protected float damage;
 
-    public virtual void Init(int damage)
+    public virtual void Init(float damage)
     {
         this.damage = damage;
     }

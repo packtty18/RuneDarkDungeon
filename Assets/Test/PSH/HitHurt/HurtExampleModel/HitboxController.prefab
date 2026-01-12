@@ -51,18 +51,18 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 2231982965921516462}
     - {fileID: 6874664521170566059}
+    - {fileID: 2231982965921516462}
     - {fileID: 8227827803839785210}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: _hitbox
+    - Name: _hitboxes
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[HitBox,
-        Assembly-CSharp]], mscorlib
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.Collections.Generic.List`1[[HitBox,
+        Assembly-CSharp]], mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
       Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
@@ -78,10 +78,22 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: 2
+      Data: 1
     - Name: $v
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[HitBox, Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
       Entry: 10
       Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -90,10 +102,22 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: 1
+      Data: 2
     - Name: $v
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[HitBox, Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
       Entry: 10
       Data: 1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -104,8 +128,20 @@ MonoBehaviour:
       Entry: 1
       Data: 3
     - Name: $v
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[HitBox, Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
       Entry: 10
       Data: 2
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -115,8 +151,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  _onTest: 1
-  _key: 1
 --- !u!1001 &347985463702416165
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -139,7 +173,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 277299398660032995, guid: 8f33f3bbe7d4caa41a717feab32ac885, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.03376
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 277299398660032995, guid: 8f33f3bbe7d4caa41a717feab32ac885, type: 3}
       propertyPath: m_LocalRotation.w
@@ -188,6 +222,10 @@ PrefabInstance:
     - target: {fileID: 5101645352230815202, guid: 8f33f3bbe7d4caa41a717feab32ac885, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5890516038802506283, guid: 8f33f3bbe7d4caa41a717feab32ac885, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -232,7 +270,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 277299398660032995, guid: 8f33f3bbe7d4caa41a717feab32ac885, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.03376
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 277299398660032995, guid: 8f33f3bbe7d4caa41a717feab32ac885, type: 3}
       propertyPath: m_LocalRotation.w
@@ -281,6 +319,10 @@ PrefabInstance:
     - target: {fileID: 5101645352230815202, guid: 8f33f3bbe7d4caa41a717feab32ac885, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5890516038802506283, guid: 8f33f3bbe7d4caa41a717feab32ac885, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -325,7 +367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 277299398660032995, guid: 8f33f3bbe7d4caa41a717feab32ac885, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.03376
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 277299398660032995, guid: 8f33f3bbe7d4caa41a717feab32ac885, type: 3}
       propertyPath: m_LocalRotation.w
@@ -374,6 +416,10 @@ PrefabInstance:
     - target: {fileID: 5101645352230815202, guid: 8f33f3bbe7d4caa41a717feab32ac885, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5890516038802506283, guid: 8f33f3bbe7d4caa41a717feab32ac885, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

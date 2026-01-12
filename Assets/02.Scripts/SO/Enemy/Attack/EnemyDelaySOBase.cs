@@ -13,7 +13,7 @@ public abstract class EnemyDelaySOBase : ScriptableObject
     }
 
     //실제 효과 발동
-    public abstract void Execute(Transform spawnPos);
+    public abstract void Execute(Transform spawnPos, float damage);
 
 }
 

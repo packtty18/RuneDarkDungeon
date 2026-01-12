@@ -14,13 +14,15 @@ public class EnemyAttack : MonoBehaviour
     //각 공격의 ID는 애니메이터에 전달되어 특정 ID의 공격 애니메이션이 실행됨
     private readonly Dictionary<int, IActionStrategy> _strategies = new();
     private readonly List<int> _ids = new List<int>();
-    private IActionStrategy _current;
-    
-    public int StrategyCount => _strategies.Count;
 
-    public float LoopDelay => _current == null ? 0 : _current.LoopDelay;
+    private float _damage => _controller.Stat.GetValue(EEnemyValueFloat.Attack).Value;
+
+    private IActionStrategy _current;
 
     private float _cooldownTimer;
+
+    public int StrategyCount => _strategies.Count;
+    public float LoopDelay => _current == null ? 0 : _current.LoopDelay;
     public bool IsAttacking { get; private set; }
 
     [Title("일단은 테스트")]
@@ -46,23 +48,23 @@ public class EnemyAttack : MonoBehaviour
         {
             case EEnemyType.Warrior:
                 {
-                    RegisterStrategy(0, new ProtoMeleeAttack(_hitboxController, "Main"));   //기본공격1
-                    RegisterStrategy(1, new ProtoMeleeAttack(_hitboxController, "Main"));   //기본공격2
+                    RegisterStrategy(0, new ProtoMeleeAttack(_hitboxController, "Main",_damage));   //기본공격1
+                    RegisterStrategy(1, new ProtoMeleeAttack(_hitboxController, "Main", _damage));   //기본공격2
                     break;
                 }
             case EEnemyType.Archer:
                 {
-                    RegisterStrategy(3, new ProtoRangedAttack(_arrow, _arrowSpawnPos));   //화살공격
+                    RegisterStrategy(3, new ProtoRangedAttack(_arrow, _arrowSpawnPos, _damage));   //화살공격
                     break;
                 }
             case EEnemyType.Mage:
                 {
-                    RegisterStrategy(4, new ProtoRangedAttack(_magic, _magicSpawnPos));   //마법공격
+                    RegisterStrategy(4, new ProtoRangedAttack(_magic, _magicSpawnPos, _damage));   //마법공격
                     break;
                 }
             case EEnemyType.Boss:
                 {
-                    RegisterStrategy(2, new ProtoMeleeAttack(_hitboxController, "Main"));   //콤보공격
+                    RegisterStrategy(2, new ProtoMeleeAttack(_hitboxController, "Main", _damage));   //콤보공격
                     break;
                 }
         }
