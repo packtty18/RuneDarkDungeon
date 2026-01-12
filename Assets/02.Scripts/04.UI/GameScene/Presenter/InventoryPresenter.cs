@@ -5,14 +5,8 @@ public class InventoryPresenter : MonoBehaviour
 {
     [Header("UI 연결")]
     [SerializeField] private UI_SlotContainer _inventoryUI;
-    [SerializeField] private UpgradePresenter _upgradePresenter;
-    [SerializeField] private EquipmentPresenter _equipmentPresenter;
     [SerializeField] private InventoryManager _inventoryManager;
-
-    [Header("버튼 UI")]
-    [SerializeField] private UI_WindowToggleButton _inventoryToggleButton;
-    [SerializeField] private UI_WindowToggleButton _upgradeToggleButton;
-    [SerializeField] private UI_WindowToggleButton _equipmentToggleButton;
+    [SerializeField] private ModePresenter _modePresenter;
     
     [Header("로직 연결")]
     [SerializeField] private SlotEventHandler _eventHandler;
@@ -21,7 +15,7 @@ public class InventoryPresenter : MonoBehaviour
 
     private IReadOnlyInventory _inventory;
 
-    private EInventoryMode _mode = EInventoryMode.Closed;
+    private bool _isOn;
     
     public void Initialize(IReadOnlyInventory inventory, IForge forge)
     {
@@ -35,88 +29,32 @@ public class InventoryPresenter : MonoBehaviour
             { EInventoryMode.Upgrade , new RegisterEventHandler(forge) },
             { EInventoryMode.Equipment, new EquipEventHandler(_inventoryManager) },
         };
-        
-        ChangeInventoryMode(_mode);
-        
-        _inventoryToggleButton.OnModeChanged += OnClickInventoryButton;
-        _upgradeToggleButton.OnModeChanged += OnClickUpgradeButton;
-        _equipmentToggleButton.OnModeChanged += OnClickEquipmentButton;
-    }
 
+        HandleModeChanged(EInventoryMode.Closed);
+        _modePresenter.Subscribe(HandleModeChanged);
+    }
+    
     private void OnDestroy()
     {
         _inventory.Unsubscribe(RefreshInventory);
-        
-        _inventoryToggleButton.OnModeChanged -= OnClickInventoryButton;
-        _upgradeToggleButton.OnModeChanged -= OnClickUpgradeButton;
-        _equipmentToggleButton.OnModeChanged -= OnClickEquipmentButton;
+        _modePresenter.Unsubscribe(HandleModeChanged);
     }
     
-    #region Mode
-    private void OnClickInventoryButton()
-    {
-        ChangeInventoryMode(_mode == EInventoryMode.Closed ? EInventoryMode.Normal : EInventoryMode.Closed);
-    }
-
-    private void OnClickUpgradeButton()
-    {
-        ChangeInventoryMode(_mode == EInventoryMode.Upgrade ? EInventoryMode.Normal : EInventoryMode.Upgrade);
-    }
-
-    private void OnClickEquipmentButton()
-    {
-        ChangeInventoryMode(_mode == EInventoryMode.Equipment ? EInventoryMode.Normal : EInventoryMode.Equipment);
-    }
-    
-    // Todo: 모드 관리의 책임 분리 필요
-    private void ChangeInventoryMode(EInventoryMode mode)
+    private void HandleModeChanged(EInventoryMode mode)
     {
         if (_handlerDict.TryGetValue(mode, out var handler))
         {
-            _eventHandler.SetMode(handler);
+          _eventHandler.SetMode(handler);
         }
 
-        _mode = mode;
-        switch (mode)
+        if (mode == EInventoryMode.Closed)
         {
-            case EInventoryMode.Closed:
-                CloseInventory();
-                break;
-            case EInventoryMode.Normal:
-                SetNormalMode();
-                break;
-            case EInventoryMode.Upgrade:
-                SetUpgradeMode();
-                break;
-            case EInventoryMode.Equipment:
-                SetEquipmentMode();
-                break;
+            _inventoryUI.Hide();
         }
-    }
-    #endregion
-    
-    private void CloseInventory()
-    {
-        _inventoryUI.Hide();
-    }
-
-    private void SetNormalMode()
-    {
-        _inventoryUI.Show();
-        _upgradePresenter.Hide();
-        _equipmentPresenter.Hide();
-    }
-    
-    private void SetUpgradeMode()
-    {
-        _upgradePresenter.Show();
-        _equipmentPresenter.Hide();
-    }
-
-    private void SetEquipmentMode()
-    {
-        _equipmentPresenter.Show();
-        _upgradePresenter.Hide();
+        else if (mode == EInventoryMode.Normal)
+        {
+            _inventoryUI.Show();
+        }
     }
     
     private void RefreshInventory()

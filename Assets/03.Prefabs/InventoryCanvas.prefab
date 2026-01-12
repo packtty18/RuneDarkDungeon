@@ -1687,6 +1687,7 @@ GameObject:
   - component: {fileID: 7663695966895175748}
   - component: {fileID: 7501577030098615944}
   - component: {fileID: 6880271115959354259}
+  - component: {fileID: 8952342284785983128}
   m_Layer: 0
   m_Name: Presenter
   m_TagString: Untagged
@@ -1722,12 +1723,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryController
   _inventoryUI: {fileID: 2755717572291621418}
-  _upgradePresenter: {fileID: 7501577030098615944}
-  _equipmentPresenter: {fileID: 6880271115959354259}
   _inventoryManager: {fileID: 8474049524372040592}
-  _inventoryToggleButton: {fileID: 8770118525212280962}
-  _upgradeToggleButton: {fileID: 5259715143742904478}
-  _equipmentToggleButton: {fileID: 3158349138754251999}
+  _modePresenter: {fileID: 8952342284785983128}
   _eventHandler: {fileID: 7712452901414016819}
 --- !u!114 &7501577030098615944
 MonoBehaviour:
@@ -1744,6 +1741,7 @@ MonoBehaviour:
   _upgradeUI: {fileID: 7919360812787271630}
   _upgradeInfoUI: {fileID: 1085882623287246297}
   _inventoryUI: {fileID: 2755717572291621418}
+  _modePresenter: {fileID: 8952342284785983128}
   _upgradeEventHandler: {fileID: 5825760357582198012}
 --- !u!114 &6880271115959354259
 MonoBehaviour:
@@ -1758,7 +1756,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentPresenter
   _equipmentUI: {fileID: 420651842046928189}
+  _modePresenter: {fileID: 8952342284785983128}
   _inventoryManager: {fileID: 8474049524372040592}
+--- !u!114 &8952342284785983128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3986571585936987036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0477416da7efc0540bfe3c8997e5fba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModePresenter
+  _inventoryToggleButton: {fileID: 8770118525212280962}
+  _upgradeToggleButton: {fileID: 5259715143742904478}
+  _equipmentToggleButton: {fileID: 3158349138754251999}
 --- !u!1 &4282173932838358395
 GameObject:
   m_ObjectHideFlags: 0
