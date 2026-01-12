@@ -11,11 +11,11 @@ public class InventoryPresenter : MonoBehaviour
     [Header("버튼 UI")]
     [SerializeField] private UI_WindowToggleButton _inventoryToggleButton;
     [SerializeField] private UI_WindowToggleButton _upgradeToggleButton;
+    [SerializeField] private UI_WindowToggleButton _equipmentToggleButton;
     
     [Header("로직 연결")]
     [SerializeField] private UpgradeManager _upgradeManager;
     [SerializeField] private SlotEventHandler _eventHandler;
-    
     
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
 
@@ -25,7 +25,8 @@ public class InventoryPresenter : MonoBehaviour
     {
         _inventory = inventory;
         _inventory.Subscribe(RefreshInventory);
-        
+        RefreshInventory();
+
         _handlerDict = new()
         {
             { EInventoryMode.Normal, new NormalEventHandler(_inventoryManager) },
@@ -36,6 +37,7 @@ public class InventoryPresenter : MonoBehaviour
         
         _inventoryToggleButton.OnModeChanged += ChangeInventoryMode;
         _upgradeToggleButton.OnModeChanged += ChangeInventoryMode;
+        _equipmentToggleButton.OnModeChanged += ChangeInventoryMode;
     }
 
     private void OnDestroy()
@@ -44,10 +46,16 @@ public class InventoryPresenter : MonoBehaviour
         
         _inventoryToggleButton.OnModeChanged -= ChangeInventoryMode;
         _upgradeToggleButton.OnModeChanged -= ChangeInventoryMode;
+        _equipmentToggleButton.OnModeChanged -= ChangeInventoryMode;
     }
     
     private void ChangeInventoryMode(EInventoryMode mode)
     {
+        if (_handlerDict.TryGetValue(mode, out var handler))
+        {
+            _eventHandler.SetMode(handler);
+        }
+     
         switch (mode)
         {
             case EInventoryMode.Closed:
@@ -60,9 +68,6 @@ public class InventoryPresenter : MonoBehaviour
                 SetUpgradeMode();
                 break;
         }
-
-        if (!_handlerDict.TryGetValue(mode, out var handler)) return;
-        _eventHandler.SetMode(handler);
     }
 
     private void CloseInventory()
@@ -72,10 +77,7 @@ public class InventoryPresenter : MonoBehaviour
 
     private void SetNormalMode()
     {
-        _upgradeManager.UnregisterAll();
         _inventoryUI.Show();
-        RefreshInventory();
-        
         _upgradePresenter.Hide();
     }
     

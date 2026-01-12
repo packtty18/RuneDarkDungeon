@@ -89,6 +89,7 @@ public enum EInventoryMode
     Closed,
     Normal,
     Upgrade,
+    Equipment,
 }
 
 public enum  EPoolType
