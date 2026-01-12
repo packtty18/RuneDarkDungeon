@@ -30,8 +30,13 @@ public class EquipmentManager : IEquipmentManager
         _inventory.Add(item);
     }
 
-    public void UseItem(GameObject user, ESkillSlot slot, out float coolTime)
+    public bool UseItem(GameObject user, ESkillSlot slot, out float coolTime)
     {
-        _itemDB.UseItem(user, _equipment.GetItem(slot), out coolTime);
+        coolTime = 0;
+        var item = _equipment.GetItem(slot);
+        if (item == null) return false;
+        
+        _itemDB.UseItem(user, item, out coolTime);
+        return true;
     }
 }

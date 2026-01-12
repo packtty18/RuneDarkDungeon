@@ -17,10 +17,13 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
     
     public ItemDatabaseSO ItemDB => _itemDB;
     public ItemUpgradeDataSO UpgradeDB => _upgradeDB;
-    
-    public ItemData ItemQ;
-    public ItemData ItemE;
-    public ItemData ItemR;
+
+    public EquipmentManager equipmentManager;
+
+    private void Start()
+    {
+        equipmentManager = new(_equipment, _inventory, _itemDB);
+    }
 
     public float QCooltime;
     public float ECooltime;
@@ -35,21 +38,21 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
         if (Input.GetKeyDown(KeyCode.Q) && Time.time > NextQ)
         {
             Debug.Log("Q 사용");
-            ItemDB.UseItem(gameObject, ItemQ, out QCooltime);
+            equipmentManager.UseItem(gameObject, ESkillSlot.Q, out QCooltime);
             NextQ = Time.time + QCooltime;
         }
 
         if (Input.GetKeyDown(KeyCode.E) && Time.time > NextE)
         {
             Debug.Log("E 사용");
-            ItemDB.UseItem(gameObject, ItemE, out ECooltime);
+            equipmentManager.UseItem(gameObject, ESkillSlot.E, out ECooltime);
             NextE = Time.time + ECooltime;
         }
 
         if (Input.GetKeyDown(KeyCode.R) && Time.time > NextR)
         {
             Debug.Log("R 사용");
-            ItemDB.UseItem(gameObject, ItemR, out RCooltime);
+            equipmentManager.UseItem(gameObject, ESkillSlot.R, out RCooltime);
             NextR = Time.time + RCooltime;
         }
     }

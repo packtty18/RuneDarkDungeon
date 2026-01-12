@@ -10,6 +10,13 @@ public class GameData
     public GoldData Gold => _gold;
     public Inventory Inventory => _inventory;
     public Equipment Equipment => _equipment;
+
+    public GameData(GoldData gold = null, Inventory inventory = null, Equipment equipment = null)
+    {
+        _gold = gold;
+        _inventory = inventory;
+        _equipment = equipment;
+    }
     
     public string GetSummary()
     {
