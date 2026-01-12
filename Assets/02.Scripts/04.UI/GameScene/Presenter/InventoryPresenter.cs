@@ -21,6 +21,8 @@ public class InventoryPresenter : MonoBehaviour
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
 
     private IReadOnlyInventory _inventory;
+
+    private EInventoryMode _mode = EInventoryMode.Closed;
     
     public void Initialize(IReadOnlyInventory inventory)
     {
@@ -34,29 +36,46 @@ public class InventoryPresenter : MonoBehaviour
             { EInventoryMode.Upgrade , new RegisterEventHandler(_upgradeManager) }
         };
         
-        ChangeInventoryMode(EInventoryMode.Closed);
+        ChangeInventoryMode(_mode);
         
-        _inventoryToggleButton.OnModeChanged += ChangeInventoryMode;
-        _upgradeToggleButton.OnModeChanged += ChangeInventoryMode;
-        _equipmentToggleButton.OnModeChanged += ChangeInventoryMode;
+        _inventoryToggleButton.OnModeChanged += OnClickInventoryButton;
+        _upgradeToggleButton.OnModeChanged += OnClickUpgradeButton;
+        _equipmentToggleButton.OnModeChanged += OnClickEquipmentButton;
     }
 
     private void OnDestroy()
     {
         _inventory.Unsubscribe(RefreshInventory);
         
-        _inventoryToggleButton.OnModeChanged -= ChangeInventoryMode;
-        _upgradeToggleButton.OnModeChanged -= ChangeInventoryMode;
-        _equipmentToggleButton.OnModeChanged -= ChangeInventoryMode;
+        _inventoryToggleButton.OnModeChanged -= OnClickInventoryButton;
+        _upgradeToggleButton.OnModeChanged -= OnClickUpgradeButton;
+        _equipmentToggleButton.OnModeChanged -= OnClickEquipmentButton;
     }
     
+    private void OnClickInventoryButton()
+    {
+        ChangeInventoryMode(_mode == EInventoryMode.Closed ? EInventoryMode.Normal : EInventoryMode.Closed);
+    }
+
+    private void OnClickUpgradeButton()
+    {
+        ChangeInventoryMode(_mode == EInventoryMode.Upgrade ? EInventoryMode.Normal : EInventoryMode.Upgrade);
+    }
+
+    private void OnClickEquipmentButton()
+    {
+        ChangeInventoryMode(_mode == EInventoryMode.Equipment ? EInventoryMode.Normal : EInventoryMode.Equipment);
+    }
+    
+    // Todo: 모드 관리의 책임 분리 필요
     private void ChangeInventoryMode(EInventoryMode mode)
     {
         if (_handlerDict.TryGetValue(mode, out var handler))
         {
             _eventHandler.SetMode(handler);
         }
-     
+
+        _mode = mode;
         switch (mode)
         {
             case EInventoryMode.Closed:
