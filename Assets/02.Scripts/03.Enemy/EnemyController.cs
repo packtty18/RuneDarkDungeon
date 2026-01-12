@@ -72,7 +72,6 @@ public class EnemyController : PoolableObject, IDamageable
         SetDamageAcceptable(true);
     }
 
-    [Button]
     public void Dead()
     {
         SetDamageAcceptable(false);
@@ -194,6 +193,7 @@ public class EnemyController : PoolableObject, IDamageable
         _fsm.ChangeState(EEnemyState.Hit);
     }
 
+    [Button]
     private void HandleDead()
     {
         if (FSM.CurrentState is DeadState)

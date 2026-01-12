@@ -8,14 +8,13 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     [Title("참조")]
-    [SerializeField] private HitboxController _hitboxController;
-    [SerializeField] private EnemyController _controller;
+    [SerializeField] protected EnemyController _controller;
 
     //각 공격의 ID는 애니메이터에 전달되어 특정 ID의 공격 애니메이션이 실행됨
     private readonly Dictionary<int, IActionStrategy> _strategies = new();
     private readonly List<int> _ids = new List<int>();
 
-    private float _damage => _controller.Stat.GetValue(EEnemyValueFloat.Attack).Value;
+    protected float _damage => _controller.Stat.GetValue(EEnemyValueFloat.Attack).Value;
 
     private IActionStrategy _current;
 
@@ -35,39 +34,38 @@ public class EnemyAttack : MonoBehaviour
     private void Awake()
     {
         _controller = GetComponent<EnemyController>();
-        _hitboxController = GetComponentInChildren<HitboxController>();
     }
 
-    public void Init()
+    public virtual void Init()
     {
         IsAttacking = false;
         _cooldownTimer = 0f;
 
         //임시 나중에 확장해서 전략을 등록할 예정
-        switch (_controller.Stat.EnemyType)
-        {
-            case EEnemyType.Warrior:
-                {
-                    RegisterStrategy(0, new ProtoMeleeAttack(_hitboxController, "Main",_damage));   //기본공격1
-                    RegisterStrategy(1, new ProtoMeleeAttack(_hitboxController, "Main", _damage));   //기본공격2
-                    break;
-                }
-            case EEnemyType.Archer:
-                {
-                    RegisterStrategy(3, new ProtoRangedAttack(_arrow, _arrowSpawnPos, _damage));   //화살공격
-                    break;
-                }
-            case EEnemyType.Mage:
-                {
-                    RegisterStrategy(4, new ProtoRangedAttack(_magic, _magicSpawnPos, _damage));   //마법공격
-                    break;
-                }
-            case EEnemyType.Boss:
-                {
-                    RegisterStrategy(2, new ProtoMeleeAttack(_hitboxController, "Main", _damage));   //콤보공격
-                    break;
-                }
-        }
+        //switch (_controller.Stat.EnemyType)
+        //{
+        //    case EEnemyType.Warrior:
+        //        {
+        //            RegisterStrategy(0, new ProtoMeleeAttack(_hitboxController, "Main",_damage));   //기본공격1
+        //            RegisterStrategy(1, new ProtoMeleeAttack(_hitboxController, "Main", _damage));   //기본공격2
+        //            break;
+        //        }
+        //    case EEnemyType.Archer:
+        //        {
+        //            RegisterStrategy(3, new ProtoRangedAttack(_arrow, _arrowSpawnPos, _damage));   //화살공격
+        //            break;
+        //        }
+        //    case EEnemyType.Mage:
+        //        {
+        //            RegisterStrategy(4, new ProtoRangedAttack(_magic, _magicSpawnPos, _damage));   //마법공격
+        //            break;
+        //        }
+        //    case EEnemyType.Boss:
+        //        {
+        //            RegisterStrategy(2, new ProtoMeleeAttack(_hitboxController, "Main", _damage));   //콤보공격
+        //            break;
+        //        }
+        //}
     }
 
     public void LoadCooltime(float deltaTime)
