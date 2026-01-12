@@ -19,9 +19,12 @@ public class ItemDatabaseSO : ScriptableObject
         return new SlotData(item, itemInfo, color);
     }
 
-    public void UseItem(GameObject user, ItemData item)
+    public void UseItem(GameObject user, ItemData item, out float coolTime)
     {
+        coolTime = 0;
         if (!_itemDict.TryGetValue(item.ID, out var info)) return;
+        
         info.Use(user, item.Grade);
+        coolTime = info.CoolTime;
     }
 }

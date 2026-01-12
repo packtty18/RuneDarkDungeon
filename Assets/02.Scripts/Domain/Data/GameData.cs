@@ -5,9 +5,11 @@ public class GameData
 {
     [SerializeField] private GoldData _gold;
     [SerializeField] private Inventory _inventory;
-
+    [SerializeField] private Equipment _equipment;
+    
     public GoldData Gold => _gold;
     public Inventory Inventory => _inventory;
+    public Equipment Equipment => _equipment;
     
     public string GetSummary()
     {

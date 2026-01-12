@@ -8,7 +8,9 @@ public class DataManager : GlobalSingleton<DataManager>, IDataHandler
     
     public IInventory Inventory => _data.Inventory;
     public IInventory UpgradeInventory => _upgradeInventory;
+    public IEquipment Equipment => _data.Equipment;
     public ICurrency GoldData => _data.Gold;
+    
     
     [SerializeField] private ItemDatabaseSO _itemDB;
     [SerializeField] private ItemUpgradeDataSO _upgradeDB;
