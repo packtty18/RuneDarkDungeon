@@ -15,6 +15,9 @@ public class InputManager : GlobalSingleton<InputManager>
         { EGameKeyType.Jump,    new KeyCode[]{ KeyCode.Space } },
         { EGameKeyType.Run,    new KeyCode[]{ KeyCode.LeftShift } },
         { EGameKeyType.Attack,  new KeyCode[]{ KeyCode.Mouse0 } },
+        { EGameKeyType.QSkill,   new KeyCode[]{ KeyCode.Q} },
+        { EGameKeyType.ESkill,   new KeyCode[]{ KeyCode.E} },
+        { EGameKeyType.RSkill,   new KeyCode[]{ KeyCode.R} },
         { EGameKeyType.Enter,   new KeyCode[]{ KeyCode.Return} }
     };
 

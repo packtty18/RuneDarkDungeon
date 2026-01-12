@@ -11,6 +11,13 @@ public enum EAttackType
     Jump,   
 }
 
+public enum ESkillSlot
+{
+    Q,
+    E,
+    R,
+}
+
 public enum EMovementState
 {
     Idle,
@@ -47,6 +54,9 @@ public enum EGameKeyType
     Right,
     Jump,
     Attack,
+    QSkill,
+    ESkill,
+    RSkill,
     Run,
     Enter,
 }

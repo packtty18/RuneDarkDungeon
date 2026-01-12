@@ -2768,6 +2768,7 @@ GameObject:
   - component: {fileID: 4718409816780025331}
   - component: {fileID: 6019706068357259016}
   - component: {fileID: 275897205288014369}
+  - component: {fileID: 2030553530966688259}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2946,7 +2947,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e090d39ff2caf42a1bd5aa4ed78d1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  _hitBox: {fileID: 0}
   _attackConfig: {fileID: 11400000, guid: 1b371a66a71756a40ab75888da217879, type: 2}
   _hitboxController: {fileID: 3872139809204004901}
 --- !u!114 &6019706068357259016
@@ -2988,6 +2988,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2030553530966688259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7897478960710564786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 915db7ee9fe7265429ae2bdf2bc14267, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSkillCaster
 --- !u!1 &7900473698873661027
 GameObject:
   m_ObjectHideFlags: 0
