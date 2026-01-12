@@ -44,6 +44,15 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public ItemData GetSelectedItem()
+    {
+        if (_selectedSlot == null) return null;
+        
+        var item = _selectedSlot.Item;
+        DeselectItem();
+        return item;
+    }
+
     public void ShowTooltip(UI_Slot slot)
     {
         if (slot == null)

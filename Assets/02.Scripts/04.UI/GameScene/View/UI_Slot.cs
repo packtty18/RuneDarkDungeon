@@ -21,6 +21,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public event Action<UI_Slot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
+    public event Action<UI_Slot> OnSlotDoubleClicked;
     
     public void SetItem(SlotData data)
     {
@@ -67,6 +68,14 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!_isInteractable) return;
-        OnSlotClicked?.Invoke(this);
+        
+        if (eventData.clickCount == 2)
+        {
+            OnSlotDoubleClicked?.Invoke(this);
+        }
+        else
+        {
+            OnSlotClicked?.Invoke(this);
+        }
     }
 }
