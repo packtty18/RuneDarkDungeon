@@ -7,6 +7,7 @@ public enum EGameState
 
 public enum EAttackType
 {
+    None,
     Basic, 
     Jump,   
 }
