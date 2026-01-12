@@ -39,17 +39,17 @@ public class PlayerAnimator : MonoBehaviour
         _animator.SetTrigger(_attackHash);
     }
 
-    public void PlayComboAttack(int comboIndex, EAttackType attackType)
+    public void PlayComboAttack(int comboIndex)
     {
-        string stateName = $"{attackType.ToString()}_Combo{comboIndex}";
+        string stateName = $"Basic_Combo{comboIndex}";
 
         _animator.CrossFade(stateName, 0.05f, 1, 0);
         _animator.CrossFade(stateName, 0.05f, 2, 0);
     }
 
-    public void PlayChargeFinisher(EAttackType attackType)
+    public void PlayChargeFinisher()
     {
-        string stateName = $"AttackSubStateMachine.{attackType.ToString()}_ChargeFinisher";
+        string stateName = $"AttackSubStateMachine.Basic_ChargeFinisher";
 
         _animator.CrossFade(stateName, 0.05f, 0, 0);
     }

@@ -8,7 +8,10 @@ public class PlayerSkillCaster : MonoBehaviour
 {
     private Player _player;
     private PlayerAttack _playerAttack;
+    private PlayerMove _playerMove;
     private bool _isCasting;
+
+    public bool IsCasting => _isCasting;
     
 
     // 쿨다운 관리
@@ -23,11 +26,7 @@ public class PlayerSkillCaster : MonoBehaviour
     {
         _player = GetComponent<Player>();
         _playerAttack = GetComponent<PlayerAttack>();
-    }
-
-    private void Start()
-    {
-
+        _playerMove = GetComponent<PlayerMove>();
     }
 
     private void Update()
@@ -77,6 +76,7 @@ public class PlayerSkillCaster : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
 
+
         OnSkillEnd();
     }
 
@@ -96,15 +96,21 @@ public class PlayerSkillCaster : MonoBehaviour
     private void OnSkillStart()
     {
         _isCasting = true;
-        _playerAttack.SetSkillActive();
+        _playerMove.SetCanMove(false);
+
+        _playerAttack.OnSkillInterrupt();
+
         Debug.Log($"[Skill] 스킬 실행");
     }
 
     //스킬 사용 종료 타이밍에 맞춰 애니메이션 이벤트로 호출.
-    private void OnSkillEnd()
+    public void OnSkillEnd()
     {
-        _isCasting = false;
-        _playerAttack.SetSkillDeactive();
+        _playerMove.SetCanMove(true);
+
+        _playerAttack.OnSkillComplete();
+
         Debug.Log($"[Skill] 스킬 종료");
+        _isCasting = false;  
     }
 }

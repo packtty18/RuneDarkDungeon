@@ -3,30 +3,43 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerAttackConfigSO", menuName = "SO/Game/PlayerAttack")]
 public class PlayerAttackConfigSO : ScriptableObject
 {
+    [Tooltip("기본 데미지")]
+    public float Damage;
 
-    [Header("공격 타입별 설정")]
-    [Tooltip("지상/공중 공격 설정 목록")]
-    public AttackTypeConfig[] AttackConfigs;
+    [Tooltip("점프 데쉬 데미지")]
+    public float JumpDashDamage;
+
+    [Tooltip("점프 데쉬 설정")]
+    public float JumpDashAngle;
+    public float JumpDashSpeed;
 
     [Tooltip("차지 피니셔 데미지")]
     public float ChargeFinisherDamage;
 
+    [Tooltip("콤보 단계 목록")]
+    public AttackPhaseData[] AttackPhases;
+
+    [Tooltip("최대 콤보 수")]
+    public int MaxPhaseCount => AttackPhases?.Length ?? 0;
+
+    [Tooltip("스킬 시전 후 콤보 복귀 타임")]
+    public float ComboReturnTime;
+
+    
+
     [Tooltip("차지 피니셔 홀드 타임")]
     public float ChargeTime;
 
+    [Tooltip("점프 데쉬 콤보 연결 타임")]
+    public float JumpDashComboInputWindow;
 
-    public AttackTypeConfig GetAttackConfig(EAttackType attackType)
+    public AttackPhaseData GetPhaseData(int phaseIndex)
     {
-        foreach(var config in AttackConfigs)
+        if (AttackPhases == null || phaseIndex <= 0 || phaseIndex > MaxPhaseCount)
         {
-            if (config.AttackType == attackType)
-            {
-                return config;
-            }
+            return null;
         }
 
-        Debug.LogWarning($"[AttackTypeConfig] {attackType} 설정을 찾을 수 없습니다.");
-        return null;
+        return AttackPhases[phaseIndex - 1];
     }
-
 }
