@@ -74,6 +74,7 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         GroundedCheck();
+        Dodge();
         Movement();
         ApplyJump();
         ApplyGravity();
@@ -124,6 +125,20 @@ public class PlayerMove : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), _turnRate * Time.deltaTime);
             _controller.Move(transform.forward * _currentSpeed * Time.deltaTime);
         }      
+    }
+
+    private void Dodge()
+    {
+        if (InputManager.Instance.GetKeyDown(EGameKeyType.Dodge))
+        {
+            SetCanMove(false);
+            _animator.SetDodgeTrigger();
+        }  
+    }
+
+    public void OnDodgeFinish()
+    {
+        SetCanMove(true);
     }
 
     private Vector3 GetMoveDirection()

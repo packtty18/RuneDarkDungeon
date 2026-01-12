@@ -12,6 +12,7 @@ public class PlayerAnimator : MonoBehaviour
     private readonly int _jumpHash = Animator.StringToHash("Jump");
     private readonly int _attackHash = Animator.StringToHash("Attack");
     private readonly int _canMoveHash = Animator.StringToHash("CanMove");
+    private readonly int _dodgeHash = Animator.StringToHash("Dodge");
 
     void Awake()
     {
@@ -37,6 +38,11 @@ public class PlayerAnimator : MonoBehaviour
     public void SetAttackTrigger()
     {
         _animator.SetTrigger(_attackHash);
+    }
+
+    public void SetDodgeTrigger()
+    {
+        _animator.SetTrigger(_dodgeHash);
     }
 
     public void PlayComboAttack(int comboIndex)

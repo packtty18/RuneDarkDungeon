@@ -54,6 +54,7 @@ public enum EGameKeyType
     Left,
     Right,
     Jump,
+    Dodge,
     Attack,
     QSkill,
     ESkill,
