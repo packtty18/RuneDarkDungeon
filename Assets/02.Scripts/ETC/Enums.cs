@@ -100,7 +100,9 @@ public enum  EPoolType
     Enemy_Archer,
     Enemy_Mage,
     Enemy_Elite,
-    Enemy_Boss
+    Enemy_Boss,
+    Item_Coin,
+    Item_Rune
 }
 
 #region PlayerStat

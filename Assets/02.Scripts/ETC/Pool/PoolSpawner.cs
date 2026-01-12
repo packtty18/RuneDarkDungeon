@@ -12,7 +12,7 @@ public class PoolSpawner : MonoBehaviour
             return null;
         }
 
-        obj.transform.position = transform.position;
+        
         return obj;
     }
 }
