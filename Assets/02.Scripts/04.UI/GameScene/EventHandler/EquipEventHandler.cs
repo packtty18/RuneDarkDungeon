@@ -2,23 +2,27 @@ using UnityEngine;
 
 public class EquipEventHandler : ISlotEventHandler
 {
-    private readonly EquipmentManager _equipmentManager;
-
-    public EquipEventHandler(EquipmentManager equipmentManager)
+    private readonly InventoryManager _inventoryManager;
+    
+    public EquipEventHandler(InventoryManager inventoryManager)
     {
-        _equipmentManager = equipmentManager;
+        _inventoryManager = inventoryManager;
     }
 
     public void OnClickSlot(UI_Slot slot)
     {
-        if (slot.IsEmpty) return;
-
-        Debug.Log($"[장착 시도] {slot.Item.ID}");
-        
-        _equipmentManager.EquipItem(ESkillSlot.Q, slot.Item);
+        _inventoryManager.SelectItem(slot);
     }
-    
-    public void OnHoverSlot(UI_Slot slot) { }
+
+    public void OnHoverSlot(UI_Slot slot)
+    {
+        _inventoryManager.ShowTooltip(slot);
+    }
+
     public void OnEnter() { }
-    public void OnExit() { }
+
+    public void OnExit()
+    {
+        _inventoryManager.DeselectItem();
+    }
 }

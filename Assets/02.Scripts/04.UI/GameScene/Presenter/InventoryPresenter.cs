@@ -33,7 +33,8 @@ public class InventoryPresenter : MonoBehaviour
         _handlerDict = new()
         {
             { EInventoryMode.Normal, new NormalEventHandler(_inventoryManager) },
-            { EInventoryMode.Upgrade , new RegisterEventHandler(_upgradeManager) }
+            { EInventoryMode.Upgrade , new RegisterEventHandler(_upgradeManager) },
+            { EInventoryMode.Equipment, new EquipEventHandler(_inventoryManager) },
         };
         
         ChangeInventoryMode(_mode);
@@ -52,6 +53,7 @@ public class InventoryPresenter : MonoBehaviour
         _equipmentToggleButton.OnModeChanged -= OnClickEquipmentButton;
     }
     
+    #region Mode
     private void OnClickInventoryButton()
     {
         ChangeInventoryMode(_mode == EInventoryMode.Closed ? EInventoryMode.Normal : EInventoryMode.Closed);
@@ -92,7 +94,8 @@ public class InventoryPresenter : MonoBehaviour
                 break;
         }
     }
-
+    #endregion
+    
     private void CloseInventory()
     {
         _inventoryUI.Hide();
