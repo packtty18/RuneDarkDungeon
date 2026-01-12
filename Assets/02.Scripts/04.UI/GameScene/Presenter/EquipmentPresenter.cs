@@ -14,7 +14,7 @@ public class EquipmentPresenter : MonoBehaviour
         _equipment = equipment;
         
         _equipment.Subscribe(RefreshEquipment);
-        _equipmentUI.OnSlotClicked += HandleSlotClicked;
+        _equipmentUI.OnSlotDoubleClicked += HandleSlotDoubleClicked;
         
         RefreshEquipment();
     }
@@ -22,7 +22,7 @@ public class EquipmentPresenter : MonoBehaviour
     private void OnDestroy()
     {
         _equipment.Unsubscribe(RefreshEquipment);
-        _equipmentUI.OnSlotClicked -= HandleSlotClicked;
+        _equipmentUI.OnSlotDoubleClicked -= HandleSlotDoubleClicked;
     }
     
     private void RefreshEquipment()
@@ -30,7 +30,7 @@ public class EquipmentPresenter : MonoBehaviour
         _equipmentUI.Refresh(_equipment);
     }
 
-    private void HandleSlotClicked(ESkillSlot slot)
+    private void HandleSlotDoubleClicked(ESkillSlot slot)
     {
         _equipmentManager.UnEquipItem(slot);
     }

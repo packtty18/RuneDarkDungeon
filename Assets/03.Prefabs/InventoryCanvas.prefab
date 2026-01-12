@@ -1224,8 +1224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3a9ba92df4e5548825f2b2db75b229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_WindowToggleButton
-  _onMode: 2
-  _offMode: 1
+  _mode: 2
 --- !u!1 &3273518786176601352
 GameObject:
   m_ObjectHideFlags: 0
@@ -1726,6 +1725,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryController
   _inventoryUI: {fileID: 2755717572291621418}
   _upgradePresenter: {fileID: 7501577030098615944}
+  _equipmentPresenter: {fileID: 6880271115959354259}
   _inventoryManager: {fileID: 8474049524372040592}
   _inventoryToggleButton: {fileID: 8770118525212280962}
   _upgradeToggleButton: {fileID: 5259715143742904478}
@@ -2125,8 +2125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3a9ba92df4e5548825f2b2db75b229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_WindowToggleButton
-  _onMode: 3
-  _offMode: 1
+  _mode: 3
 --- !u!1 &5671261368892868083
 GameObject:
   m_ObjectHideFlags: 0
@@ -2215,8 +2214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3a9ba92df4e5548825f2b2db75b229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_WindowToggleButton
-  _onMode: 1
-  _offMode: 0
+  _mode: 1
 --- !u!1 &5864580000514726219
 GameObject:
   m_ObjectHideFlags: 0
@@ -2464,7 +2462,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8042329178972033726}
   m_HandleRect: {fileID: 1826854688773543861}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3092,7 +3090,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0002746582}
+  m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2438148436133851196

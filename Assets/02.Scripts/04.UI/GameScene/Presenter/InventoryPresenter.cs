@@ -6,6 +6,7 @@ public class InventoryPresenter : MonoBehaviour
     [Header("UI 연결")]
     [SerializeField] private UI_SlotContainer _inventoryUI;
     [SerializeField] private UpgradePresenter _upgradePresenter;
+    [SerializeField] private EquipmentPresenter _equipmentPresenter;
     [SerializeField] private InventoryManager _inventoryManager;
 
     [Header("버튼 UI")]
@@ -67,6 +68,9 @@ public class InventoryPresenter : MonoBehaviour
             case EInventoryMode.Upgrade:
                 SetUpgradeMode();
                 break;
+            case EInventoryMode.Equipment:
+                SetEquipmentMode();
+                break;
         }
     }
 
@@ -79,13 +83,21 @@ public class InventoryPresenter : MonoBehaviour
     {
         _inventoryUI.Show();
         _upgradePresenter.Hide();
+        _equipmentPresenter.Hide();
     }
     
     private void SetUpgradeMode()
     {
         _upgradePresenter.Show();
+        _equipmentPresenter.Hide();
     }
 
+    private void SetEquipmentMode()
+    {
+        _equipmentPresenter.Show();
+        _upgradePresenter.Hide();
+    }
+    
     private void RefreshInventory()
     {
         _inventoryUI.Refresh(_inventory.Items);

@@ -3,12 +3,10 @@ using UnityEngine;
 public class EquipEventHandler : ISlotEventHandler
 {
     private readonly EquipmentManager _equipmentManager;
-    private readonly ItemDatabaseSO _itemDB;
 
-    public EquipEventHandler(EquipmentManager manager, ItemDatabaseSO itemDB)
+    public EquipEventHandler(EquipmentManager equipmentManager)
     {
-        _equipmentManager = manager;
-        _itemDB = itemDB;
+        _equipmentManager = equipmentManager;
     }
 
     public void OnClickSlot(UI_Slot slot)

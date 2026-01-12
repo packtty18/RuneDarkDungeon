@@ -10,7 +10,7 @@ public class UI_EquipmentView : UI_Base
     
     private ItemDatabaseSO _itemDB;
     
-    public event Action<ESkillSlot> OnSlotClicked;
+    public event Action<ESkillSlot> OnSlotDoubleClicked;
     
     public void Initialize(ItemDatabaseSO itemDB)
     {
@@ -20,7 +20,7 @@ public class UI_EquipmentView : UI_Base
         foreach (var pair in _slots)
         {
             _slotDict.Add(pair.Value, pair.Key);
-            pair.Value.OnSlotClicked += NotifySlotClicked;
+            pair.Value.OnSlotDoubleClicked += NotifySlotClicked;
         }
     }
 
@@ -28,7 +28,7 @@ public class UI_EquipmentView : UI_Base
     {
         foreach (var pair in _slots)
         {
-            pair.Value.OnSlotClicked -= NotifySlotClicked;
+            pair.Value.OnSlotDoubleClicked -= NotifySlotClicked;
         }
     }
 
@@ -37,18 +37,18 @@ public class UI_EquipmentView : UI_Base
         foreach (var pair in _slots)
         {
             ESkillSlot type = pair.Key;
-            UI_Slot ui = pair.Value;
+            UI_Slot slot = pair.Value;
 
             ItemData item = equipment.GetItem(type);
 
             if (item != null)
             {
                 var data = _itemDB.GetSlotData(item);
-                ui.SetItem(data);
+                slot.SetItem(data);
             }
             else
             {
-                ui.Clear();
+                slot.Clear();
             }
         }
     }
@@ -56,6 +56,6 @@ public class UI_EquipmentView : UI_Base
     private void NotifySlotClicked(UI_Slot slot)
     {
         if (!_slotDict.TryGetValue(slot, out ESkillSlot slotType)) return;
-        OnSlotClicked?.Invoke(slotType);
+        OnSlotDoubleClicked?.Invoke(slotType);
     }
 }
