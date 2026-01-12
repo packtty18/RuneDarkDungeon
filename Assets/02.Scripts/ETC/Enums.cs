@@ -32,7 +32,9 @@ public enum EMovementState
 public enum EActionState
 {
     None,
+    Dodge,
     Attack,
+    Finisher,
     DashAttack,
     Skill,
 }

@@ -6,14 +6,10 @@ using UnityEngine;
 
 public class PlayerSkillCaster : MonoBehaviour
 {
-    private Player _player;
+    private PlayerStateMachine _stateMachine;
     private PlayerAttack _playerAttack;
     private PlayerMove _playerMove;
-    private bool _isCasting;
-
-    public bool IsCasting => _isCasting;
     
-
     // 쿨다운 관리
     private Dictionary<ESkillSlot, float> _cooldowns = new Dictionary<ESkillSlot, float>()
     {
@@ -24,7 +20,7 @@ public class PlayerSkillCaster : MonoBehaviour
 
     private void Awake()
     {
-        _player = GetComponent<Player>();
+        _stateMachine = GetComponent<PlayerStateMachine>();
         _playerAttack = GetComponent<PlayerAttack>();
         _playerMove = GetComponent<PlayerMove>();
     }
@@ -34,7 +30,7 @@ public class PlayerSkillCaster : MonoBehaviour
         // 쿨다운 감소.
         UpdateCooldowns();
 
-        if (_isCasting) return;
+        if (_stateMachine.CurrentActionState == EActionState.Skill) return;
 
         if (InputManager.Instance.GetKeyDown(EGameKeyType.QSkill))
             TryCastSkill(ESkillSlot.Q);
@@ -74,7 +70,7 @@ public class PlayerSkillCaster : MonoBehaviour
 
     private IEnumerator SkillCoroutine()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(3f);
 
 
         OnSkillEnd();
@@ -95,8 +91,7 @@ public class PlayerSkillCaster : MonoBehaviour
 
     private void OnSkillStart()
     {
-        _isCasting = true;
-        _playerMove.SetCanMove(false);
+        _stateMachine.SetActionState(EActionState.Skill);
 
         _playerAttack.OnSkillInterrupt();
 
@@ -106,11 +101,10 @@ public class PlayerSkillCaster : MonoBehaviour
     //스킬 사용 종료 타이밍에 맞춰 애니메이션 이벤트로 호출.
     public void OnSkillEnd()
     {
-        _playerMove.SetCanMove(true);
+        _stateMachine.SetActionState(EActionState.None);
 
         _playerAttack.OnSkillComplete();
 
         Debug.Log($"[Skill] 스킬 종료");
-        _isCasting = false;  
     }
 }

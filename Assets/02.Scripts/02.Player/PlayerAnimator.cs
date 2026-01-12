@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     private Animator _animator;
-    private PlayerMove _playerMove;
+    private PlayerStateMachine _stateMachine;
 
     private readonly int _speedRatioHash = Animator.StringToHash("Blend");
     private readonly int _jumpHash = Animator.StringToHash("Jump");
@@ -17,12 +17,12 @@ public class PlayerAnimator : MonoBehaviour
     void Awake()
     {
         _animator = GetComponent<Animator>();
-        _playerMove = GetComponent<PlayerMove>();
+        _stateMachine = GetComponent<PlayerStateMachine>();
     }
 
     private void Start()
     {
-        _playerMove.OnCanMoveChanged += SetCanMove;
+        _stateMachine.OnCanMoveChanged += SetCanMove;
     }
 
     public void SetSpeedRatio(float ratio)
@@ -75,6 +75,6 @@ public class PlayerAnimator : MonoBehaviour
 
     private void OnDestroy()
     {
-        _playerMove.OnCanMoveChanged -= SetCanMove;
+        _stateMachine.OnCanMoveChanged -= SetCanMove;
     }
 }
