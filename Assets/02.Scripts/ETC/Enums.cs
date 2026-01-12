@@ -33,6 +33,7 @@ public enum EActionState
 {
     None,
     Attack,
+    Finisher,
     DashAttack,
     Skill,
 }

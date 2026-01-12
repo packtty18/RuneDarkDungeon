@@ -9,8 +9,9 @@ public class PlayerMove : MonoBehaviour
 {
     private InputManager _inputManager;
     private CharacterController _controller;
-    private Player _player;
+    private PlayerStats _playerStats;
     private PlayerAnimator _animator;
+    private PlayerStateMachine _stateMachine;
 
     [Header("이동")]
     [SerializeField] private float _turnRate = 3f;
@@ -65,8 +66,9 @@ public class PlayerMove : MonoBehaviour
     {
         _animator = GetComponent<PlayerAnimator>();
         _controller = GetComponent<CharacterController>();
-        _player = GetComponent<Player>();
-        
+        _playerStats = GetComponent<PlayerStats>();
+        _stateMachine = GetComponent<PlayerStateMachine>();
+
     }
     private void Start()
     {
@@ -91,28 +93,28 @@ public class PlayerMove : MonoBehaviour
     private void Initialize()
     {
         _inputManager = InputManager.Instance;
-        HandleMoveSpeedChanged(_player.GetSpeed());
+        HandleMoveSpeedChanged(_playerStats.MoveSpeed.Current);
         _currentSpeed = 0;
 
-        _gravity = _player.GetGravity();
+        _gravity = _playerStats.Gravity.Value;
 
         _groundCheckRadius = _controller.radius * 0.9f;
 
         _currentJumpCount = 0;
         CanMove = true;
-        _jumpVelocity = Mathf.Sqrt(_player.GetJumpVelocity() * -2f * _gravity);
+        _jumpVelocity = Mathf.Sqrt(_playerStats.JumpPower.Value * -2f * _gravity);
         IsJumping = false;
     }
 
     private void SubscribeEvents()
     {
         OnMoveSpeedChanged = HandleMoveSpeedChanged;
-        _player.SubscribeSpeed(OnMoveSpeedChanged);
+        _playerStats.MoveSpeed.Subscribe(OnMoveSpeedChanged);
     }
 
     private void UnSubscribeEvents()
     {
-        _player.UnsubscribeSpeed(OnMoveSpeedChanged);
+        _playerStats.MoveSpeed.Subscribe(OnMoveSpeedChanged);
     }
     
     private void Movement()
@@ -122,7 +124,6 @@ public class PlayerMove : MonoBehaviour
 
         SpeedUpdate(moveScale);
 
-        if (!CanMove) return;
         if (moveScale > 0.01f)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), _turnRate * Time.deltaTime);
@@ -134,7 +135,8 @@ public class PlayerMove : MonoBehaviour
     {
         if (InputManager.Instance.GetKeyDown(EGameKeyType.Dodge))
         {
-            SetCanMove(false);
+            if (_stateMachine.CurrentActionState != EActionState.None) return;
+            //SetCanMove(false);
             _animator.SetDodge(true);
         }  
         if (_isDodging)
@@ -151,11 +153,14 @@ public class PlayerMove : MonoBehaviour
     {
         _isDodging = false;
         _animator.SetDodge(false);
-        SetCanMove(true);
+        //SetCanMove(true);
     }
 
     private Vector3 GetMoveDirection()
     {
+        if (_stateMachine.CurrentActionState != EActionState.None) 
+            return Vector3.zero;
+
         Vector3 direction = Vector3.zero;
         if (_inputManager.GetKey(EGameKeyType.Front))
         {
@@ -180,7 +185,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (_inputManager.GetKeyDown(EGameKeyType.Jump))
         {
-            if (!CanMove) return ;
+            if (_stateMachine.CurrentActionState != EActionState.None) return;
             if (_currentJumpCount < _maxJumpCount)
             {
                 if (_currentJumpCount == 0)
@@ -275,18 +280,12 @@ public class PlayerMove : MonoBehaviour
         _runSpeed = _walkSpeed * _runSpeedMultiplier;
     }
 
-    public void SetCanMove(bool canMove)
-    {
-        CanMove = canMove;
-        OnCanMoveChanged?.Invoke(CanMove);
-    }
-
     #region Dash
     public void StartGroundDash(float dashAngle, float dashSpeed)
     {
         if (IsGrounded || !IsJumping) return;
 
-        SetCanMove(false);
+        //SetCanMove(false);
 
         _currentJumpCount = _maxJumpCount;
         _verticalVelocity = 0f;
