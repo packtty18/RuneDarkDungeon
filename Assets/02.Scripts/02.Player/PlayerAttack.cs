@@ -15,7 +15,6 @@ public class PlayerAttack : MonoBehaviour
 
     private Coroutine _comboTimerCoroutine;
 
-    [SerializeField] 
     private Renderer[] _playerRenderers;
     [SerializeField]
     private ParticleSystem _dashVFX;
@@ -23,6 +22,12 @@ public class PlayerAttack : MonoBehaviour
     private PlayerAttackConfigSO _attackConfig;
     [SerializeField]
     private HitboxController _hitboxController;
+    [SerializeField]
+    private CameraShakeController _cameraShake;
+    [SerializeField]
+    private float _finisherShakeTime = 0.5f;
+    [SerializeField]
+    private float _finisherShakeAmplitude = 3;
 
     private float _comboReturnTime;
 
@@ -356,6 +361,7 @@ public class PlayerAttack : MonoBehaviour
         //움직일 수 있는 상태로 전환
         _playerMove.SetCanMove(true);
         EndCombo();
+        _cameraShake.CameraShake(_finisherShakeAmplitude, _finisherShakeTime);
     }
 
     public void OnJumpDashAttackFinish()
