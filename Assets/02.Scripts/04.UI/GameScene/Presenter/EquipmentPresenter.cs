@@ -20,6 +20,7 @@ public class EquipmentPresenter : MonoBehaviour
         _equipment.Subscribe(RefreshEquipment);
         _equipmentUI.OnSlotDoubleClicked += HandleSlotDoubleClicked;
         _equipmentUI.OnSlotClicked += HandleSlotClicked;
+        _equipmentUI.OnSlotHovered += HandleSlotHovered;
         
         RefreshEquipment();
         
@@ -31,6 +32,7 @@ public class EquipmentPresenter : MonoBehaviour
         _equipment.Unsubscribe(RefreshEquipment);
         _equipmentUI.OnSlotDoubleClicked -= HandleSlotDoubleClicked;
         _equipmentUI.OnSlotClicked -= HandleSlotClicked;
+        _equipmentUI.OnSlotHovered -= HandleSlotHovered;
         _modePresenter.Unsubscribe(HandleModeChanged);
     }
     
@@ -50,6 +52,11 @@ public class EquipmentPresenter : MonoBehaviour
         if (item == null) return;
         
         _equipmentManager.EquipItem(slot, item);
+    }
+
+    private void HandleSlotHovered(UI_Slot slot)
+    {
+        _inventoryManager.ShowTooltip(slot);
     }
 
     private void HandleModeChanged(EInventoryMode mode)
