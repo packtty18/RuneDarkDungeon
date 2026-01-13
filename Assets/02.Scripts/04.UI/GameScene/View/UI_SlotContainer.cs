@@ -64,12 +64,12 @@ public class UI_SlotContainer : UI_Base
         _layoutController?.UpdateLayout(targetCount);
     }
     
-    public void RefreshFilter(IReadOnlyInventory inventory = null)
+    public void RefreshFilter(IReadOnlyForge forge = null)
     {
         foreach (var slot in _slots)
         {
             if (slot.IsEmpty) continue;
-            bool isOn = inventory == null || inventory.CanAdd(slot.Item);
+            bool isOn = forge == null || forge.CanRegister(slot.Item);
             slot.SetFilter(isOn);
         }
     }

@@ -57,7 +57,7 @@ public class UpgradePresenter : MonoBehaviour
     {
         _upgradeUI.SetSlotCount(_forge.UpgradeData.Count);
         _upgradeInfoUI.Refresh(_forge.UpgradeData);
-        _inventoryUI.RefreshFilter(_upgradeInventory);
+        _inventoryUI.RefreshFilter(_forge);
     }
 
     public void Upgrade()

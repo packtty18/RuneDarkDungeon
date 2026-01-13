@@ -9,7 +9,7 @@ public class ModePresenter : MonoBehaviour
     [SerializeField] private UI_WindowToggleButton _equipmentToggleButton;
 
     private EInventoryMode _mode = EInventoryMode.Closed;
-    private SafeEvent<EInventoryMode> _onModeChanged;
+    private SafeEvent<EInventoryMode> _onModeChanged = new();
     
     private void Awake()
     {

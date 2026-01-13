@@ -11,7 +11,7 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
     public ICurrency GoldData => _goldData;
     public IEquipment Equipment => _equipment;
     public IForge Forge => _forge;
-    private UpgradeInventory _upgradeInventory = new();
+    private Inventory _upgradeInventory = new();
     public IInventory UpgradeInventory => _upgradeInventory;
 
     [SerializeField] private ItemDatabaseSO _itemDB;
@@ -22,15 +22,19 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
 
     public EquipmentManager equipmentManager;
 
-    private void Start()
-    {
-        equipmentManager = new(_equipment, _inventory, _itemDB);
-        _forge = new(_upgradeDB, _upgradeInventory, _inventory, _goldData);
-    }
-
     public float NextQ;
     public float NextE;
     public float NextR;
+    
+    [Header("연결 대상 UI")]
+    [SerializeField] private UI_Initializer _initializer;
+
+    protected override void OnInit()
+    {
+        _forge = new(_upgradeDB, _upgradeInventory, _inventory, _goldData);
+        equipmentManager = new(_equipment, _inventory, _itemDB);
+        _initializer.Initialize(this);
+    }
     
     private void Update()
     {
