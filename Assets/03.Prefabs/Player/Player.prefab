@@ -2859,6 +2859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66a12495e2f48744fb8b91413dd7b30c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
+  defaultSkillClip: {fileID: 7400000, guid: 9f348e22c59ad5c4794b05f26eda04b0, type: 2}
 --- !u!114 &484416285610723721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3007,6 +3008,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915db7ee9fe7265429ae2bdf2bc14267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSkillCaster
+  _equipment:
+    _items:
+      _pairs:
+      - Key: 1
+        Value:
+          _id: 1
+          _grade: 0
+      - Key: 2
+        Value:
+          _id: 0
+          _grade: 0
+      - Key: 3
+        Value:
+          _id: 2
+          _grade: 0
+  DB: {fileID: 11400000, guid: 94c151185365da44fab1ee6851781f21, type: 2}
 --- !u!1 &7900473698873661027
 GameObject:
   m_ObjectHideFlags: 0
