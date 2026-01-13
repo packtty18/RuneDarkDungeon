@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
@@ -30,8 +31,20 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
     protected override void OnInit()
     {
         _forge = new(_upgradeDB, _upgradeInventory, _inventory, _goldData);
-        _equipment = new(_itemDB);
         _initializer.Initialize(this);
+        
+        SetItemInfo(Inventory.Items);
+        SetItemInfo(Equipment.Items.Values);
+    }
+    
+    private void SetItemInfo(IEnumerable<ItemData> items)
+    {
+        foreach (var item in items)
+        {
+            if (item == null) continue;
+            ItemSO info = _itemDB.GetItemInfo(item);
+            item.SetInfo(info);
+        }
     }
     
     private void Update()

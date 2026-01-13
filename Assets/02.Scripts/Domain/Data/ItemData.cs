@@ -5,6 +5,7 @@ public class ItemData
 {
     [SerializeField] private int _id;
     [SerializeField] private EItemGrade _grade;
+    [System.NonSerialized] private ItemSO _info;
     
     public int ID => _id;
     public EItemGrade Grade => _grade;
@@ -14,7 +15,18 @@ public class ItemData
         _id = id; 
         _grade = grade;
     }
+    
+    public void SetInfo(ItemSO info)
+    {
+        _info = info;
+    }
 
+    public void Use(GameObject user, out float coolTime)
+    {
+        _info.Use(user, _grade);
+        coolTime = _info.CoolTime;
+    }
+    
     public bool IsMaxGrade=> _grade.IsMaxGrade();
 
     public ItemData GetUpgradedItem()

@@ -1,19 +1,14 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class Equipment : IEquipment
 {
     [SerializeField] private SerializableDictionary<ESkillSlot, ItemData> _items = new();
+    public IReadOnlyDictionary<ESkillSlot, ItemData> Items => _items;
     
-    private ItemDatabaseSO _itemDB;
-
     private SafeEvent _onChanged = new();
-
-    public Equipment(ItemDatabaseSO itemDB)
-    {
-        _itemDB = itemDB;
-    }
     
     public ItemData Equip(ESkillSlot slot, ItemData item)
     {
@@ -38,7 +33,7 @@ public class Equipment : IEquipment
         var item = GetItem(slot);
         if (item == null) return false;
         
-        _itemDB.UseItem(user, item, out coolTime);
+        item.Use(user, out coolTime);
         return true;
     }
     

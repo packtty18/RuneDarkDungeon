@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DataManager : GlobalSingleton<DataManager>, IDataHandler
@@ -23,6 +24,18 @@ public class DataManager : GlobalSingleton<DataManager>, IDataHandler
     {
         FileIO.Load(_data);
         _forge = new(_upgradeDB, UpgradeInventory, Inventory, GoldData);
+        SetItemInfo(Inventory.Items);
+        SetItemInfo(Equipment.Items.Values);
+    }
+
+    private void SetItemInfo(IEnumerable<ItemData> items)
+    {
+        foreach (var item in items)
+        {
+            if (item == null) continue;
+            ItemSO info = _itemDB.GetItemInfo(item);
+            item.SetInfo(info);
+        }
     }
 
     public void Save()
