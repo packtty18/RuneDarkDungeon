@@ -49,6 +49,7 @@ public class UI_SlotContainer : UI_Base
             if (i < targetCount)
             {
                 var border = _borderDB.GetBorderSprite(items[i].Grade);
+                Debug.Log(border);
                 _slots[i].SetItem(items[i], border);
                 _slots[i].SetActive(true);
             }
