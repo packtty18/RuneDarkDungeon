@@ -30,6 +30,8 @@ public class BattleManager : LocalSingleton<BattleManager>
     [SerializeField] private EBattleState _state;
     public EBattleState State => _state;
 
+    private bool _isStageRunning;
+
     private void Start()
     {
         SetState(EBattleState.Preparing);
@@ -74,19 +76,31 @@ public class BattleManager : LocalSingleton<BattleManager>
 
     private void HandlePreparing()
     {
-        //가능하다면 플레이어 생성도 혹은 PlayerTransform 지정을 여기서
         _currentIndex = 0;
+        _isStageRunning = false;
+
         OnBattleStart?.Invoke();
         SetState(EBattleState.InProgress);
     }
 
     private void HandleInProgress()
     {
+        // 이미 진행 중이면 재시작 금지 (Pause → Resume 대응)
+        if (_isStageRunning)
+        {
+            Debug.Log("[BattleManager] Resume Battle");
+            return;
+        }
+
         if (_currentIndex >= _spawnManagers.Length)
         {
             SetState(EBattleState.Victory);
             return;
         }
+
+        Debug.Log($"[BattleManager] Start Stage {_currentIndex}");
+
+        _isStageRunning = true;
 
         EnemySpawnManager manager = _spawnManagers[_currentIndex];
         manager.OnAllPhaseCompleted.Subscribe(HandleCurrentStageCleared);
@@ -98,7 +112,9 @@ public class BattleManager : LocalSingleton<BattleManager>
         EnemySpawnManager manager = _spawnManagers[_currentIndex];
         manager.OnAllPhaseCompleted.Unsubscribe(HandleCurrentStageCleared);
 
+        _isStageRunning = false;   // ⭐ 중요
         _currentIndex++;
+
         SetState(EBattleState.WaitingNextStage);
     }
 

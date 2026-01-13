@@ -47,8 +47,8 @@ public class EnemyController : PoolableObject, IDamageable
 
     private void Update()
     {
-        //현재 정지 상태
-        if (_isPaused)
+        //현재 정지 상태 혹은 사망상태라면 Fsm틱을 진행하지 않음
+        if (_isPaused || FSM.CurrentState is DeadState)
         {
             return;
         }
@@ -86,6 +86,7 @@ public class EnemyController : PoolableObject, IDamageable
     }
     public override void OnSpawn()
     {
+        base.OnSpawn();
         if (BattleManager.Instance != null)
         {
             BattleManager.Instance.OnBattleStateChanged.Subscribe(HandleBattleState);
@@ -98,21 +99,25 @@ public class EnemyController : PoolableObject, IDamageable
     {
         if (BattleManager.Instance != null)
             BattleManager.Instance.OnBattleStateChanged.Unsubscribe(HandleBattleState);
+
+        base.OnDespawn();
     }
 
     private void HandleBattleState(EBattleState state)
     {
         switch (state)
         {
-            case EBattleState.InProgress:
-                Resume();
-                break;
-
-            default:
+            case EBattleState.Paused:
                 Pause();
+                break;
+            case EBattleState.WaitingNextStage:
+                break;
+            default:
+                Resume();
                 break;
         }
     }
+
 
 
     [Button]

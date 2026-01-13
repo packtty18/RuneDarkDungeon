@@ -8,13 +8,14 @@ public class ChaseState : EnemyState
     {
         base.Enter();
         controller.Move.ResumeAgent();
-        controller.Move.SetTarget(controller.Target);
-        controller.Move.StartMove();
         controller.Anim.SetBool(AnimatorController.s_moveBool, true);
     }
 
     public override void Tick(float deltaTime)
     {
+        controller.Move.SetTarget(controller.Target);
+        controller.Move.StartMove();
+
         if (!controller.IsTargetExist())
         {
             controller.FSM.ChangeState(EEnemyState.Idle);
