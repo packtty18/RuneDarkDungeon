@@ -7,30 +7,47 @@ public class UpgradePresenter : MonoBehaviour
     [SerializeField] private UI_UpgradeInfo _upgradeInfoUI;
     [SerializeField] private UI_SlotContainer _inventoryUI;
     [SerializeField] private ModePresenter _modePresenter;
-    
-    [Header("로직 연결")]
-    [SerializeField] private SlotEventHandler _upgradeEventHandler;
 
     private IReadOnlyInventory _upgradeInventory;
     private IForge _forge;
     
-    public void Initialize(IReadOnlyInventory upgradeInventory, IForge forge)
+    private ISlotEventHandler _eventHandler;
+    
+    public void Initialize(IReadOnlyInventory upgradeInventory, IForge forge, ISlotEventHandler eventHandler)
     {
         _upgradeInventory = upgradeInventory;
-        _upgradeInventory.Subscribe(RefreshView);
-        
         _forge = forge;
-        _forge.Subscribe(RefreshInfo);
+        _eventHandler = eventHandler;
         
-        _upgradeEventHandler.SetMode(new UnregisterEventHandler(forge));
+        _upgradeUI.OnSlotClicked += HandleSlotClicked;
+        _upgradeInventory.Subscribe(RefreshView);
+        _forge.Subscribe(RefreshInfo);
         _modePresenter.Subscribe(HandleModeChanged);
     }
 
     private void OnDestroy()
     {
+        _upgradeUI.OnSlotClicked -= HandleSlotClicked;
         _upgradeInventory.Unsubscribe(RefreshView);
         _forge.Unsubscribe(RefreshInfo);
         _modePresenter.Unsubscribe(HandleModeChanged);
+    }
+
+    private void RefreshView()
+    {
+        _upgradeUI.Refresh(_upgradeInventory.Items);
+    }
+
+    private void RefreshInfo()
+    {
+        _upgradeUI.SetSlotCount(_forge.UpgradeData.Count);
+        _upgradeInfoUI.Refresh(_forge.UpgradeData);
+        _inventoryUI.RefreshFilter(_forge);
+    }
+
+    private void HandleSlotClicked(UI_Slot slot)
+    {
+        _eventHandler.OnClickSlot(slot);
     }
 
     private void HandleModeChanged(EInventoryMode mode)
@@ -47,19 +64,7 @@ public class UpgradePresenter : MonoBehaviour
             _inventoryUI.RefreshFilter();
         }
     }
-
-    private void RefreshView()
-    {
-        _upgradeUI.Refresh(_upgradeInventory.Items);
-    }
-
-    private void RefreshInfo()
-    {
-        _upgradeUI.SetSlotCount(_forge.UpgradeData.Count);
-        _upgradeInfoUI.Refresh(_forge.UpgradeData);
-        _inventoryUI.RefreshFilter(_forge);
-    }
-
+        
     public void Upgrade()
     {
         _forge.Upgrade();

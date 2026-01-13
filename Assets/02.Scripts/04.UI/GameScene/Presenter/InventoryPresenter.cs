@@ -5,44 +5,55 @@ public class InventoryPresenter : MonoBehaviour
 {
     [Header("UI 연결")]
     [SerializeField] private UI_SlotContainer _inventoryUI;
-    [SerializeField] private InventoryManager _inventoryManager;
     [SerializeField] private ModePresenter _modePresenter;
     
-    [Header("로직 연결")]
-    [SerializeField] private SlotEventHandler _eventHandler;
-    
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
+    private ISlotEventHandler _eventHandler;
 
     private IReadOnlyInventory _inventory;
     
-    public void Initialize(IReadOnlyInventory inventory, IForge forge)
+    public void Initialize(IReadOnlyInventory inventory, Dictionary<EInventoryMode, ISlotEventHandler> handlerDict)
     {
         _inventory = inventory;
-        _inventory.Subscribe(RefreshInventory);
+        _handlerDict = handlerDict;
+
         RefreshInventory();
-
-        _handlerDict = new()
-        {
-            { EInventoryMode.Normal, new NormalEventHandler(_inventoryManager) },
-            { EInventoryMode.Upgrade , new RegisterEventHandler(forge) },
-            { EInventoryMode.Equipment, new NormalEventHandler(_inventoryManager) },
-        };
-
         HandleModeChanged(EInventoryMode.Closed);
+        
+        _inventoryUI.OnSlotClicked += HandleSlotClicked;
+        _inventoryUI.OnSlotHovered += HandleSlotHovered;
+        _inventory.Subscribe(RefreshInventory);
         _modePresenter.Subscribe(HandleModeChanged);
     }
     
     private void OnDestroy()
     {
+        _inventoryUI.OnSlotClicked -= HandleSlotClicked;
+        _inventoryUI.OnSlotHovered -= HandleSlotHovered;
         _inventory.Unsubscribe(RefreshInventory);
         _modePresenter.Unsubscribe(HandleModeChanged);
+    }
+    
+    private void RefreshInventory()
+    {
+        _inventoryUI.Refresh(_inventory.Items);
+    }
+    
+    private void HandleSlotClicked(UI_Slot slot)
+    {
+        _eventHandler.OnClickSlot(slot);
+    }
+
+    private void HandleSlotHovered(UI_Slot slot)
+    {
+        _eventHandler.OnHoverSlot(slot);
     }
     
     private void HandleModeChanged(EInventoryMode mode)
     {
         if (_handlerDict.TryGetValue(mode, out var handler))
         {
-          _eventHandler.SetMode(handler);
+            _eventHandler = handler;
         }
 
         if (mode == EInventoryMode.Closed)
@@ -53,10 +64,5 @@ public class InventoryPresenter : MonoBehaviour
         {
             _inventoryUI.Show();
         }
-    }
-    
-    private void RefreshInventory()
-    {
-        _inventoryUI.Refresh(_inventory.Items);
     }
 }
