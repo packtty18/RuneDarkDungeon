@@ -7,7 +7,7 @@ public class PlayerAttack : MonoBehaviour
     private PlayerStateMachine _stateMachine;
     private PlayerAnimator _animator;
     private PlayerMove _playerMove;
-    private PlayerSkillCaster _skillCaster;
+    private PlayerStats _stats;
 
     private bool _isJumping;
 
@@ -45,7 +45,7 @@ public class PlayerAttack : MonoBehaviour
         _stateMachine = GetComponent<PlayerStateMachine>();
         _playerMove = GetComponent<PlayerMove>();
         _animator = GetComponent<PlayerAnimator>();
-        _skillCaster = GetComponent<PlayerSkillCaster>();
+        _stats = GetComponent<PlayerStats>();
 
         _playerRenderers = GetComponentsInChildren<Renderer>();
 
@@ -60,8 +60,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        if (_stateMachine.CurrentActionState == EActionState.Skill 
-            || _stateMachine.CurrentActionState == EActionState.Dodge) return;
+        if (!_stateMachine.CanReceiveMoveInput()) return;
 
         if (InputManager.Instance.GetKeyDown(EGameKeyType.Attack))
         {
@@ -184,7 +183,7 @@ public class PlayerAttack : MonoBehaviour
     {
         _stateMachine.SetActionState(EActionState.Finisher);
         Debug.Log($"[Attack] Type: Basic | Charge Finisher | Damage: {_attackConfig.ChargeFinisherDamage}");
-        _currentDamage = SetDamage(_attackConfig.ChargeFinisherDamage);
+        _currentDamage = _stats.CalculateDealDamage(_attackConfig.ChargeFinisherDamage);
         _animator.PlayChargeFinisher();
     }
 
@@ -192,23 +191,16 @@ public class PlayerAttack : MonoBehaviour
     private void ExecuteSingleAttack(EAttackType type, float damage)
     {
         Debug.Log($"[Attack] Type: {type} | Skill | Damage: {damage}");
-        _currentDamage = SetDamage(damage);
+        _currentDamage = _stats.CalculateDealDamage(damage);
         _animator.PlaySingleAttack(type);
     }
 
     private void ExecuteComboAttack()
     {
         Debug.Log($"[Attack] Type: Basic | {_currentCombo} Combo | Damage: {_attackConfig.Damage}");
-        _currentDamage = SetDamage(_attackConfig.Damage);
+        _currentDamage = _stats.CalculateDealDamage(_attackConfig.Damage);
         _animator.PlayComboAttack(_currentCombo);
-    }
-
-    private float SetDamage (float damage)
-    {
-        return damage;
-    }
-
-    
+    }    
 
     #endregion
 
@@ -327,7 +319,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnAttackStart()
     {
-        _hitboxController.Activate("Main");
+        _hitboxController.Activate("Main", _currentDamage);
         //데미지 값 세팅
     }
     public void OnAttackFinish()

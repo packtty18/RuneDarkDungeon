@@ -4,28 +4,40 @@ using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour
 {
-    private EMovementState _currentState;
+    private EPlayerState _currentState;
     private EActionState _currentActionState;
 
-    public EMovementState CurrentState => _currentState;
+    public EPlayerState CurrentState => _currentState;
     public EActionState CurrentActionState => _currentActionState;
 
-    public Action<EMovementState> OnPlayerStatsChanged;
+    public Action<EPlayerState> OnPlayerStatsChanged;
     public Action<EActionState> OnPlayerActionChanged;
     public event Action<bool> OnCanMoveChanged;
 
     void Awake()
     {
+        _currentState = EPlayerState.None;
+        _currentActionState = EActionState.None;
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool CanReceiveMoveInput()
     {
- 
+        return CurrentState != EPlayerState.Dead
+            && CurrentActionState != EActionState.Skill
+            && CurrentActionState != EActionState.Dodge
+            && CurrentActionState != EActionState.DashAttack
+            && CurrentActionState != EActionState.Finisher;
     }
 
+    public bool CanReceiveSkillInput()
+    {
+        return CurrentState != EPlayerState.Dead
+            && CurrentActionState != EActionState.Skill
+            && CurrentActionState != EActionState.Dodge
+            && CurrentActionState != EActionState.DashAttack;
+    }
 
-    public void SetState(EMovementState newState)
+    public void SetState(EPlayerState newState)
     {
         _currentState = newState;
 
@@ -33,18 +45,6 @@ public class PlayerStateMachine : MonoBehaviour
 
         switch (_currentState)
         {
-            case EMovementState.Idle:
-
-                break;
-            case EMovementState.Walk:
-
-                break;
-            case EMovementState.Run:
-
-                break;
-            case EMovementState.Jump:
-
-                break;
             default:
                 break;
         }

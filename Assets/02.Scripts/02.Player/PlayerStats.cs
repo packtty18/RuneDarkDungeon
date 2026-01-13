@@ -30,4 +30,19 @@ public class PlayerStats : MonoBehaviour
     [Header("생존 스탯")]
     [Tooltip("피해 흡혈")]
     public ConsumableStat<float> Vampirism;
+
+    public float CalculateReceivedDamage(DamageData data)
+    {
+        float damage = data.Damage - (data.Damage * Defense.Current * 0.01f);
+        Debug.Log($"받은 데미지 : {data.Damage} | 반영 데미지 : {damage}");
+        return damage;
+    }
+
+    public float CalculateDealDamage(float value)
+    {
+        float damage = value * (Attack.Current * 0.01f);
+        Debug.Log($"스킬 데미지 : {value} | 반영 데미지 : {damage}");
+        return damage;
+    }
+
 }

@@ -134,7 +134,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (InputManager.Instance.GetKeyDown(EGameKeyType.Dodge))
         {
-            if (_stateMachine.CurrentActionState != EActionState.None || !IsGrounded) return;
+            if (!_stateMachine.CanReceiveMoveInput() || !IsGrounded) return;
             _animator.SetDodge(true);
         }  
         if (_stateMachine.CurrentActionState == EActionState.Dodge)
@@ -156,7 +156,7 @@ public class PlayerMove : MonoBehaviour
 
     private Vector3 GetMoveDirection()
     {
-        if (_stateMachine.CurrentActionState != EActionState.None) 
+        if (!_stateMachine.CanReceiveMoveInput()) 
             return Vector3.zero;
 
         Vector3 direction = Vector3.zero;
@@ -183,7 +183,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (_inputManager.GetKeyDown(EGameKeyType.Jump))
         {
-            if (_stateMachine.CurrentActionState != EActionState.None) return;
+            if (!_stateMachine.CanReceiveMoveInput()) return;
             if (_currentJumpCount < _maxJumpCount)
             {
                 if (_currentJumpCount == 0)
