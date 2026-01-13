@@ -17,5 +17,9 @@ public class RegisterEventHandler : ISlotEventHandler
     
     public void OnHoverSlot(UI_Slot slot) { }
     public void OnEnter() { }
-    public void OnExit() { }
+
+    public void OnExit()
+    {
+        _upgradeManager.UnregisterAll();
+    }
 }

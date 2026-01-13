@@ -52,10 +52,12 @@ public class UI_SlotContainer : UI_Base
             {
                 var data = _itemDB.GetSlotData(items[i]);
                 _slots[i].SetItem(data);
+                _slots[i].SetActive(true);
             }
             else
             {
                 _slots[i].Clear();
+                _slots[i].SetActive(false);
             }
         }
         
@@ -66,13 +68,8 @@ public class UI_SlotContainer : UI_Base
     {
         foreach (var slot in _slots)
         {
-            if (slot.IsEmpty)
-            {
-                slot.SetActive(false);
-                continue;
-            }
+            if (slot.IsEmpty) continue;
             bool isOn = inventory == null || inventory.CanAdd(slot.Item);
-            slot.SetActive(true);
             slot.SetFilter(isOn);
         }
     }

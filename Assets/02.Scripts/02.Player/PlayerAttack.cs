@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    private Player _player;
+    private PlayerStateMachine _stateMachine;
     private PlayerAnimator _animator;
     private PlayerMove _playerMove;
     private PlayerSkillCaster _skillCaster;
-    
-    private EMovementState _moveState;
 
     private bool _isJumping;
 
@@ -44,7 +42,7 @@ public class PlayerAttack : MonoBehaviour
     #region Life Cycle
     private void Awake()
     {
-        _player = GetComponent<Player>();
+        _stateMachine = GetComponent<PlayerStateMachine>();
         _playerMove = GetComponent<PlayerMove>();
         _animator = GetComponent<PlayerAnimator>();
         _skillCaster = GetComponent<PlayerSkillCaster>();
@@ -54,7 +52,6 @@ public class PlayerAttack : MonoBehaviour
     }
     private void Start()
     {
-        _player.OnPlayerStatsChanged += OnMovementStateChange;
         _playerMove.OnIsJumpingChanged += OnJumpingChange;
         _playerMove.OnDashEnd += StartJumpAttack;
 
@@ -63,7 +60,8 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        if (_skillCaster.IsCasting) return;
+        if (_stateMachine.CurrentActionState == EActionState.Skill 
+            || _stateMachine.CurrentActionState == EActionState.Dodge) return;
 
         if (InputManager.Instance.GetKeyDown(EGameKeyType.Attack))
         {
@@ -79,10 +77,6 @@ public class PlayerAttack : MonoBehaviour
     }
     private void OnDestroy()
     {
-        if (_player != null)
-        {
-            _player.OnPlayerStatsChanged -= OnMovementStateChange;
-        }
 
         if (_playerMove != null)
         {
@@ -94,7 +88,6 @@ public class PlayerAttack : MonoBehaviour
 
     private void Initialized()
     {
-        _moveState = _player.CurrentState;
         _isJumping = _playerMove.IsJumping;
         _comboReturnTime = _attackConfig.ComboReturnTime;
     }
@@ -104,10 +97,6 @@ public class PlayerAttack : MonoBehaviour
 
     private void TryStartAttack()
     {
-        if (_moveState == EMovementState.Stagger)
-        {
-            return;
-        }
         if (_playerMove.ShouldRun & _isJumping)
         {
             TryJumpAttack();
@@ -123,6 +112,7 @@ public class PlayerAttack : MonoBehaviour
 
         _currentAttack = EAttackType.Jump;
 
+        _stateMachine.SetActionState(EActionState.DashAttack);
         _playerMove.StartGroundDash(_attackConfig.JumpDashAngle, _attackConfig.JumpDashSpeed);
         VisualHide();  
     }
@@ -192,7 +182,7 @@ public class PlayerAttack : MonoBehaviour
     //차지 피니셔 실행.
     private void ExecuteChargeFinisherAttack()
     {
-        _playerMove.SetCanMove(false);
+        _stateMachine.SetActionState(EActionState.Finisher);
         Debug.Log($"[Attack] Type: Basic | Charge Finisher | Damage: {_attackConfig.ChargeFinisherDamage}");
         _currentDamage = SetDamage(_attackConfig.ChargeFinisherDamage);
         _animator.PlayChargeFinisher();
@@ -201,7 +191,6 @@ public class PlayerAttack : MonoBehaviour
     //콤보 없는 단일 공격 실행 - 애니메이션 이벤트로 OnAttackFinish() 실행 필요.
     private void ExecuteSingleAttack(EAttackType type, float damage)
     {
-        _playerMove.SetCanMove(false);
         Debug.Log($"[Attack] Type: {type} | Skill | Damage: {damage}");
         _currentDamage = SetDamage(damage);
         _animator.PlaySkill(type);
@@ -332,11 +321,6 @@ public class PlayerAttack : MonoBehaviour
         EndCombo();
     }
 
-    private void OnMovementStateChange(EMovementState state)
-    {
-        _moveState = state;
-    }
-
     #endregion
 
     #region Animation Event
@@ -349,8 +333,7 @@ public class PlayerAttack : MonoBehaviour
     public void OnAttackFinish()
     {
         _hitboxController.Deactivate("Main");
-        //움직일 수 있는 상태로 전환
-        _playerMove.SetCanMove(true);
+        _stateMachine.SetActionState(EActionState.None);
 
         _isAttacking = false;
         _attackBuffered = false;
@@ -358,8 +341,8 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnFinisherFinish()
     {
-        //움직일 수 있는 상태로 전환
-        _playerMove.SetCanMove(true);
+        _stateMachine.SetActionState(EActionState.None);
+
         EndCombo();
         _cameraShake.CameraShake(_finisherShakeAmplitude, _finisherShakeTime);
     }
@@ -367,8 +350,8 @@ public class PlayerAttack : MonoBehaviour
     public void OnJumpDashAttackFinish()
     {
         _hitboxController.Deactivate("Main");
-        //움직일 수 있는 상태로 전환
-        _playerMove.SetCanMove(true);
+        _stateMachine.SetActionState(EActionState.None);
+
         _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(_attackConfig.JumpDashComboInputWindow));
 
         _attackBuffered = false;

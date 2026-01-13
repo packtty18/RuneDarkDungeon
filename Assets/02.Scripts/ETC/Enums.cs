@@ -25,14 +25,16 @@ public enum EMovementState
     Walk,
     Run,
     Jump,
-    Stagger, //경직   
+    Dodge,   
     Dead,
 }
 
 public enum EActionState
 {
     None,
+    Dodge,
     Attack,
+    Finisher,
     DashAttack,
     Skill,
 }
@@ -54,6 +56,7 @@ public enum EGameKeyType
     Left,
     Right,
     Jump,
+    Dodge,
     Attack,
     QSkill,
     ESkill,
@@ -90,6 +93,7 @@ public enum EInventoryMode
     Closed,
     Normal,
     Upgrade,
+    Equipment,
 }
 
 public enum  EPoolType

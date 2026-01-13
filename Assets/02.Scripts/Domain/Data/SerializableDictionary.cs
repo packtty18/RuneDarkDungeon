@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
 {
-    [SerializeField] private List<SerializablePair<TKey, TValue>> _pairs;
+    [SerializeField] private List<SerializablePair<TKey, TValue>> _pairs = new();
 
     public void OnBeforeSerialize()
     {
