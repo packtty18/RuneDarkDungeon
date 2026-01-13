@@ -2938,10 +2938,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e090d39ff2caf42a1bd5aa4ed78d1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  _playerRenderers: []
   _dashVFX: {fileID: 4283332659090043878}
   _attackConfig: {fileID: 11400000, guid: 1b371a66a71756a40ab75888da217879, type: 2}
   _hitboxController: {fileID: 3872139809204004901}
+  _cameraShake: {fileID: 0}
+  _finisherShakeTime: 0.5
+  _finisherShakeAmplitude: 3
 --- !u!114 &6019706068357259016
 MonoBehaviour:
   m_ObjectHideFlags: 0
