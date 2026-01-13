@@ -31,6 +31,7 @@ public class UI_Initializer : MonoBehaviour
             { EInventoryMode.Normal, new NormalEventHandler(_inventoryManager) },
             { EInventoryMode.Upgrade , new RegisterEventHandler(data.Forge) },
             { EInventoryMode.Equipment, new NormalEventHandler(_inventoryManager) },
+            { EInventoryMode.Sell, new SellEventHandler(data.Inventory, data.GoldData, _inventoryManager) },
         };
         
         _inventoryPresenter.Initialize(data.Inventory, inventoryHandlerDict);

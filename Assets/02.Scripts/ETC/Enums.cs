@@ -95,6 +95,7 @@ public enum EInventoryMode
     Normal,
     Upgrade,
     Equipment,
+    Sell,
 }
 
 public enum  EPoolType

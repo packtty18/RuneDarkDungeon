@@ -18,7 +18,6 @@ public class DataManager : GlobalSingleton<DataManager>, IDataHandler
     [SerializeField] private ItemUpgradeDataSO _upgradeDB;
     
     public ItemDatabaseSO ItemDB => _itemDB;
-    public ItemUpgradeDataSO UpgradeDB => _upgradeDB;
     
     protected override void OnInit()
     {

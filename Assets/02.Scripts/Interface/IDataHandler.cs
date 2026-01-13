@@ -9,7 +9,6 @@ public interface IDataHandler
     IForge Forge { get; }
     
     ItemDatabaseSO ItemDB { get; }
-    ItemUpgradeDataSO UpgradeDB { get; }
 
     void Save();
 }
