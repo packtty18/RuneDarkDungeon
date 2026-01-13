@@ -16,6 +16,8 @@ public class PlayerAnimator : MonoBehaviour
     private readonly int _attackHash = Animator.StringToHash("Attack");
     private readonly int _canMoveHash = Animator.StringToHash("CanMove");
     private readonly int _dodgeHash = Animator.StringToHash("Dodge");
+    private readonly int _hitHash = Animator.StringToHash("Hit");
+    private readonly int _dieHash = Animator.StringToHash("Die");
 
     void Awake()
     {
@@ -39,7 +41,17 @@ public class PlayerAnimator : MonoBehaviour
     {
         _animator.SetBool(_jumpHash, isJumping);
     }
-    
+
+    public void SetDieTrigger()
+    {
+        _animator.SetTrigger(_dieHash);
+    }
+
+    public void SetHitTrigger()
+    {
+        _animator.SetTrigger(_hitHash);
+    }
+
     public void SetAttackTrigger()
     {
         _animator.SetTrigger(_attackHash);

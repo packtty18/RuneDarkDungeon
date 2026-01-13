@@ -19,6 +19,7 @@ public enum ESkillSlot
     E,
     R,
 }
+
 public enum EHitDirection
 {
     Front = 0,
@@ -26,13 +27,10 @@ public enum EHitDirection
     Left = 2,
     Right = 3
 }
-public enum EMovementState
+
+public enum EPlayerState
 {
-    Idle,
-    Walk,
-    Run,
-    Jump,
-    Dodge,   
+    None,   
     Dead,
 }
 

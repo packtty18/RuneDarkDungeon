@@ -1,10 +1,12 @@
+using DG.Tweening;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class HPUIUpdate : MonoBehaviour
 {
-    [SerializeField] private Slider _slider;
+    [SerializeField] private UnityEngine.UI.Slider _slider;
     [SerializeField] private PlayerStats _playerStats;
 
     void Start()
@@ -14,8 +16,9 @@ public class HPUIUpdate : MonoBehaviour
 
     private void OnHpUpdate(float value)
     {
-        //_slider.value = _playerStats.Health.GetRatio();
-        _slider.value = value/ 1000f;
+        var ratio = _playerStats.Health.GetRatio();
+        _slider.DOKill();
+        _slider.DOValue(ratio, 0.5f);
     }
 
     private void OnDestroy()
