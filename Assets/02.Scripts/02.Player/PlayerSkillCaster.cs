@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerSkillCaster : MonoBehaviour
@@ -15,8 +16,18 @@ public class PlayerSkillCaster : MonoBehaviour
     [SerializeField] private Equipment _equipment;
     public ItemDatabaseSO DB;
 
-    // 쿨다운 관리
+    public event Action<Dictionary<ESkillSlot, float>, Dictionary<ESkillSlot, float>> OnCoolTimeChanged;
+
+    // 쿨다운 관리.
     private Dictionary<ESkillSlot, float> _cooldowns = new Dictionary<ESkillSlot, float>()
+    {
+        { ESkillSlot.Q, 0f },
+        { ESkillSlot.E, 0f },
+        { ESkillSlot.R, 0f }
+    };
+
+    // 쿨타임 관리.
+    private Dictionary<ESkillSlot, float> _coolTimes = new Dictionary<ESkillSlot, float>()
     {
         { ESkillSlot.Q, 0f },
         { ESkillSlot.E, 0f },
@@ -77,7 +88,16 @@ public class PlayerSkillCaster : MonoBehaviour
         CastSkill();
 
         // 4. 쿨다운 시작.
-        _cooldowns[slot] = _equipment.GetCoolTime(_currentSlot);
+        CoolDownStart();
+    }
+
+    private void CoolDownStart()
+    {
+        if (_coolTimes[_currentSlot] == 0f)
+        {
+            _coolTimes[_currentSlot] = _equipment.GetCoolTime(_currentSlot);
+        }
+        _cooldowns[_currentSlot] = _coolTimes[_currentSlot];
     }
 
     private void CastSkill()
@@ -96,11 +116,13 @@ public class PlayerSkillCaster : MonoBehaviour
         {
             if (_cooldowns[slot] > 0f)
             {
+                OnCoolTimeChanged?.Invoke(_coolTimes, _cooldowns);
                 _cooldowns[slot] -= Time.deltaTime;
                 if (_cooldowns[slot] < 0f)
                     _cooldowns[slot] = 0f;
             }
         }
+        
     }
 
     private void OnSkillStart()
