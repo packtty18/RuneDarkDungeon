@@ -7,7 +7,8 @@ public class ModePresenter : MonoBehaviour
     [SerializeField] private UI_WindowToggleButton _inventoryToggleButton;
     [SerializeField] private UI_WindowToggleButton _upgradeToggleButton;
     [SerializeField] private UI_WindowToggleButton _equipmentToggleButton;
-
+    [SerializeField] private UI_WindowToggleButton _shopToggleButton;
+    
     private EInventoryMode _mode = EInventoryMode.Closed;
     private SafeEvent<EInventoryMode> _onModeChanged = new();
     
@@ -16,6 +17,7 @@ public class ModePresenter : MonoBehaviour
         _inventoryToggleButton.OnModeChanged += OnClickInventoryButton;
         _upgradeToggleButton.OnModeChanged += OnClickUpgradeButton;
         _equipmentToggleButton.OnModeChanged += OnClickEquipmentButton;
+        _shopToggleButton.OnModeChanged += OnClickShopButton;
     }
 
     private void OnDestroy()
@@ -23,6 +25,7 @@ public class ModePresenter : MonoBehaviour
         _inventoryToggleButton.OnModeChanged -= OnClickInventoryButton;
         _upgradeToggleButton.OnModeChanged -= OnClickUpgradeButton;
         _equipmentToggleButton.OnModeChanged -= OnClickEquipmentButton;
+        _shopToggleButton.OnModeChanged -= OnClickShopButton;
     }
 
     private void OnClickInventoryButton()
@@ -40,6 +43,11 @@ public class ModePresenter : MonoBehaviour
         ChangeMode(_mode == EInventoryMode.Equipment ? EInventoryMode.Normal : EInventoryMode.Equipment);
     }
 
+    private void OnClickShopButton()
+    {
+        ChangeMode(_mode == EInventoryMode.Sell ? EInventoryMode.Normal : EInventoryMode.Sell);
+    }
+    
     private void ChangeMode(EInventoryMode mode)
     {
         _mode = mode;

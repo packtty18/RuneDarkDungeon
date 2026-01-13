@@ -6,7 +6,8 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private UI_Tooltip _tooltip;
     [SerializeField] private UI_DragIcon _dragIcon;
     [SerializeField] private UI_Background[] _backgrounds;
-
+    [SerializeField] private Texture2D _sellCursorTexture;
+    
     private IInventory _inventory;
     private UI_Slot _selectedSlot;
     
@@ -53,14 +54,14 @@ public class InventoryManager : MonoBehaviour
         return item;
     }
 
-    public void ShowTooltip(UI_Slot slot)
+    public void ShowTooltip(UI_Slot slot, bool showGold = false)
     {
         if (slot == null)
         {
             _tooltip.Hide();
             return;
         }
-        _tooltip.Show(slot.Info, slot.transform);
+        _tooltip.Show(slot.Info, slot.transform, showGold);
     }
     
     public void DeselectItem()
@@ -68,6 +69,16 @@ public class InventoryManager : MonoBehaviour
         _selectedSlot = null;
         _dragIcon.Hide();
         SetBackgroundsActive(false);
+    }
+
+    public void SetSellCursor()
+    {
+        Cursor.SetCursor(_sellCursorTexture, Vector2.zero, CursorMode.Auto);
+    }
+
+    public void ResetCursor()
+    {
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
     
     private void OnClickBackground()

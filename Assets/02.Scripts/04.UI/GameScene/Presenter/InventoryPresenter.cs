@@ -53,7 +53,9 @@ public class InventoryPresenter : MonoBehaviour
     {
         if (_handlerDict.TryGetValue(mode, out var handler))
         {
+            _eventHandler?.OnExit();
             _eventHandler = handler;
+            _eventHandler.OnEnter();
         }
 
         if (mode == EInventoryMode.Closed)
