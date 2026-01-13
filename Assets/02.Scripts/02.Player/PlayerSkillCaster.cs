@@ -59,7 +59,7 @@ public class PlayerSkillCaster : MonoBehaviour
         // 쿨다운 감소.
         UpdateCooldowns();
 
-        if (_stateMachine.CurrentActionState == EActionState.Skill) return;
+        if (!_stateMachine.CanReceiveSkillInput()) return;
 
         if (InputManager.Instance.GetKeyDown(EGameKeyType.QSkill))
             TryCastSkill(ESkillSlot.Q);

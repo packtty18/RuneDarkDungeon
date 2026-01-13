@@ -20,13 +20,9 @@ public enum ESkillSlot
     R,
 }
 
-public enum EMovementState
+public enum EPlayerState
 {
-    Idle,
-    Walk,
-    Run,
-    Jump,
-    Dodge,   
+    None,   
     Dead,
 }
 

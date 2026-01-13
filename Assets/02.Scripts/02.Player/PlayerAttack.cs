@@ -60,8 +60,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        if (_stateMachine.CurrentActionState == EActionState.Skill 
-            || _stateMachine.CurrentActionState == EActionState.Dodge) return;
+        if (!_stateMachine.CanReceiveMoveInput()) return;
 
         if (InputManager.Instance.GetKeyDown(EGameKeyType.Attack))
         {
