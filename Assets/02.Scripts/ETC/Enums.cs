@@ -14,6 +14,7 @@ public enum EAttackType
 
 public enum ESkillSlot
 {
+    None,
     Q,
     E,
     R,

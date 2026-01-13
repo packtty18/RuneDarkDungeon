@@ -36,7 +36,19 @@ public class Equipment : IEquipment
         item.Use(user, out coolTime);
         return true;
     }
-    
+
+    public float GetCoolTime(ESkillSlot slot)
+    {
+        var item = GetItem(slot);
+        return item.GetCoolTime();
+    }
+
+    public AnimationClip GetClip(ESkillSlot slot)
+    {
+        var item = GetItem(slot);
+        return item.GetClip();
+    }
+
     public ItemData GetItem(ESkillSlot slot)
     {
         return _items.GetValueOrDefault(slot);

@@ -7,6 +7,9 @@ public class PlayerAnimator : MonoBehaviour
 {
     private Animator _animator;
     private PlayerStateMachine _stateMachine;
+    private AnimatorOverrideController overrideController;
+
+    [SerializeField] private AnimationClip defaultSkillClip;
 
     private readonly int _speedRatioHash = Animator.StringToHash("Blend");
     private readonly int _jumpHash = Animator.StringToHash("Jump");
@@ -18,6 +21,8 @@ public class PlayerAnimator : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _stateMachine = GetComponent<PlayerStateMachine>();
+        overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
+        _animator.runtimeAnimatorController = overrideController;
     }
 
     private void Start()
@@ -61,9 +66,17 @@ public class PlayerAnimator : MonoBehaviour
         _animator.CrossFade(stateName, 0.05f, 0, 0);
     }
 
-    public void PlaySkill(EAttackType attackType)
+    public void PlaySingleAttack(EAttackType attackType)
     {
         string stateName = $"AttackSubStateMachine.{attackType.ToString()}";
+
+        _animator.CrossFade(stateName, 0.1f, 0, 0);
+    }
+
+    public void PlaySkill(AnimationClip clip)
+    {
+        string stateName = $"AttackSubStateMachine.Skill";
+        overrideController[defaultSkillClip] = clip;
 
         _animator.CrossFade(stateName, 0.1f, 0, 0);
     }

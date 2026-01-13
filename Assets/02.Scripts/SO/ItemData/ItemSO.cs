@@ -14,7 +14,13 @@ public class ItemSO : ScriptableObject
     
     [Header("쿨타임")]
     [SerializeField] private float _coolTime;
+
+    [Header("애니메이션 클립")]
+    [SerializeField] private AnimationClip _clip;
+
     public float CoolTime => _coolTime;
+
+    public AnimationClip Clip => _clip;
     
     public int ID => _id;
     public Sprite Icon => _icon;

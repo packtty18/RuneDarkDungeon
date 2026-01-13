@@ -9,7 +9,12 @@ public class PlayerSkillCaster : MonoBehaviour
     private PlayerStateMachine _stateMachine;
     private PlayerAttack _playerAttack;
     private PlayerMove _playerMove;
-    
+    private PlayerAnimator _animator;
+    private ESkillSlot _currentSlot;
+
+    [SerializeField] private Equipment _equipment;
+    public ItemDatabaseSO DB;
+
     // 쿨다운 관리
     private Dictionary<ESkillSlot, float> _cooldowns = new Dictionary<ESkillSlot, float>()
     {
@@ -23,6 +28,19 @@ public class PlayerSkillCaster : MonoBehaviour
         _stateMachine = GetComponent<PlayerStateMachine>();
         _playerAttack = GetComponent<PlayerAttack>();
         _playerMove = GetComponent<PlayerMove>();
+        _animator = GetComponent<PlayerAnimator>();
+
+        SetItemInfo(_equipment.Items.Values);
+    }
+
+    private void SetItemInfo(IEnumerable<ItemData> items)
+    {
+        foreach (var item in items)
+        {
+            if (item == null) continue;
+            ItemSO info = DB.GetItemInfo(item);
+            item.SetInfo(info);
+        }
     }
 
     private void Update()
@@ -46,6 +64,7 @@ public class PlayerSkillCaster : MonoBehaviour
     {
         // 1. 룬이 장착되어 있는지 확인.
 
+        _currentSlot = slot;
 
         // 2. 쿨다운 체크.
         if (_cooldowns[slot] > 0f)
@@ -54,27 +73,22 @@ public class PlayerSkillCaster : MonoBehaviour
             return;
         }
 
-        // 4. 스킬 실행.
+        // 3. 스킬 시작.
         CastSkill();
 
-        // 5. 쿨다운 시작.
-        _cooldowns[slot] = 5f;
+        // 4. 쿨다운 시작.
+        _cooldowns[slot] = _equipment.GetCoolTime(_currentSlot);
     }
 
     private void CastSkill()
     {
         OnSkillStart();
 
-        StartCoroutine(SkillCoroutine());
+        AnimationClip clip = _equipment.GetClip(_currentSlot);
+        
+        _animator.PlaySkill(clip);
     }
 
-    private IEnumerator SkillCoroutine()
-    {
-        yield return new WaitForSeconds(3f);
-
-
-        OnSkillEnd();
-    }
 
     private void UpdateCooldowns()
     {
@@ -98,12 +112,20 @@ public class PlayerSkillCaster : MonoBehaviour
         Debug.Log($"[Skill] 스킬 실행");
     }
 
+    public void OnSkillEffect()
+    {
+        float coolTime = 0;
+        _equipment.UseItem(gameObject, _currentSlot, out coolTime);
+    }
+
     //스킬 사용 종료 타이밍에 맞춰 애니메이션 이벤트로 호출.
     public void OnSkillEnd()
     {
         _stateMachine.SetActionState(EActionState.None);
 
         _playerAttack.OnSkillComplete();
+
+        _currentSlot = ESkillSlot.None;
 
         Debug.Log($"[Skill] 스킬 종료");
     }

@@ -193,7 +193,7 @@ public class PlayerAttack : MonoBehaviour
     {
         Debug.Log($"[Attack] Type: {type} | Skill | Damage: {damage}");
         _currentDamage = SetDamage(damage);
-        _animator.PlaySkill(type);
+        _animator.PlaySingleAttack(type);
     }
 
     private void ExecuteComboAttack()
