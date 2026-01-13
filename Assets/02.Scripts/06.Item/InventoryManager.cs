@@ -35,7 +35,7 @@ public class InventoryManager : MonoBehaviour
         {
             if (slot.IsEmpty) return;
             _selectedSlot = slot;
-            _dragIcon.Show(slot.Icon);
+            _dragIcon.Show(slot.Item.Icon);
             SetBackgroundsActive(true);
         }
         else
@@ -61,7 +61,7 @@ public class InventoryManager : MonoBehaviour
             _tooltip.Hide();
             return;
         }
-        _tooltip.Show(slot.Info, slot.transform, showGold);
+        _tooltip.Show(slot.Item.Info, slot.transform, showGold);
     }
     
     public void DeselectItem()

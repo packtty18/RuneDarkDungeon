@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UI_SlotContainer : UI_Base
 { 
-    private ItemDatabaseSO _itemDB;
+    [SerializeField] private ItemBorderSO _borderDB;
     
     [Header("슬롯 연결")]
     [SerializeField] private List<UI_Slot> _slots;
@@ -15,10 +15,8 @@ public class UI_SlotContainer : UI_Base
     public event Action<UI_Slot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
     
-    public void Initialize(ItemDatabaseSO itemDB)
+    private void Awake()
     {
-        _itemDB = itemDB;
-        
         foreach (var slot in _slots)
         {
             slot.OnSlotClicked += NotifySlotClicked;
@@ -50,8 +48,8 @@ public class UI_SlotContainer : UI_Base
         {
             if (i < targetCount)
             {
-                var data = _itemDB.GetSlotData(items[i]);
-                _slots[i].SetItem(data);
+                var border = _borderDB.GetBorderSprite(items[i].Grade);
+                _slots[i].SetItem(items[i], border);
                 _slots[i].SetActive(true);
             }
             else

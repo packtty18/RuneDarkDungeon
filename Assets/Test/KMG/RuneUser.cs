@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-100)]
 public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
 {
     [SerializeField] private Inventory _inventory;
@@ -19,7 +20,6 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
     [SerializeField] private ItemUpgradeDataSO _upgradeDB;
     
     public ItemDatabaseSO ItemDB => _itemDB;
-    public ItemUpgradeDataSO UpgradeDB => _upgradeDB;
     
     public float NextQ;
     public float NextE;
@@ -31,10 +31,11 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
     protected override void OnInit()
     {
         _forge = new(_upgradeDB, _upgradeInventory, _inventory, _goldData);
-        _initializer.Initialize(this);
         
         SetItemInfo(Inventory.Items);
         SetItemInfo(Equipment.Items.Values);
+        
+        _initializer.Initialize(this);
     }
     
     private void SetItemInfo(IEnumerable<ItemData> items)

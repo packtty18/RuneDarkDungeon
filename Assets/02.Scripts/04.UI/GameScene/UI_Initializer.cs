@@ -5,11 +5,6 @@ public class UI_Initializer : MonoBehaviour
 {
     [Header("UI 연결")]
     [Space]
-    [SerializeField] private UI_SlotContainer _inventoryUI;
-    [SerializeField] private UI_SlotContainer _upgradeUI;
-    [SerializeField] private UI_EquipmentView _equipmentUI;
-    
-    [Space]
     [SerializeField] private InventoryManager _inventoryManager;
     
     [Space]
@@ -19,10 +14,6 @@ public class UI_Initializer : MonoBehaviour
     
     public void Initialize(IDataHandler data)
     {
-        _inventoryUI.Initialize(data.ItemDB);
-        _upgradeUI.Initialize(data.ItemDB);
-        _equipmentUI.Initialize(data.ItemDB);
-        
         _inventoryManager.Initialize(data.Inventory);
         EquipmentManager equipmentManager = new(data.Equipment, data.Inventory);
         
