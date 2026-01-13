@@ -9,10 +9,11 @@ public class PlayerSkillCaster : MonoBehaviour
 {
     private PlayerStateMachine _stateMachine;
     private PlayerAttack _playerAttack;
-    private PlayerMove _playerMove;
     private PlayerAnimator _animator;
     private ESkillSlot _currentSlot;
 
+    [SerializeField]
+    private HitboxController _hitboxController;
     [SerializeField] private Equipment _equipment;
     public ItemDatabaseSO DB;
 
@@ -38,7 +39,6 @@ public class PlayerSkillCaster : MonoBehaviour
     {
         _stateMachine = GetComponent<PlayerStateMachine>();
         _playerAttack = GetComponent<PlayerAttack>();
-        _playerMove = GetComponent<PlayerMove>();
         _animator = GetComponent<PlayerAnimator>();
 
         SetItemInfo(_equipment.Items.Values);

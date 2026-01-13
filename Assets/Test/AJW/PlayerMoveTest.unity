@@ -2929,7 +2929,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 484416285610723721, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
       propertyPath: Attack._max
-      value: 1000
+      value: 100000000
       objectReference: {fileID: 0}
     - target: {fileID: 484416285610723721, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
       propertyPath: Health._max
@@ -2937,11 +2937,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 484416285610723721, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
       propertyPath: Defense._max
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 484416285610723721, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
+      propertyPath: Attack._current
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 484416285610723721, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
       propertyPath: Defense._current
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2030553530966688259, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
       propertyPath: DB
