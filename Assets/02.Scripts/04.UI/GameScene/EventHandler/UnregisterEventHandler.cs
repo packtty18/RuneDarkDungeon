@@ -2,20 +2,21 @@ using UnityEngine;
 
 public class UnregisterEventHandler : ISlotEventHandler
 {
-    private readonly UpgradeManager _upgradeManager;
+    private readonly IForge _forge;
     
-    public UnregisterEventHandler(UpgradeManager upgradeManager)
+    public UnregisterEventHandler(IForge forge)
     {
-        _upgradeManager = upgradeManager;
+        _forge = forge;
     }
     
     public void OnClickSlot(UI_Slot slot)
     {
         if (slot.IsEmpty) return;
-        _upgradeManager.Unregister(slot.Item);
+        _forge.Unregister(slot.Item);
     }
 
     public void OnHoverSlot(UI_Slot slot) { }
+    public void OnDoubleClickSlot(UI_Slot slot) { }
     public void OnEnter() { }
     public void OnExit() { }
 }

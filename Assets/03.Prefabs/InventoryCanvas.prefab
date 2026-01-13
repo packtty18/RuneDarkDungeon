@@ -209,8 +209,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3141209493045464739}
-        m_TargetAssemblyTypeName: UpgradeManager, Assembly-CSharp
+      - m_Target: {fileID: 7501577030098615944}
+        m_TargetAssemblyTypeName: UpgradePresenter, Assembly-CSharp
         m_MethodName: Upgrade
         m_Mode: 1
         m_Arguments:
@@ -620,7 +620,6 @@ RectTransform:
   - {fileID: 7133636247271260766}
   - {fileID: 1429098945242093848}
   - {fileID: 4900519851925453862}
-  - {fileID: 5943899245936377137}
   - {fileID: 6725689593445308977}
   - {fileID: 5947274558271764559}
   - {fileID: 5988763344636117937}
@@ -1688,6 +1687,7 @@ GameObject:
   - component: {fileID: 7663695966895175748}
   - component: {fileID: 7501577030098615944}
   - component: {fileID: 6880271115959354259}
+  - component: {fileID: 8952342284785983128}
   m_Layer: 0
   m_Name: Presenter
   m_TagString: Untagged
@@ -1723,13 +1723,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryController
   _inventoryUI: {fileID: 2755717572291621418}
-  _upgradePresenter: {fileID: 7501577030098615944}
-  _equipmentPresenter: {fileID: 6880271115959354259}
   _inventoryManager: {fileID: 8474049524372040592}
-  _inventoryToggleButton: {fileID: 8770118525212280962}
-  _upgradeToggleButton: {fileID: 5259715143742904478}
-  _equipmentToggleButton: {fileID: 3158349138754251999}
-  _upgradeManager: {fileID: 3141209493045464739}
+  _modePresenter: {fileID: 8952342284785983128}
   _eventHandler: {fileID: 7712452901414016819}
 --- !u!114 &7501577030098615944
 MonoBehaviour:
@@ -1746,7 +1741,7 @@ MonoBehaviour:
   _upgradeUI: {fileID: 7919360812787271630}
   _upgradeInfoUI: {fileID: 1085882623287246297}
   _inventoryUI: {fileID: 2755717572291621418}
-  _upgradeManager: {fileID: 3141209493045464739}
+  _modePresenter: {fileID: 8952342284785983128}
   _upgradeEventHandler: {fileID: 5825760357582198012}
 --- !u!114 &6880271115959354259
 MonoBehaviour:
@@ -1761,7 +1756,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentPresenter
   _equipmentUI: {fileID: 420651842046928189}
+  _modePresenter: {fileID: 8952342284785983128}
   _inventoryManager: {fileID: 8474049524372040592}
+--- !u!114 &8952342284785983128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3986571585936987036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0477416da7efc0540bfe3c8997e5fba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModePresenter
+  _inventoryToggleButton: {fileID: 8770118525212280962}
+  _upgradeToggleButton: {fileID: 5259715143742904478}
+  _equipmentToggleButton: {fileID: 3158349138754251999}
 --- !u!1 &4282173932838358395
 GameObject:
   m_ObjectHideFlags: 0
@@ -2693,7 +2704,6 @@ MonoBehaviour:
   _upgradeUI: {fileID: 7919360812787271630}
   _equipmentUI: {fileID: 420651842046928189}
   _inventoryManager: {fileID: 8474049524372040592}
-  _upgradeManager: {fileID: 3141209493045464739}
   _inventoryPresenter: {fileID: 7663695966895175748}
   _upgradePresenter: {fileID: 7501577030098615944}
   _equipmentPresenter: {fileID: 6880271115959354259}
@@ -3115,50 +3125,6 @@ MonoBehaviour:
   m_Spacing: {x: 50, y: 50}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!1 &8938860295407089426
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5943899245936377137}
-  - component: {fileID: 3141209493045464739}
-  m_Layer: 0
-  m_Name: UpgradeManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5943899245936377137
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8938860295407089426}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4353936184140347600}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3141209493045464739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8938860295407089426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98072d5c65e92bd44a01e41d92e40d2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UpgradeManager
 --- !u!1001 &46725841188091043
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -11,11 +11,6 @@ public class Inventory : IInventory
     private SafeEvent _onChanged = new();
     
     public int Count => _items.Count;
-
-    public bool CanAdd(ItemData item)
-    {
-        return item != null;
-    }
     
     public void Add(ItemData item)
     {

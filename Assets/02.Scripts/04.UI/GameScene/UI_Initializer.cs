@@ -1,15 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UI_Initializer : MonoBehaviour
 {
     [Header("UI 연결")]
+    [Space]
     [SerializeField] private UI_SlotContainer _inventoryUI;
     [SerializeField] private UI_SlotContainer _upgradeUI;
     [SerializeField] private UI_EquipmentView _equipmentUI;
     
+    [Space]
     [SerializeField] private InventoryManager _inventoryManager;
-    [SerializeField] private UpgradeManager _upgradeManager;
     
+    [Space]
     [SerializeField] private InventoryPresenter _inventoryPresenter;
     [SerializeField] private UpgradePresenter _upgradePresenter;
     [SerializeField] private EquipmentPresenter _equipmentPresenter;
@@ -21,11 +24,17 @@ public class UI_Initializer : MonoBehaviour
         _equipmentUI.Initialize(data.ItemDB);
         
         _inventoryManager.Initialize(data.Inventory);
-        _upgradeManager.Initialize(data.UpgradeDB, data.UpgradeInventory, data.Inventory, data.GoldData);
-        EquipmentManager equipmentManager = new(data.Equipment, data.Inventory, data.ItemDB);
+        EquipmentManager equipmentManager = new(data.Equipment, data.Inventory);
         
-        _inventoryPresenter.Initialize(data.Inventory);
-        _upgradePresenter.Initialize(data.UpgradeInventory);
+        Dictionary<EInventoryMode, ISlotEventHandler> inventoryHandlerDict = new()
+        {
+            { EInventoryMode.Normal, new NormalEventHandler(_inventoryManager) },
+            { EInventoryMode.Upgrade , new RegisterEventHandler(data.Forge) },
+            { EInventoryMode.Equipment, new NormalEventHandler(_inventoryManager) },
+        };
+        
+        _inventoryPresenter.Initialize(data.Inventory, inventoryHandlerDict);
+        _upgradePresenter.Initialize(data.UpgradeInventory, data.Forge, new UnregisterEventHandler(data.Forge));
         _equipmentPresenter.Initialize(equipmentManager, data.Equipment);
     }
 }

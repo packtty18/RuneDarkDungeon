@@ -6,39 +6,31 @@ public class UpgradePresenter : MonoBehaviour
     [SerializeField] private UI_SlotContainer _upgradeUI;
     [SerializeField] private UI_UpgradeInfo _upgradeInfoUI;
     [SerializeField] private UI_SlotContainer _inventoryUI;
-
-    [Header("로직 연결")]
-    [SerializeField] private UpgradeManager _upgradeManager;
-    [SerializeField] private SlotEventHandler _upgradeEventHandler;
+    [SerializeField] private ModePresenter _modePresenter;
 
     private IReadOnlyInventory _upgradeInventory;
-
-    public void Initialize(IReadOnlyInventory upgradeInventory)
+    private IForge _forge;
+    
+    private ISlotEventHandler _eventHandler;
+    
+    public void Initialize(IReadOnlyInventory upgradeInventory, IForge forge, ISlotEventHandler eventHandler)
     {
         _upgradeInventory = upgradeInventory;
-        _upgradeInventory.Subscribe(RefreshView);
-        _upgradeManager.Subscribe(RefreshInfo);
+        _forge = forge;
+        _eventHandler = eventHandler;
         
-        _upgradeEventHandler.SetMode(new UnregisterEventHandler(_upgradeManager));
+        _upgradeUI.OnSlotClicked += HandleSlotClicked;
+        _upgradeInventory.Subscribe(RefreshView);
+        _forge.Subscribe(RefreshInfo);
+        _modePresenter.Subscribe(HandleModeChanged);
     }
 
     private void OnDestroy()
     {
+        _upgradeUI.OnSlotClicked -= HandleSlotClicked;
         _upgradeInventory.Unsubscribe(RefreshView);
-        _upgradeManager.Unsubscribe(RefreshInfo);
-    }
-
-    public void Show()
-    {
-        _upgradeUI.Show();
-        RefreshView();
-        RefreshInfo();
-    }
-
-    public void Hide()
-    {
-        _upgradeUI.Hide();
-        _inventoryUI.RefreshFilter();
+        _forge.Unsubscribe(RefreshInfo);
+        _modePresenter.Unsubscribe(HandleModeChanged);
     }
 
     private void RefreshView()
@@ -48,8 +40,33 @@ public class UpgradePresenter : MonoBehaviour
 
     private void RefreshInfo()
     {
-        _upgradeUI.SetSlotCount(_upgradeManager.UpgradeData.Count);
-        _upgradeInfoUI.Refresh(_upgradeManager.UpgradeData);
-        _inventoryUI.RefreshFilter(_upgradeInventory);
+        _upgradeUI.SetSlotCount(_forge.UpgradeData.Count);
+        _upgradeInfoUI.Refresh(_forge.UpgradeData);
+        _inventoryUI.RefreshFilter(_forge);
+    }
+
+    private void HandleSlotClicked(UI_Slot slot)
+    {
+        _eventHandler.OnClickSlot(slot);
+    }
+
+    private void HandleModeChanged(EInventoryMode mode)
+    {
+        if (mode == EInventoryMode.Upgrade)
+        {
+            _upgradeUI.Show();
+            RefreshView();
+            RefreshInfo();
+        }
+        else
+        {
+            _upgradeUI.Hide();
+            _inventoryUI.RefreshFilter();
+        }
+    }
+        
+    public void Upgrade()
+    {
+        _forge.Upgrade();
     }
 }

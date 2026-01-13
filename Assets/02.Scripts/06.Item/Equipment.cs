@@ -5,8 +5,15 @@ using UnityEngine;
 public class Equipment : IEquipment
 {
     [SerializeField] private SerializableDictionary<ESkillSlot, ItemData> _items = new();
+    
+    private ItemDatabaseSO _itemDB;
 
     private SafeEvent _onChanged = new();
+
+    public Equipment(ItemDatabaseSO itemDB)
+    {
+        _itemDB = itemDB;
+    }
     
     public ItemData Equip(ESkillSlot slot, ItemData item)
     {
@@ -25,6 +32,16 @@ public class Equipment : IEquipment
         return item;
     }
 
+    public bool UseItem(GameObject user, ESkillSlot slot, out float coolTime)
+    {
+        coolTime = 0;
+        var item = GetItem(slot);
+        if (item == null) return false;
+        
+        _itemDB.UseItem(user, item, out coolTime);
+        return true;
+    }
+    
     public ItemData GetItem(ESkillSlot slot)
     {
         return _items.GetValueOrDefault(slot);

@@ -1,22 +1,21 @@
 using System;
 using UnityEngine;
 
-public class UpgradeManager : MonoBehaviour
+public class Forge : IForge
 {
     private IInventory _upgradeInventory;
     private IInventory _inventory;
     private ICurrency _currency;
 
     private ItemUpgradeDataSO _upgradeDB;
+    
     private ItemData _baseItem;
     private UpgradeData _upgradeData = UpgradeData.Empty;
-
     public UpgradeData UpgradeData => _upgradeData;
 
     private SafeEvent _onChanged = new();
 
-    public void Initialize(ItemUpgradeDataSO upgradeDB, IInventory upgradeInventory, IInventory inventory,
-        ICurrency currency)
+    public Forge(ItemUpgradeDataSO upgradeDB, IInventory upgradeInventory, IInventory inventory, ICurrency currency)
     {
         _upgradeDB = upgradeDB;
         _upgradeInventory = upgradeInventory;
@@ -24,9 +23,16 @@ public class UpgradeManager : MonoBehaviour
         _currency = currency;
     }
 
+    public bool CanRegister(ItemData item)
+    {
+        if (IsFull || item == null || item.IsMaxGrade) return false;
+        
+        return _baseItem == null || _baseItem.TypeEquals(item);
+    }
+    
     public void Register(ItemData item)
     {
-        if (IsFull || !_upgradeInventory.CanAdd(item)) return;
+        if (!CanRegister(item)) return;
 
         if (IsEmpty)
         {
@@ -36,7 +42,7 @@ public class UpgradeManager : MonoBehaviour
         _inventory.Remove(item);
         _upgradeInventory.Add(item);
 
-        _onChanged?.Invoke();
+        Notify();
     }
 
     public void Unregister(ItemData item)
@@ -49,7 +55,7 @@ public class UpgradeManager : MonoBehaviour
             ResetUpgradeData();
         }
 
-        _onChanged?.Invoke();
+        Notify();
     }
 
     public void UnregisterAll()
@@ -68,12 +74,11 @@ public class UpgradeManager : MonoBehaviour
         if (!IsFull || !_currency.TryConsume(_upgradeData.Cost)) return;
 
         ItemData newItem = _baseItem.GetUpgradedItem();
-        ResetUpgradeData();
-
         _inventory.Add(newItem);
         _upgradeInventory.Clear();
 
-        _onChanged?.Invoke();
+        ResetUpgradeData();
+        Notify();
     }
 
     private void SetUpgradeData(ItemData item)
@@ -99,6 +104,11 @@ public class UpgradeManager : MonoBehaviour
     public void Unsubscribe(Action action)
     {
         _onChanged.Unsubscribe(action);
+    }
+    
+    private void Notify()
+    {
+        _onChanged?.Invoke();
     }
 
     private bool IsFull => _upgradeInventory.Count > 0 && _upgradeInventory.Count == _upgradeData.Count;
