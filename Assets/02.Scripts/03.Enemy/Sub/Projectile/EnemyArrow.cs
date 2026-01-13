@@ -2,16 +2,23 @@ using UnityEngine;
 
 public class EnemyArrow : EnemyProjectile
 {
-    [SerializeField] HitBox _hitbox;
+    [SerializeField] private HitBox _hitbox;
 
-    public override void Init(int damage)
+    public override void Init(float damage)
     {
         base.Init(damage);
-        _hitbox?.Activate();
+        _hitbox = GetComponentInChildren<HitBox>();
+        _hitbox.Activate(damage);
     }
 
     protected override void Move()
     {
-        transform.position += transform.forward * speed * Time.deltaTime;
+        transform.position += transform.forward * _speed * Time.deltaTime;
+    }
+
+    protected override void OnTrigger()
+    {
+        Util.ObjectDestroy(gameObject);
+        _hitbox.Deactivate();
     }
 }

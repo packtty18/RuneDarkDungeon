@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 public class EnemyStateMachine
 {
-    [SerializeField] private EnemyState _currentState;
-    public EnemyState CurrentState => _currentState;
-
+    //생성된 스테이트를 버리지 않고 보관
     private readonly Dictionary<EEnemyState, EnemyState> _stateCache = new();
     private EnemyController _controller;
+    [SerializeField] private EnemyState _currentState;
+
+    public EnemyState CurrentState => _currentState;
 
     public EnemyStateMachine(EnemyController controller)
     {
@@ -58,6 +59,5 @@ public class EnemyStateMachine
     public void Tick(float deltaTime)
     {
         _currentState?.Tick(deltaTime);
-        _controller.Attack.LoadCooltime(deltaTime);
     }
 }

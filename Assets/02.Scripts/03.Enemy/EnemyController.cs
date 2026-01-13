@@ -72,16 +72,10 @@ public class EnemyController : PoolableObject, IDamageable
         SetDamageAcceptable(true);
     }
 
-    [Button]
     public void Dead()
     {
         SetDamageAcceptable(false);
         _fsm.Reset();
-
-        _move.PauseAgent();
-        CancelAttack();
-        _anim.SetTrigger(AnimatorController.s_deadTrigger);
-
         // 물리 Collider 비활성화
         _physics.isKinematic = true;
         ReturnToPoolAfter(3f);
@@ -159,20 +153,37 @@ public class EnemyController : PoolableObject, IDamageable
             return;
         }
 
+        int dir = DirectionConvert(data.HitDirection);
+        Anim.SetInt(AnimatorController.s_hitDirInt, dir);
+
         if (_health.IsDead)
         {
             HandleDead();
         }
         else
         {
-            HandleDamaged(data);
+            HandleDamaged();
         }
 
-        Debug.Log($"{gameObject.name} 피격, {data.AttackId}");
+        Debug.Log($"{gameObject.name} 피격, {data.AttackId}, {data.HitDirection}, {dir}");
+    }
+
+    private int DirectionConvert( Vector3 hitDirection)
+    {
+        Vector3 localDir = transform.InverseTransformDirection(hitDirection);
+        localDir.y = 0f;
+
+        // Decide by dominant axis
+        if (Mathf.Abs(localDir.x) > Mathf.Abs(localDir.z))
+        {
+            return localDir.x < 0f? (int)EHitDirection.Right : (int)EHitDirection.Left;
+        }
+
+        return localDir.z < 0f ? (int)EHitDirection.Front : (int)EHitDirection.Back;
     }
 
     [Button]
-    private void HandleDamaged(DamageData data)
+    private void HandleDamaged()
     {
         if (FSM.CurrentState is DeadState)
         {
@@ -182,6 +193,7 @@ public class EnemyController : PoolableObject, IDamageable
         _fsm.ChangeState(EEnemyState.Hit);
     }
 
+    [Button]
     private void HandleDead()
     {
         if (FSM.CurrentState is DeadState)
@@ -197,52 +209,65 @@ public class EnemyController : PoolableObject, IDamageable
     [Button]
     public void HitRecover()
     {
+        Debug.Log($"[HitRecover] frame:{Time.frameCount}, state:{FSM.CurrentState}");
         FSM.ChangeState(EEnemyState.Idle);
         _anim.SetTrigger(AnimatorController.s_resetTrigger);
     }
 
     public void OnBeginAttack()
     {
-        _attack.OnBeginAttack();
-
-        StopLoopDelay();
-        _loopDelayRoutine = StartCoroutine(LoopDelayRoutine(_attack.LoopDelay));
+        Debug.Log($"[OnBeginAttack] frame:{Time.frameCount}, state:{FSM.CurrentState}");
+        Attack.OnBeginAttack();
+        StartLoopDelay(Attack.CurrentLoopDelay);
     }
 
-    private Coroutine _loopDelayRoutine;
+    private Coroutine loopRoutine;
+    private void StartLoopDelay(float delay)
+    {
+        if (delay <= 0f)
+            return;
+
+        StopLoopDelay();
+        loopRoutine = StartCoroutine(LoopDelayRoutine(delay));
+    }
+   
     private IEnumerator LoopDelayRoutine(float delay)
     {
         yield return new WaitForSeconds(delay);
-
-        if (_attack == null || !_attack.IsAttacking)
-            yield break;
-
         _anim.SetTrigger("AttackLoopEnd");
     }
 
     public void CancelAttack()
     {
         StopLoopDelay();
-        _attack.CancelAttack();
     }
 
     private void StopLoopDelay()
     {
-        if (_loopDelayRoutine != null)
+        if (loopRoutine != null)
         {
-            StopCoroutine(_loopDelayRoutine);
-            _loopDelayRoutine = null;
+            StopCoroutine(loopRoutine);
+            loopRoutine = null;
         }
     }
 
     public void OnEndAttack()
     {
-        _attack.OnAttackEnd();
+        Debug.Log($"[OnEndAttack] frame:{Time.frameCount}, state:{FSM.CurrentState}");
+        _attack.OnEndAttack();
     }
+
 
     public void OnAttackComplete()
     {
-        _attack.OnAttackComplete();
+        Debug.Log($"[OnAttackComplete] frame:{Time.frameCount}, state:{FSM.CurrentState}");
+        StopLoopDelay();
+        Attack.Finish();
+
+        if (FSM.CurrentState is AttackState attackState)
+        {
+            attackState.OnAttackFinished();
+        }
     }
 
     #endregion

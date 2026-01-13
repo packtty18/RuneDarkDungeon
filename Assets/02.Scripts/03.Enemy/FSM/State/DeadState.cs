@@ -7,6 +7,11 @@ public class DeadState : EnemyState
     public override void Enter()
     {
         base.Enter();
+        controller.Move.PauseAgent();
+        controller.CancelAttack();
+
+        controller.Anim.SetTrigger(AnimatorController.s_deadTrigger);
+
         controller.Dead();
     }
 

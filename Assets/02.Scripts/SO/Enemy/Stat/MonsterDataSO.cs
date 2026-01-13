@@ -15,26 +15,27 @@ public class MonsterDataSO : ScriptableObject
     public int maxHP;
 
     [FoldoutGroup("Base Stats")]
-    public int attack;
+    public float attack;
 
     [FoldoutGroup("Base Stats")]
-    public int defense;
+    public float defense;
 
     [FoldoutGroup("Base Stats")]
     public float moveSpeed;
-
 
     [FoldoutGroup("Combat")]
     public float attackRange;
 
     [FoldoutGroup("Combat")]
-    public float attackCooldown;
+    public float attackCooldown; //공격 후 다음 공격까지의 딜레이임.
 
     [FoldoutGroup("Combat")]
     public bool hasSuperArmor;
 
-    [FoldoutGroup("Combat")]
-    public bool hasRetreatOnPlayerClose;
+    [ShowIf(nameof(IsArchor))]
+    [FoldoutGroup("Archor")]
+    public float retreatRange;  //후퇴 범위. 해당 범위 밖으로 이동
+
 
     [ShowIf(nameof(IsBoss))]
     [FoldoutGroup("Boss")]
@@ -43,5 +44,15 @@ public class MonsterDataSO : ScriptableObject
     private bool IsBoss()
     {
         return enemyType == EEnemyType.Boss;
+    }
+
+    private bool IsArchor()
+    {
+        return enemyType == EEnemyType.Archer;
+    }
+
+    private bool IsMage()
+    {
+        return enemyType == EEnemyType.Mage;
     }
 }
