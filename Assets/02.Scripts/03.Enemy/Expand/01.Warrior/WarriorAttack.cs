@@ -8,7 +8,7 @@ public class WarriorAttack : EnemyAttack
     {
         base.Init();
         _hitboxController = GetComponentInChildren<HitboxController>();
-        RegisterStrategy(0, new ProtoMeleeAttack(_hitboxController, "Main", _damage));   //기본공격1
-        RegisterStrategy(1, new ProtoMeleeAttack(_hitboxController, "Main", _damage));   //기본공격2
+        RegisterStrategy(0, new EnemyDirectAttack(_hitboxController, "Main", _damage));   //기본공격1
+        RegisterStrategy(1, new EnemyDirectAttack(_hitboxController, "Main", _damage));   //기본공격2
     }
 }

@@ -215,46 +215,57 @@ public class EnemyController : PoolableObject, IDamageable
 
     public void OnBeginAttack()
     {
-        _attack.OnBeginAttack();
-
-        StopLoopDelay();
-        _loopDelayRoutine = StartCoroutine(LoopDelayRoutine(_attack.LoopDelay));
+        Debug.Log($"[OnBeginAttack] frame:{Time.frameCount}, state:{FSM.CurrentState}");
+        Attack.OnBeginAttack();
+        StartLoopDelay(Attack.CurrentLoopDelay);
     }
 
-    private Coroutine _loopDelayRoutine;
+    private Coroutine loopRoutine;
+    private void StartLoopDelay(float delay)
+    {
+        if (delay <= 0f)
+            return;
+
+        StopLoopDelay();
+        loopRoutine = StartCoroutine(LoopDelayRoutine(delay));
+    }
+   
     private IEnumerator LoopDelayRoutine(float delay)
     {
         yield return new WaitForSeconds(delay);
-
-        if (_attack == null || !_attack.IsAttacking)
-            yield break;
-
         _anim.SetTrigger("AttackLoopEnd");
     }
 
     public void CancelAttack()
     {
         StopLoopDelay();
-        _attack.CancelAttack();
     }
 
     private void StopLoopDelay()
     {
-        if (_loopDelayRoutine != null)
+        if (loopRoutine != null)
         {
-            StopCoroutine(_loopDelayRoutine);
-            _loopDelayRoutine = null;
+            StopCoroutine(loopRoutine);
+            loopRoutine = null;
         }
     }
 
     public void OnEndAttack()
     {
-        _attack.OnAttackEnd();
+        Debug.Log($"[OnEndAttack] frame:{Time.frameCount}, state:{FSM.CurrentState}");
+        _attack.OnEndAttack();
     }
+
 
     public void OnAttackComplete()
     {
-        _attack.OnAttackComplete();
+        StopLoopDelay();
+        Attack.Finish();
+
+        if (FSM.CurrentState is AttackState attackState)
+        {
+            attackState.OnAttackFinished();
+        }
     }
 
     #endregion

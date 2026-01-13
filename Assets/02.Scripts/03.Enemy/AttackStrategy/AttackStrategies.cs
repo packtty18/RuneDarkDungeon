@@ -1,7 +1,7 @@
 using UnityEngine;
 
-//근접 공격 : 자체의 히트박스를 끄고 킴
-public class ProtoMeleeAttack : IActionStrategy
+//소유한 히트박스를 활성화하여 공격
+public class EnemyDirectAttack : IAttackStretagy
 {
     private readonly HitboxController _hitbox;
     private readonly string _key;
@@ -10,69 +10,55 @@ public class ProtoMeleeAttack : IActionStrategy
     private float _loopDelay = 0;
     public float LoopDelay => _loopDelay;
 
-    public ProtoMeleeAttack(HitboxController hitbox, string key, float damage)
+    public EnemyDirectAttack(HitboxController hitbox, string key, float damage)
     {
         _hitbox = hitbox;
         _key = key;
         _damage = damage;
     }
 
-    public void BeginAction()
+    public void BeginAttack()
     {
         _hitbox.Activate(_key, _damage);
     }
 
-    public void EndAction()
+    public void EndAttack()
     {
         _hitbox.Deactivate(_key);
     }
 }
 
-//화살,마법탄 등을 생성. 히트박스는 생성된 객체에 존재
-public class ProtoRangedAttack : IActionStrategy
+//히트박스를 가진 다른 객체를 생성하여 공격
+// Hitbox spawn attack strategy
+public class EnemySpawnAttack : IAttackStretagy
 {
-    private readonly EnemyDelaySOBase _windup;
-    private readonly Transform _spanwPos;
+    private readonly EnemyDelaySOBase _delayLoop;
+    private readonly Transform _spawnPos;
     private readonly float _damage;
-    public float LoopDelay => _windup.Delay;
 
-    public ProtoRangedAttack(
-        EnemyDelaySOBase windup,
-        Transform spawnPos,
-        float damage)
+    private bool _executed;
+
+    public float LoopDelay => _delayLoop.Delay;
+
+    public EnemySpawnAttack(EnemyDelaySOBase delayLoop, Transform spawnPos, float damage)
     {
-        _windup = windup;
-        _spanwPos = spawnPos;
+        _delayLoop = delayLoop;
+        _spawnPos = spawnPos;
         _damage = damage;
     }
 
-    public void BeginAction()
+    public void BeginAttack()
     {
-        _windup.BeginLoop();
+        _executed = false;
+        _delayLoop.BeginLoop();
     }
 
-    public void EndAction()
+    public void EndAttack()
     {
-        _windup.Execute(_spanwPos, _damage);
-    }
-}
+        if (_executed)
+            return;
 
-//버프 혹은 특수
-public class ProtoMagic : IActionStrategy
-{
-    public ProtoMagic()
-    {
-
-    }
-
-    //버프 캐스팅 대기시간
-    public float LoopDelay => throw new System.NotImplementedException();
-
-    public void BeginAction()
-    {
-    }
-
-    public void EndAction()
-    {
+        _executed = true;
+        _delayLoop.Execute(_spawnPos, _damage);
     }
 }

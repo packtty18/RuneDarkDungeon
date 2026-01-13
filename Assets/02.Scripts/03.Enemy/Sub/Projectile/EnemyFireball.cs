@@ -1,16 +1,24 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyFireball : MonoBehaviour
+public class EnemyFireball : EnemyProjectile
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField]private GameObject _explosionPrefab;
+    protected override void Move()
     {
-        
+        transform.position += transform.forward * _speed * Time.deltaTime;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void OnTrigger()
     {
-        
+        GameObject obj = Instantiate(_explosionPrefab);
+        obj.transform.position = transform.position;
+
+        if (obj.TryGetComponent(out EnemyExplosion explosion))
+        {
+            explosion.Init(_damage, 3);
+        }
+
+        Util.ObjectDestroy(gameObject);
     }
 }
