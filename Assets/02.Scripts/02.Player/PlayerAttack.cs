@@ -339,12 +339,21 @@ public class PlayerAttack : MonoBehaviour
         _attackBuffered = false;
     }
 
-    public void OnFinisherFinish()
+    public void OnChargeFinisherFinish()
     {
+        _hitboxController.Deactivate("Main");
         _stateMachine.SetActionState(EActionState.None);
 
         EndCombo();
         _cameraShake.CameraShake(_finisherShakeAmplitude, _finisherShakeTime);
+    }
+
+    public void OnFinisherFinish()
+    {
+        _hitboxController.Deactivate("Main");
+        _stateMachine.SetActionState(EActionState.None);
+
+        EndCombo();
     }
 
     public void OnJumpDashAttackFinish()
