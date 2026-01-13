@@ -13,19 +13,14 @@ public enum EEnemyValueFloat
 {
     MoveSpeed,
     AttackRange,
-    AttackCoolDown
-    
-}
-
-public enum EEnemyValueInt
-{
+    AttackCoolDown,
     Attack,
     Defense
 }
 
 public enum EEnemyConsumableFloat
 {
-    Health
+    Health,
 }
 
 //public enum EEnemyConsumableInt
@@ -40,8 +35,6 @@ public class EnemyStat : MonoBehaviour
 
     private readonly Dictionary<EEnemyConsumableFloat, ConsumableStat<float>> _floatConsumables = new();
     private readonly Dictionary<EEnemyValueFloat, ValueStat<float>> _floatValues = new();
-    private readonly Dictionary<EEnemyValueInt, ValueStat<int>> _intValues = new();
-
     //private readonly Dictionary<EEnemyConsumableInt, ConsumableStat<float>> _intConsumables = new();
 
     public EEnemyType EnemyType => _data.enemyType;
@@ -65,19 +58,14 @@ public class EnemyStat : MonoBehaviour
             _floatValues[type] = new ValueStat<float>();
         }
 
-        foreach (EEnemyValueInt type in System.Enum.GetValues(typeof(EEnemyValueInt)))
-        {
-            _intValues[type] = new ValueStat<int>();
-        }
     }
 
     private void InitFromData(MonsterDataSO data)
     {
         _floatConsumables[EEnemyConsumableFloat.Health].Init(data.maxHP);
 
-        _intValues[EEnemyValueInt.Attack].Init(data.attack);
-        _intValues[EEnemyValueInt.Defense].Init(data.defense);
-
+        _floatValues[EEnemyValueFloat.Attack].Init(data.attack);
+        _floatValues[EEnemyValueFloat.Defense].Init(data.defense);
         _floatValues[EEnemyValueFloat.MoveSpeed].Init(data.moveSpeed);
         _floatValues[EEnemyValueFloat.AttackRange].Init(data.attackRange);
         _floatValues[EEnemyValueFloat.AttackCoolDown].Init(data.attackCooldown);
@@ -89,11 +77,6 @@ public class EnemyStat : MonoBehaviour
     public IReadOnlyValue<float> GetValue(EEnemyValueFloat type)
     {
         return _floatValues[type];
-    }
-
-    public IReadOnlyValue<int> GetValue(EEnemyValueInt type)
-    {
-        return _intValues[type];
     }
 
     public IReadOnlyConsumable<float> GetValue(EEnemyConsumableFloat type)
