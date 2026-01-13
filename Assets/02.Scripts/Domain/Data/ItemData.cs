@@ -26,6 +26,16 @@ public class ItemData
         _info.Use(user, _grade);
         coolTime = _info.CoolTime;
     }
+
+    public float GetCoolTime()
+    {
+        return _info.CoolTime;
+    }
+
+    public AnimationClip GetClip()
+    {
+        return _info.Clip;
+    }
     
     public bool IsMaxGrade=> _grade.IsMaxGrade();
 
