@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UI_SlotContainer : UI_Base
 { 
-    [SerializeField] private ItemBorderSO _borderDB;
+    [SerializeField] private ItemFrameSO _frameDB;
     
     [Header("슬롯 연결")]
     [SerializeField] private List<UI_Slot> _slots;
@@ -48,8 +48,7 @@ public class UI_SlotContainer : UI_Base
         {
             if (i < targetCount)
             {
-                var border = _borderDB.GetBorderSprite(items[i].Grade);
-                Debug.Log(border);
+                var border = _frameDB.GetBorderSprite(items[i].Grade);
                 _slots[i].SetItem(items[i], border);
                 _slots[i].SetActive(true);
             }

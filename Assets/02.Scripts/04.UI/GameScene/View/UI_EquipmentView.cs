@@ -8,7 +8,7 @@ public class UI_EquipmentView : UI_Base
     [SerializeField] private SerializableDictionary<ESkillSlot, UI_Slot> _slots;
     private Dictionary<UI_Slot, ESkillSlot> _slotDict;
     
-    [SerializeField] private ItemBorderSO _borderDB;
+    [SerializeField] private ItemFrameSO _frameDB;
     
     public event Action<ESkillSlot> OnSlotDoubleClicked;
     public event Action<ESkillSlot> OnSlotClicked;
@@ -47,7 +47,7 @@ public class UI_EquipmentView : UI_Base
 
             if (item != null)
             {
-                var border = _borderDB.GetBorderSprite(item.Grade);
+                var border = _frameDB.GetBorderSprite(item.Grade);
                 slot.SetItem(item, border);
             }
             else

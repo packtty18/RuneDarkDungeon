@@ -27,10 +27,8 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
             Clear();
             return;
         }
-        Debug.Log($"{item.Name}, {item.Icon}");
         _item = item;
         _iconImage.sprite = item.Icon;
-        Debug.Log(border);
         _borderImage.sprite = border;
     }
 
