@@ -47,8 +47,11 @@ public class EnemyController : PoolableObject, IDamageable
 
     private void Update()
     {
+        //현재 정지 상태
         if (_isPaused)
+        {
             return;
+        }
 
         _fsm.Tick(Time.deltaTime);
     }
@@ -79,23 +82,52 @@ public class EnemyController : PoolableObject, IDamageable
         // 물리 Collider 비활성화
         _physics.isKinematic = true;
         ReturnToPoolAfter(3f);
-
         OnDead?.Invoke(this);
     }
+    public override void OnSpawn()
+    {
+        if (BattleManager.Instance != null)
+        {
+            BattleManager.Instance.OnBattleStateChanged.Subscribe(HandleBattleState);
+            HandleBattleState(BattleManager.Instance.State);
+        }
+            
+    }
+
+    public override void OnDespawn()
+    {
+        if (BattleManager.Instance != null)
+            BattleManager.Instance.OnBattleStateChanged.Unsubscribe(HandleBattleState);
+    }
+
+    private void HandleBattleState(EBattleState state)
+    {
+        switch (state)
+        {
+            case EBattleState.InProgress:
+                Resume();
+                break;
+
+            default:
+                Pause();
+                break;
+        }
+    }
+
 
     [Button]
     public void Pause()
     {
         _isPaused = true;
-        _move.StopMove();
-        _anim.SetAnimSpeed(0f);
+        _move?.StopMove();
+        _anim?.SetAnimSpeed(0f);
     }
     [Button]
     public void Resume()
     {
         _isPaused = false;
-        _move.StartMove();
-        _anim.SetAnimSpeed(1f);
+        _move?.StartMove();
+        _anim?.SetAnimSpeed(1f);
     }
 
     #endregion
@@ -183,7 +215,7 @@ public class EnemyController : PoolableObject, IDamageable
     }
 
     [Button]
-    private void HandleDamaged()
+    public void HandleDamaged()
     {
         if (FSM.CurrentState is DeadState)
         {
@@ -194,7 +226,7 @@ public class EnemyController : PoolableObject, IDamageable
     }
 
     [Button]
-    private void HandleDead()
+    public void HandleDead()
     {
         if (FSM.CurrentState is DeadState)
         {

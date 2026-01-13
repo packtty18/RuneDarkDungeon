@@ -133,8 +133,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 149144235}
+  - component: {fileID: 149144236}
   m_Layer: 0
-  m_Name: PrototypeLocalManager
+  m_Name: LocalManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,6 +156,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &149144236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149144234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18847e30207dbdd4a8c46977503de473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleManager
+  _spawnManagers:
+  - {fileID: 1795748136}
+  - {fileID: 1219821645}
+  OnBattleStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBattleWin:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBattleLose:
+    m_PersistentCalls:
+      m_Calls: []
+  PlayerTransform: {fileID: 47610179}
+  _state: 0
 --- !u!1 &277470941
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +702,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: GlobalManagers
       objectReference: {fileID: 0}
+    - target: {fileID: 7530503726006114119, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
+      propertyPath: _poolConfigs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7530503726006114119, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
+      propertyPath: '_poolConfigs.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: b44eafae64554a942bc087b60fd9689f, type: 2}
+    - target: {fileID: 7530503726006114119, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
+      propertyPath: '_poolConfigs.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 170111f900b2d3b4ab348d3ca85e4957, type: 2}
+    - target: {fileID: 7530503726006114119, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
+      propertyPath: '_poolConfigs.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c133409c35834b34bbde74122a3a47dc, type: 2}
     - target: {fileID: 8255421415645138975, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1003,6 +1046,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Archer
       objectReference: {fileID: 0}
+    - target: {fileID: 2702605027344997685, guid: 164a83a61311a8346ad934ba471728c5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3668017061649240182, guid: 164a83a61311a8346ad934ba471728c5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.0031619072
@@ -1297,6 +1344,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Warrior
       objectReference: {fileID: 0}
+    - target: {fileID: 2702605027344997685, guid: 1db5faab75681144882665d3f88dccd1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3668017061649240182, guid: 1db5faab75681144882665d3f88dccd1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.00492692
@@ -1542,24 +1593,9 @@ MonoBehaviour:
   _phaseDatas:
   - {fileID: 11400000, guid: 29c2f27b37a371d46bc2b4c4b7ab237f, type: 2}
   - {fileID: 11400000, guid: 2d4cf80b7572bb04190a6e32048f250c, type: 2}
-  - {fileID: 11400000, guid: 19e4bd555ad96144cb40ed86025562e6, type: 2}
   _nextPhaseThreshold: 0
-  OnAllPhaseCompleted:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1613814195}
-        m_TargetAssemblyTypeName: EnemySpawnTrigger, Assembly-CSharp
-        m_MethodName: ActiveSwitch
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   _target: {fileID: 47610179}
+  _list: []
 --- !u!4 &1219821646
 Transform:
   m_ObjectHideFlags: 0
@@ -1673,6 +1709,10 @@ PrefabInstance:
     - target: {fileID: 2702605027344997685, guid: 1b3f1902305b4124dbc15567b99ae2dc, type: 3}
       propertyPath: m_Name
       value: Mage
+      objectReference: {fileID: 0}
+    - target: {fileID: 2702605027344997685, guid: 1b3f1902305b4124dbc15567b99ae2dc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6936449633290105301, guid: 1b3f1902305b4124dbc15567b99ae2dc, type: 3}
       propertyPath: _target
@@ -2043,24 +2083,9 @@ MonoBehaviour:
   _phaseDatas:
   - {fileID: 11400000, guid: 29c2f27b37a371d46bc2b4c4b7ab237f, type: 2}
   - {fileID: 11400000, guid: 2d4cf80b7572bb04190a6e32048f250c, type: 2}
-  - {fileID: 11400000, guid: 19e4bd555ad96144cb40ed86025562e6, type: 2}
   _nextPhaseThreshold: 0
-  OnAllPhaseCompleted:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1613814195}
-        m_TargetAssemblyTypeName: EnemySpawnTrigger, Assembly-CSharp
-        m_MethodName: ActiveSwitch
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   _target: {fileID: 47610179}
+  _list: []
 --- !u!4 &1795748137
 Transform:
   m_ObjectHideFlags: 0

@@ -16,6 +16,11 @@ public class EnemyMove : MonoBehaviour
 
     [SerializeField] private bool _onTest = false;
 
+    private void Awake()
+    {
+        _agent = GetComponent<NavMeshAgent>();
+    }
+
     private void Update()
     {
         if (_isPaused ||_agent == null|| !_agent.enabled || _target == null)
@@ -29,9 +34,9 @@ public class EnemyMove : MonoBehaviour
     
     public void Init()
     {
-        _agent = GetComponent<NavMeshAgent>();
-        if(_agent == null)
+        if (_agent == null)
         {
+            _agent = GetComponent<NavMeshAgent>();
             Debug.Log("EnemyMove :Agent Not Exist", this);
         }
         SetAgentSetting();
