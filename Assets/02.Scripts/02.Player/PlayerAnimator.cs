@@ -6,22 +6,23 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     private Animator _animator;
-    private PlayerMove _playerMove;
+    private PlayerStateMachine _stateMachine;
 
     private readonly int _speedRatioHash = Animator.StringToHash("Blend");
     private readonly int _jumpHash = Animator.StringToHash("Jump");
     private readonly int _attackHash = Animator.StringToHash("Attack");
     private readonly int _canMoveHash = Animator.StringToHash("CanMove");
+    private readonly int _dodgeHash = Animator.StringToHash("Dodge");
 
     void Awake()
     {
         _animator = GetComponent<Animator>();
-        _playerMove = GetComponent<PlayerMove>();
+        _stateMachine = GetComponent<PlayerStateMachine>();
     }
 
     private void Start()
     {
-        _playerMove.OnCanMoveChanged += SetCanMove;
+        _stateMachine.OnCanMoveChanged += SetCanMove;
     }
 
     public void SetSpeedRatio(float ratio)
@@ -38,6 +39,12 @@ public class PlayerAnimator : MonoBehaviour
     {
         _animator.SetTrigger(_attackHash);
     }
+
+    public void SetDodge(bool isDodging)
+    {
+        _animator.SetBool(_dodgeHash, isDodging);
+    }
+
 
     public void PlayComboAttack(int comboIndex)
     {
@@ -68,6 +75,6 @@ public class PlayerAnimator : MonoBehaviour
 
     private void OnDestroy()
     {
-        _playerMove.OnCanMoveChanged -= SetCanMove;
+        _stateMachine.OnCanMoveChanged -= SetCanMove;
     }
 }
