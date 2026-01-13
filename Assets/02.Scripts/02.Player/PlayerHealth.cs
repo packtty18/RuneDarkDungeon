@@ -12,7 +12,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         if (_stateMachine.CurrentState == EPlayerState.Dead) return;
 
-        _stats.Health.Consume(data.Damage);
+        float damage = data.Damage - (data.Damage * _stats.Defense.Current);
+        Debug.Log($"받은 데미지 : {data.Damage} | 반영 데미지 : {damage}");
+        _stats.Health.Consume(damage);
+
         
         if (_stats.Health.IsEmpty())
         {
