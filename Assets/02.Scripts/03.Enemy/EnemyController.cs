@@ -209,6 +209,7 @@ public class EnemyController : PoolableObject, IDamageable
     [Button]
     public void HitRecover()
     {
+        Debug.Log($"[HitRecover] frame:{Time.frameCount}, state:{FSM.CurrentState}");
         FSM.ChangeState(EEnemyState.Idle);
         _anim.SetTrigger(AnimatorController.s_resetTrigger);
     }
@@ -259,6 +260,7 @@ public class EnemyController : PoolableObject, IDamageable
 
     public void OnAttackComplete()
     {
+        Debug.Log($"[OnAttackComplete] frame:{Time.frameCount}, state:{FSM.CurrentState}");
         StopLoopDelay();
         Attack.Finish();
 

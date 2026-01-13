@@ -48,7 +48,7 @@ public class EnemyExplosion : MonoBehaviour
 
         _hitboxController.DeactivateAll();
         _initted = false;
-        Util.ObjectDestroy(gameObject);
+        Util.DestroyAfterTime(3f,gameObject);
     }
 
 }

@@ -57,7 +57,6 @@ public abstract class EnemyProjectile : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"[EnemyProjectile] Hit {other.name}");
         if(other.CompareTag("Environment") || other.CompareTag("Player"))
         {
             OnTrigger();
