@@ -18,6 +18,8 @@ public class NormalEventHandler : ISlotEventHandler
     {
         _inventoryManager.ShowTooltip(slot);
     }
+    
+    public void OnDoubleClickSlot(UI_Slot slot) { }
 
     public void OnEnter() { }
 

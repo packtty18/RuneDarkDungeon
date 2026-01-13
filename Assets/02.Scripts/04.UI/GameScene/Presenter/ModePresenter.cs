@@ -27,7 +27,7 @@ public class ModePresenter : MonoBehaviour
 
     private void OnClickInventoryButton()
     {
-        ChangeMode(_mode == EInventoryMode.Normal ? EInventoryMode.Closed : EInventoryMode.Normal);
+        ChangeMode(_mode == EInventoryMode.Closed ? EInventoryMode.Normal : EInventoryMode.Closed);
     }
 
     private void OnClickUpgradeButton()

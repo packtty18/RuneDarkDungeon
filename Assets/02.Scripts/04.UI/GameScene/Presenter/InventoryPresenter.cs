@@ -25,7 +25,7 @@ public class InventoryPresenter : MonoBehaviour
         {
             { EInventoryMode.Normal, new NormalEventHandler(_inventoryManager) },
             { EInventoryMode.Upgrade , new RegisterEventHandler(forge) },
-            { EInventoryMode.Equipment, new EquipEventHandler(_inventoryManager) },
+            { EInventoryMode.Equipment, new NormalEventHandler(_inventoryManager) },
         };
 
         HandleModeChanged(EInventoryMode.Closed);

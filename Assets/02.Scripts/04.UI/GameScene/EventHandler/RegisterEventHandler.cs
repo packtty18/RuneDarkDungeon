@@ -16,8 +16,8 @@ public class RegisterEventHandler : ISlotEventHandler
     }
     
     public void OnHoverSlot(UI_Slot slot) { }
+    public void OnDoubleClickSlot(UI_Slot slot) { }
     public void OnEnter() { }
-
     public void OnExit()
     {
         _forge.UnregisterAll();
