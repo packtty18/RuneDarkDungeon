@@ -10,7 +10,6 @@ public class UI_SlotContainer : UI_Base
     [SerializeField] private List<UI_Slot> _slots;
     [SerializeField] private Transform _slotParent;
     [SerializeField] private UI_Slot _slotPrefab;
-    [SerializeField] private UI_ScrollView _layoutController;
 
     public event Action<UI_Slot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
@@ -58,8 +57,6 @@ public class UI_SlotContainer : UI_Base
                 _slots[i].SetActive(false);
             }
         }
-        
-        _layoutController?.UpdateLayout(targetCount);
     }
     
     public void RefreshFilter(IReadOnlyForge forge = null)
