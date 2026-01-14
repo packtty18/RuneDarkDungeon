@@ -29,6 +29,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         }
         _item = item;
         _iconImage.sprite = item.Icon;
+        _iconImage.gameObject.SetActive(true);
         _borderImage.sprite = border;
     }
 
@@ -36,6 +37,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     {
         _item = null;
         _iconImage.sprite = null;
+        _iconImage.gameObject.SetActive(false);
         _borderImage.sprite = _defaultBorderImage;
     }
 
