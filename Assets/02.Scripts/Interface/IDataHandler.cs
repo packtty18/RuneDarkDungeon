@@ -8,7 +8,5 @@ public interface IDataHandler
     ICurrency GoldData { get; }
     IForge Forge { get; }
     
-    ItemDatabaseSO ItemDB { get; }
-
     void Save();
 }

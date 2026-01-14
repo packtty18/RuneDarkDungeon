@@ -7,40 +7,38 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 {
     [Header("UI 연결")]
     [SerializeField] private Image _iconImage;
-    [SerializeField] private Image _outlineImage;
+    [SerializeField] private Image _borderImage;
+    [SerializeField] private Sprite _defaultBorderImage;
     [SerializeField] private GameObject _iconCover;
-
-    private SlotData _data;
-
-    public ItemData Item => _data.Item;
     
-    public ItemSO Info => _data.Info;
-    public Sprite Icon => _iconImage.sprite;
-    public bool IsEmpty =>  _data.Item == null;
+    private ItemData _item;
+    public ItemData Item => _item;
+    public bool IsEmpty => _item == null;
     private bool _isInteractable = true;
 
     public event Action<UI_Slot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
     public event Action<UI_Slot> OnSlotDoubleClicked;
     
-    public void SetItem(SlotData data)
+    public void SetItem(ItemData item, Sprite border)
     {
-        if (data.Item == null)
+        if (item == null)
         {
             Clear();
             return;
         }
-        
-        _data = data;
-        _iconImage.sprite = data.Info.Icon;
-        _outlineImage.color = data.Color;
+        _item = item;
+        _iconImage.sprite = item.Icon;
+        _iconImage.gameObject.SetActive(true);
+        _borderImage.sprite = border;
     }
 
     public void Clear()
     {
-        _data = SlotData.Empty;
+        _item = null;
         _iconImage.sprite = null;
-        _outlineImage.color = Color.white;
+        _iconImage.gameObject.SetActive(false);
+        _borderImage.sprite = _defaultBorderImage;
     }
 
     public void SetActive(bool active)

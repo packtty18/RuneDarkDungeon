@@ -17,24 +17,15 @@ public class DataManager : GlobalSingleton<DataManager>, IDataHandler
     [SerializeField] private ItemDatabaseSO _itemDB;
     [SerializeField] private ItemUpgradeDataSO _upgradeDB;
     
-    public ItemDatabaseSO ItemDB => _itemDB;
-    
     protected override void OnInit()
     {
         FileIO.Load(_data);
-        _forge = new(_upgradeDB, UpgradeInventory, Inventory, GoldData);
-        SetItemInfo(Inventory.Items);
-        SetItemInfo(Equipment.Items.Values);
-    }
 
-    private void SetItemInfo(IEnumerable<ItemData> items)
-    {
-        foreach (var item in items)
-        {
-            if (item == null) continue;
-            ItemSO info = _itemDB.GetItemInfo(item);
-            item.SetInfo(info);
-        }
+        ItemFactory itemFactory = new(_itemDB);
+        _forge = new(itemFactory, _upgradeDB, UpgradeInventory, Inventory, GoldData);
+        
+        itemFactory.SetItemInfo(Inventory.Items);
+        itemFactory.SetItemInfo(Equipment.Items.Values);
     }
 
     public void Save()

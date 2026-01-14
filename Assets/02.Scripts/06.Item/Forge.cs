@@ -8,6 +8,7 @@ public class Forge : IForge
     private ICurrency _currency;
 
     private ItemUpgradeDataSO _upgradeDB;
+    private ItemFactory _itemFactory;
     
     private ItemData _baseItem;
     private UpgradeData _upgradeData = UpgradeData.Empty;
@@ -15,8 +16,9 @@ public class Forge : IForge
 
     private SafeEvent _onChanged = new();
 
-    public Forge(ItemUpgradeDataSO upgradeDB, IInventory upgradeInventory, IInventory inventory, ICurrency currency)
+    public Forge(ItemFactory itemFactory, ItemUpgradeDataSO upgradeDB, IInventory upgradeInventory, IInventory inventory, ICurrency currency)
     {
+        _itemFactory = itemFactory;
         _upgradeDB = upgradeDB;
         _upgradeInventory = upgradeInventory;
         _inventory = inventory;
@@ -73,7 +75,7 @@ public class Forge : IForge
     {
         if (!IsFull || !_currency.TryConsume(_upgradeData.Cost)) return;
 
-        ItemData newItem = _baseItem.GetUpgradedItem();
+        ItemData newItem = _itemFactory.CreateUpgradedItem(_baseItem);
         _inventory.Add(newItem);
         _upgradeInventory.Clear();
 

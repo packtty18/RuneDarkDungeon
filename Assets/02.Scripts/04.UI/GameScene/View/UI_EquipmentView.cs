@@ -8,16 +8,14 @@ public class UI_EquipmentView : UI_Base
     [SerializeField] private SerializableDictionary<ESkillSlot, UI_Slot> _slots;
     private Dictionary<UI_Slot, ESkillSlot> _slotDict;
     
-    private ItemDatabaseSO _itemDB;
+    [SerializeField] private ItemFrameSO _frameDB;
     
     public event Action<ESkillSlot> OnSlotDoubleClicked;
     public event Action<ESkillSlot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
     
-    public void Initialize(ItemDatabaseSO itemDB)
+    private void Awake()
     {
-        _itemDB = itemDB;
-        
         _slotDict = new();
         foreach (var pair in _slots)
         {
@@ -49,8 +47,8 @@ public class UI_EquipmentView : UI_Base
 
             if (item != null)
             {
-                var data = _itemDB.GetSlotData(item);
-                slot.SetItem(data);
+                var border = _frameDB.GetBorderSprite(item.Grade);
+                slot.SetItem(item, border);
             }
             else
             {
