@@ -14,8 +14,12 @@ public class PlayerAttack : MonoBehaviour
     private Coroutine _comboTimerCoroutine;
 
     private Renderer[] _playerRenderers;
+
+    private EffectPlayer _dashVFX;
+    private EffectPlayer _finisherVFX;
+
     [SerializeField]
-    private ParticleSystem _dashVFX;
+    private Transform _swordPosition;
     [SerializeField] 
     private PlayerAttackConfigSO _attackConfig;
     [SerializeField]
@@ -54,6 +58,7 @@ public class PlayerAttack : MonoBehaviour
     {
         _playerMove.OnIsJumpingChanged += OnJumpingChange;
         _playerMove.OnDashEnd += StartJumpAttack;
+        EffectInstantiate();
 
         Initialized();
     }
@@ -89,6 +94,12 @@ public class PlayerAttack : MonoBehaviour
     {
         _isJumping = _playerMove.IsJumping;
         _comboReturnTime = _attackConfig.ComboReturnTime;
+    }
+
+    private void EffectInstantiate()
+    {
+        _dashVFX = Instantiate(_attackConfig.JumpDashEffect, transform);
+        _finisherVFX = Instantiate(_attackConfig.FinisherEffect, transform);
     }
 
 
@@ -335,8 +346,11 @@ public class PlayerAttack : MonoBehaviour
     {
         _hitboxController.Deactivate("Main");
         _stateMachine.SetActionState(EActionState.None);
-
+        
         EndCombo();
+
+        _finisherVFX.PlayAt(transform, _swordPosition);
+
         _cameraShake.CameraShake(_finisherShakeAmplitude, _finisherShakeTime);
     }
 
@@ -344,7 +358,7 @@ public class PlayerAttack : MonoBehaviour
     {
         _hitboxController.Deactivate("Main");
         _stateMachine.SetActionState(EActionState.None);
-
+        
         EndCombo();
     }
 

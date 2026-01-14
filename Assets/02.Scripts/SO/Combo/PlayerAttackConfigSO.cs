@@ -12,9 +12,13 @@ public class PlayerAttackConfigSO : ScriptableObject
     [Tooltip("점프 데쉬 설정")]
     public float JumpDashAngle;
     public float JumpDashSpeed;
+    public EffectPlayer JumpDashEffect;
 
     [Tooltip("차지 피니셔 데미지")]
     public float ChargeFinisherDamage;
+
+    [Tooltip("차지 피니셔 설정")]
+    public EffectPlayer FinisherEffect;
 
     [Tooltip("콤보 단계 목록")]
     public AttackPhaseData[] AttackPhases;
