@@ -109,7 +109,7 @@ public class EnemyMove : MonoBehaviour
         _isPaused = true;
 
         if (IsAgentActive)
-            _agent.ResetPath();
+            //_agent.ResetPath();
 
         Debug.Log("[EnemyMove] 에이전트 정지", this);
     }
@@ -125,7 +125,7 @@ public class EnemyMove : MonoBehaviour
         if (_target != null)
         {
             EnableAgent();
-            _agent.SetDestination(_target.position);
+            //_agent.SetDestination(_target.position);
         }
 
         Debug.Log("[EnemyMove] 에이전트 재시작", this);

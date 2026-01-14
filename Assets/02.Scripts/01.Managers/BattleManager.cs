@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,6 +7,7 @@ public enum EBattleState
     None,
     Preparing,
     InProgress,
+    Pause,
     WaitingNextStage,
     Victory,
     Defeat
@@ -27,7 +29,7 @@ public class BattleManager : LocalSingleton<BattleManager>
 
     public EBattleState State => _state;
 
-    private EBattleState _state;
+    [SerializeField]private EBattleState _state;
     private int _currentIndex;
     private bool _isStageRunning;
 
@@ -36,6 +38,7 @@ public class BattleManager : LocalSingleton<BattleManager>
         SetState(EBattleState.Preparing);
     }
 
+    [Button]
     private void SetState(EBattleState newState)
     {
         if (_state == newState)
@@ -70,7 +73,10 @@ public class BattleManager : LocalSingleton<BattleManager>
         _currentIndex = 0;
         _isStageRunning = false;
         OnBattleStart?.Invoke();
-        SetState(EBattleState.InProgress);
+        
+        ActiveCurrentSpawnManager();
+
+        SetState(EBattleState.WaitingNextStage);
     }
 
     private void HandleInProgress()
@@ -87,11 +93,15 @@ public class BattleManager : LocalSingleton<BattleManager>
             return;
         }
 
+        _isStageRunning = true;
+        
+    }
+
+    private void ActiveCurrentSpawnManager()
+    {
         EnemySpawnManager manager = _spawnManagers[_currentIndex];
         manager.OnAllPhaseCompleted.Subscribe(HandleStageCleared);
-
-        _isStageRunning = true;
-        manager.PlayCurrentPhase();
+        manager.SpawnCurrentPhase();
     }
 
     private void HandleStageCleared()
@@ -103,14 +113,17 @@ public class BattleManager : LocalSingleton<BattleManager>
         _currentIndex++;
 
         SetState(EBattleState.WaitingNextStage);
+        ActiveCurrentSpawnManager();
     }
 
-    public void NotifyDoorDestroyed()
+    [Button]
+    public void NotifyActiveStage()
     {
         if (_state == EBattleState.WaitingNextStage)
             SetState(EBattleState.InProgress);
     }
 
+    [Button]
     public void NotifyPlayerDead()
     {
         SetState(EBattleState.Defeat);
