@@ -67,7 +67,7 @@ public class ChaseState : EnemyState
             return;
         }
 
-        float chargeRange = 7;
+        float chargeRange = controller.Stat.GetValue(EEnemyValueFloat.ChargeRange).Value;
         if (controller.Stat.CanCharge && controller.IsTargetInRange(chargeRange))
         {
             controller.FSM.ChangeState(EEnemyState.Charge);

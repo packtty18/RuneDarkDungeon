@@ -2096,10 +2096,12 @@ GameObject:
   - component: {fileID: 8412140521032856612}
   - component: {fileID: 302086985339383968}
   - component: {fileID: 2856388395032808152}
-  - component: {fileID: 509571096365139268}
+  - component: {fileID: 4424310549083604618}
   - component: {fileID: 7083409057989474777}
   - component: {fileID: 2979449482652622158}
   - component: {fileID: 7071512738532134623}
+  - component: {fileID: 6622041587854128312}
+  - component: {fileID: 4357764297386226329}
   m_Layer: 0
   m_Name: Elite
   m_TagString: Untagged
@@ -2251,9 +2253,10 @@ MonoBehaviour:
   _health: {fileID: 0}
   _stat: {fileID: 0}
   _anim: {fileID: 0}
+  _buff: {fileID: 0}
   _paused: 0
   _wait: 0
---- !u!114 &509571096365139268
+--- !u!114 &4424310549083604618
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2262,9 +2265,70 @@ MonoBehaviour:
   m_GameObject: {fileID: 8562400191214014964}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f32e5ce7c858264280bfa2c16076231, type: 3}
+  m_Script: {fileID: 11500000, guid: b2669f5f05927f74985b60b5c87e8ef8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyStat
+  m_EditorClassIdentifier: Assembly-CSharp::EliteStat
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _floatConsumables
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[EEnemyConsumableFloat, Assembly-CSharp],[ConsumableStat`1[[System.Single,
+        mscorlib]], Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[EEnemyConsumableFloat,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _floatValues
+      Entry: 7
+      Data: 2|System.Collections.Generic.Dictionary`2[[EEnemyValueFloat, Assembly-CSharp],[ValueStat`1[[System.Single,
+        mscorlib]], Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 3|System.Collections.Generic.EnumEqualityComparer`1[[EEnemyValueFloat,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   _data: {fileID: 11400000, guid: eb07c270f0df3ec468acb4f0f56306bb, type: 2}
   CanCharge: 1
 --- !u!114 &7083409057989474777
@@ -2307,6 +2371,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EliteAttack
   controller: {fileID: 0}
   _hitboxController: {fileID: 6691671834920349894}
+--- !u!114 &6622041587854128312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8562400191214014964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e107dc8e28ca93419d4c1e7ef0cecaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EliteBuff
+  _berserkBuffs:
+  - {fileID: 11400000, guid: be813deb491d7b1468ffcf3cabce0f46, type: 2}
+--- !u!114 &4357764297386226329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8562400191214014964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d24d6e451da393428ce0ac59376fc94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDamageFeedback
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.2
+  _receiver: {fileID: 0}
+  _renderer: {fileID: 0}
 --- !u!1 &8972945130652191451
 GameObject:
   m_ObjectHideFlags: 0

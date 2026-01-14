@@ -14,9 +14,14 @@ public enum EEnemyValueFloat
 {
     MoveSpeed,      //이동속도
     AttackRange,    //공격범위
-    AttackCoolDown, //공격딜레이
+    AttackCooldown, //공격딜레이
     Attack,         //공격력
-    Defense         //방어력
+    Defense,         //방어력
+
+    ChargeSpeed,
+    ChargeRange,
+    ChargeDistance,
+    ChargeCooldown
 }
 
 public enum EEnemyConsumableFloat
@@ -32,10 +37,10 @@ public enum EEnemyConsumableFloat
 //데이터를 통해 Stat을 초기화 및 전달.
 public class EnemyStat : SerializedMonoBehaviour
 {
-    [SerializeField] private MonsterDataSO _data;
+    [SerializeField] protected MonsterDataSO _data;
 
-    [SerializeField] private readonly Dictionary<EEnemyConsumableFloat, ConsumableStat<float>> _floatConsumables = new();
-    [SerializeField] private readonly Dictionary<EEnemyValueFloat, ValueStat<float>> _floatValues = new();
+    [SerializeField] protected readonly Dictionary<EEnemyConsumableFloat, ConsumableStat<float>> _floatConsumables = new();
+    [SerializeField] protected readonly Dictionary<EEnemyValueFloat, ValueStat<float>> _floatValues = new();
     //private readonly Dictionary<EEnemyConsumableInt, ConsumableStat<float>> _intConsumables = new();
 
     public EEnemyType EnemyType => _data.enemyType;
@@ -50,7 +55,7 @@ public class EnemyStat : SerializedMonoBehaviour
         InitFromData(_data);
     }
 
-    private void InitDictionaries()
+    protected virtual void InitDictionaries()
     {
         foreach (EEnemyConsumableFloat type in System.Enum.GetValues(typeof(EEnemyConsumableFloat)))
         {
@@ -64,7 +69,7 @@ public class EnemyStat : SerializedMonoBehaviour
 
     }
 
-    private void InitFromData(MonsterDataSO data)
+    protected virtual void InitFromData(MonsterDataSO data)
     {
         _floatConsumables[EEnemyConsumableFloat.Health].Init(data.maxHP);
 
@@ -72,9 +77,9 @@ public class EnemyStat : SerializedMonoBehaviour
         _floatValues[EEnemyValueFloat.Defense].Init(data.defense);
         _floatValues[EEnemyValueFloat.MoveSpeed].Init(data.moveSpeed);
         _floatValues[EEnemyValueFloat.AttackRange].Init(data.attackRange);
-        _floatValues[EEnemyValueFloat.AttackCoolDown].Init(data.attackCooldown);
-        OnStatInitEnd?.Invoke();
+        _floatValues[EEnemyValueFloat.AttackCooldown].Init(data.attackCooldown);
 
+        OnStatInitEnd?.Invoke();
         Debug.Log("[EnemyStat] Initialized");
     }
 

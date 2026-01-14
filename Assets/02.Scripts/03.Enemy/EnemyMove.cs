@@ -53,6 +53,8 @@ public class EnemyMove : MonoBehaviour
     public void MoveByDirection(Vector3 direction, float speed)
     {
         transform.position += direction * speed * Time.deltaTime;
+
+        LookAt(direction);
     }
 
     public void SetAgentSetting()
@@ -154,12 +156,18 @@ public class EnemyMove : MonoBehaviour
         if (direction.sqrMagnitude < 0.001f)
             return;
 
+        LookAt(direction);
+    }
+
+    private void LookAt(Vector3 direction)
+    {
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(
             transform.rotation,
             targetRotation,
             _rotationSpeed * Time.deltaTime
         );
+
     }
 
     private void EnableAgent()

@@ -4,8 +4,6 @@ public class ChargeState : EnemyState
 {
     public override EEnemyState StateType => EEnemyState.Charge;
 
-    private const float DASH_DISTANCE = 10f;
-    private const float DASH_SPEED = 7.5f;
 
     private Vector3 _direction;
     private Vector3 _startPosition;
@@ -36,12 +34,10 @@ public class ChargeState : EnemyState
 
     public override void Tick(float deltaTime)
     {
-        controller.Move.MoveByDirection(_direction, DASH_SPEED);
+        controller.Move.MoveByDirection(_direction, controller.Stat.GetValue(EEnemyValueFloat.ChargeSpeed).Value);
 
-        float movedDistance =
-            Vector3.Distance(_startPosition, controller.transform.position);
-
-        if (movedDistance >= DASH_DISTANCE)
+        float movedDistance = Vector3.Distance(_startPosition, controller.transform.position);
+        if (movedDistance >= controller.Stat.GetValue(EEnemyValueFloat.ChargeRange).Value)
         {
             controller.FSM.ChangeState(EEnemyState.Chase);
         }

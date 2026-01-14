@@ -6,7 +6,6 @@ public class EliteAttack : EnemyAttack
 {
     [SerializeField] protected HitboxController _hitboxController;
     
-    protected float chargeDelay = 10f;
     public override void Init()
     {
         base.Init();
@@ -29,7 +28,7 @@ public class EliteAttack : EnemyAttack
 
     private IEnumerator ChargeDelay()
     {
-        yield return new WaitForSeconds(chargeDelay);
+        yield return new WaitForSeconds(controller.Stat.GetValue(EEnemyValueFloat.ChargeCooldown).Value);
 
         controller.Stat.CanCharge  = true;
         Debug.Log("[EliteAttack] : 돌진 충전 완료");

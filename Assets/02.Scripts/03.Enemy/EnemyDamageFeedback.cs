@@ -2,13 +2,12 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class DamageFeedback : MonoBehaviour
+public class EnemyDamageFeedback : MonoBehaviour
 {
     [SerializeField] private Color hitColor = Color.red;
     [SerializeField] private float flashDuration = 0.2f;
 
     [SerializeField] private DamageReceiver _receiver;
-    [SerializeField] private HurtBox _managingHurtbox;
     [SerializeField] private Renderer _renderer;
 
     private Color _originalColor;
@@ -21,9 +20,8 @@ public class DamageFeedback : MonoBehaviour
 
     private void Awake()
     {
-        _receiver = GetComponentInParent<DamageReceiver>();
-        _managingHurtbox = GetComponent<HurtBox>();
-        _renderer = GetComponent<Renderer>();
+        _receiver = GetComponentInChildren<DamageReceiver>();
+        _renderer = GetComponentInChildren<Renderer>();
 
         _mpb = new MaterialPropertyBlock();
 
@@ -43,19 +41,16 @@ public class DamageFeedback : MonoBehaviour
 
     private void OnEnable()
     {
-        _receiver.OnDamagedEventEach.Subscribe(HandleDamaged);
+        _receiver.OnDamagedEvent.Subscribe(HandleDamaged);
     }
 
     private void OnDisable()
     {
-        _receiver.OnDamagedEventEach.Unsubscribe(HandleDamaged);
+        _receiver.OnDamagedEvent.Unsubscribe(HandleDamaged);
     }
 
-    private void HandleDamaged(HurtBox hurtbox)
+    private void HandleDamaged()
     {
-        if (hurtbox != _managingHurtbox)
-            return;
-
         PlayFlash();
     }
 

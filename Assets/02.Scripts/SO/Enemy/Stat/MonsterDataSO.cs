@@ -29,14 +29,18 @@ public class MonsterDataSO : ScriptableObject
     [FoldoutGroup("Combat")]
     public float attackCooldown; //공격 후 다음 공격까지의 딜레이임.
 
-    [FoldoutGroup("Combat")]
-    public bool hasSuperArmor;
-
-    [ShowIf(nameof(IsArchor))]
-    [FoldoutGroup("Archor")]
-    public float retreatRange;  //후퇴 범위. 해당 범위 밖으로 이동
-
-
+    [ShowIf(nameof(IsElite))]
+    [FoldoutGroup("Elite")]
+    public float chargeSpeed;
+    [ShowIf(nameof(IsElite))]
+    [FoldoutGroup("Elite")]
+    public float chargeRange; //플레이어가 chargeRange안에 들경우 Charge실행
+    [FoldoutGroup("Elite")]
+    public float chargeDistance; //Charge의 이동 거리
+    [ShowIf(nameof(IsElite))]
+    [FoldoutGroup("Elite")]
+    public float chargeCooldown;
+    
     [ShowIf(nameof(IsBoss))]
     [FoldoutGroup("Boss")]
     public PhaseDataSO[] phases;
@@ -46,13 +50,9 @@ public class MonsterDataSO : ScriptableObject
         return enemyType == EEnemyType.Boss;
     }
 
-    private bool IsArchor()
+    private bool IsElite()
     {
-        return enemyType == EEnemyType.Archer;
+        return enemyType == EEnemyType.Elite;
     }
 
-    private bool IsMage()
-    {
-        return enemyType == EEnemyType.Mage;
-    }
 }
