@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public abstract class StatBase<T> where T : struct, IConvertible
 {
+    private readonly List<StatModifier> _modifiers = new();
     private readonly SafeEvent<T> _onValueChanged = new();
 
     public void Subscribe(Action<T> action)
@@ -20,6 +21,40 @@ public abstract class StatBase<T> where T : struct, IConvertible
     protected void Notify(T value)
     {
         _onValueChanged?.Invoke(value);
+    }
+
+    public void AddModifier(StatModifier modifier)
+    {
+        _modifiers.Add(modifier);
+        Debug.Log($"[ValueStat] Modifier Added: {modifier.Type} {modifier.Value}");
+    }
+
+    public void RemoveModifier(StatModifier modifier)
+    {
+        _modifiers.Remove(modifier);
+        Debug.Log("[ValueStat] Modifier Removed");
+    }
+    protected T CalculateFinalValue(T baseValue)
+    {
+        double finalValue = ToDouble(baseValue);
+        double multiply = 1.0;
+
+        foreach (var mod in _modifiers)
+        {
+            switch (mod.Type)
+            {
+                case EStatModType.Add:
+                    finalValue += mod.Value;
+                    break;
+
+                case EStatModType.Multiply:
+                    multiply += mod.Value;
+                    break;
+            }
+        }
+
+        double result = finalValue * multiply;
+        return FromDouble(result);
     }
 
     //더블형식으로 바꾼다

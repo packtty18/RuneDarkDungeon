@@ -14,10 +14,14 @@ public class IdleState : EnemyState
     public override void Tick(float deltaTime)
     {
         if (controller.Wait)
+        {
             return;
+        }
+
         if (controller.IsTargetExist())
         {
             controller.FSM.ChangeState(EEnemyState.Chase);
         }
+
     }
 }

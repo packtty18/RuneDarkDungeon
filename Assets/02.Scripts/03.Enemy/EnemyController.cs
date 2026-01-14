@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //전체적인 조작을 담당.
@@ -20,16 +21,18 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private EnemyHealth _health;
     [SerializeField] private EnemyStat _stat;
     [SerializeField] private AnimatorController _anim;
-
-    private bool _paused;
+    [SerializeField] private EnemyBuff _buff;
+    [SerializeField] private bool _paused;
     public bool Pause => _paused;
-
+    [SerializeField] private bool _wait = false;
+    public bool Wait => _wait;
     public EnemyStateMachine FSM => _fsm;
     public EnemyMove Move => _move;
     public EnemyAttack Attack => _attack;
     public EnemyHealth Health => _health;
     public EnemyStat Stat => _stat;
     public AnimatorController Anim => _anim;
+    public EnemyBuff Buff => _buff;
     public Transform Target => _target;
     public ETeamType Team => _team;
 
@@ -41,6 +44,7 @@ public class EnemyController : PoolableObject, IDamageable
         _move = GetComponent<EnemyMove>();
         _attack = GetComponent<EnemyAttack>();
         _anim = GetComponent<AnimatorController>();
+        _buff= GetComponent<EnemyBuff>();
         _physics = GetComponent<Rigidbody>();
 
         _fsm = new EnemyStateMachine(this);
@@ -71,13 +75,14 @@ public class EnemyController : PoolableObject, IDamageable
     [Button]
     public void Init()
     {
-        _physics.isKinematic = false;
+        EnablePhysics(true);
 
         _stat.Init();
         _health.Init();
         _move.Init();
         _attack.Init();
         _anim.Init();
+        _buff.Init();
 
         _fsm.Reset();
         _fsm.ChangeState(EEnemyState.Idle);
@@ -85,13 +90,19 @@ public class EnemyController : PoolableObject, IDamageable
         _health.SetDamageable(true);
     }
 
+    public void EnablePhysics(bool enable)
+    {
+        if (_physics == null)
+            return;
+        _physics.isKinematic = !enable;
+    }
 
     public void Dead()
     {
         _health.SetDamageable(false);
         _fsm.Reset();
 
-        _physics.isKinematic = true;
+        EnablePhysics(false);
         ReturnToPoolAfter(3f);
 
         OnDead?.Invoke(this);
@@ -115,8 +126,7 @@ public class EnemyController : PoolableObject, IDamageable
         }
         base.OnDespawn();
     }
-    private bool _wait = true;
-    public bool Wait => _wait;  
+    
     private void OnBattleStateChanged(EBattleState state)
     {
         switch (state)
@@ -244,7 +254,7 @@ public class EnemyController : PoolableObject, IDamageable
     [Button]
     public void HandleDamaged()
     {
-        if (FSM.CurrentState is DeadState)
+        if (FSM.CurrentState is DeadState || Stat.HasSuperArmor)
         {
             return;
         }

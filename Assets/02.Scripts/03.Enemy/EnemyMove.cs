@@ -50,6 +50,11 @@ public class EnemyMove : MonoBehaviour
         Debug.Log("[EnemyMove] Initialized", this);
     }
 
+    public void MoveByDirection(Vector3 direction, float speed)
+    {
+        transform.position += direction * speed * Time.deltaTime;
+    }
+
     public void SetAgentSetting()
     {
         //이동속도
@@ -108,10 +113,9 @@ public class EnemyMove : MonoBehaviour
 
         _isPaused = true;
 
-        if (IsAgentActive)
-            //_agent.ResetPath();
+        DisableAgent();
 
-        Debug.Log("[EnemyMove] 에이전트 정지", this);
+        Debug.Log("[EnemyMove] 에이전트 비활성화", this);
     }
 
     [Button, ShowIf(nameof(_onTest))]
@@ -125,10 +129,9 @@ public class EnemyMove : MonoBehaviour
         if (_target != null)
         {
             EnableAgent();
-            //_agent.SetDestination(_target.position);
         }
 
-        Debug.Log("[EnemyMove] 에이전트 재시작", this);
+        Debug.Log("[EnemyMove] 에이전트 재활성화", this);
     }
 
     [Button, ShowIf(nameof(_onTest))]
@@ -166,5 +169,14 @@ public class EnemyMove : MonoBehaviour
 
         _agent.enabled = true;
         _agent.Warp(transform.position);
+    }
+
+    private void DisableAgent()
+    {
+        if (!IsAgentActive)
+            return;
+
+        _agent.ResetPath();
+        _agent.enabled = false;
     }
 }

@@ -53,16 +53,26 @@ public class AttackState : EnemyState
 
         controller.Anim.SetInt(AnimatorController.s_attackIdInt, attackId);
         controller.Anim.SetTrigger(AnimatorController.s_attackTrigger);
+        if (controller.Stat.EnemyType == EEnemyType.Elite)
+        {
+            controller.Stat.EnableSuperArmor();
+        }
     }
 
     public override void Exit()
     {
         isAttacking = false;
         controller.Attack.Finish();
+        
     }
 
     public void OnAttackFinished()
     {
         isAttacking = false;
+        EliteBuff buff = controller.Buff as EliteBuff;
+        if (controller.Stat.EnemyType == EEnemyType.Elite && !buff.OnBerserk)
+        {
+            controller.Stat.DisableSuperArmor();
+        }
     }
 }

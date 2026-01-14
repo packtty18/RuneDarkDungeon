@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,16 +12,16 @@ public enum EEnemyType
 }
 public enum EEnemyValueFloat
 {
-    MoveSpeed,
-    AttackRange,
-    AttackCoolDown,
-    Attack,
-    Defense
+    MoveSpeed,      //이동속도
+    AttackRange,    //공격범위
+    AttackCoolDown, //공격딜레이
+    Attack,         //공격력
+    Defense         //방어력
 }
 
 public enum EEnemyConsumableFloat
 {
-    Health,
+    Health,         //체력
 }
 
 //public enum EEnemyConsumableInt
@@ -29,16 +30,19 @@ public enum EEnemyConsumableFloat
 //}
 
 //데이터를 통해 Stat을 초기화 및 전달.
-public class EnemyStat : MonoBehaviour
+public class EnemyStat : SerializedMonoBehaviour
 {
     [SerializeField] private MonsterDataSO _data;
 
-    private readonly Dictionary<EEnemyConsumableFloat, ConsumableStat<float>> _floatConsumables = new();
-    private readonly Dictionary<EEnemyValueFloat, ValueStat<float>> _floatValues = new();
+    [SerializeField] private readonly Dictionary<EEnemyConsumableFloat, ConsumableStat<float>> _floatConsumables = new();
+    [SerializeField] private readonly Dictionary<EEnemyValueFloat, ValueStat<float>> _floatValues = new();
     //private readonly Dictionary<EEnemyConsumableInt, ConsumableStat<float>> _intConsumables = new();
 
     public EEnemyType EnemyType => _data.enemyType;
     public SafeEvent OnStatInitEnd = new();
+
+    public bool CanCharge = true;
+    [ShowInInspector] public bool HasSuperArmor { get; private set; }
 
     public void Init()
     {
@@ -82,5 +86,19 @@ public class EnemyStat : MonoBehaviour
     public IReadOnlyConsumable<float> GetValue(EEnemyConsumableFloat type)
     {
         return _floatConsumables[type];
+    }
+
+
+
+    public void EnableSuperArmor()
+    {
+        HasSuperArmor = true;
+        Debug.Log("[EnemyStat] SuperArmor ON");
+    }
+
+    public void DisableSuperArmor()
+    {
+        HasSuperArmor = false;
+        Debug.Log("[EnemyStat] SuperArmor OFF");
     }
 }

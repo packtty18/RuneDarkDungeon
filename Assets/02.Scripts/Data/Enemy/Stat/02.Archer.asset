@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cf9e90959e42b6448a9f9721ffe3f66, type: 3}
-  m_Name: 01.Prototype_Warrior
+  m_Name: 02.Archer
   m_EditorClassIdentifier: Assembly-CSharp::MonsterDataSO
-  enemyType: 0
-  monsterName: GoblinWarrior
-  maxHP: 150
-  attack: 20
-  defense: 10
+  enemyType: 1
+  monsterName: Archer
+  maxHP: 100
+  attack: 25
+  defense: 5
   moveSpeed: 5
-  attackRange: 3
-  attackCooldown: 3
+  attackRange: 7
+  attackCooldown: 1.5
   hasSuperArmor: 0
+  retreatRange: 3
+  retreatSpeed: 6
   phases:
   - {fileID: 11400000, guid: 5f2716d94dba77f479c7125a02f3bdfe, type: 2}
   - {fileID: 11400000, guid: cf9707b1ae9ddaa4bb14881dbb2340b6, type: 2}
