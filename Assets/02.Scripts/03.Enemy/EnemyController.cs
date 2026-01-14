@@ -21,7 +21,8 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private EnemyStat _stat;
     [SerializeField] private AnimatorController _anim;
 
-    [SerializeField] private bool _isPaused;
+    private bool _battleBlocked;   // WaitingNextStage
+    private bool _paused;          // PauseContext
 
     public EnemyStateMachine FSM => _fsm;
     public EnemyMove Move => _move;
@@ -40,22 +41,32 @@ public class EnemyController : PoolableObject, IDamageable
         _move = GetComponent<EnemyMove>();
         _attack = GetComponent<EnemyAttack>();
         _anim = GetComponent<AnimatorController>();
-
         _physics = GetComponent<Rigidbody>();
+
         _fsm = new EnemyStateMachine(this);
     }
 
+
     private void Update()
     {
-        //현재 정지 상태 혹은 사망상태라면 Fsm틱을 진행하지 않음
-        if (_isPaused || FSM.CurrentState is DeadState)
-        {
+        if (!CanTick())
             return;
-        }
 
         _fsm.Tick(Time.deltaTime);
     }
+    private bool CanTick()
+    {
+        if (_paused)
+            return false;
 
+        if (_battleBlocked)
+            return false;
+
+        if (FSM.CurrentState is DeadState)
+            return false;
+
+        return true;
+    }
 
     #region 생명주기
     [Button]
@@ -72,67 +83,72 @@ public class EnemyController : PoolableObject, IDamageable
         _fsm.Reset();
         _fsm.ChangeState(EEnemyState.Idle);
 
-        SetDamageAcceptable(true);
+        _health.SetDamageable(true);
     }
+
 
     public void Dead()
     {
-        SetDamageAcceptable(false);
+        _health.SetDamageable(false);
         _fsm.Reset();
-        // 물리 Collider 비활성화
+
         _physics.isKinematic = true;
         ReturnToPoolAfter(3f);
+
         OnDead?.Invoke(this);
     }
     public override void OnSpawn()
     {
         base.OnSpawn();
+
         if (BattleManager.Instance != null)
         {
-            BattleManager.Instance.OnBattleStateChanged.Subscribe(HandleBattleState);
-            HandleBattleState(BattleManager.Instance.State);
+            BattleManager.Instance.OnBattleStateChanged.Subscribe(OnBattleStateChanged);
+            OnBattleStateChanged(BattleManager.Instance.State);
         }
-            
+
+        PauseContext.OnPauseChanged += OnPauseChanged;
     }
 
     public override void OnDespawn()
     {
         if (BattleManager.Instance != null)
-            BattleManager.Instance.OnBattleStateChanged.Unsubscribe(HandleBattleState);
+        {
+            BattleManager.Instance.OnBattleStateChanged.Unsubscribe(OnBattleStateChanged);
+        }
 
+        PauseContext.OnPauseChanged -= OnPauseChanged;
         base.OnDespawn();
     }
-
-    private void HandleBattleState(EBattleState state)
+    //적의 상태별
+    private void OnBattleStateChanged(EBattleState state)
     {
-        switch (state)
+        _battleBlocked = state == EBattleState.WaitingNextStage;
+
+        if (_battleBlocked)
         {
-            case EBattleState.Paused:
-                Pause();
-                break;
-            case EBattleState.WaitingNextStage:
-                break;
-            default:
-                Resume();
-                break;
+            _move.StopMove();
+            _anim.SetAnimSpeed(0f);
+        }
+        else
+        {
+            _move.StartMove();
+            _anim.SetAnimSpeed(1f);
         }
     }
 
-
-
-    [Button]
-    public void Pause()
+    private void OnPauseChanged(bool paused, EPauseReason reason)
     {
-        _isPaused = true;
-        _move?.StopMove();
-        _anim?.SetAnimSpeed(0f);
-    }
-    [Button]
-    public void Resume()
-    {
-        _isPaused = false;
-        _move?.StartMove();
-        _anim?.SetAnimSpeed(1f);
+        // Boss 예외 처리
+        if (paused && reason == EPauseReason.Cutscene && Stat.EnemyType == EEnemyType.Boss)
+            return;
+
+        _paused = paused;
+
+        _move.SetPaused(paused);
+        _anim.SetAnimSpeed(paused ? 0f : 1f);
+
+        Debug.Log($"[Enemy] Pause={paused}, Reason={reason}");
     }
 
     #endregion

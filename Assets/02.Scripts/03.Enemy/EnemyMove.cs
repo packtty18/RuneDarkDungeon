@@ -66,6 +66,7 @@ public class EnemyMove : MonoBehaviour
         Debug.Log("[EnemyMove] 타겟 지정", this);
     }
 
+
     [Button, ShowIf(nameof(_onTest))]
     public void StartMove()
     {
@@ -86,6 +87,16 @@ public class EnemyMove : MonoBehaviour
 
         _agent.ResetPath();
         Debug.Log("[EnemyMove] Move 종료", this);
+    }
+    public void SetPaused(bool paused)
+    {
+        if (_isPaused == paused)
+            return;
+
+        if (paused)
+            PauseAgent();
+        else
+            ResumeAgent();
     }
 
     //일시정지와 재시작, 공격 애니메이션 전 실행후 종료 후 재시작 용도
