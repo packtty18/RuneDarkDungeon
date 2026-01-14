@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 public interface IReadOnlyValue<T> where T : struct, IConvertible
@@ -7,4 +7,7 @@ public interface IReadOnlyValue<T> where T : struct, IConvertible
 
     void Subscribe(Action<T> action);
     void Unsubscribe(Action<T> action);
+
+    void AddModifier(StatModifier modifier);
+    void RemoveModifier(StatModifier modifier);
 }

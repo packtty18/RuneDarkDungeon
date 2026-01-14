@@ -12,14 +12,12 @@ public class EnemyHealth : MonoBehaviour
     private bool _canTakeDamage;
     public bool IsDead => _health.IsEmpty();
 
-    private void Awake()
-    {
-        _controller = GetComponent<EnemyController>();
-    }
-
-    
     public void Init()
     {
+        if(_controller == null)
+        {
+            _controller = GetComponent<EnemyController>();
+        }
         _health = _controller.Stat.GetValue(EEnemyConsumableFloat.Health);
         SetDamageable(true);
     }
@@ -32,7 +30,11 @@ public class EnemyHealth : MonoBehaviour
         }
 
         _health.Consume(damage);
-
+        if(_controller.Stat.EnemyType == EEnemyType.Elite && _health.GetRatio() <= 0.3f)
+        {
+            EliteBuff buff = _controller.Buff as EliteBuff;
+            buff.ActiveBerserk();
+        }
         return true;
     }
 

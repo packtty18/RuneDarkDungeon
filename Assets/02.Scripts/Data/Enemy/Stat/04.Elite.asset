@@ -10,17 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cf9e90959e42b6448a9f9721ffe3f66, type: 3}
-  m_Name: 01.Prototype_Warrior
+  m_Name: 04.Elite
   m_EditorClassIdentifier: Assembly-CSharp::MonsterDataSO
-  enemyType: 0
-  monsterName: GoblinWarrior
+  enemyType: 3
+  monsterName: OrcWarrior
   maxHP: 150
   attack: 20
   defense: 10
   moveSpeed: 5
   attackRange: 3
   attackCooldown: 3
-  hasSuperArmor: 0
+  chargeSpeed: 7.5
+  chargeRange: 7
+  chargeDistance: 10
+  chargeCooldown: 10
   phases:
   - {fileID: 11400000, guid: 5f2716d94dba77f479c7125a02f3bdfe, type: 2}
   - {fileID: 11400000, guid: cf9707b1ae9ddaa4bb14881dbb2340b6, type: 2}

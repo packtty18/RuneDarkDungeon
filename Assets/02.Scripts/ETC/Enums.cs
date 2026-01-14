@@ -51,6 +51,7 @@ public enum EEnemyState
     Attack,
     Hit,
     Dead,
+    Charge,
 }
 
 

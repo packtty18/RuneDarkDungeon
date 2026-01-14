@@ -1,4 +1,5 @@
-﻿using System;
+using Sirenix.OdinInspector;
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class ValueStat<T> : StatBase<T> , IReadOnlyValue<T>
     where T : struct, IConvertible
 {
     [SerializeField] private T _value;
-    public T Value => _value;
+    [ShowInInspector]public T Value => CalculateFinalValue(_value);
     public void Init(T value)
     {
         Set(value);

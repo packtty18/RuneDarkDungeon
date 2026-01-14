@@ -19,13 +19,14 @@ public class EnemyAttack : MonoBehaviour
     protected float _damage =>controller.Stat.GetValue(EEnemyValueFloat.Attack).Value;
     public float CurrentLoopDelay => current == null ? 0f : current.LoopDelay;
 
-    private void Awake()
-    {
-        controller = GetComponent<EnemyController>();
-    }
 
     public virtual void Init()
     {
+        if (controller == null)
+        {
+            controller = GetComponent<EnemyController>();
+        }
+
         strategies.Clear();
         current = null;
     }

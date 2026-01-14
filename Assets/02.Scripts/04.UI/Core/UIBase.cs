@@ -5,6 +5,11 @@ public abstract class UIBase : MonoBehaviour
 {
     [SerializeField,ReadOnly]protected bool isInitialized;
 
+    private void Awake()
+    {
+        Init();
+    }
+
     public virtual void Init()
     {
         if (isInitialized)
@@ -12,8 +17,8 @@ public abstract class UIBase : MonoBehaviour
             return;
         }
 
-        isInitialized = true;
         OnInit();
+        isInitialized = true;
     }
 
     protected virtual void OnInit()
