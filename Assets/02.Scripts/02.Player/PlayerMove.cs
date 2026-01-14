@@ -12,6 +12,7 @@ public class PlayerMove : MonoBehaviour
     private PlayerStats _playerStats;
     private PlayerAnimator _animator;
     private PlayerStateMachine _stateMachine;
+    private Camera _camera;
 
     [Header("이동")]
     [SerializeField] private float _turnRate = 3f;
@@ -67,7 +68,7 @@ public class PlayerMove : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         _playerStats = GetComponent<PlayerStats>();
         _stateMachine = GetComponent<PlayerStateMachine>();
-
+        _camera = Camera.main;
     }
     private void Start()
     {
@@ -162,20 +163,22 @@ public class PlayerMove : MonoBehaviour
         Vector3 direction = Vector3.zero;
         if (_inputManager.GetKey(EGameKeyType.Front))
         {
-            direction += Vector3.forward;
+            direction += _camera.transform.forward;
         }
         if (_inputManager.GetKey(EGameKeyType.Back))
         {
-            direction -= Vector3.forward;
+            direction -= _camera.transform.forward;
         }
         if (_inputManager.GetKey(EGameKeyType.Left))
         {
-            direction -= Vector3.right;
+            direction -= _camera.transform.right;
         }
         if (_inputManager.GetKey(EGameKeyType.Right))
         {
-            direction += Vector3.right;
+            direction += _camera.transform.right;
         }
+
+        direction.y = 0;
         return direction.normalized;
     }
 
