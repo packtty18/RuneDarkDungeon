@@ -9,6 +9,13 @@ public class EffectPlayer : MonoBehaviour
         _particles = GetComponentsInChildren<ParticleSystem>();
     }
 
+    public void Emit()
+    {
+        foreach (var particle in _particles)
+        {
+            particle.Emit(1);
+        }
+    }
     public void Play()
     {
         foreach (var particle in _particles)

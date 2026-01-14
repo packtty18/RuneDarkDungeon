@@ -18,9 +18,9 @@ public class PlayerAttack : MonoBehaviour
 
     private EffectPlayer _dashVFX;
     private EffectPlayer _finisherVFX;
-
     [SerializeField]
-    private DrakkarTrail _trail;
+    private EffectPlayer[] _slashVFXs;
+
     [SerializeField]
     private Transform _swordPosition;
     [SerializeField] 
@@ -161,7 +161,6 @@ public class PlayerAttack : MonoBehaviour
 
         if (_currentCombo < _attackConfig.MaxPhaseCount)
         {
-            _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(data.InputWindow));
             ExecuteComboAttack();
         }
         else
@@ -189,6 +188,7 @@ public class PlayerAttack : MonoBehaviour
         //일반 콤보 피니셔.
         ExecuteComboAttack();
         Debug.Log($"[Attack] 콤보 피니셔 {_currentCombo}타");
+        
         yield return null;
     }
 
@@ -305,7 +305,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (_comboTimerCoroutine != null)
         {
-            StartCoroutine(ComboTimerCoroutine(_comboReturnTime));
+             StartCoroutine(ComboTimerCoroutine(_comboReturnTime));
         }
     }
 
@@ -332,21 +332,31 @@ public class PlayerAttack : MonoBehaviour
     public void OnAttackStart()
     {
         _hitboxController.Activate("Main", _currentDamage);
-        _trail.Begin();
+    }
+
+    public void OnChargeFinisherEffect()
+    {
+        _finisherVFX.PlayAt(transform, _swordPosition);
+    }
+
+    public void ParticleEvent()
+    {
+        _slashVFXs[_currentCombo-1].Emit();
     }
 
     public void OnAttackFinish()
     {
-        if (!_isAttacking)
+        _hitboxController.Deactivate("Main");
+
+        if (_isAttacking)
         {
-            _hitboxController.Deactivate("Main");
-            _trail.End();
-        }      
+            float inputWindow = _attackConfig.GetPhaseData(_currentCombo).InputWindow;
+            _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(inputWindow));
+        }
     }
     public void OnSingleAttackFinish()
     {
         _hitboxController.Deactivate("Main");
-        _trail.End();
         _stateMachine.SetActionState(EActionState.None);
 
         _isAttacking = false;
@@ -356,12 +366,9 @@ public class PlayerAttack : MonoBehaviour
     public void OnChargeFinisherFinish()
     {
         _hitboxController.Deactivate("Main");
-        _trail.End();
         _stateMachine.SetActionState(EActionState.None);
         
         EndCombo();
-
-        _finisherVFX.PlayAt(transform, _swordPosition);
 
         _cameraShake.CameraShake(_finisherShakeAmplitude, _finisherShakeTime);
     }
@@ -369,7 +376,6 @@ public class PlayerAttack : MonoBehaviour
     public void OnFinisherFinish()
     {
         _hitboxController.Deactivate("Main");
-        _trail.End();
         _stateMachine.SetActionState(EActionState.None);
         
         EndCombo();
@@ -378,7 +384,6 @@ public class PlayerAttack : MonoBehaviour
     public void OnJumpDashAttackFinish()
     {
         _hitboxController.Deactivate("Main");
-        _trail.End();
         _stateMachine.SetActionState(EActionState.None);
 
         _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(_attackConfig.JumpDashComboInputWindow));

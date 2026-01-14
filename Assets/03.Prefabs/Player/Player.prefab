@@ -429,7 +429,6 @@ Transform:
   m_Children:
   - {fileID: 4162208631722420608}
   - {fileID: 4990427577335388567}
-  - {fileID: 8229212516764268913}
   m_Father: {fileID: 1218902628924314272}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5412566902596011605
@@ -2572,12 +2571,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7426504877775934507}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.5, y: -0.49999997, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0.848, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7602498749306347895}
+  m_Father: {fileID: 4162208631722420608}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7634061829569357854
 GameObject:
@@ -2970,6 +2969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e090d39ff2caf42a1bd5aa4ed78d1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  _slashVFXs: []
   _swordPosition: {fileID: 8229212516764268913}
   _attackConfig: {fileID: 11400000, guid: 1b371a66a71756a40ab75888da217879, type: 2}
   _hitboxController: {fileID: 3872139809204004901}
@@ -3872,7 +3872,10 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 64342791793108732, guid: 8499032b3d5dbc141a10076731aef8de, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 473066, guid: 8499032b3d5dbc141a10076731aef8de, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8229212516764268913}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8499032b3d5dbc141a10076731aef8de, type: 3}
 --- !u!4 &4162208631722420608 stripped
