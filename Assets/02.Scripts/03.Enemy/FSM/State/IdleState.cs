@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 public class IdleState : EnemyState
 {
     public override EEnemyState StateType => EEnemyState.Idle;
@@ -11,6 +13,8 @@ public class IdleState : EnemyState
 
     public override void Tick(float deltaTime)
     {
+        if (controller.Wait)
+            return;
         if (controller.IsTargetExist())
         {
             controller.FSM.ChangeState(EEnemyState.Chase);
