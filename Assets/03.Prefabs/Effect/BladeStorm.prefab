@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 6144476591559882379}
   - component: {fileID: 822449522075036830}
   - component: {fileID: 2126707712257351472}
+  - component: {fileID: -5581487237972998269}
   m_Layer: 6
   m_Name: BladeStorm
   m_TagString: Untagged
@@ -102,7 +103,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BladeStormSkill
   _damage: 100
   _lifeTime: 3
-  _tick: 0.25
+  _dotDealer: {fileID: -5581487237972998269}
+  _interval: 0.25
   _uniqueScale: 2
   _scaleDuration: 0.75
   _ease: 25
@@ -145,3 +147,15 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 15
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-5581487237972998269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957440384404129522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51bec65e6f8685c4e88e2c91745a3b8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DotDealer

@@ -1,15 +1,15 @@
-using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 
+[RequireComponent(typeof(DotDealer))]
 public class BladeStormSkill : SkillBase
 {
-    [Header("지속 피해 간격")]
-    [SerializeField] private float _tick = 0.25f;
+    [Header("지속 데미지")]
+    [SerializeField] private DotDealer _dotDealer;
+    [SerializeField] private float _interval;
     
     [Header("유니크 범위 증가")]
     [SerializeField] private float _uniqueScale = 2f;
-
     [SerializeField] private float _scaleDuration = 0.5f;
     [SerializeField] private Ease _ease;
     
@@ -21,7 +21,7 @@ public class BladeStormSkill : SkillBase
     {
         transform.SetParent(user.transform);
         
-        StartCoroutine(TickDamageRoutine());
+        _dotDealer.StartDot(_damage, _interval, _lifeTime);
         
         if (grade < EItemGrade.Unique) return;
 
@@ -30,21 +30,6 @@ public class BladeStormSkill : SkillBase
         transform.DOScale(targetScale, _scaleDuration) 
             .SetEase(_ease)
             .SetLink(gameObject);
-    }
-
-    private IEnumerator TickDamageRoutine()
-    {
-        if (!TryGetComponent<HitBox>(out var hitbox)) yield break;
-        float timer = 0;
-        
-        WaitForSeconds waitTick = new(_tick);
-        
-        while (timer < _lifeTime)
-        {
-            hitbox.Activate(_damage);
-            yield return waitTick;
-            timer += _tick;
-        }
     }
     
     private void OnTriggerStay(Collider other)

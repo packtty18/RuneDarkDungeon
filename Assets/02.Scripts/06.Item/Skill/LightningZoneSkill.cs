@@ -1,10 +1,11 @@
-using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(DotDealer))]
 public class LightningZoneSkill : SkillBase
 {
-    [Header("지속 피해 간격")]
-    [SerializeField] private float _tick = 0.25f;
+    [Header("지속 데미지")]
+    [SerializeField] private DotDealer _dotDealer;
+    [SerializeField] private float _interval;
     
     [Header("레전드 추가 스킬")]
     [SerializeField] private GameObject _finalEffectPrefab;
@@ -16,25 +17,10 @@ public class LightningZoneSkill : SkillBase
     {
         transform.position += _offset;
         
-        StartCoroutine(TickDamageRoutine());
-
+        _dotDealer.StartDot(_damage, _interval, _lifeTime);
+        
         if (grade < EItemGrade.Unique) return;
         transform.SetParent(user.transform);
-    }
-    
-    private IEnumerator TickDamageRoutine()
-    {
-        if (!TryGetComponent<HitBox>(out var hitbox)) yield break;
-        float timer = 0;
-        
-        WaitForSeconds waitTick = new(_tick);
-        
-        while (timer < _lifeTime)
-        {
-            hitbox.Activate(_damage);
-            yield return waitTick;
-            timer += _tick;
-        }
     }
 
     private void OnDestroy()

@@ -1,6 +1,7 @@
+using System.Collections;
 using UnityEngine;
 
-public class SkillBase : MonoBehaviour
+public abstract class SkillBase : MonoBehaviour
 {
     [Header("데미지 설정")]
     [SerializeField] protected float _damage;
@@ -38,7 +39,7 @@ public class SkillBase : MonoBehaviour
         Destroy(gameObject, _lifeTime);
     }
 
-    protected virtual void ApplyEffect(GameObject user, EItemGrade grade) { }
+    protected abstract void ApplyEffect(GameObject user, EItemGrade grade);
     
     private void Deactivate()
     {
