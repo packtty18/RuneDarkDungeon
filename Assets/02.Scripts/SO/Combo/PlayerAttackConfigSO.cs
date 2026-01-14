@@ -12,9 +12,15 @@ public class PlayerAttackConfigSO : ScriptableObject
     [Tooltip("점프 데쉬 설정")]
     public float JumpDashAngle;
     public float JumpDashSpeed;
+    public EffectPlayer JumpDashEffect;
+    public EffectPlayer JumpDashSlashEffect;
 
     [Tooltip("차지 피니셔 데미지")]
     public float ChargeFinisherDamage;
+
+    [Tooltip("차지 피니셔 설정")]
+    public EffectPlayer FinisherEffect;
+    public EffectPlayer FinisherSlashVFX;
 
     [Tooltip("콤보 단계 목록")]
     public AttackPhaseData[] AttackPhases;
@@ -41,5 +47,16 @@ public class PlayerAttackConfigSO : ScriptableObject
         }
 
         return AttackPhases[phaseIndex - 1];
+    }
+
+    public EffectPlayer[] GetComboSlashVFXs()
+    {
+        EffectPlayer[] list = new EffectPlayer[MaxPhaseCount];
+        for (int i = 0; i < MaxPhaseCount; i++) 
+        {
+            list[i] = AttackPhases[i].SlashVFX;
+        }
+
+        return list;
     }
 }

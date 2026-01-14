@@ -1,3 +1,4 @@
+using Drakkar.GameUtils;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -14,8 +15,15 @@ public class PlayerAttack : MonoBehaviour
     private Coroutine _comboTimerCoroutine;
 
     private Renderer[] _playerRenderers;
+
+    private EffectPlayer _dashVFX;
+    private EffectPlayer _dashSlashVFX;
+    private EffectPlayer _finisherVFX;
+    private EffectPlayer _finisherSlashVFX;
+    private EffectPlayer[] _slashVFXs;
+
     [SerializeField]
-    private ParticleSystem _dashVFX;
+    private Transform _swordPosition;
     [SerializeField] 
     private PlayerAttackConfigSO _attackConfig;
     [SerializeField]
@@ -54,6 +62,7 @@ public class PlayerAttack : MonoBehaviour
     {
         _playerMove.OnIsJumpingChanged += OnJumpingChange;
         _playerMove.OnDashEnd += StartJumpAttack;
+        EffectInstantiate();
 
         Initialized();
     }
@@ -89,6 +98,20 @@ public class PlayerAttack : MonoBehaviour
     {
         _isJumping = _playerMove.IsJumping;
         _comboReturnTime = _attackConfig.ComboReturnTime;
+    }
+
+    private void EffectInstantiate()
+    {
+        EffectPlayer[] vfx = _attackConfig.GetComboSlashVFXs();
+        _slashVFXs = new EffectPlayer[vfx.Length];
+        for (int i = 0;  i < vfx.Length; i++) {
+
+            _slashVFXs[i] = Instantiate(vfx[i], _swordPosition);
+        }
+        _dashVFX = Instantiate(_attackConfig.JumpDashEffect, transform);
+        _finisherVFX = Instantiate(_attackConfig.FinisherEffect, transform);
+        _dashSlashVFX = Instantiate(_attackConfig.JumpDashSlashEffect, _swordPosition);
+        _finisherSlashVFX = Instantiate(_attackConfig.FinisherSlashVFX, _swordPosition);
     }
 
 
@@ -147,7 +170,6 @@ public class PlayerAttack : MonoBehaviour
 
         if (_currentCombo < _attackConfig.MaxPhaseCount)
         {
-            _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(data.InputWindow));
             ExecuteComboAttack();
         }
         else
@@ -175,6 +197,7 @@ public class PlayerAttack : MonoBehaviour
         //일반 콤보 피니셔.
         ExecuteComboAttack();
         Debug.Log($"[Attack] 콤보 피니셔 {_currentCombo}타");
+        
         yield return null;
     }
 
@@ -246,8 +269,6 @@ public class PlayerAttack : MonoBehaviour
 
         _currentCombo = 0;
         _currentAttack = EAttackType.None;
-
-        _hitboxController.Deactivate("Main");
     }
 
     #endregion
@@ -293,7 +314,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (_comboTimerCoroutine != null)
         {
-            StartCoroutine(ComboTimerCoroutine(_comboReturnTime));
+             StartCoroutine(ComboTimerCoroutine(_comboReturnTime));
         }
     }
 
@@ -320,9 +341,39 @@ public class PlayerAttack : MonoBehaviour
     public void OnAttackStart()
     {
         _hitboxController.Activate("Main", _currentDamage);
-        //데미지 값 세팅
     }
+
+    public void OnChargeFinisherEffect()
+    {
+        //_finisherVFX.PlayAt(transform, _swordPosition);
+    }
+
+    public void OnComboSlashVFX()
+    {
+        _slashVFXs[_currentCombo-1].Play();
+    }
+
+    public void OnJumpDashSlashVFX()
+    {
+        _dashSlashVFX.Play();
+    }
+
+    public void OnFinisherSlashVFX()
+    {
+        _finisherSlashVFX.Play();
+    }
+
     public void OnAttackFinish()
+    {
+        _hitboxController.Deactivate("Main");
+
+        if (_isAttacking)
+        {
+            float inputWindow = _attackConfig.GetPhaseData(_currentCombo).InputWindow;
+            _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(inputWindow));
+        }
+    }
+    public void OnSingleAttackFinish()
     {
         _hitboxController.Deactivate("Main");
         _stateMachine.SetActionState(EActionState.None);
@@ -335,8 +386,9 @@ public class PlayerAttack : MonoBehaviour
     {
         _hitboxController.Deactivate("Main");
         _stateMachine.SetActionState(EActionState.None);
-
+        
         EndCombo();
+
         _cameraShake.CameraShake(_finisherShakeAmplitude, _finisherShakeTime);
     }
 
@@ -344,7 +396,7 @@ public class PlayerAttack : MonoBehaviour
     {
         _hitboxController.Deactivate("Main");
         _stateMachine.SetActionState(EActionState.None);
-
+        
         EndCombo();
     }
 
