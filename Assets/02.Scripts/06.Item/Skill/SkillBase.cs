@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public abstract class SkillBase : MonoBehaviour
@@ -16,7 +15,10 @@ public abstract class SkillBase : MonoBehaviour
     private void Awake()
     {
         _particles = GetComponentsInChildren<ParticleSystem>();
+		OnInit();
     }
+    
+    protected virtual void OnInit() { }
 
     private void PlayAllParticles()
     {
