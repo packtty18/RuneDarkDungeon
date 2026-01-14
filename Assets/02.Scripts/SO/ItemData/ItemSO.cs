@@ -10,7 +10,7 @@ public class ItemSO : ScriptableObject
     [SerializeField, TextArea] private string _tooltip;
     
     [Header("아이템 효과")]
-    [SerializeField] private ItemEffectBaseSO _effect; 
+    [SerializeField] private SkillBase _skill; 
     
     [Header("쿨타임")]
     [SerializeField] private float _coolTime;
@@ -29,16 +29,10 @@ public class ItemSO : ScriptableObject
     
     public void Use(GameObject user, EItemGrade grade)
     {
-        _effect.OnUse(user, grade);
+        var skill = Instantiate(_skill, user.transform.position, Quaternion.identity);
+        skill.OnUse(user, grade);
     }
 
-    public void Equip(GameObject user, EItemGrade grade)
-    {
-        _effect.OnEquip(user, grade);
-    }
-
-    public void UnEquip(GameObject user, EItemGrade grade)
-    {
-        _effect.OnUnequip(user, grade);
-    }
+    public void Equip(GameObject user, EItemGrade grade) { }
+    public void UnEquip(GameObject user, EItemGrade grade) { }
 }
