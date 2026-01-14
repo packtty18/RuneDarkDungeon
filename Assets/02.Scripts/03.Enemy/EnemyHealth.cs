@@ -12,14 +12,12 @@ public class EnemyHealth : MonoBehaviour
     private bool _canTakeDamage;
     public bool IsDead => _health.IsEmpty();
 
-    private void Awake()
-    {
-        _controller = GetComponent<EnemyController>();
-    }
-
-    
     public void Init()
     {
+        if(_controller == null)
+        {
+            _controller = GetComponent<EnemyController>();
+        }
         _health = _controller.Stat.GetValue(EEnemyConsumableFloat.Health);
         SetDamageable(true);
     }

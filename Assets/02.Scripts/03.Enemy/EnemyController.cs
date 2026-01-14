@@ -13,6 +13,8 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private Rigidbody _physics;
     [SerializeField] private Transform _target;
 
+    [SerializeField] private UIBase _healthUI;
+
     [ShowInInspector] private EnemyStateMachine _fsm;
     
 
@@ -36,6 +38,8 @@ public class EnemyController : PoolableObject, IDamageable
     public Transform Target => _target;
     public ETeamType Team => _team;
 
+    
+
     public SafeEvent<EnemyController> OnDead = new();
     private void Awake()
     {
@@ -46,6 +50,13 @@ public class EnemyController : PoolableObject, IDamageable
         _anim = GetComponent<AnimatorController>();
         _buff= GetComponent<EnemyBuff>();
         _physics = GetComponent<Rigidbody>();
+
+        _stat.Init();
+        _health.Init();
+        _move.Init();
+        _attack.Init();
+        _anim.Init();
+        _buff.Init();
 
         _fsm = new EnemyStateMachine(this);
     }
@@ -217,6 +228,7 @@ public class EnemyController : PoolableObject, IDamageable
 
     public void ApplyDamage(DamageData data)
     {
+        _healthUI?.Show();
         if (!_health.TryApplyDamage(data.Damage))
         {
             return;
