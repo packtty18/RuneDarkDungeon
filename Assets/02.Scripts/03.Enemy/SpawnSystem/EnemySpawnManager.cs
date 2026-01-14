@@ -19,7 +19,7 @@ public class EnemySpawnManager : SerializedMonoBehaviour
     [Header("Phase")]
     [SerializeField] private int _nextPhaseThreshold = 0;
 
-    public UnityEvent OnAllPhaseCompleted;
+    public SafeEvent OnAllPhaseCompleted= new();
 
     private int _currentPhase = 0;
     private int _aliveEnemyCount = 0;
@@ -27,7 +27,7 @@ public class EnemySpawnManager : SerializedMonoBehaviour
     //임시 테스트용
     [Header("Test")]
     [SerializeField] Transform _target;
-    private List<EnemyController> _list = new List<EnemyController>();
+    [SerializeField] private List<EnemyController> _list = new List<EnemyController>();
 
     //페이즈를 시작한다.
     [Button]
@@ -145,7 +145,7 @@ public class EnemySpawnManager : SerializedMonoBehaviour
 
         for (int i = _list.Count - 1; i >= 0; i--)
         {
-            _list[i].Dead();
+            _list[i].HandleDead ();
         }
     }
 }

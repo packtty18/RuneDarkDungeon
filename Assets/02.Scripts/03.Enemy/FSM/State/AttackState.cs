@@ -23,12 +23,6 @@ public class AttackState : EnemyState
             return;
         }
 
-        cooldownTimer -= deltaTime;
-        if (cooldownTimer > 0f)
-        {
-            return;
-        }
-
         if (!controller.IsTargetExist())
         {
             controller.FSM.ChangeState(EEnemyState.Idle);
@@ -39,6 +33,12 @@ public class AttackState : EnemyState
         if (!controller.IsTargetInRange(range))
         {
             controller.FSM.ChangeState(EEnemyState.Chase);
+            return;
+        }
+
+        cooldownTimer -= deltaTime;
+        if (cooldownTimer > 0f)
+        {
             return;
         }
 

@@ -21,7 +21,8 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private EnemyStat _stat;
     [SerializeField] private AnimatorController _anim;
 
-    [SerializeField] private bool _isPaused;
+    private bool _battleBlocked;   // WaitingNextStage
+    private bool _paused;          // PauseContext
 
     public EnemyStateMachine FSM => _fsm;
     public EnemyMove Move => _move;
@@ -40,19 +41,32 @@ public class EnemyController : PoolableObject, IDamageable
         _move = GetComponent<EnemyMove>();
         _attack = GetComponent<EnemyAttack>();
         _anim = GetComponent<AnimatorController>();
-
         _physics = GetComponent<Rigidbody>();
+
         _fsm = new EnemyStateMachine(this);
     }
 
+
     private void Update()
     {
-        if (_isPaused)
+        if (!CanTick())
             return;
 
         _fsm.Tick(Time.deltaTime);
     }
+    private bool CanTick()
+    {
+        if (_paused)
+            return false;
 
+        if (_battleBlocked)
+            return false;
+
+        if (FSM.CurrentState is DeadState)
+            return false;
+
+        return true;
+    }
 
     #region 생명주기
     [Button]
@@ -69,33 +83,72 @@ public class EnemyController : PoolableObject, IDamageable
         _fsm.Reset();
         _fsm.ChangeState(EEnemyState.Idle);
 
-        SetDamageAcceptable(true);
+        _health.SetDamageable(true);
     }
+
 
     public void Dead()
     {
-        SetDamageAcceptable(false);
+        _health.SetDamageable(false);
         _fsm.Reset();
-        // 물리 Collider 비활성화
+
         _physics.isKinematic = true;
         ReturnToPoolAfter(3f);
 
         OnDead?.Invoke(this);
     }
+    public override void OnSpawn()
+    {
+        base.OnSpawn();
 
-    [Button]
-    public void Pause()
-    {
-        _isPaused = true;
-        _move.StopMove();
-        _anim.SetAnimSpeed(0f);
+        if (BattleManager.Instance != null)
+        {
+            BattleManager.Instance.OnBattleStateChanged.Subscribe(OnBattleStateChanged);
+            OnBattleStateChanged(BattleManager.Instance.State);
+        }
+
+        PauseContext.OnPauseChanged += OnPauseChanged;
     }
-    [Button]
-    public void Resume()
+
+    public override void OnDespawn()
     {
-        _isPaused = false;
-        _move.StartMove();
-        _anim.SetAnimSpeed(1f);
+        if (BattleManager.Instance != null)
+        {
+            BattleManager.Instance.OnBattleStateChanged.Unsubscribe(OnBattleStateChanged);
+        }
+
+        PauseContext.OnPauseChanged -= OnPauseChanged;
+        base.OnDespawn();
+    }
+    //적의 상태별
+    private void OnBattleStateChanged(EBattleState state)
+    {
+        _battleBlocked = state == EBattleState.WaitingNextStage;
+
+        if (_battleBlocked)
+        {
+            _move.StopMove();
+            _anim.SetAnimSpeed(0f);
+        }
+        else
+        {
+            _move.StartMove();
+            _anim.SetAnimSpeed(1f);
+        }
+    }
+
+    private void OnPauseChanged(bool paused, EPauseReason reason)
+    {
+        // Boss 예외 처리
+        if (paused && reason == EPauseReason.Cutscene && Stat.EnemyType == EEnemyType.Boss)
+            return;
+
+        _paused = paused;
+
+        _move.SetPaused(paused);
+        _anim.SetAnimSpeed(paused ? 0f : 1f);
+
+        Debug.Log($"[Enemy] Pause={paused}, Reason={reason}");
     }
 
     #endregion
@@ -183,7 +236,7 @@ public class EnemyController : PoolableObject, IDamageable
     }
 
     [Button]
-    private void HandleDamaged()
+    public void HandleDamaged()
     {
         if (FSM.CurrentState is DeadState)
         {
@@ -194,7 +247,7 @@ public class EnemyController : PoolableObject, IDamageable
     }
 
     [Button]
-    private void HandleDead()
+    public void HandleDead()
     {
         if (FSM.CurrentState is DeadState)
         {

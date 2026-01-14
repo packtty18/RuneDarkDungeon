@@ -7,10 +7,13 @@ public abstract class PUBase : UIBase
     {
         Init();
         Show();
+
+        PauseContext.Pause(EPauseReason.UI);
     }
 
     public virtual void Close()
     {
+        PauseContext.Resume();
         Hide();
     }
 }

@@ -1,24 +1,118 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BattleManager : LocalSingleton<BattleManager>  
+public enum EBattleState
 {
-    //던전씬에서 사용할 매니저
-    //플레이어를 생성하고 적의 생성을 판단하는 역할
+    None,
+    Preparing,
+    InProgress,
+    WaitingNextStage,
+    Victory,
+    Defeat
+}
 
-    //플레이의 대한 모든 준비가 끝난다면 이벤트를 실행한다(ex. 첫번째 페이즈의 적 생성, 플레이어 조작 활성화 등)
+public class BattleManager : LocalSingleton<BattleManager>
+{
+    [SerializeField] public Transform PlayerTransform;
 
-    [SerializeField] private GameObject _player;
+    [Header("Stage")]
+    [SerializeField] private EnemySpawnManager[] _spawnManagers;
 
-    [SerializeField] private UnityEvent _battleSetting; //전투환경 조정(플레이어 및 적 생성)
-    [SerializeField] private UnityEvent _battleStart;   //플레이어 인풋 활성화 및 적 활성화)
+    [Header("Events")]
+    public UnityEvent OnBattleStart;
+    public UnityEvent OnBattleWin;
+    public UnityEvent OnBattleLose;
 
-    public Transform PlayerTransform => _player?.transform;
+    public SafeEvent<EBattleState> OnBattleStateChanged = new();
 
-    protected override void OnInit()
+    public EBattleState State => _state;
+
+    private EBattleState _state;
+    private int _currentIndex;
+    private bool _isStageRunning;
+
+    private void Start()
     {
-        base.OnInit();
-        _battleSetting.Invoke();
-        _battleStart.Invoke();
+        SetState(EBattleState.Preparing);
+    }
+
+    private void SetState(EBattleState newState)
+    {
+        if (_state == newState)
+            return;
+
+        _state = newState;
+        Debug.Log($"[BattleManager] State → {_state}");
+        OnBattleStateChanged?.Invoke(_state);
+
+        switch (_state)
+        {
+            case EBattleState.Preparing:
+                HandlePreparing();
+                break;
+
+            case EBattleState.InProgress:
+                HandleInProgress();
+                break;
+
+            case EBattleState.Victory:
+                OnBattleWin?.Invoke();
+                break;
+
+            case EBattleState.Defeat:
+                OnBattleLose?.Invoke();
+                break;
+        }
+    }
+
+    private void HandlePreparing()
+    {
+        _currentIndex = 0;
+        _isStageRunning = false;
+        OnBattleStart?.Invoke();
+        SetState(EBattleState.InProgress);
+    }
+
+    private void HandleInProgress()
+    {
+        if (_isStageRunning)
+        {
+            Debug.Log("[BattleManager] Resume Stage");
+            return;
+        }
+
+        if (_currentIndex >= _spawnManagers.Length)
+        {
+            SetState(EBattleState.Victory);
+            return;
+        }
+
+        EnemySpawnManager manager = _spawnManagers[_currentIndex];
+        manager.OnAllPhaseCompleted.Subscribe(HandleStageCleared);
+
+        _isStageRunning = true;
+        manager.PlayCurrentPhase();
+    }
+
+    private void HandleStageCleared()
+    {
+        EnemySpawnManager manager = _spawnManagers[_currentIndex];
+        manager.OnAllPhaseCompleted.Unsubscribe(HandleStageCleared);
+
+        _isStageRunning = false;
+        _currentIndex++;
+
+        SetState(EBattleState.WaitingNextStage);
+    }
+
+    public void NotifyDoorDestroyed()
+    {
+        if (_state == EBattleState.WaitingNextStage)
+            SetState(EBattleState.InProgress);
+    }
+
+    public void NotifyPlayerDead()
+    {
+        SetState(EBattleState.Defeat);
     }
 }
