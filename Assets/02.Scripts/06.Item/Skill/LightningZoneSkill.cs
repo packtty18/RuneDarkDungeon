@@ -7,7 +7,7 @@ public class LightningZoneSkill : SkillBase
     [SerializeField] private float _tick = 0.25f;
     
     [Header("레전드 추가 스킬")]
-    [SerializeField] private GameObject _explosionPrefab;
+    [SerializeField] private GameObject _finalEffectPrefab;
     
     [Header("이펙트 오프셋")]
     [SerializeField] private Vector3 _offset;
@@ -24,7 +24,7 @@ public class LightningZoneSkill : SkillBase
     
     private IEnumerator TickDamageRoutine()
     {
-        var hitbox = GetComponent<HitBox>();
+        if (!TryGetComponent<HitBox>(out var hitbox)) yield break;
         float timer = 0;
         
         WaitForSeconds waitTick = new(_tick);
@@ -40,6 +40,8 @@ public class LightningZoneSkill : SkillBase
     private void OnDestroy()
     {
         if (_grade != EItemGrade.Legendary) return;
-        Instantiate(_explosionPrefab, _user.transform.position, Quaternion.identity);
+        var finalEffect = Instantiate(_finalEffectPrefab, _user.transform.position, Quaternion.identity);
+        if (!finalEffect.TryGetComponent<HitBox>(out var hitbox)) return;
+        hitbox.Activate(_damage);
     }
 }

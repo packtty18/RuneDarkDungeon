@@ -34,7 +34,7 @@ public class BladeStormSkill : SkillBase
 
     private IEnumerator TickDamageRoutine()
     {
-        var hitbox = GetComponent<HitBox>();
+        if (!TryGetComponent<HitBox>(out var hitbox)) yield break;
         float timer = 0;
         
         WaitForSeconds waitTick = new(_tick);
