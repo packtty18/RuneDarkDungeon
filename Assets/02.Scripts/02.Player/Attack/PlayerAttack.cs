@@ -1,3 +1,4 @@
+using Drakkar.GameUtils;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -18,6 +19,8 @@ public class PlayerAttack : MonoBehaviour
     private EffectPlayer _dashVFX;
     private EffectPlayer _finisherVFX;
 
+    [SerializeField]
+    private DrakkarTrail _trail;
     [SerializeField]
     private Transform _swordPosition;
     [SerializeField] 
@@ -257,8 +260,6 @@ public class PlayerAttack : MonoBehaviour
 
         _currentCombo = 0;
         _currentAttack = EAttackType.None;
-
-        _hitboxController.Deactivate("Main");
     }
 
     #endregion
@@ -331,11 +332,21 @@ public class PlayerAttack : MonoBehaviour
     public void OnAttackStart()
     {
         _hitboxController.Activate("Main", _currentDamage);
-        //데미지 값 세팅
+        _trail.Begin();
     }
+
     public void OnAttackFinish()
     {
+        if (!_isAttacking)
+        {
+            _hitboxController.Deactivate("Main");
+            _trail.End();
+        }      
+    }
+    public void OnSingleAttackFinish()
+    {
         _hitboxController.Deactivate("Main");
+        _trail.End();
         _stateMachine.SetActionState(EActionState.None);
 
         _isAttacking = false;
@@ -345,6 +356,7 @@ public class PlayerAttack : MonoBehaviour
     public void OnChargeFinisherFinish()
     {
         _hitboxController.Deactivate("Main");
+        _trail.End();
         _stateMachine.SetActionState(EActionState.None);
         
         EndCombo();
@@ -357,6 +369,7 @@ public class PlayerAttack : MonoBehaviour
     public void OnFinisherFinish()
     {
         _hitboxController.Deactivate("Main");
+        _trail.End();
         _stateMachine.SetActionState(EActionState.None);
         
         EndCombo();
@@ -365,6 +378,7 @@ public class PlayerAttack : MonoBehaviour
     public void OnJumpDashAttackFinish()
     {
         _hitboxController.Deactivate("Main");
+        _trail.End();
         _stateMachine.SetActionState(EActionState.None);
 
         _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(_attackConfig.JumpDashComboInputWindow));
