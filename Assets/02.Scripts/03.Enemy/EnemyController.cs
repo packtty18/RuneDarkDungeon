@@ -21,8 +21,8 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private EnemyStat _stat;
     [SerializeField] private AnimatorController _anim;
 
-    private bool _battleBlocked;   // WaitingNextStage
-    private bool _paused;          // PauseContext
+    private bool _paused;
+    public bool Pause => _paused;
 
     public EnemyStateMachine FSM => _fsm;
     public EnemyMove Move => _move;
@@ -50,16 +50,15 @@ public class EnemyController : PoolableObject, IDamageable
     private void Update()
     {
         if (!CanTick())
+        {
             return;
+        }
 
         _fsm.Tick(Time.deltaTime);
     }
     private bool CanTick()
     {
         if (_paused)
-            return false;
-
-        if (_battleBlocked)
             return false;
 
         if (FSM.CurrentState is DeadState)
@@ -106,8 +105,6 @@ public class EnemyController : PoolableObject, IDamageable
             BattleManager.Instance.OnBattleStateChanged.Subscribe(OnBattleStateChanged);
             OnBattleStateChanged(BattleManager.Instance.State);
         }
-
-        PauseContext.OnPauseChanged += OnPauseChanged;
     }
 
     public override void OnDespawn()
@@ -116,39 +113,48 @@ public class EnemyController : PoolableObject, IDamageable
         {
             BattleManager.Instance.OnBattleStateChanged.Unsubscribe(OnBattleStateChanged);
         }
-
-        PauseContext.OnPauseChanged -= OnPauseChanged;
         base.OnDespawn();
     }
-    //적의 상태별
+    private bool _wait = true;
+    public bool Wait => _wait;  
     private void OnBattleStateChanged(EBattleState state)
     {
-        _battleBlocked = state == EBattleState.WaitingNextStage;
-
-        if (_battleBlocked)
+        switch (state)
         {
-            _move.StopMove();
-            _anim.SetAnimSpeed(0f);
-        }
-        else
-        {
-            _move.StartMove();
-            _anim.SetAnimSpeed(1f);
+            case EBattleState.None:
+                break;
+            case EBattleState.Preparing:
+                _wait = true;
+                break;
+            case EBattleState.InProgress:
+                _wait = false;
+                OnPause(false);
+                break;
+            case EBattleState.Pause:
+                {
+                    OnPause(true);
+                    break;
+                }
+                
+            case EBattleState.WaitingNextStage:
+                _wait = true;
+                break;
+            case EBattleState.Victory:
+                break;
+            case EBattleState.Defeat:
+                break;
         }
     }
 
-    private void OnPauseChanged(bool paused, EPauseReason reason)
+    [Button]
+    private void OnPause(bool paused)
     {
-        // Boss 예외 처리
-        if (paused && reason == EPauseReason.Cutscene && Stat.EnemyType == EEnemyType.Boss)
-            return;
-
         _paused = paused;
 
         _move.SetPaused(paused);
         _anim.SetAnimSpeed(paused ? 0f : 1f);
 
-        Debug.Log($"[Enemy] Pause={paused}, Reason={reason}");
+        Debug.Log($"[Enemy] Pause={paused}");
     }
 
     #endregion

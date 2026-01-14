@@ -19,7 +19,6 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
     [SerializeField] private ItemUpgradeDataSO _upgradeDB;
     
     public ItemDatabaseSO ItemDB => _itemDB;
-    public ItemUpgradeDataSO UpgradeDB => _upgradeDB;
     
     public float NextQ;
     public float NextE;
@@ -30,21 +29,13 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
 
     protected override void OnInit()
     {
-        _forge = new(_upgradeDB, _upgradeInventory, _inventory, _goldData);
-        _initializer.Initialize(this);
+        ItemFactory itemFactory = new(_itemDB);
+        _forge = new(itemFactory, _upgradeDB, _upgradeInventory, _inventory, _goldData);
         
-        SetItemInfo(Inventory.Items);
-        SetItemInfo(Equipment.Items.Values);
-    }
-    
-    private void SetItemInfo(IEnumerable<ItemData> items)
-    {
-        foreach (var item in items)
-        {
-            if (item == null) continue;
-            ItemSO info = _itemDB.GetItemInfo(item);
-            item.SetInfo(info);
-        }
+        itemFactory.SetItemInfo(Inventory.Items);
+        itemFactory.SetItemInfo(Equipment.Items.Values);
+        
+        _initializer.Initialize(this);
     }
     
     private void Update()

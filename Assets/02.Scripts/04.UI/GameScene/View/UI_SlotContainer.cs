@@ -4,21 +4,18 @@ using UnityEngine;
 
 public class UI_SlotContainer : UI_Base
 { 
-    private ItemDatabaseSO _itemDB;
+    [SerializeField] private ItemFrameSO _frameDB;
     
     [Header("슬롯 연결")]
     [SerializeField] private List<UI_Slot> _slots;
     [SerializeField] private Transform _slotParent;
     [SerializeField] private UI_Slot _slotPrefab;
-    [SerializeField] private UI_ScrollView _layoutController;
 
     public event Action<UI_Slot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
     
-    public void Initialize(ItemDatabaseSO itemDB)
+    private void Awake()
     {
-        _itemDB = itemDB;
-        
         foreach (var slot in _slots)
         {
             slot.OnSlotClicked += NotifySlotClicked;
@@ -50,8 +47,8 @@ public class UI_SlotContainer : UI_Base
         {
             if (i < targetCount)
             {
-                var data = _itemDB.GetSlotData(items[i]);
-                _slots[i].SetItem(data);
+                var border = _frameDB.GetBorderSprite(items[i].Grade);
+                _slots[i].SetItem(items[i], border);
                 _slots[i].SetActive(true);
             }
             else
@@ -60,8 +57,6 @@ public class UI_SlotContainer : UI_Base
                 _slots[i].SetActive(false);
             }
         }
-        
-        _layoutController?.UpdateLayout(targetCount);
     }
     
     public void RefreshFilter(IReadOnlyForge forge = null)

@@ -31,7 +31,7 @@ public class EnemySpawnManager : SerializedMonoBehaviour
 
     //페이즈를 시작한다.
     [Button]
-    public void PlayCurrentPhase()
+    public void SpawnCurrentPhase()
     {
         _list.Clear();
         if (_currentPhase >= _phaseDatas.Count)
@@ -120,7 +120,7 @@ public class EnemySpawnManager : SerializedMonoBehaviour
         if (_aliveEnemyCount <= _nextPhaseThreshold)
         {
             _currentPhase++;
-            PlayCurrentPhase();
+            SpawnCurrentPhase();
         }
     }
 
