@@ -28,8 +28,6 @@ public class SkillBase : MonoBehaviour
         }
     }
 
-    protected virtual void ApplyEffect(GameObject user, EItemGrade grade) { }
-
     public void OnUse(GameObject user, EItemGrade grade)
     {
         _user = user;
@@ -40,6 +38,8 @@ public class SkillBase : MonoBehaviour
         Destroy(gameObject, _lifeTime);
     }
 
+    protected virtual void ApplyEffect(GameObject user, EItemGrade grade) { }
+    
     private void Deactivate()
     {
         gameObject.SetActive(false);

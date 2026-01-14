@@ -21,16 +21,15 @@ public class BladeStormSkill : SkillBase
     {
         transform.SetParent(user.transform);
         
-        if(grade >= EItemGrade.Unique)
-        {
-            Vector3 targetScale = transform.localScale * _uniqueScale;
-
-            transform.DOScale(targetScale, _scaleDuration)
-                .SetEase(_ease)
-                .SetLink(gameObject);
-        }
-
         StartCoroutine(TickDamageRoutine());
+        
+        if (grade < EItemGrade.Unique) return;
+
+        Vector3 targetScale = transform.localScale * _uniqueScale;
+
+        transform.DOScale(targetScale, _scaleDuration) 
+            .SetEase(_ease)
+            .SetLink(gameObject);
     }
 
     private IEnumerator TickDamageRoutine()

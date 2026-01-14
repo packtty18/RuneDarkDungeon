@@ -9,9 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6881291136420182901}
-  - component: {fileID: 5910597204393509783}
-  m_Layer: 0
-  m_Name: Effect_38_ElectricExplosion
+  - component: {fileID: 212191390671935336}
+  - component: {fileID: 8118179353494630557}
+  - component: {fileID: 5269801588177607966}
+  m_Layer: 6
+  m_Name: LightningZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38,7 +40,7 @@ Transform:
   - {fileID: 2569481517191836703}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5910597204393509783
+--- !u!114 &212191390671935336
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -47,10 +49,52 @@ MonoBehaviour:
   m_GameObject: {fileID: 1421739010686413293}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41a03a0381f09f44792d1700dc524500, type: 3}
+  m_Script: {fileID: 11500000, guid: 22a7b3cc2f0e62d46bec0dd19dce784e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ParticleEffect
-  _lifeTime: 5
+  m_EditorClassIdentifier: Assembly-CSharp::LightningZoneSkill
+  _damage: 100
+  _lifeTime: 2
+  _tick: 0.25
+  _explosionPrefab: {fileID: 9136232383455400168, guid: 3b59e6f78c6fe5342a7e9097bada2652, type: 3}
+  _offset: {x: 0, y: 0, z: 0.25}
+--- !u!114 &8118179353494630557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421739010686413293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c34fd4e561f21da468a0263868c73308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitBox
+  _currentAttackId: 0
+  _team: 0
+  _damage: 10
+  _autoDeactive: 1
+  _deactiveDelay: 0.1
+--- !u!135 &5269801588177607966
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421739010686413293}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 8
+  m_Center: {x: 0, y: 0, z: -1}
 --- !u!1 &1649377010991218770
 GameObject:
   m_ObjectHideFlags: 0
