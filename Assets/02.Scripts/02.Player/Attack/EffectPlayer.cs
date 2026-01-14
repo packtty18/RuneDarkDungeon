@@ -16,8 +16,10 @@ public class EffectPlayer : MonoBehaviour
             particle.Emit(1);
         }
     }
+
     public void Play()
     {
+        Debug.Log($"Play! : {gameObject.name}{_particles.Length}");
         foreach (var particle in _particles)
         {
             particle.Play();

@@ -17,8 +17,9 @@ public class PlayerAttack : MonoBehaviour
     private Renderer[] _playerRenderers;
 
     private EffectPlayer _dashVFX;
+    private EffectPlayer _dashSlashVFX;
     private EffectPlayer _finisherVFX;
-    [SerializeField]
+    private EffectPlayer _finisherSlashVFX;
     private EffectPlayer[] _slashVFXs;
 
     [SerializeField]
@@ -101,8 +102,16 @@ public class PlayerAttack : MonoBehaviour
 
     private void EffectInstantiate()
     {
+        EffectPlayer[] vfx = _attackConfig.GetComboSlashVFXs();
+        _slashVFXs = new EffectPlayer[vfx.Length];
+        for (int i = 0;  i < vfx.Length; i++) {
+
+            _slashVFXs[i] = Instantiate(vfx[i], _swordPosition);
+        }
         _dashVFX = Instantiate(_attackConfig.JumpDashEffect, transform);
         _finisherVFX = Instantiate(_attackConfig.FinisherEffect, transform);
+        _dashSlashVFX = Instantiate(_attackConfig.JumpDashSlashEffect, _swordPosition);
+        _finisherSlashVFX = Instantiate(_attackConfig.FinisherSlashVFX, _swordPosition);
     }
 
 
@@ -336,12 +345,22 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnChargeFinisherEffect()
     {
-        _finisherVFX.PlayAt(transform, _swordPosition);
+        //_finisherVFX.PlayAt(transform, _swordPosition);
     }
 
-    public void ParticleEvent()
+    public void OnComboSlashVFX()
     {
-        _slashVFXs[_currentCombo-1].Emit();
+        _slashVFXs[_currentCombo-1].Play();
+    }
+
+    public void OnJumpDashSlashVFX()
+    {
+        _dashSlashVFX.Play();
+    }
+
+    public void OnFinisherSlashVFX()
+    {
+        _finisherSlashVFX.Play();
     }
 
     public void OnAttackFinish()
