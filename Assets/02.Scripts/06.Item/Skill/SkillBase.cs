@@ -3,12 +3,14 @@ using UnityEngine;
 public class SkillBase : MonoBehaviour
 {
     [Header("데미지 설정")]
-    [SerializeField] private float _damage;
+    [SerializeField] protected float _damage;
     
     [Header("지속 시간 설정")]
-    [SerializeField] private float _lifeTime = 2.0f;
+    [SerializeField] protected float _lifeTime = 2.0f;
 
     private ParticleSystem[] _particles;
+    protected GameObject _user;
+    protected EItemGrade _grade;
 
     private void Awake()
     {
@@ -30,13 +32,13 @@ public class SkillBase : MonoBehaviour
 
     public void OnUse(GameObject user, EItemGrade grade)
     {
+        _user = user;
+        _grade = grade;
+        
         PlayAllParticles();
-        ApplyEffect(user, grade);
+        ApplyEffect(_user, _grade);
         Destroy(gameObject, _lifeTime);
     }
-
-    public virtual void OnEquip(GameObject user, EItemGrade grade) { }
-    public virtual void OnUnequip(GameObject user, EItemGrade grade) { }
 
     private void Deactivate()
     {

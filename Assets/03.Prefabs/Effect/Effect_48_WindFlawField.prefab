@@ -62,8 +62,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 957440384404129523}
-  - component: {fileID: -913290192990333982}
-  m_Layer: 0
+  - component: {fileID: 6144476591559882379}
+  - component: {fileID: 822449522075036830}
+  - component: {fileID: 2126707712257351472}
+  m_Layer: 6
   m_Name: Effect_48_WindFlawField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +88,7 @@ Transform:
   - {fileID: 957440382767899285}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-913290192990333982
+--- !u!114 &6144476591559882379
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,7 +97,51 @@ MonoBehaviour:
   m_GameObject: {fileID: 957440384404129522}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41a03a0381f09f44792d1700dc524500, type: 3}
+  m_Script: {fileID: 11500000, guid: 1db9a7b88f9f5014f80d4fdf48b1a3d0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ParticleEffect
-  _lifeTime: 5
+  m_EditorClassIdentifier: Assembly-CSharp::BladeStormSkill
+  _damage: 100
+  _lifeTime: 3
+  _tick: 0.25
+  _uniqueScale: 2
+  _scaleDuration: 0.75
+  _ease: 25
+  _pullForce: 2
+--- !u!114 &822449522075036830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957440384404129522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c34fd4e561f21da468a0263868c73308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitBox
+  _currentAttackId: 2
+  _team: 0
+  _damage: 0
+  _autoDeactive: 1
+  _deactiveDelay: 0.1
+--- !u!135 &2126707712257351472
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957440384404129522}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 15
+  m_Center: {x: 0, y: 0, z: 0}
