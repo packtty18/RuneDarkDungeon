@@ -45,11 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_makeObjs:
-  - {fileID: 7281159161875971371, guid: 1c7b4ba3f0ee646408fcc9ab68d375f8, type: 3}
-  m_startDelay: 0
+  - {fileID: 7281159161875971371, guid: 6cb9c75ed54650d4fb9b47a027a748a0, type: 3}
+  m_startDelay: 0.15
   m_makeCount: 15
   m_makeDelay: 0.3
-  m_randomPos: {x: 5, y: 5, z: 5}
+  m_randomPos: {x: 7, y: 7, z: 7}
   m_randomRot: {x: 0, y: 0, z: 0}
   m_randomScale: {x: 0, y: 0, z: 0}
   isObjectAttachToParent: 1
@@ -98,11 +98,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_makeObjs:
-  - {fileID: 7281159161875971371, guid: 1c7b4ba3f0ee646408fcc9ab68d375f8, type: 3}
+  - {fileID: 7281159161875971371, guid: 6cb9c75ed54650d4fb9b47a027a748a0, type: 3}
   m_startDelay: 0
   m_makeCount: 15
   m_makeDelay: 0.3
-  m_randomPos: {x: 5, y: 5, z: 5}
+  m_randomPos: {x: 7, y: 7, z: 7}
   m_randomRot: {x: 0, y: 0, z: 0}
   m_randomScale: {x: 0, y: 0, z: 0}
   isObjectAttachToParent: 1
@@ -115,9 +115,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2880140810431346511}
-  - component: {fileID: 949700487108887109}
+  - component: {fileID: 6715837202217692936}
   m_Layer: 0
-  m_Name: Effect_49_MeteorRain
+  m_Name: JudgmentMeteor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140,7 +140,7 @@ Transform:
   - {fileID: 2880140809684959421}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &949700487108887109
+--- !u!114 &6715837202217692936
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -149,7 +149,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2880140810431346510}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41a03a0381f09f44792d1700dc524500, type: 3}
+  m_Script: {fileID: 11500000, guid: a7b84ffcb9d1cb842a4e4187a9c24d6e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ParticleEffect
-  _lifeTime: 5
+  m_EditorClassIdentifier: Assembly-CSharp::JudgmentMeteorSkill
+  _damage: 100
+  _lifeTime: 6
+  _skillPrefab: {fileID: 2341812508175797062, guid: b1469656a10da084486e68ffe2dfdaf4, type: 3}
+  _interval: 0.75
+  _finalEffectPrefab: {fileID: 4371431931361114031, guid: 43a698f72c4c8f545ba7749b84aad510, type: 3}

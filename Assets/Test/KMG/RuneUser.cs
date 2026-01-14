@@ -18,8 +18,6 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
     [SerializeField] private ItemDatabaseSO _itemDB;
     [SerializeField] private ItemUpgradeDataSO _upgradeDB;
     
-    public ItemDatabaseSO ItemDB => _itemDB;
-    
     public float NextQ;
     public float NextE;
     public float NextR;

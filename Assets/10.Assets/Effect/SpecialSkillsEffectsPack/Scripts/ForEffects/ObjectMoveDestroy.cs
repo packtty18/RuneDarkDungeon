@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ObjectMoveDestroy : MonoBehaviour
 {
+    [Header("충돌 설정")]
+    [SerializeField] private LayerMask _hitLayer;
+    
     public GameObject m_gameObjectMain;
     public GameObject m_gameObjectTail;
     GameObject m_makedObject;
@@ -36,7 +39,7 @@ public class ObjectMoveDestroy : MonoBehaviour
         if (!ishit)
         {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, maxLength))
+            if (Physics.Raycast(transform.position, transform.forward, out hit, maxLength, _hitLayer))
                 HitObj(hit);
         }
 
