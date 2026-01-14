@@ -24669,7 +24669,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e17d10c4e020147ae8b5e49a85fd67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 0
+  _hitLayer:
+    serializedVersion: 2
+    m_Bits: 256
   m_gameObjectMain: {fileID: 7281159161875971371}
   m_gameObjectTail: {fileID: 0}
   m_hitObject: {fileID: 2434423925942292171, guid: 700a650d99be42c41bcb9941bca21cf1, type: 3}

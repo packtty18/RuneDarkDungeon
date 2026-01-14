@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ObjectMoveDestroy : MonoBehaviour
 {
-    [Header("데미지")]
-    [SerializeField] private float _damage;
+    [Header("충돌 설정")]
+    [SerializeField] private LayerMask _hitLayer;
     
     public GameObject m_gameObjectMain;
     public GameObject m_gameObjectTail;
@@ -39,7 +39,7 @@ public class ObjectMoveDestroy : MonoBehaviour
         if (!ishit)
         {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, maxLength))
+            if (Physics.Raycast(transform.position, transform.forward, out hit, maxLength, _hitLayer))
                 HitObj(hit);
         }
 
@@ -69,13 +69,6 @@ public class ObjectMoveDestroy : MonoBehaviour
         m_makedObject = Instantiate(m_hitObject, point.transform.position, point.rotation).gameObject;
         m_makedObject.transform.parent = transform.parent;
         m_makedObject.transform.localScale = new Vector3(1, 1, 1);
-
-        Debug.Log("오브젝트 생성");
-        
-        if (!m_makedObject.TryGetComponent(out HitBox hitbox)) return;
-        hitbox.Activate(_damage);
-        
-        Debug.Log("히트박스 활성화 완료");
     }
 
     void HitObj(RaycastHit hit)
