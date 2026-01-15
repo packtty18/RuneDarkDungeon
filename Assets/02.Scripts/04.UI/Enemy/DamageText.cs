@@ -12,7 +12,36 @@ public class DamageText : PoolableObject
     [SerializeField] private float _startScale;
     [SerializeField] private Vector3 _offset;
     
+    private Camera _camera;
+    private Transform _target;          // 따라다닐 대상
+    private Vector3 _lastKnownPosition; // 대상이 죽었을 때 기억할 위치
     private Sequence _sequence;
+
+    private void Awake()
+    {
+        _camera = Camera.main;
+    }
+
+    private void LateUpdate()
+    {
+        UpdatePosition();
+    }
+    
+    private void UpdatePosition()
+    {
+        Vector3 targetPosition;
+
+        if (_target != null)
+        {
+            targetPosition = _target.position;
+            _lastKnownPosition = targetPosition;
+        }
+        else
+        {
+            targetPosition = _lastKnownPosition;
+        }
+        transform.position = _camera.WorldToScreenPoint(targetPosition + _offset);
+    }
     
     public override void OnSpawn()
     {
@@ -22,9 +51,9 @@ public class DamageText : PoolableObject
         transform.localScale = Vector3.one * _startScale;
     }
     
-    public void Setup(Vector3 position, float damage)
+    public void Show(Transform target, float damage)
     {
-        transform.position = Camera.main.WorldToScreenPoint(position + _offset);
+        _target = target;
         _damageTextUI.SetText("{0}", Mathf.RoundToInt(damage));
         PlayAnimation();
     }
@@ -44,5 +73,6 @@ public class DamageText : PoolableObject
     public override void OnDespawn()
     {
         _sequence?.Kill();
+        _target = null;
     }
 }

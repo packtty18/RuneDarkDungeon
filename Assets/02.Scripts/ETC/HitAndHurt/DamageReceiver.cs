@@ -37,11 +37,12 @@ public class DamageReceiver : MonoBehaviour
         _lastAttackId = data.AttackId;
         _owner.ApplyDamage(data);
         
-        var damageText = PoolManager.Instance.Get(EPoolType.UI_Damage);
-        damageText.GetComponent<DamageText>().Setup(transform.position, data.Damage);
-        
         OnDamagedEventEach?.Invoke(hurtbox);
         OnDamagedEvent?.Invoke();
+        
+        var damageObject = PoolManager.Instance.Get(EPoolType.UI_Damage);
+        if (!damageObject.TryGetComponent<DamageText>(out var damageText)) return; 
+        damageText.Show(transform, data.Damage);
     }
 
     
