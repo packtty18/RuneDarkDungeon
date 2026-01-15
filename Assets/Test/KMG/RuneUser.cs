@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RuneUser : LocalSingleton<RuneUser>, IDataHandler
+public class RuneUser : LocalSingleton<RuneUser>, IDataHolder
 {
     [SerializeField] private Inventory _inventory;
     [SerializeField] private GoldData _goldData;

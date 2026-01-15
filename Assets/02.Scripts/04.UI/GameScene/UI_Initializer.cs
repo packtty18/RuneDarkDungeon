@@ -12,7 +12,7 @@ public class UI_Initializer : MonoBehaviour
     [SerializeField] private UpgradePresenter _upgradePresenter;
     [SerializeField] private EquipmentPresenter _equipmentPresenter;
     
-    public void Initialize(IDataHandler data)
+    public void Initialize(IDataHolder data)
     {
         _inventoryManager.Initialize(data.Inventory);
         EquipmentManager equipmentManager = new(data.Equipment, data.Inventory);

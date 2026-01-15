@@ -24,7 +24,7 @@ public class ItemDropper : PoolSpawner
 
         foreach (var poolType in results)
         {
-            //SpawnItem(poolType);
+            SpawnItem(poolType);
         }
 
         Debug.LogWarning("[ItemDropper] 드롭 완료");

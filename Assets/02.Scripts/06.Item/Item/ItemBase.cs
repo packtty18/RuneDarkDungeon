@@ -91,7 +91,6 @@ public abstract class ItemBase : PoolableObject
         {
             return;
         }
-
         Collect();
     }
 

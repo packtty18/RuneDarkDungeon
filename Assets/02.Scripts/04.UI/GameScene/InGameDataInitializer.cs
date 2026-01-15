@@ -7,7 +7,7 @@ public class InGameDataInitializer : MonoBehaviour
 
     private void Start()
     {
-        IDataHandler dataHandler = DataManager.Instance;
-        _initializer.Initialize(dataHandler);
+        IDataHolder dataHolder = DataManager.Instance;
+        _initializer.Initialize(dataHolder);
     }
 }

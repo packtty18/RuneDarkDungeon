@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IDataHandler
+public interface IDataHolder
 {
     IInventory Inventory { get; }
     IInventory UpgradeInventory { get; }
