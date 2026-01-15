@@ -22,7 +22,7 @@ public class GameData
     {
         System.Text.StringBuilder sb = new();
         sb.AppendLine("==== Game Data Summary ====");
-        sb.AppendLine($"Gold: {_gold.Value}");
+        sb.AppendLine($"Gold: {_gold.Amount}");
         sb.AppendLine($"Rune Count: {_inventory.Items.Count}");
         
         for (int i = 0; i < _inventory.Items.Count; i++)

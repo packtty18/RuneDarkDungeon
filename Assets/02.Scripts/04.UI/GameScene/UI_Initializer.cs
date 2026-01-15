@@ -11,6 +11,7 @@ public class UI_Initializer : MonoBehaviour
     [SerializeField] private InventoryPresenter _inventoryPresenter;
     [SerializeField] private UpgradePresenter _upgradePresenter;
     [SerializeField] private EquipmentPresenter _equipmentPresenter;
+    [SerializeField] private CurrencyPresenter _currencyPresenter;
     
     public void Initialize(IDataHolder data)
     {
@@ -28,5 +29,6 @@ public class UI_Initializer : MonoBehaviour
         _inventoryPresenter.Initialize(data.Inventory, inventoryHandlerDict);
         _upgradePresenter.Initialize(data.UpgradeInventory, data.Forge, new UnregisterEventHandler(data.Forge));
         _equipmentPresenter.Initialize(equipmentManager, data.Equipment);
+        _currencyPresenter.Initialize(data.GoldData);
     }
 }

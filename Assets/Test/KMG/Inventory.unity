@@ -638,7 +638,7 @@ MonoBehaviour:
     - _id: 0
       _grade: 0
   _goldData:
-    _value: 1000
+    _amount: 500
   _equipment:
     _items:
       _pairs:
@@ -7663,6 +7663,7 @@ MonoBehaviour:
   _inventoryPresenter: {fileID: 2918934413595836244}
   _upgradePresenter: {fileID: 3081092245381347736}
   _equipmentPresenter: {fileID: 2135668994001650819}
+  _currencyPresenter: {fileID: 8470123277968938125}
 --- !u!222 &8210283055897722444
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7723,6 +7724,7 @@ GameObject:
   - component: {fileID: 2918934413595836244}
   - component: {fileID: 3081092245381347736}
   - component: {fileID: 2135668994001650819}
+  - component: {fileID: 8470123277968938125}
   - component: {fileID: 4532259920783546760}
   m_Layer: 0
   m_Name: Presenter
@@ -7731,6 +7733,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8470123277968938125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8470123277968938124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8acc8a806ea469438a889cce0f9caf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CurrencyPresenter
+  _goldTextUI: {fileID: 9064424807196734112}
 --- !u!222 &8533493818069882909
 CanvasRenderer:
   m_ObjectHideFlags: 0
