@@ -19,7 +19,7 @@ public abstract class ItemBase : PoolableObject
     [SerializeField] protected float _spawnRotateForce = 30f;   //스폰시 회전하는 힘
 
     [Title("Detect & Attract")]
-    [SerializeField] protected float _detectDelay = 0.5f;       //생성후 대기시간
+    [SerializeField] protected RangeData<float> _detectDelayRange;       //생성후 대기시간
     [SerializeField] protected float _attractDistance = 10f;    //플레이어를 감지하는 거리
     [SerializeField] protected float _attractSpeed = 8f;        //이동 속도
     [SerializeField] protected float _curveHeight = 3f;         // 베지어 곡선의 높이
@@ -27,7 +27,9 @@ public abstract class ItemBase : PoolableObject
     protected float _spawnTime;         //생성 시간 캐싱
     protected bool _isAttracting;       //현재 플레이어를 향해 이동하는지
     protected Tween _attractTween;      //트위닝 캐싱
+    protected float _detectDelay;
 
+    
     private Vector3 _startPosition;
     private Vector3 _controlPosition;
 
@@ -70,7 +72,8 @@ public abstract class ItemBase : PoolableObject
         AddSpawnForce();
 
         _spawnTime = Time.time;
-
+        _detectDelay = Random.Range(_detectDelayRange.Min, _detectDelayRange.Max);
+        
         Debug.Log($"{name} Get");
     }
 
@@ -120,7 +123,7 @@ public abstract class ItemBase : PoolableObject
         }
 
         float distance = Vector3.Distance(_startPosition, _target.position);
-        float duration = Mathf.Clamp(distance / _attractSpeed, 0.05f, 0.2f);
+        float duration = Mathf.Clamp(distance / _attractSpeed, 0.05f, 0.25f);
 
         float time = 0f;
         

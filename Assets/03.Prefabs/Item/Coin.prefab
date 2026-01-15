@@ -82,7 +82,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &3461829968874509037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,7 +101,9 @@ MonoBehaviour:
   _target: {fileID: 0}
   _spawnForce: 10
   _spawnRotateForce: 30
-  _detectDelay: 0.5
+  _detectDelayRange:
+    Min: 5.25
+    Max: 5.5
   _attractDistance: 10
   _attractSpeed: 1
   _curveHeight: 3
