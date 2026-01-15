@@ -2,31 +2,48 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class GoldData : StatBase<int>, ICurrency
+public class GoldData : ICurrency
 {
-    [SerializeField] private int _value;
-    public int Value => _value;
-
+    [SerializeField] private int _amount;
+    public int Amount => _amount;
+    
+    private readonly SafeEvent _onChanged = new();
+    
     private void SetAmount(int amount)
     {
         int clamped = Math.Max(0, amount);
 
-        if (_value == clamped) return;
+        if (_amount == clamped) return;
 
-        _value = clamped;
-        Notify(_value);
+        _amount = clamped;
+        Notify();
     }
     
     public void Add(int amount)
     {
-        SetAmount(_value + amount);
+        SetAmount(_amount + amount);
     }
 
     public bool TryConsume(int cost)
     {
-        if (_value < cost) return false;
+        if (_amount < cost) return false;
         
-        SetAmount(_value - cost);
+        SetAmount(_amount - cost);
         return true;
+    }
+
+    public void Subscribe(Action action)
+    {
+        _onChanged.Subscribe(action);
+    }
+
+    public void Unsubscribe(Action action)
+    {
+        _onChanged.Unsubscribe(action);
+    }
+    
+    private void Notify()
+    {
+        _onChanged?.Invoke();
     }
 }

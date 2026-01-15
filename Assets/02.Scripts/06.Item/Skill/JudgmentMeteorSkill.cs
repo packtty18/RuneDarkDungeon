@@ -8,7 +8,14 @@ public class JudgmentMeteorSkill : SkillBase
     
     [Header("레전드 추가 스킬")]
     [SerializeField] private GameObject _finalEffectPrefab;
-
+    
+#if UNITY_EDITOR
+    void Reset()
+    {
+        _skillPrefab = GetComponent<DotDealer>();
+    }
+#endif
+    
     protected override void ApplyEffect(GameObject user, EItemGrade grade)
     {
         if (_grade < EItemGrade.Unique) return;

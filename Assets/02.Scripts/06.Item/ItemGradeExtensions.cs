@@ -2,8 +2,8 @@ using UnityEngine;
 
 public static class ItemGradeExtensions
 {
-    public const EItemGrade MaxGrade = EItemGrade.Legendary;
-
+    public static readonly EItemGrade MaxGrade = EItemGrade.Legendary;
+    
     public static bool IsMaxGrade(this EItemGrade grade)
     {
         return grade == MaxGrade;

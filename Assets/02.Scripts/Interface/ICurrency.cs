@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface ICurrency : IReadOnlyValue<int>
+public interface ICurrency : IReadOnlyCurrency
 {
     void Add(int amount);
     bool TryConsume(int cost);
