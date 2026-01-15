@@ -9,6 +9,7 @@ public class PlayerAttack : MonoBehaviour
     private PlayerAnimator _animator;
     private PlayerMove _playerMove;
     private PlayerStats _stats;
+    private GroundEffectSpawner _spawner;
 
     private bool _isJumping;
 
@@ -54,6 +55,7 @@ public class PlayerAttack : MonoBehaviour
         _playerMove = GetComponent<PlayerMove>();
         _animator = GetComponent<PlayerAnimator>();
         _stats = GetComponent<PlayerStats>();
+        _spawner = GetComponent<GroundEffectSpawner>();
 
         _playerRenderers = GetComponentsInChildren<Renderer>();
 
@@ -345,7 +347,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnChargeFinisherEffect()
     {
-        //_finisherVFX.PlayAt(transform, _swordPosition);
+        _spawner.SpawnGroundEffect(_finisherVFX, _swordPosition.transform.position, transform);
     }
 
     public void OnComboSlashVFX()
