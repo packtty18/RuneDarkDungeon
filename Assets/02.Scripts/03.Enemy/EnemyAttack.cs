@@ -31,6 +31,7 @@ public class EnemyAttack : MonoBehaviour
         _hitboxController = GetComponentInChildren<HitboxController>();
         MeleeAttack.Clear();
         current = null;
+
     }
 
     #region Strategy
@@ -71,7 +72,7 @@ public class EnemyAttack : MonoBehaviour
     #region 엘리트,보스 - 돌진
     public virtual void StartCharge()
     {
-        controller.Stat.CanCharge = false;
+        controller.Stat.SetActiveCharge(false);
         _hitboxController.Activate("Charge", _damage);
     }
 
@@ -85,7 +86,7 @@ public class EnemyAttack : MonoBehaviour
     {
         yield return new WaitForSeconds(controller.Stat.GetValue(EEnemyValueFloat.ChargeCooldown).Value);
 
-        controller.Stat.CanCharge = true;
+        controller.Stat.SetActiveCharge(true);
         Debug.Log($"[{this}] : 돌진 충전 완료");
     }
     #endregion
@@ -93,9 +94,7 @@ public class EnemyAttack : MonoBehaviour
     #region 보스 - 소환
     public virtual void StartSummon()
     {
-        controller.Stat.CanSummon = false;
-        BossAttack attack = controller.Attack as BossAttack;
-        attack.TargetSpawner.BossSummon();
+        controller.Stat.SetActiveSummon(false);
     }
 
     public virtual void EndSummon()
@@ -105,10 +104,30 @@ public class EnemyAttack : MonoBehaviour
 
     private IEnumerator ChargeSummon()
     {
-        yield return new WaitForSeconds(20);
+        yield return new WaitForSeconds(30);
 
-        controller.Stat.CanSummon = true;
+        controller.Stat.SetActiveSummon(true);
         Debug.Log($"[{this}] : 소환 충전 완료");
+    }
+    #endregion
+
+    #region 보스 - 버프
+    public virtual void StartBuff()
+    {
+        controller.Stat.SetActiveBuff(false);
+    }
+
+    public virtual void EndBuff()
+    {
+        StartCoroutine(ChargeBuff());
+    }
+
+    private IEnumerator ChargeBuff()
+    {
+        yield return new WaitForSeconds(40);
+
+        controller.Stat.SetActiveBuff(true);
+        Debug.Log($"[{this}] : 버프 충전 완료");
     }
     #endregion
 

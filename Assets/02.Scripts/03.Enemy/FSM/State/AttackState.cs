@@ -23,6 +23,17 @@ public class AttackState : EnemyState
             return;
         }
 
+        if (controller.Stat.CanSummon)
+        {
+            controller.FSM.ChangeState(EEnemyState.Summon);
+        }
+
+        if (controller.Stat.CanBuff)
+        {
+            controller.FSM.ChangeState(EEnemyState.Buff);
+        }
+
+
         if (!controller.IsTargetExist())
         {
             controller.FSM.ChangeState(EEnemyState.Idle);
@@ -63,7 +74,6 @@ public class AttackState : EnemyState
     {
         isAttacking = false;
         controller.Attack.Finish();
-        
     }
 
     public void OnAttackFinished()

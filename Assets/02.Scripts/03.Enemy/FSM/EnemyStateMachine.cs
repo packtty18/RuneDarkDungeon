@@ -53,6 +53,8 @@ public class EnemyStateMachine
             EEnemyState.Hit => new HitState(_controller),
             EEnemyState.Dead => new DeadState(_controller),
             EEnemyState.Charge => new ChargeState(_controller),
+            EEnemyState.Summon => new SummonState(_controller),
+            EEnemyState.Buff => new BuffState(_controller),
             _ => null
         };
     }

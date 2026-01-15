@@ -6,7 +6,7 @@ public class EnemyExplosion : MonoBehaviour
 {
     [Title("Reference")]
     [SerializeField] private HitboxController _hitboxController;
-    [SerializeField] private GameObject _HitPrefab;
+    [SerializeField] private GameObject _hitPrefab;
     [SerializeField] private string _hitboxKey = "Main";
 
     [Title("Damage")]
@@ -31,7 +31,10 @@ public class EnemyExplosion : MonoBehaviour
         _timer = _activeDuration;
         _hitboxController.Activate("Main", damage);
 
-        Instantiate(_HitPrefab,transform);
+        if (_hitPrefab != null)
+        {
+            Instantiate(_hitPrefab, transform);
+        }
 
         _initted = true;
     }

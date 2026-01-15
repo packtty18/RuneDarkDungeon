@@ -1,19 +1,21 @@
+using UnityEngine;
 
-public class SummonState : EnemyState
+public class BuffState : EnemyState
 {
-    public override EEnemyState StateType => EEnemyState.Summon;
+    public override EEnemyState StateType => EEnemyState.Buff;
 
     private float cooldownTimer;
-    public SummonState(EnemyController controller) : base(controller) { }
+    public BuffState(EnemyController controller) : base(controller) { }
 
-    
+
     public override void Enter()
     {
         base.Enter();
-        controller.Attack.StartSummon();
+        controller.Attack.StartBuff();
         BossAttack attack = controller.Attack as BossAttack;
-        attack.TargetSpawner.BossSummon();
-        controller.Anim.SetTrigger(AnimatorController.s_summonTrigger);
+        //버프 오브젝트 생성 => 닿는 적들은 버프
+        attack.InstantBuff();
+        controller.Anim.SetTrigger(AnimatorController.s_buffTrigger);
         cooldownTimer = 3f;
     }
 
@@ -30,7 +32,7 @@ public class SummonState : EnemyState
 
     public override void Exit()
     {
-        controller.Attack.EndSummon();
+        controller.Attack.EndBuff();
         base.Exit();
 
     }

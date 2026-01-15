@@ -21,7 +21,11 @@ public class ChargeState : EnemyState
         controller.Anim.SetBool("IsMove", true);
         controller.Anim.SetBool("IsCharge", true);
 
-        controller.Stat.EnableSuperArmor();
+        if (controller.Stat.EnemyType != EEnemyType.Boss)
+        {
+            controller.Stat.EnableSuperArmor();
+        }
+
         controller.Attack.StartCharge();
         _chargeCount = 0;
         Debug.Log("[DashState] Enter");
@@ -55,7 +59,11 @@ public class ChargeState : EnemyState
 
     public override void Exit()
     {
-        controller.Stat.DisableSuperArmor();
+        if(controller.Stat.EnemyType != EEnemyType.Boss)
+        {
+            controller.Stat.DisableSuperArmor();
+        }
+        
         controller.Anim.SetBool("IsMove", false);
         controller.Anim.SetBool("IsCharge", false);
         controller.Move.ResumeAgent();

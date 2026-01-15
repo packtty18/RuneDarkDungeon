@@ -49,7 +49,18 @@ public class EnemySpawnManager : SerializedMonoBehaviour
     public void BossSummon()
     {
         SpawnByData(_phaseDatas[0]);
+        //WakeUpEnemies();
     }
+
+    private void WakeUpEnemies()
+    {
+        foreach (EnemyController enemy in _list)
+        {
+            //enemy.WakeUp();
+
+        }
+    }
+
     private void SpawnByData(EnemyPhaseDataSO phaseDataSO)
     {
         foreach (PhaseData data in phaseDataSO.Datas)

@@ -10,6 +10,9 @@ public class BossAttack : EliteAttack
     [SerializeField] private Transform _bulletSpawnPos;
     [SerializeField] private EnemySpawnManager _allySpawnManager;  //보스를 스폰한 매니저
 
+    [SerializeField] private Transform buffSpawnPosition;
+    [SerializeField] private GameObject _buffPrefab;
+
     public EnemySpawnManager TargetSpawner => _allySpawnManager;
     public override void Init()
     {
@@ -31,5 +34,10 @@ public class BossAttack : EliteAttack
         //페이즈3
         RegisterStrategy(3, new EnemySpawnAttack(_bloodExplosionData, transform, _damage)); //검기폭발
         RegisterStrategy(4, new EnemySpawnAttack(_thunderStormData, _bulletSpawnPos, _damage)); //낙뢰
+    }
+
+    public void InstantBuff()
+    {
+        Instantiate(_buffPrefab, buffSpawnPosition.position, buffSpawnPosition.rotation);
     }
 }

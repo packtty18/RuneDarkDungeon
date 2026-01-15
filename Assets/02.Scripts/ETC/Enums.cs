@@ -52,7 +52,8 @@ public enum EEnemyState
     Hit,
     Dead,
     Charge,
-    Summon
+    Summon,
+    Buff
 }
 
 

@@ -18,6 +18,12 @@ public class IdleState : EnemyState
             return;
         }
 
+        if (controller.Stat.CanSummon)
+        {
+            controller.FSM.ChangeState(EEnemyState.Summon);
+        }
+
+
         if (controller.IsTargetExist())
         {
             controller.FSM.ChangeState(EEnemyState.Chase);

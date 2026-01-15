@@ -61,6 +61,17 @@ public class EnemyController : PoolableObject, IDamageable
         _fsm = new EnemyStateMachine(this);
     }
 
+    public void SetConstraintsYPosition(bool enable)
+    {
+        if (enable)
+        {
+            _physics.constraints |= RigidbodyConstraints.FreezePositionY;
+        }
+        else
+        {
+            _physics.constraints &= ~RigidbodyConstraints.FreezePositionY;
+        }
+    }
 
     private void Update()
     {

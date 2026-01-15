@@ -39,8 +39,14 @@ public class EnemyStat : SerializedMonoBehaviour
     public EEnemyType EnemyType => _data.enemyType;
     public SafeEvent OnStatInitEnd = new();
 
-    public bool CanCharge = true;
-    public bool CanSummon = false;
+    private bool _canCharge;
+    private bool _canSummon;
+    private bool _canBuff;
+
+    [ShowInInspector] public bool CanCharge => _canCharge;
+    [ShowInInspector] public bool CanSummon => _canSummon && (OnPhase2 || OnPhase3);
+    [ShowInInspector] public bool CanBuff => _canBuff && (OnPhase2 || OnPhase3);
+
     [ShowInInspector] public bool HasSuperArmor { get; private set; }
     [ShowInInspector] public bool OnBerserk { get; private set; }
 
@@ -50,20 +56,20 @@ public class EnemyStat : SerializedMonoBehaviour
 
     public virtual void Init()
     {
+        _canCharge = true;
+        _canSummon = true;
+        _canBuff = true;
         HasSuperArmor = false;
         OnBerserk = false; 
         OnPhase1 = true;
         OnPhase2 = false;
         OnPhase3 = false;
-
+        InitDictionaries();
+        InitFromData(_data);
         if (EnemyType == EEnemyType.Boss)
         {
             EnableSuperArmor();
         }
-
-
-        InitDictionaries();
-        InitFromData(_data);
     }
 
     protected virtual void InitDictionaries()
@@ -119,6 +125,24 @@ public class EnemyStat : SerializedMonoBehaviour
         HasSuperArmor = false;
         Debug.Log("[EnemyStat] SuperArmor OFF");
     }
+
+    public void SetActiveCharge(bool enable)
+    {
+        _canCharge = enable;
+    }
+
+    public void SetActiveSummon(bool enable)
+    {
+        _canSummon = enable;
+    }
+
+    public void SetActiveBuff(bool enable)
+    {
+        _canBuff = enable;
+    }
+
+
+
     public void ActiveBerserk()
     {
         if (OnBerserk)
