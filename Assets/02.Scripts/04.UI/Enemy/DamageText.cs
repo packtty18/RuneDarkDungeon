@@ -8,15 +8,17 @@ public class DamageText : PoolableObject
     [SerializeField] private TextMeshProUGUI _damageTextUI;
     
     [Header("애니메이션 설정")]
+    [SerializeField] private float _floatDistance;
     [SerializeField] private float _duration;
     [SerializeField] private float _startScale;
     [SerializeField] private Vector3 _offset;
     
     private Camera _camera;
-    private Transform _target;          // 따라다닐 대상
-    private Vector3 _lastKnownPosition; // 대상이 죽었을 때 기억할 위치
+    private Transform _target;
+    private Vector3 _lastKnownPosition;
     private Sequence _sequence;
-
+    private float _currentFloatY;
+    
     private void Awake()
     {
         _camera = Camera.main;
@@ -40,7 +42,9 @@ public class DamageText : PoolableObject
         {
             targetPosition = _lastKnownPosition;
         }
-        transform.position = _camera.WorldToScreenPoint(targetPosition + _offset);
+        Vector3 screenPosition = _camera.WorldToScreenPoint(targetPosition + _offset);
+        screenPosition.y += _currentFloatY;
+        transform.position = screenPosition;
     }
     
     public override void OnSpawn()
@@ -49,6 +53,7 @@ public class DamageText : PoolableObject
 
         _damageTextUI.alpha = 1f;
         transform.localScale = Vector3.one * _startScale;
+        _currentFloatY = 0f;
     }
     
     public void Show(Transform target, float damage)
@@ -62,6 +67,9 @@ public class DamageText : PoolableObject
     {
         _sequence?.Kill();
         _sequence = DOTween.Sequence();
+        
+        _sequence.Join(DOTween.To(()=> _currentFloatY, x=> _currentFloatY = x, _floatDistance, _duration)
+            .SetEase(Ease.OutQuart));
         
         _sequence.Join(_damageTextUI.DOFade(0, _duration).SetEase(Ease.InQuad));
         
