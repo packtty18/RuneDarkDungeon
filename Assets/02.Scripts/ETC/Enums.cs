@@ -69,6 +69,7 @@ public enum EGameKeyType
     RSkill,
     Run,
     Enter,
+    Click,
 }
 
 public enum ESceneType

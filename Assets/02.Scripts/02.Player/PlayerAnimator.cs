@@ -2,7 +2,6 @@ using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(PlayerMove))]
 public class PlayerAnimator : MonoBehaviour
 {
     private Animator _animator;
