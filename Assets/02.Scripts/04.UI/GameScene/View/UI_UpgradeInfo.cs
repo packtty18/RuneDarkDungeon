@@ -9,7 +9,7 @@ public class UI_UpgradeInfo : MonoBehaviour
     
     public void Refresh(UpgradeData data)
     {
-        _costTextUI.SetText("{0} 골드", data.Cost);
-        _rateTextUI.SetText("{0}% 성공", data.Rate * 100);
+        _costTextUI.SetText("{0}", data.Cost);
+        _rateTextUI.SetText("성공 확률 {0}%", data.Rate * 100);
     }
 }
