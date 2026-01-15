@@ -83,6 +83,26 @@ public class ChaseState : EnemyState
 
     public void BossChase()
     {
+        controller.Move.SetTarget(controller.Target);
+        controller.Move.StartMove();
 
+        if (!controller.IsTargetExist())
+        {
+            controller.FSM.ChangeState(EEnemyState.Idle);
+            return;
+        }
+
+        float chargeRange = controller.Stat.GetValue(EEnemyValueFloat.ChargeRange).Value;
+        if (controller.Stat.CanCharge && controller.IsTargetInRange(chargeRange))
+        {
+            controller.FSM.ChangeState(EEnemyState.Charge);
+        }
+
+
+        float attackRange = controller.Stat.GetValue(EEnemyValueFloat.AttackRange).Value;
+        if (controller.IsTargetInRange(attackRange))
+        {
+            controller.FSM.ChangeState(EEnemyState.Attack);
+        }
     }
 }

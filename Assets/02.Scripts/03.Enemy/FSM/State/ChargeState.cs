@@ -9,7 +9,6 @@ public class ChargeState : EnemyState
     private Vector3 _startPosition;
 
     private EliteAttack _attack;
-
     public ChargeState(EnemyController controller)
         : base(controller) { }
 
@@ -34,10 +33,11 @@ public class ChargeState : EnemyState
 
     public override void Tick(float deltaTime)
     {
+        
         controller.Move.MoveByDirection(_direction, controller.Stat.GetValue(EEnemyValueFloat.ChargeSpeed).Value);
 
         float movedDistance = Vector3.Distance(_startPosition, controller.transform.position);
-        if (movedDistance >= controller.Stat.GetValue(EEnemyValueFloat.ChargeRange).Value)
+        if (movedDistance >= controller.Stat.GetValue(EEnemyValueFloat.ChargeDistance).Value)
         {
             controller.FSM.ChangeState(EEnemyState.Chase);
         }

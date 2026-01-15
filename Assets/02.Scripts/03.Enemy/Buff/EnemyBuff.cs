@@ -35,6 +35,8 @@ public class EnemyBuff : MonoBehaviour
         }
     }
 
+    
+
     public void ApplyBuff(BuffSO buff)
     {
         StatModifier modifier = default;

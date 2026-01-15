@@ -49,7 +49,7 @@ public class EnemyStat : SerializedMonoBehaviour
     public bool CanCharge = true;
     [ShowInInspector] public bool HasSuperArmor { get; private set; }
 
-    public void Init()
+    public virtual void Init()
     {
         InitDictionaries();
         InitFromData(_data);

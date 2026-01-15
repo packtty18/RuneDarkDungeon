@@ -29,30 +29,23 @@ public class MonsterDataSO : ScriptableObject
     [FoldoutGroup("Combat")]
     public float attackCooldown; //공격 후 다음 공격까지의 딜레이임.
 
-    [ShowIf(nameof(IsElite))]
-    [FoldoutGroup("Elite")]
+    [ShowIf(nameof(HasCharge))]
+    [FoldoutGroup("Charge")]
     public float chargeSpeed;
-    [ShowIf(nameof(IsElite))]
-    [FoldoutGroup("Elite")]
+    [ShowIf(nameof(HasCharge))]
+    [FoldoutGroup("Charge")]
     public float chargeRange; //플레이어가 chargeRange안에 들경우 Charge실행
-    [FoldoutGroup("Elite")]
+    [ShowIf(nameof(HasCharge))]
+    [FoldoutGroup("Charge")]
     public float chargeDistance; //Charge의 이동 거리
-    [ShowIf(nameof(IsElite))]
-    [FoldoutGroup("Elite")]
+    [ShowIf(nameof(HasCharge))]
+    [FoldoutGroup("Charge")]
     public float chargeCooldown;
     
-    [ShowIf(nameof(IsBoss))]
-    [FoldoutGroup("Boss")]
-    public PhaseDataSO[] phases;
 
-    private bool IsBoss()
+    private bool HasCharge()
     {
-        return enemyType == EEnemyType.Boss;
-    }
-
-    private bool IsElite()
-    {
-        return enemyType == EEnemyType.Elite;
+        return enemyType == EEnemyType.Elite || enemyType == EEnemyType.Boss;
     }
 
 }

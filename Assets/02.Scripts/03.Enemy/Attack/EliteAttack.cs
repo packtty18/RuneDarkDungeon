@@ -14,13 +14,13 @@ public class EliteAttack : EnemyAttack
         RegisterStrategy(0, new EnemyDirectAttack(_hitboxController, "Main", _damage));   //기본공격1
     }
 
-    public void StartCharge()
+    public virtual void StartCharge()
     {
         controller.Stat.CanCharge = false;
         _hitboxController.Activate("Charge", _damage);
     }
 
-    public void EndCharge()
+    public virtual void EndCharge()
     {
         StartCoroutine(ChargeDelay());
         _hitboxController.Deactivate("Charge");
@@ -31,6 +31,6 @@ public class EliteAttack : EnemyAttack
         yield return new WaitForSeconds(controller.Stat.GetValue(EEnemyValueFloat.ChargeCooldown).Value);
 
         controller.Stat.CanCharge  = true;
-        Debug.Log("[EliteAttack] : 돌진 충전 완료");
+        Debug.Log($"[{this}] : 돌진 충전 완료");
     }
 }
