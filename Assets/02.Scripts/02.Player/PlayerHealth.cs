@@ -8,6 +8,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private PlayerStats _stats;
     private PlayerStateMachine _stateMachine;
     private PlayerAnimator _animator;
+    private PlayerMove _playerMove;
+
     public void ApplyDamage(DamageData data)
     {
         if (_stateMachine.CurrentState == EPlayerState.Dead) return;
@@ -23,6 +25,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
         else
         {
+            _playerMove.KnockBack(data.HitDirection);
             _animator.SetHitTrigger();
         }
 
@@ -35,5 +38,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         _stats = GetComponent<PlayerStats>();
         _animator = GetComponent<PlayerAnimator>();
         _stateMachine = GetComponent<PlayerStateMachine>();
+        _playerMove = GetComponent<PlayerMove>();
     }
 }
