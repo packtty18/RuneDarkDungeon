@@ -13,6 +13,13 @@ public class LightningZoneSkill : SkillBase
     [Header("이펙트 오프셋")]
     [SerializeField] private Vector3 _offset;
 
+#if UNITY_EDITOR
+    void Reset()
+    {
+        _dotDealer = GetComponent<DotDealer>();
+    }
+#endif
+    
     protected override void ApplyEffect(GameObject user, EItemGrade grade)
     {
         transform.position += _offset;
