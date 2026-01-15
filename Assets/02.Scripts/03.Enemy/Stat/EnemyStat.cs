@@ -40,12 +40,13 @@ public class EnemyStat : SerializedMonoBehaviour
     public SafeEvent OnStatInitEnd = new();
 
     public bool CanCharge = true;
+    public bool CanSummon = false;
     [ShowInInspector] public bool HasSuperArmor { get; private set; }
     [ShowInInspector] public bool OnBerserk { get; private set; }
 
-    public bool OnPhase1 { get; private set; }
-    public bool OnPhase2 { get; private set; }
-    public bool OnPhase3 { get; private set; }
+    [ShowInInspector] public bool OnPhase1 { get; private set; }
+    [ShowInInspector] public bool OnPhase2 { get; private set; }
+    [ShowInInspector] public bool OnPhase3 { get; private set; }
 
     public virtual void Init()
     {
@@ -54,6 +55,11 @@ public class EnemyStat : SerializedMonoBehaviour
         OnPhase1 = true;
         OnPhase2 = false;
         OnPhase3 = false;
+
+        if (EnemyType == EEnemyType.Boss)
+        {
+            EnableSuperArmor();
+        }
 
 
         InitDictionaries();
@@ -71,7 +77,6 @@ public class EnemyStat : SerializedMonoBehaviour
         {
             _floatValues[type] = new ValueStat<float>();
         }
-
     }
 
     protected virtual void InitFromData(MonsterDataSO data)
@@ -124,8 +129,6 @@ public class EnemyStat : SerializedMonoBehaviour
         OnBerserk = true;
         EnableSuperArmor();
     }
-
-
     public void ActivePhase2()
     {
         if (!OnPhase1 && OnPhase2)
@@ -134,7 +137,6 @@ public class EnemyStat : SerializedMonoBehaviour
         }
 
         OnPhase2 = true;
-        //_buff.ApplyPhase2();
     }
 
     public void ActivePhase3()
@@ -145,6 +147,5 @@ public class EnemyStat : SerializedMonoBehaviour
         }
 
         OnPhase3 = true;
-        //_buff.ApplyPhase3();
     }
 }

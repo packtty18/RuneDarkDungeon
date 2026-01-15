@@ -2096,7 +2096,7 @@ GameObject:
   - component: {fileID: 8412140521032856612}
   - component: {fileID: 302086985339383968}
   - component: {fileID: 2856388395032808152}
-  - component: {fileID: 4424310549083604618}
+  - component: {fileID: 2408069751317137024}
   - component: {fileID: 7083409057989474777}
   - component: {fileID: 2979449482652622158}
   - component: {fileID: 7071512738532134623}
@@ -2258,7 +2258,7 @@ MonoBehaviour:
   _buff: {fileID: 0}
   _paused: 0
   _wait: 0
---- !u!114 &4424310549083604618
+--- !u!114 &2408069751317137024
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2267,9 +2267,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8562400191214014964}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2669f5f05927f74985b60b5c87e8ef8, type: 3}
+  m_Script: {fileID: 11500000, guid: 9f32e5ce7c858264280bfa2c16076231, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EliteStat
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStat
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
@@ -2669,8 +2669,6 @@ MonoBehaviour:
   _backFill: {fileID: 0}
   _backDelay: 1
   _backLerpDuration: 0.5
-  _shakeDuration: 0.2
-  _shakeStrength: 10
   _autoHideDelay: 3
   _hitParticle: {fileID: 0}
 --- !u!1001 &5200369188220681795

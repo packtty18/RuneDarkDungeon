@@ -8,16 +8,22 @@ public class EnemyProjectileDelaySO : EnemyDelaySOBase
 
     public override void Execute(Transform spawnPos, float damage)
     {
-        GameObject arrow = Instantiate(_spawnPrefab,spawnPos.position, spawnPos.rotation);
+        GameObject obj = Instantiate(_spawnPrefab,spawnPos.position, spawnPos.rotation);
 
-        if(!arrow.TryGetComponent(out EnemyProjectile proj))
+        if(obj.TryGetComponent(out EnemyProjectile proj))
         {
-            Util.ObjectDestroy(arrow);
+            proj.Init(damage);
             return;
         }
-        proj.Init(damage);
 
-        Debug.Log("[Windup] Arrow Fired");
+        if (obj.TryGetComponent(out EnemyExplosion explosion))
+        {
+            explosion.Init(damage);
+            return;
+        }
+
+        Util.ObjectDestroy(obj);
+
     }
 }
 

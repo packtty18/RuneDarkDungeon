@@ -99,6 +99,8 @@ public class EnemyController : PoolableObject, IDamageable
         _fsm.ChangeState(EEnemyState.Idle);
 
         _health.SetDamageable(true);
+
+        
     }
 
     public void EnablePhysics(bool enable)
@@ -221,11 +223,8 @@ public class EnemyController : PoolableObject, IDamageable
     #endregion
 
     #region Health관련
-    private void SetDamageAcceptable(bool enable)
-    {
-        _health.SetDamageable(enable);
-    }
 
+    [Button]
     public void ApplyDamage(DamageData data)
     {
         _healthUI?.Show();
@@ -233,12 +232,7 @@ public class EnemyController : PoolableObject, IDamageable
         {
             return;
         }
-        if(Stat.EnemyType == EEnemyType.Elite && Stat.GetValue(EEnemyConsumableFloat.Health).GetRatio() <= 0.3f)
-        {
-            Stat.ActiveBerserk();
-            EliteBuff buff = Buff as EliteBuff;
-            buff.ApplyBerserkBuff();
-        }
+        CheckHealthRatio();
 
         int dir = DirectionConvert(data.HitDirection);
         Anim.SetInt(AnimatorController.s_hitDirInt, dir);
@@ -255,6 +249,39 @@ public class EnemyController : PoolableObject, IDamageable
         Debug.Log($"{gameObject.name} 피격, {data.AttackId}, {data.HitDirection}, {dir}");
     }
 
+    private void CheckHealthRatio()
+    {
+        float ratio = Stat.GetValue(EEnemyConsumableFloat.Health).GetRatio();
+
+        if (Stat.EnemyType == EEnemyType.Elite)
+        {
+            if(!Stat.OnBerserk && ratio <= 0.3f)
+            {
+                Stat.ActiveBerserk();
+                EliteBuff buff = Buff as EliteBuff;
+                buff.ApplyBerserkBuff();
+            }
+        }
+        else if (Stat.EnemyType == EEnemyType.Boss)
+        {
+            BossAttack attack = Attack as BossAttack;
+            if (!Stat.OnPhase2 && ratio <= 0.7f)
+            {
+                Stat.ActivePhase2();
+                attack.Phase2Strategy();
+                BossBuff buff = Buff as BossBuff;
+                buff.ApplyPhase2();
+            }
+            else if (!Stat.OnPhase3 && ratio <= 0.3f)
+            {
+                Stat.ActivePhase3();
+                attack.Phase3Strategy();
+                BossBuff buff = Buff as BossBuff;
+                buff.ApplyPhase3();
+            }
+        }
+    }
+
     private int DirectionConvert( Vector3 hitDirection)
     {
         Vector3 localDir = transform.InverseTransformDirection(hitDirection);
@@ -268,7 +295,6 @@ public class EnemyController : PoolableObject, IDamageable
         return localDir.z < 0f ? (int)EHitDirection.Front : (int)EHitDirection.Back;
     }
 
-    [Button]
     public void HandleDamaged()
     {
         if (FSM.CurrentState is DeadState || Stat.HasSuperArmor)
@@ -279,7 +305,6 @@ public class EnemyController : PoolableObject, IDamageable
         _fsm.ChangeState(EEnemyState.Hit);
     }
 
-    [Button]
     public void HandleDead()
     {
         if (FSM.CurrentState is DeadState)
@@ -302,7 +327,6 @@ public class EnemyController : PoolableObject, IDamageable
 
     public void OnBeginAttack()
     {
-        Debug.Log($"[OnBeginAttack] frame:{Time.frameCount}, state:{FSM.CurrentState}");
         Attack.OnBeginAttack();
         StartLoopDelay(Attack.CurrentLoopDelay);
     }
@@ -339,12 +363,10 @@ public class EnemyController : PoolableObject, IDamageable
 
     public void OnEndAttack()
     {
-        Debug.Log($"[OnEndAttack] frame:{Time.frameCount}, state:{FSM.CurrentState}");
         _attack.OnEndAttack();
     }
     public void OnAttackComplete()
     {
-        Debug.Log($"[OnAttackComplete] frame:{Time.frameCount}, state:{FSM.CurrentState}");
         StopLoopDelay();
         Attack.Finish();
 

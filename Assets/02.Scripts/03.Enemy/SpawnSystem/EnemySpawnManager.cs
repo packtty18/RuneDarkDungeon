@@ -43,7 +43,16 @@ public class EnemySpawnManager : SerializedMonoBehaviour
 
         Debug.Log($"[SpawnManager] {_currentPhase} 페이즈 시작");
 
-        foreach (PhaseData data in _phaseDatas[_currentPhase].Datas)
+        SpawnByData(_phaseDatas[_currentPhase]);
+    }
+
+    public void BossSummon()
+    {
+        SpawnByData(_phaseDatas[0]);
+    }
+    private void SpawnByData(EnemyPhaseDataSO phaseDataSO)
+    {
+        foreach (PhaseData data in phaseDataSO.Datas)
         {
             SpawnEnemies(data.Type, data.Count, data.IsRandomSpawn);
         }

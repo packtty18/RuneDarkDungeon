@@ -4,21 +4,16 @@ public class ChargeState : EnemyState
 {
     public override EEnemyState StateType => EEnemyState.Charge;
 
-
     private Vector3 _direction;
     private Vector3 _startPosition;
-
-    private EliteAttack _attack;
+    private int _chargeCount;
     public ChargeState(EnemyController controller)
         : base(controller) { }
 
     public override void Enter()
     {
         base.Enter();
-        _attack = controller.Attack as EliteAttack;
-
-        _startPosition = controller.transform.position;
-        _direction = (controller.Target.position - _startPosition).normalized;
+        SetDestination();
 
         controller.EnablePhysics(false);
 
@@ -27,8 +22,15 @@ public class ChargeState : EnemyState
         controller.Anim.SetBool("IsCharge", true);
 
         controller.Stat.EnableSuperArmor();
-        _attack.StartCharge();
+        controller.Attack.StartCharge();
+        _chargeCount = 0;
         Debug.Log("[DashState] Enter");
+    }
+
+    private void SetDestination()
+    {
+        _startPosition = controller.transform.position;
+        _direction = (controller.Target.position - _startPosition).normalized;
     }
 
     public override void Tick(float deltaTime)
@@ -39,6 +41,14 @@ public class ChargeState : EnemyState
         float movedDistance = Vector3.Distance(_startPosition, controller.transform.position);
         if (movedDistance >= controller.Stat.GetValue(EEnemyValueFloat.ChargeDistance).Value)
         {
+            _chargeCount++;
+
+            if(controller.Stat.EnemyType == EEnemyType.Boss && controller.Stat.OnPhase3 && _chargeCount < 3)
+            {
+                SetDestination();
+                return;
+            }
+
             controller.FSM.ChangeState(EEnemyState.Chase);
         }
     }
@@ -50,7 +60,7 @@ public class ChargeState : EnemyState
         controller.Anim.SetBool("IsCharge", false);
         controller.Move.ResumeAgent();
         controller.EnablePhysics(true);
-        _attack.EndCharge();
+        controller.Attack.EndCharge();
         Debug.Log("[DashState] Exit → Chase");
     }
 }

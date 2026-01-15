@@ -23,8 +23,11 @@ public class MonsterDataSO : ScriptableObject
     [FoldoutGroup("Base Stats")]
     public float moveSpeed;
 
+
     [FoldoutGroup("Combat")]
     public float attackRange;
+
+
 
     [FoldoutGroup("Combat")]
     public float attackCooldown; //공격 후 다음 공격까지의 딜레이임.

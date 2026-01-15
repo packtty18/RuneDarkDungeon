@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,8 +13,9 @@ public class EnemyAttack : MonoBehaviour
 {
     [Title("Reference")]
     [SerializeField] protected EnemyController controller;
+    [SerializeField] protected HitboxController _hitboxController;
 
-    [ShowInInspector] private readonly Dictionary<int, IAttackStretagy> strategies = new();
+    [ShowInInspector] private readonly Dictionary<int, IAttackStretagy> MeleeAttack = new();
     [ShowInInspector] private IAttackStretagy current;
 
     protected float _damage =>controller.Stat.GetValue(EEnemyValueFloat.Attack).Value;
@@ -26,29 +28,30 @@ public class EnemyAttack : MonoBehaviour
         {
             controller = GetComponent<EnemyController>();
         }
-
-        strategies.Clear();
+        _hitboxController = GetComponentInChildren<HitboxController>();
+        MeleeAttack.Clear();
         current = null;
     }
 
     #region Strategy
     protected void RegisterStrategy(int id, IAttackStretagy strategy)
     {
-        if (strategies.ContainsKey(id))
+        if (MeleeAttack.ContainsKey(id))
         {
             Debug.LogWarning($"[EnemyAttack] Strategy already registered: {id}");
             return;
         }
 
-        strategies.Add(id, strategy);
+        MeleeAttack.Add(id, strategy);
         Debug.Log($"[EnemyAttack] Strategy registered: {id}");
     }
+
     #endregion
 
     #region Execute
     public bool Execute(int attackId)
     {
-        if (!strategies.TryGetValue(attackId, out var strategy))
+        if (!MeleeAttack.TryGetValue(attackId, out var strategy))
         {
             Debug.LogWarning($"[EnemyAttack] No strategy for ID {attackId}");
             return false;
@@ -65,21 +68,68 @@ public class EnemyAttack : MonoBehaviour
     }
     #endregion
 
+    #region 엘리트,보스 - 돌진
+    public virtual void StartCharge()
+    {
+        controller.Stat.CanCharge = false;
+        _hitboxController.Activate("Charge", _damage);
+    }
+
+    public virtual void EndCharge()
+    {
+        StartCoroutine(ChargeDelay());
+        _hitboxController.Deactivate("Charge");
+    }
+
+    private IEnumerator ChargeDelay()
+    {
+        yield return new WaitForSeconds(controller.Stat.GetValue(EEnemyValueFloat.ChargeCooldown).Value);
+
+        controller.Stat.CanCharge = true;
+        Debug.Log($"[{this}] : 돌진 충전 완료");
+    }
+    #endregion
+
+    #region 보스 - 소환
+    public virtual void StartSummon()
+    {
+        controller.Stat.CanSummon = false;
+        BossAttack attack = controller.Attack as BossAttack;
+        attack.TargetSpawner.BossSummon();
+    }
+
+    public virtual void EndSummon()
+    {
+        StartCoroutine(ChargeSummon());
+    }
+
+    private IEnumerator ChargeSummon()
+    {
+        yield return new WaitForSeconds(20);
+
+        controller.Stat.CanSummon = true;
+        Debug.Log($"[{this}] : 소환 충전 완료");
+    }
+    #endregion
+
     #region Animation Events
     public void OnBeginAttack()
     {
+        Debug.Log($"[Attack] BeginAttack frame:{Time.frameCount}");
         current?.BeginAttack();
     }
 
     public void OnEndAttack()
     {
+        Debug.Log($"[Attack] EndAttack frame:{Time.frameCount}");
         current?.EndAttack();
     }
 
     public int GetRandomAttackId()
     {
         List<int> list = new List<int>();
-        foreach(int id in strategies.Keys)
+
+        foreach (int id in MeleeAttack.Keys)
         {
             list.Add(id);
         }
