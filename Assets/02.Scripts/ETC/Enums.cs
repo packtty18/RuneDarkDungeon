@@ -115,7 +115,8 @@ public enum  EPoolType
     Enemy_Elite,
     Enemy_Boss,
     Item_Coin,
-    Item_Rune
+    Item_Rune,
+    UI_Damage,
 }
 
 #region PlayerStat
