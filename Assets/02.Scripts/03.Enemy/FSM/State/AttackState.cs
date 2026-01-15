@@ -69,8 +69,7 @@ public class AttackState : EnemyState
     public void OnAttackFinished()
     {
         isAttacking = false;
-        EliteBuff buff = controller.Buff as EliteBuff;
-        if (controller.Stat.EnemyType == EEnemyType.Elite && !buff.OnBerserk)
+        if (controller.Stat.EnemyType == EEnemyType.Elite && !controller.Stat.OnBerserk)
         {
             controller.Stat.DisableSuperArmor();
         }

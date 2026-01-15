@@ -30,11 +30,7 @@ public class EnemyHealth : MonoBehaviour
         }
 
         _health.Consume(damage);
-        if(_controller.Stat.EnemyType == EEnemyType.Elite && _health.GetRatio() <= 0.3f)
-        {
-            EliteBuff buff = _controller.Buff as EliteBuff;
-            buff.ActiveBerserk();
-        }
+        
         return true;
     }
 

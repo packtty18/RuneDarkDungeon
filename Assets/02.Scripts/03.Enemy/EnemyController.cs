@@ -233,6 +233,12 @@ public class EnemyController : PoolableObject, IDamageable
         {
             return;
         }
+        if(Stat.EnemyType == EEnemyType.Elite && Stat.GetValue(EEnemyConsumableFloat.Health).GetRatio() <= 0.3f)
+        {
+            Stat.ActiveBerserk();
+            EliteBuff buff = Buff as EliteBuff;
+            buff.ApplyBerserkBuff();
+        }
 
         int dir = DirectionConvert(data.HitDirection);
         Anim.SetInt(AnimatorController.s_hitDirInt, dir);
@@ -254,7 +260,6 @@ public class EnemyController : PoolableObject, IDamageable
         Vector3 localDir = transform.InverseTransformDirection(hitDirection);
         localDir.y = 0f;
 
-        // Decide by dominant axis
         if (Mathf.Abs(localDir.x) > Mathf.Abs(localDir.z))
         {
             return localDir.x < 0f? (int)EHitDirection.Right : (int)EHitDirection.Left;
@@ -337,8 +342,6 @@ public class EnemyController : PoolableObject, IDamageable
         Debug.Log($"[OnEndAttack] frame:{Time.frameCount}, state:{FSM.CurrentState}");
         _attack.OnEndAttack();
     }
-
-
     public void OnAttackComplete()
     {
         Debug.Log($"[OnAttackComplete] frame:{Time.frameCount}, state:{FSM.CurrentState}");

@@ -29,28 +29,33 @@ public enum EEnemyConsumableFloat
     Health,         //체력
 }
 
-//public enum EEnemyConsumableInt
-//{
-    
-//}
-
-//데이터를 통해 Stat을 초기화 및 전달.
 public class EnemyStat : SerializedMonoBehaviour
 {
     [SerializeField] protected MonsterDataSO _data;
 
     [SerializeField] protected readonly Dictionary<EEnemyConsumableFloat, ConsumableStat<float>> _floatConsumables = new();
     [SerializeField] protected readonly Dictionary<EEnemyValueFloat, ValueStat<float>> _floatValues = new();
-    //private readonly Dictionary<EEnemyConsumableInt, ConsumableStat<float>> _intConsumables = new();
 
     public EEnemyType EnemyType => _data.enemyType;
     public SafeEvent OnStatInitEnd = new();
 
     public bool CanCharge = true;
     [ShowInInspector] public bool HasSuperArmor { get; private set; }
+    [ShowInInspector] public bool OnBerserk { get; private set; }
+
+    public bool OnPhase1 { get; private set; }
+    public bool OnPhase2 { get; private set; }
+    public bool OnPhase3 { get; private set; }
 
     public virtual void Init()
     {
+        HasSuperArmor = false;
+        OnBerserk = false; 
+        OnPhase1 = true;
+        OnPhase2 = false;
+        OnPhase3 = false;
+
+
         InitDictionaries();
         InitFromData(_data);
     }
@@ -78,7 +83,10 @@ public class EnemyStat : SerializedMonoBehaviour
         _floatValues[EEnemyValueFloat.MoveSpeed].Init(data.moveSpeed);
         _floatValues[EEnemyValueFloat.AttackRange].Init(data.attackRange);
         _floatValues[EEnemyValueFloat.AttackCooldown].Init(data.attackCooldown);
-
+        _floatValues[EEnemyValueFloat.ChargeCooldown].Init(data.chargeCooldown);
+        _floatValues[EEnemyValueFloat.ChargeRange].Init(data.chargeRange);
+        _floatValues[EEnemyValueFloat.ChargeSpeed].Init(data.chargeSpeed);
+        _floatValues[EEnemyValueFloat.ChargeDistance].Init(data.chargeDistance);
         OnStatInitEnd?.Invoke();
         Debug.Log("[EnemyStat] Initialized");
     }
@@ -105,5 +113,38 @@ public class EnemyStat : SerializedMonoBehaviour
     {
         HasSuperArmor = false;
         Debug.Log("[EnemyStat] SuperArmor OFF");
+    }
+    public void ActiveBerserk()
+    {
+        if (OnBerserk)
+        {
+            return;
+        }
+
+        OnBerserk = true;
+        EnableSuperArmor();
+    }
+
+
+    public void ActivePhase2()
+    {
+        if (!OnPhase1 && OnPhase2)
+        {
+            return;
+        }
+
+        OnPhase2 = true;
+        //_buff.ApplyPhase2();
+    }
+
+    public void ActivePhase3()
+    {
+        if (!OnPhase2 && OnPhase3)
+        {
+            return;
+        }
+
+        OnPhase3 = true;
+        //_buff.ApplyPhase3();
     }
 }

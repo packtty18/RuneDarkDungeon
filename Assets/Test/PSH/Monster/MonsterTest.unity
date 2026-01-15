@@ -3497,7 +3497,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 777204635896708742, guid: da741590ea7728249af67c34bf9ad7aa, type: 3}
-    - {fileID: 2750660798940260602, guid: da741590ea7728249af67c34bf9ad7aa, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6570136946107531114, guid: da741590ea7728249af67c34bf9ad7aa, type: 3}
@@ -3580,72 +3579,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1120174880}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec02716b3b4b54847a73636ff228ae01, type: 3}
+  m_Script: {fileID: 11500000, guid: ca6840a58c060cc4392662e8dd9b221e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossStat
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: _floatConsumables
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[EEnemyConsumableFloat, Assembly-CSharp],[ConsumableStat`1[[System.Single,
-        mscorlib]], Assembly-CSharp]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[EEnemyConsumableFloat,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _floatValues
-      Entry: 7
-      Data: 2|System.Collections.Generic.Dictionary`2[[EEnemyValueFloat, Assembly-CSharp],[ValueStat`1[[System.Single,
-        mscorlib]], Assembly-CSharp]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 3|System.Collections.Generic.EnumEqualityComparer`1[[EEnemyValueFloat,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  _data: {fileID: 11400000, guid: adc36ec8324cf7a47abbe14edf29f658, type: 2}
-  CanCharge: 1
+  _team: 0
+  _physics: {fileID: 0}
+  _target: {fileID: 0}
+  _healthUI: {fileID: 0}
+  _move: {fileID: 0}
+  _attack: {fileID: 0}
+  _health: {fileID: 0}
+  _stat: {fileID: 0}
+  _anim: {fileID: 0}
+  _buff: {fileID: 0}
+  _paused: 0
+  _wait: 0
 --- !u!1001 &1202207956
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4202,10 +4150,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4424310549083604618, guid: a509ea45a4a2e1c4fa2c213bbbc407f7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8562400191214014964, guid: a509ea45a4a2e1c4fa2c213bbbc407f7, type: 3}
+      insertIndex: 7
+      addedObject: {fileID: 1658869564}
   m_SourcePrefab: {fileID: 100100000, guid: a509ea45a4a2e1c4fa2c213bbbc407f7, type: 3}
 --- !u!114 &1380378033 stripped
 MonoBehaviour:
@@ -4561,6 +4513,86 @@ MonoBehaviour:
   _deactiveMaterial: {fileID: 2100000, guid: 22c0d91a95892244585146997d47a1ea, type: 2}
   _initActive: 0
   _targetManager: {fileID: 1795748136}
+--- !u!1 &1658869550 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8562400191214014964, guid: a509ea45a4a2e1c4fa2c213bbbc407f7, type: 3}
+  m_PrefabInstance: {fileID: 1355141861}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1658869564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658869550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f32e5ce7c858264280bfa2c16076231, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStat
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _floatConsumables
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[EEnemyConsumableFloat, Assembly-CSharp],[ConsumableStat`1[[System.Single,
+        mscorlib]], Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[EEnemyConsumableFloat,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _floatValues
+      Entry: 7
+      Data: 2|System.Collections.Generic.Dictionary`2[[EEnemyValueFloat, Assembly-CSharp],[ValueStat`1[[System.Single,
+        mscorlib]], Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 3|System.Collections.Generic.EnumEqualityComparer`1[[EEnemyValueFloat,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  _data: {fileID: 11400000, guid: eb07c270f0df3ec468acb4f0f56306bb, type: 2}
+  CanCharge: 1
 --- !u!114 &1727311265 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6874664521170566059, guid: 3ab05f37a458bbb43a365b8e2a42b503, type: 3}
