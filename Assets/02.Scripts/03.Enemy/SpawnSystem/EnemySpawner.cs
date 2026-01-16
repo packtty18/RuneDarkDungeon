@@ -1,21 +1,48 @@
-using System;
 using UnityEngine;
 
-// 적의 스폰만을 다루는 스포너
 public class EnemySpawner : PoolSpawner
 {
+    [Header("Spawn Offset")]
+    [SerializeField] private bool useRandomOffset = true;
+
+    [SerializeField]
+    private Vector3 fixedOffset = Vector3.zero;
+
+    [SerializeField]
+    private Vector2 randomOffsetRange = new Vector2(1.5f, 1.5f);
+
     public EnemyController SpawnEnemy(EPoolType poolType)
     {
         GameObject obj = GetFromPool(poolType);
 
-        if(!obj.TryGetComponent(out EnemyController enemy))
+        if (!obj.TryGetComponent(out EnemyController enemy))
         {
             Util.ObjectDestroy(obj);
-            Debug.Log("해당 오브젝트는 적 개체가 아님");
+            Debug.LogWarning("[EnemySpawner] Spawned object is not EnemyController");
             return null;
         }
 
-        enemy.transform.position = transform.position;
+        Vector3 spawnPos = CalculateSpawnPosition();
+        enemy.transform.position = spawnPos;
+
+        Debug.Log($"[EnemySpawner] Spawn at {spawnPos}");
+
         return enemy;
+    }
+
+    private Vector3 CalculateSpawnPosition()
+    {
+        Vector3 basePos = transform.position;
+
+        if (!useRandomOffset)
+            return basePos + fixedOffset;
+
+        Vector3 randomOffset = new Vector3(
+            Random.Range(-randomOffsetRange.x, randomOffsetRange.x),
+            0f,
+            Random.Range(-randomOffsetRange.y, randomOffsetRange.y)
+        );
+
+        return basePos + randomOffset;
     }
 }

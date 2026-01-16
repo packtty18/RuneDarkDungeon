@@ -268,6 +268,11 @@ public class EnemyController : PoolableObject, IDamageable
     [Button]
     public void ApplyDamage(DamageData data)
     {
+        if(_wait)
+        {
+            return;
+        }
+
         _healthUI?.Show();
         if (!_health.TryApplyDamage(data.Damage))
         {
