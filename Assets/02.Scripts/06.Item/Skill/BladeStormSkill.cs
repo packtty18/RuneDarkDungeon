@@ -12,7 +12,7 @@ public class BladeStormSkill : SkillBase
     [SerializeField] private float _uniqueScale = 2f;
     [SerializeField] private float _scaleDuration = 0.5f;
     [SerializeField] private Ease _ease;
-    
+
     [Header("레전드 추가 스킬")]
     [SerializeField] private float _pullForce = 1f;
     
@@ -40,8 +40,9 @@ public class BladeStormSkill : SkillBase
     
     private void OnTriggerStay(Collider other)
     {
+        if (other.gameObject.layer != LayerMask.NameToLayer("Hurtbox")) return;
         if (_grade != EItemGrade.Legendary) return;
-        PullEnemy(other.transform);
+        PullEnemy(other.transform.parent.parent);
     }
 
     private void PullEnemy(Transform enemy)
