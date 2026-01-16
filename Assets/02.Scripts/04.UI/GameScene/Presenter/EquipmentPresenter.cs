@@ -4,9 +4,6 @@ public class EquipmentPresenter : MonoBehaviour
 {
     [Header("UI 연결")]
     [SerializeField] private UI_EquipmentView _equipmentUI;
-    [SerializeField] private ModePresenter _modePresenter;
-    
-    [Header("로직 연결")]
     [SerializeField] private InventoryManager _inventoryManager;
     
     private IEquipment _equipment;
@@ -23,8 +20,6 @@ public class EquipmentPresenter : MonoBehaviour
         _equipmentUI.OnSlotHovered += HandleSlotHovered;
         
         RefreshEquipment();
-        
-        _modePresenter.Subscribe(HandleModeChanged);
     }
 
     private void OnDestroy()
@@ -33,7 +28,6 @@ public class EquipmentPresenter : MonoBehaviour
         _equipmentUI.OnSlotDoubleClicked -= HandleSlotDoubleClicked;
         _equipmentUI.OnSlotClicked -= HandleSlotClicked;
         _equipmentUI.OnSlotHovered -= HandleSlotHovered;
-        _modePresenter.Unsubscribe(HandleModeChanged);
     }
     
     private void RefreshEquipment()
@@ -66,7 +60,7 @@ public class EquipmentPresenter : MonoBehaviour
         _inventoryManager.ShowTooltip(slot);
     }
 
-    private void HandleModeChanged(EInventoryMode mode)
+    public void HandleModeChanged(EInventoryMode mode)
     {
         if (mode == EInventoryMode.Equipment)
         {

@@ -5,13 +5,13 @@ public class UI_Initializer : MonoBehaviour
 {
     [Header("UI 연결")]
     [Space]
-    [SerializeField] private InventoryManager _inventoryManager;
-    
-    [Space]
     [SerializeField] private InventoryPresenter _inventoryPresenter;
     [SerializeField] private UpgradePresenter _upgradePresenter;
     [SerializeField] private EquipmentPresenter _equipmentPresenter;
     [SerializeField] private CurrencyPresenter _currencyPresenter;
+    
+    [Space]
+    [SerializeField] private InventoryManager _inventoryManager;
     
     public void Initialize(IDataHolder data)
     {

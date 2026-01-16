@@ -5081,7 +5081,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentPresenter
   _equipmentUI: {fileID: 5120237762162303533}
-  _modePresenter: {fileID: 4532259920783546760}
   _inventoryManager: {fileID: 3981488456066460800}
 --- !u!114 &2140572145928285997
 MonoBehaviour:
@@ -5571,7 +5570,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryController
   _inventoryUI: {fileID: 8181130336593625870}
-  _modePresenter: {fileID: 4532259920783546760}
 --- !u!114 &2979670241727419915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5634,7 +5632,6 @@ MonoBehaviour:
   _upgradeUI: {fileID: 3404705038994374878}
   _upgradeInfoUI: {fileID: 5605044183378541257}
   _inventoryUI: {fileID: 8181130336593625870}
-  _modePresenter: {fileID: 4532259920783546760}
 --- !u!114 &3323991134558077105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5921,6 +5918,9 @@ MonoBehaviour:
   _upgradeToggleButton: {fileID: 8181130336625624078}
   _equipmentToggleButton: {fileID: 615559897}
   _shopToggleButton: {fileID: 399025455}
+  _inventory: {fileID: 2918934413595836244}
+  _upgrade: {fileID: 3081092245381347736}
+  _equipment: {fileID: 2135668994001650819}
 --- !u!1001 &4702776223470338130
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7569,11 +7569,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bcee681fd17219418dce667ca7df9e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_Initializer
-  _inventoryManager: {fileID: 3981488456066460800}
   _inventoryPresenter: {fileID: 2918934413595836244}
   _upgradePresenter: {fileID: 3081092245381347736}
   _equipmentPresenter: {fileID: 2135668994001650819}
   _currencyPresenter: {fileID: 8470123277968938125}
+  _inventoryManager: {fileID: 3981488456066460800}
 --- !u!222 &8210283055897722444
 CanvasRenderer:
   m_ObjectHideFlags: 0

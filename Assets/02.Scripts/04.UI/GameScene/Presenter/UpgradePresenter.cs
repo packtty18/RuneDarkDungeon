@@ -6,7 +6,6 @@ public class UpgradePresenter : MonoBehaviour
     [SerializeField] private UI_SlotContainer _upgradeUI;
     [SerializeField] private UI_UpgradeInfo _upgradeInfoUI;
     [SerializeField] private UI_SlotContainer _inventoryUI;
-    [SerializeField] private ModePresenter _modePresenter;
 
     private IReadOnlyInventory _upgradeInventory;
     private IForge _forge;
@@ -19,7 +18,6 @@ public class UpgradePresenter : MonoBehaviour
         _upgradeUI.OnSlotClicked += HandleSlotClicked;
         _upgradeInventory.Subscribe(RefreshView);
         _forge.Subscribe(RefreshInfo);
-        _modePresenter.Subscribe(HandleModeChanged);
     }
 
     private void OnDestroy()
@@ -27,7 +25,6 @@ public class UpgradePresenter : MonoBehaviour
         _upgradeUI.OnSlotClicked -= HandleSlotClicked;
         _upgradeInventory.Unsubscribe(RefreshView);
         _forge.Unsubscribe(RefreshInfo);
-        _modePresenter.Unsubscribe(HandleModeChanged);
     }
 
     private void RefreshView()
@@ -48,7 +45,7 @@ public class UpgradePresenter : MonoBehaviour
         _forge.Unregister(slot.Item);
     }
 
-    private void HandleModeChanged(EInventoryMode mode)
+    public void HandleModeChanged(EInventoryMode mode)
     {
         if (mode == EInventoryMode.Upgrade)
         {
