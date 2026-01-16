@@ -10,6 +10,7 @@ public class AnimatorController : MonoBehaviour
     public static string s_hitTrigger = "Hit";
     public static string s_deadTrigger = "Dead";
     public static string s_moveBool = "IsMove";
+    public static string s_chargeBool = "IsCharge";
     public static string s_resetTrigger = "Reset";
     public static string s_summonTrigger = "Summon";
     public static string s_buffTrigger = "Buff";

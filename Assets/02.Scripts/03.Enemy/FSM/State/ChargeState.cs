@@ -16,10 +16,8 @@ public class ChargeState : EnemyState
         SetDestination();
 
         controller.EnablePhysics(false);
-
-        controller.Move.PauseAgent();
-        controller.Anim.SetBool("IsMove", true);
-        controller.Anim.SetBool("IsCharge", true);
+        controller.Anim.SetBool(AnimatorController.s_moveBool, true);
+        controller.Anim.SetBool(AnimatorController.s_chargeBool, true);
 
         if (controller.Stat.EnemyType != EEnemyType.Boss)
         {
@@ -63,12 +61,10 @@ public class ChargeState : EnemyState
         {
             controller.Stat.DisableSuperArmor();
         }
-        
-        controller.Anim.SetBool("IsMove", false);
-        controller.Anim.SetBool("IsCharge", false);
-        controller.Move.ResumeAgent();
-        controller.EnablePhysics(true);
+        controller.Anim.SetBool(AnimatorController.s_moveBool, false);
+        controller.Anim.SetBool(AnimatorController.s_chargeBool, false);
         controller.Attack.EndCharge();
+        controller.EnablePhysics(true);
         Debug.Log("[DashState] Exit → Chase");
     }
 }

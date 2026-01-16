@@ -98,8 +98,6 @@ public class EnemySpawnManager : SerializedMonoBehaviour
 
             //적설정
             enemy.OnDead.Subscribe(HandleEnemyDead);
-
-            
             enemy.SetTarget(GetTarget());
             enemy.Init();
 

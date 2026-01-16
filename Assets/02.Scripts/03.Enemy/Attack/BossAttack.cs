@@ -33,7 +33,7 @@ public class BossAttack : EliteAttack
     {
         //페이즈3
         RegisterStrategy(3, new EnemySpawnAttack(_bloodExplosionData, transform, _damage)); //검기폭발
-        RegisterStrategy(4, new EnemySpawnAttack(_thunderStormData, _bulletSpawnPos, _damage)); //낙뢰
+        RegisterStrategy(4, new EnemySpawnAttack(_thunderStormData, controller.Target, _damage)); //낙뢰
     }
 
     public void InstantBuff()
