@@ -20,10 +20,10 @@ public abstract class ItemBase : PoolableObject
 
     [Title("Detect & Attract")]
     [SerializeField] protected RangeData<float> _detectDelayRange;       //생성후 대기시간
-    [SerializeField] protected float _attractDistance = 10f;    //플레이어를 감지하는 거리
     [SerializeField] protected float _attractSpeed = 8f;        //이동 속도
     [SerializeField] protected float _curveHeight = 3f;         // 베지어 곡선의 높이
-
+    [SerializeField] protected Vector3 _offset;
+    
     protected float _spawnTime;         //생성 시간 캐싱
     protected bool _isAttracting;       //현재 플레이어를 향해 이동하는지
     protected Tween _attractTween;      //트위닝 캐싱
@@ -44,7 +44,6 @@ public abstract class ItemBase : PoolableObject
         {
             return;
         }
-
         if (_isAttracting)
         {
             return;
@@ -53,13 +52,15 @@ public abstract class ItemBase : PoolableObject
         {
             return;
         }
-
-        float distance = Vector3.Distance(transform.position, _target.position);
-        if (distance <= _attractDistance)
+        
+        if (transform.position.y < -10f)
         {
-            StartAttract();
+            Collect();
         }
+
+        StartAttract();
     }
+    
     public override void OnSpawn()
     {
         base.OnSpawn();
@@ -85,19 +86,9 @@ public abstract class ItemBase : PoolableObject
         _isAttracting = false;
         base.OnDespawn();
     }
-
-    protected virtual void OnTriggerEnter(Collider other)
-    {
-        if (!other.CompareTag("Player"))
-        {
-            return;
-        }
-        Collect();
-    }
-
+    
     protected virtual void StartAttract()
     {
-        _isAttracting = true;
         SetPhysics(false);
 
         _startPosition = transform.position;
@@ -127,8 +118,14 @@ public abstract class ItemBase : PoolableObject
             .SetEase(Ease.InQuad)
             .OnUpdate(() =>
             {
-                transform.position = CalculateQuadraticBezierPoint(time, _startPosition, _controlPosition, _target.position);
+                transform.position = CalculateQuadraticBezierPoint(time, _startPosition, _controlPosition, _target.position + _offset);
+            })
+            .OnComplete(() =>
+            {
+                Collect();
             });
+        
+        _isAttracting = true;
     }
     
     private Vector3 CalculateQuadraticBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)
