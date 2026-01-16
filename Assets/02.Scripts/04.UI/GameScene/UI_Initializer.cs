@@ -15,13 +15,11 @@ public class UI_Initializer : MonoBehaviour
     
     public void Initialize(IDataHolder data)
     {
-        _inventoryManager.Initialize(data.Inventory);
-        
         Dictionary<EInventoryMode, ISlotEventHandler> inventoryHandlerDict = new()
         {
-            { EInventoryMode.Normal, new SelectEventHandler(_inventoryManager) },
+            { EInventoryMode.Normal, new SelectEventHandler(data.Inventory, _inventoryManager) },
             { EInventoryMode.Upgrade , new RegisterEventHandler(data.Inventory, data.Forge) },
-            { EInventoryMode.Equipment, new EquipEventHandler(_inventoryManager) },
+            { EInventoryMode.Equipment, new SelectEventHandler(data.Inventory, _inventoryManager) },
             { EInventoryMode.Sell, new SellEventHandler(data.Inventory, data.GoldData, _inventoryManager) },
         };
         

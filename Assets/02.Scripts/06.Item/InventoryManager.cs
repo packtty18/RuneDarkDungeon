@@ -8,13 +8,11 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private UI_Background[] _backgrounds;
     [SerializeField] private Texture2D _sellCursorTexture;
     
-    private IInventory _inventory;
-    private UI_Slot _selectedSlot;
+    private ItemData _selectedItem;
+    public ItemData SelectedItem => _selectedItem;
     
-    public void Initialize(IInventory inventory)
+    private void Awake()
     {
-        _inventory = inventory;
-        
         foreach (var background in _backgrounds)
         {
             background.OnBackgroundClicked += OnClickBackground;
@@ -29,29 +27,18 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void SelectItem(UI_Slot slot)
+    public void SelectItem(ItemData item)
     {
-        if (_selectedSlot == null)
-        {
-            if (slot.IsEmpty) return;
-            _selectedSlot = slot;
-            _dragIcon.Show(slot.Item.Icon);
-            SetBackgroundsActive(true);
-        }
-        else
-        {
-            _inventory.Swap(_selectedSlot.Item, slot.Item);
-            DeselectItem();
-        }
+        _selectedItem = item;
+        _dragIcon.Show(item.Icon);
+        SetBackgroundsActive(true);
     }
-
-    public ItemData GetSelectedItem()
+    
+    public void DeselectItem()
     {
-        if (_selectedSlot == null) return null;
-        
-        var item = _selectedSlot.Item;
-        DeselectItem();
-        return item;
+        _selectedItem = null;
+        _dragIcon.Hide();
+        SetBackgroundsActive(false);
     }
 
     public void ShowTooltip(UI_Slot slot, bool showGold = false)
@@ -62,13 +49,6 @@ public class InventoryManager : MonoBehaviour
             return;
         }
         _tooltip.Show(slot.Item.Info, slot.transform, showGold);
-    }
-    
-    public void DeselectItem()
-    {
-        _selectedSlot = null;
-        _dragIcon.Hide();
-        SetBackgroundsActive(false);
     }
 
     public void SetSellCursor()
@@ -83,7 +63,7 @@ public class InventoryManager : MonoBehaviour
     
     private void OnClickBackground()
     {
-        if (_selectedSlot == null) return;
+        if (_selectedItem == null) return;
         DeselectItem();
     }
     
