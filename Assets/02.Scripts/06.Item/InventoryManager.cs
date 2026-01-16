@@ -7,6 +7,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private UI_DragIcon _dragIcon;
     [SerializeField] private UI_Background[] _backgrounds;
     [SerializeField] private Texture2D _sellCursorTexture;
+    [SerializeField] private ParticleSystem _sellParticle;
     
     private IInventory _inventory;
     private UI_Slot _selectedSlot;
@@ -93,5 +94,11 @@ public class InventoryManager : MonoBehaviour
         {
             bg.gameObject.SetActive(active);
         }
+    }
+
+    public void PlayParticle(UI_Slot slot)
+    {
+        _sellParticle.transform.position = slot.transform.position;
+        _sellParticle.Play();
     }
 }

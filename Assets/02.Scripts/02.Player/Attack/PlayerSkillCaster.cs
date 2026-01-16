@@ -15,6 +15,7 @@ public class PlayerSkillCaster : MonoBehaviour
     [SerializeField]
     private HitboxController _hitboxController;
     [SerializeField] private Equipment _equipment;
+    private ItemData _currentItem;
     public ItemDatabaseSO DB;
 
     public event Action<Dictionary<ESkillSlot, float>, Dictionary<ESkillSlot, float>> OnCoolTimeChanged;
@@ -75,8 +76,10 @@ public class PlayerSkillCaster : MonoBehaviour
     {
         // 1. 룬이 장착되어 있는지 확인.
 
+        if (!_equipment.TryGetItem(slot, out var item)) return;
+        _currentItem = item;
         _currentSlot = slot;
-
+        
         // 2. 쿨다운 체크.
         if (_cooldowns[slot] > 0f)
         {
@@ -95,7 +98,7 @@ public class PlayerSkillCaster : MonoBehaviour
     {
         if (_coolTimes[_currentSlot] == 0f)
         {
-            _coolTimes[_currentSlot] = _equipment.GetCoolTime(_currentSlot);
+            _coolTimes[_currentSlot] = _currentItem.GetCoolTime();
         }
         _cooldowns[_currentSlot] = _coolTimes[_currentSlot];
     }
@@ -103,8 +106,8 @@ public class PlayerSkillCaster : MonoBehaviour
     private void CastSkill()
     {
         OnSkillStart();
-
-        AnimationClip clip = _equipment.GetClip(_currentSlot);
+        
+        AnimationClip clip = _currentItem.GetClip();
         
         _animator.PlaySkill(clip);
     }
@@ -136,8 +139,7 @@ public class PlayerSkillCaster : MonoBehaviour
 
     public void OnSkillEffect()
     {
-        float coolTime = 0;
-        _equipment.UseItem(gameObject, _currentSlot, out coolTime);
+        _currentItem.Use(gameObject);
     }
 
     //스킬 사용 종료 타이밍에 맞춰 애니메이션 이벤트로 호출.
