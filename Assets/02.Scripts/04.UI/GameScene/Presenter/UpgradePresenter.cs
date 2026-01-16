@@ -6,7 +6,9 @@ public class UpgradePresenter : MonoBehaviour
     [SerializeField] private UI_SlotContainer _upgradeUI;
     [SerializeField] private UI_UpgradeInfo _upgradeInfoUI;
     [SerializeField] private UI_SlotContainer _inventoryUI;
-
+    [SerializeField] private UI_Result _failed;
+    [SerializeField] private UI_Result _success;
+    
     private IForge _forge;
     private IInventory _inventory;
     private ICurrency _currency;
@@ -59,7 +61,13 @@ public class UpgradePresenter : MonoBehaviour
         
     public void Upgrade()
     {
-        if (!_forge.Upgrade(_currency, out var item)) return;
+        if (!_forge.Upgrade(_currency, out var item))
+        {
+            _failed.Show();
+            return;
+        }
+
+        _success.Show();
         _inventory.Add(item);
         _forge.Notify();
     }

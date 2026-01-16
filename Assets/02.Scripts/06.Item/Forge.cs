@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Forge : IForge
 {
@@ -63,6 +64,8 @@ public class Forge : IForge
         item = null;
         if (!IsFull || !currency.TryConsume(_upgradeData.Cost)) return false;
 
+        if (Random.value < _upgradeData.Rate) return false;
+        
         item = _itemFactory.CreateUpgradedItem(_baseItem);
         _items.Clear();
 
