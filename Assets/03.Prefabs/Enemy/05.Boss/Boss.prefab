@@ -1074,8 +1074,9 @@ GameObject:
   - component: {fileID: 2543639924521705484}
   - component: {fileID: 27034461710658512}
   - component: {fileID: 1219114029085756895}
-  - component: {fileID: 3572255977265473033}
+  - component: {fileID: 5074414191354377295}
   - component: {fileID: 3656964221288116967}
+  - component: {fileID: 5268053708762162017}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -1224,6 +1225,7 @@ MonoBehaviour:
   _physics: {fileID: 0}
   _target: {fileID: 0}
   _healthUI: {fileID: 0}
+  _phaseController: {fileID: 0}
   _move: {fileID: 0}
   _attack: {fileID: 0}
   _health: {fileID: 0}
@@ -1348,7 +1350,7 @@ MonoBehaviour:
   flashDuration: 0.2
   _receiver: {fileID: 0}
   _renderer: {fileID: 0}
---- !u!114 &3572255977265473033
+--- !u!114 &5074414191354377295
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1357,15 +1359,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2702605027344997685}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3449040f396eb25458095b647af78419, type: 3}
+  m_Script: {fileID: 11500000, guid: f3a4c668ca468684f8aadd032ddea564, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BossBuff
-  _phase2:
-  - {fileID: 11400000, guid: 131b7a6a917ee5e409d22783c2c62d06, type: 2}
-  - {fileID: 11400000, guid: c5039d588c5c6cb4fbcaf1197c4abd30, type: 2}
-  _phase3:
-  - {fileID: 11400000, guid: 8969256cba44815469997b61eeae4868, type: 2}
-  - {fileID: 11400000, guid: 92291d2a9ec18154ca803d2f6bc7d0f8, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBuff
 --- !u!114 &3656964221288116967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1387,6 +1383,22 @@ MonoBehaviour:
   _allySpawnManager: {fileID: 363446718310978858}
   buffSpawnPosition: {fileID: 3457693137126980797}
   _buffPrefab: {fileID: 4933338629935443708, guid: 2846b810754bdcb4ea47fb4c43579cd2, type: 3}
+--- !u!114 &5268053708762162017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702605027344997685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ce147e81048ca4e80b0f26d66f6815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyPhaseController
+  _phaseDataList:
+  - {fileID: 11400000, guid: ffd58faf70a10874eac064308dae7af7, type: 2}
+  - {fileID: 11400000, guid: 145aa8f2d338fbd4ea2ff2a11680765d, type: 2}
+  - {fileID: 11400000, guid: 24668b826de8f584e98b641d0487cbf7, type: 2}
 --- !u!1 &2726398589781489682
 GameObject:
   m_ObjectHideFlags: 0

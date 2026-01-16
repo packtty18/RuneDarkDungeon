@@ -34,27 +34,20 @@ public class EliteEnemyBehavior : CommonEnemyBehavior
         return StateTransition.None;
     }
 
+    //페이즈 상관없이 쿨타임이 돌면 사용가능
     public override bool CanCharge()
     {
         return _controller.Stat.CanCharge;
     }
 
+    //엘리트는 공격시 슈퍼아머 활성화
     public override void OnAttackStart()
     {
         _controller.Stat.EnableSuperArmor();
-        Debug.Log("[EliteBehavior] SuperArmor 활성화");
     }
 
     public override void OnAttackFinish()
     {
-        if (!_controller.Stat.OnBerserk)
-        {
-            _controller.Stat.DisableSuperArmor();
-            Debug.Log("[EliteBehavior] SuperArmor 해제");
-        }
-        else
-        {
-            Debug.Log("[EliteBehavior] Berserk 상태로 SuperArmor 유지");
-        }
+        _controller.Stat.DisableSuperArmor();
     }
 }

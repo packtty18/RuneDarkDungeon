@@ -2100,8 +2100,9 @@ GameObject:
   - component: {fileID: 7083409057989474777}
   - component: {fileID: 2979449482652622158}
   - component: {fileID: 7071512738532134623}
-  - component: {fileID: 6622041587854128312}
+  - component: {fileID: 2191014798192163440}
   - component: {fileID: 4357764297386226329}
+  - component: {fileID: 7828422622161200261}
   m_Layer: 0
   m_Name: Elite
   m_TagString: Untagged
@@ -2250,6 +2251,7 @@ MonoBehaviour:
   _physics: {fileID: 0}
   _target: {fileID: 0}
   _healthUI: {fileID: 6088886116306262847}
+  _phaseController: {fileID: 0}
   _move: {fileID: 0}
   _attack: {fileID: 0}
   _health: {fileID: 0}
@@ -2332,7 +2334,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
   _data: {fileID: 11400000, guid: eb07c270f0df3ec468acb4f0f56306bb, type: 2}
-  CanCharge: 1
 --- !u!114 &7083409057989474777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2373,7 +2374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EliteAttack
   controller: {fileID: 0}
   _hitboxController: {fileID: 6691671834920349894}
---- !u!114 &6622041587854128312
+--- !u!114 &2191014798192163440
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2382,11 +2383,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8562400191214014964}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e107dc8e28ca93419d4c1e7ef0cecaa, type: 3}
+  m_Script: {fileID: 11500000, guid: f3a4c668ca468684f8aadd032ddea564, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EliteBuff
-  _berserkBuffs:
-  - {fileID: 11400000, guid: be813deb491d7b1468ffcf3cabce0f46, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBuff
 --- !u!114 &4357764297386226329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2403,6 +2402,21 @@ MonoBehaviour:
   flashDuration: 0.2
   _receiver: {fileID: 0}
   _renderer: {fileID: 0}
+--- !u!114 &7828422622161200261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8562400191214014964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ce147e81048ca4e80b0f26d66f6815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyPhaseController
+  _phaseDataList:
+  - {fileID: 11400000, guid: 01bc55f19c264464981ac2f4479cb6a0, type: 2}
+  - {fileID: 11400000, guid: b194d6d111fc3fd4ea745d5ec9471b7e, type: 2}
 --- !u!1 &8972945130652191451
 GameObject:
   m_ObjectHideFlags: 0

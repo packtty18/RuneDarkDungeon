@@ -1,3 +1,4 @@
+using DG.Tweening.Core.Easing;
 using UnityEngine;
 
 /// <summary>
@@ -18,7 +19,7 @@ public class BossEnemyBehavior : EliteEnemyBehavior
         }
 
         // 소환 우선순위가 가장 높음
-        if (_controller.Stat.CanSummon)
+        if (CanSummon())
         {
             return StateTransition.To(EEnemyState.Summon);
         }
@@ -43,13 +44,13 @@ public class BossEnemyBehavior : EliteEnemyBehavior
     public override StateTransition UpdateAttack()
     {
         // 소환 스킬 사용 가능하면 최우선
-        if (_controller.Stat.CanSummon)
+        if (CanSummon())
         {
             return StateTransition.To(EEnemyState.Summon);
         }
 
         // 버프 스킬 사용 가능
-        if (_controller.Stat.CanBuff)
+        if (CanBuff())
         {
             return StateTransition.To(EEnemyState.Buff);
         }
@@ -57,13 +58,18 @@ public class BossEnemyBehavior : EliteEnemyBehavior
         return StateTransition.None;
     }
 
+    //페이즈2돌입시 소환과 버프 사용 가능
     public override bool CanSummon()
     {
-        return _controller.Stat.CanSummon;
+        EnemyPhaseController phaseController = _controller.PhaseController;
+        bool isPhase2OrAbove = phaseController != null && phaseController.CurrentPhaseIndex >= 1;
+        return _controller.Stat.CanSummon && isPhase2OrAbove;
     }
 
     public override bool CanBuff()
     {
-        return _controller.Stat.CanBuff;
+        EnemyPhaseController phaseController = _controller.PhaseController;
+        bool isPhase2OrAbove = phaseController != null && phaseController.CurrentPhaseIndex >= 1;
+        return _controller.Stat.CanBuff && isPhase2OrAbove;
     }
 }

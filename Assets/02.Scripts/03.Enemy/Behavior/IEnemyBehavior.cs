@@ -1,16 +1,6 @@
-using UnityEngine;
 
-using UnityEngine;
-
-/// <summary>
-/// 적 타입별 행동 패턴을 정의하는 인터페이스
-/// Strategy Pattern을 사용하여 타입별 로직을 캡슐화
-/// </summary>
 public interface IEnemyBehavior
 {
-    /// <summary>
-    /// Behavior 초기화
-    /// </summary>
     void Initialize(EnemyController controller);
 
     StateTransition UpdateChase();

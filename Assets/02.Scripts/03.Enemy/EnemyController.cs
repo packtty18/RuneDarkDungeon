@@ -1,6 +1,8 @@
+using DG.Tweening.Core.Easing;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,8 +17,8 @@ public class EnemyController : PoolableObject, IDamageable
 
     [ShowInInspector] private IEnemyBehavior _behavior;
     [ShowInInspector] private EnemyStateMachine _fsm;
-    
 
+    [SerializeField] private EnemyPhaseController _phaseController;
     [SerializeField] private EnemyMove _move;
     [SerializeField] private EnemyAttack _attack;
     [SerializeField] private EnemyHealth _health;
@@ -33,6 +35,7 @@ public class EnemyController : PoolableObject, IDamageable
 
     public ETeamType Team => _team;
     public EnemyStateMachine FSM => _fsm;
+    public EnemyPhaseController PhaseController => _phaseController;
     public IEnemyBehavior Behavior => _behavior; 
 
     public EnemyMove Move => _move;
@@ -46,10 +49,6 @@ public class EnemyController : PoolableObject, IDamageable
     public bool Wait => _wait;
 
     public Transform Target => _target;
-   
-    
-
-
 
     public SafeEvent<EnemyController> OnDead = new();
     private void Awake()
@@ -61,6 +60,7 @@ public class EnemyController : PoolableObject, IDamageable
         _anim = GetComponent<AnimatorController>();
         _buff= GetComponent<EnemyBuff>();
         _physics = GetComponent<Rigidbody>();
+        _phaseController = GetComponent<EnemyPhaseController>();
 
         _stat.Init();
         _health.Init();
@@ -70,8 +70,12 @@ public class EnemyController : PoolableObject, IDamageable
         _buff.Init();
 
         _behavior = CreateBehavior(_stat.EnemyType);
+
+        _phaseController.Init();
+
         _fsm = new EnemyStateMachine(this);
     }
+
 
     public void SetConstraintsYPosition(bool enable)
     {
@@ -132,8 +136,9 @@ public class EnemyController : PoolableObject, IDamageable
         _buff.Init();
 
         _behavior?.Initialize(this);
+        _phaseController?.Reset();
 
-        _fsm?.Reset();
+        _fsm.Reset();
         _fsm.ChangeState(EEnemyState.Idle);
 
         _health.SetDamageable(true);
@@ -270,7 +275,8 @@ public class EnemyController : PoolableObject, IDamageable
         {
             return;
         }
-        CheckHealthRatio();
+
+        _phaseController?.CheckPhaseTransition();
 
         int dir = DirectionConvert(data.HitDirection);
         Anim.SetInt(AnimatorController.s_hitDirInt, dir);
@@ -285,39 +291,6 @@ public class EnemyController : PoolableObject, IDamageable
         }
 
         Debug.Log($"{gameObject.name} 피격, {data.AttackId}, {data.HitDirection}, {dir}");
-    }
-
-    private void CheckHealthRatio()
-    {
-        float ratio = Stat.GetValue(EEnemyConsumableFloat.Health).GetRatio();
-
-        if (Stat.EnemyType == EEnemyType.Elite)
-        {
-            if(!Stat.OnBerserk && ratio <= 0.3f)
-            {
-                Stat.ActiveBerserk();
-                EliteBuff buff = Buff as EliteBuff;
-                buff.ApplyBerserkBuff();
-            }
-        }
-        else if (Stat.EnemyType == EEnemyType.Boss)
-        {
-            BossAttack attack = Attack as BossAttack;
-            if (!Stat.OnPhase2 && ratio <= 0.7f)
-            {
-                Stat.ActivePhase2();
-                attack.Phase2Strategy();
-                BossBuff buff = Buff as BossBuff;
-                buff.ApplyPhase2();
-            }
-            else if (!Stat.OnPhase3 && ratio <= 0.3f)
-            {
-                Stat.ActivePhase3();
-                attack.Phase3Strategy();
-                BossBuff buff = Buff as BossBuff;
-                buff.ApplyPhase3();
-            }
-        }
     }
 
     private int DirectionConvert( Vector3 hitDirection)

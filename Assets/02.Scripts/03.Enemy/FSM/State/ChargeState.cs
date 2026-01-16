@@ -45,7 +45,8 @@ public class ChargeState : EnemyState
         {
             _chargeCount++;
 
-            if(controller.Stat.EnemyType == EEnemyType.Boss && controller.Stat.OnPhase3 && _chargeCount < 3)
+            bool isPhase3 = controller.PhaseController != null && controller.PhaseController.CurrentPhaseIndex >= 2;
+            if (controller.Stat.EnemyType == EEnemyType.Boss && isPhase3 && _chargeCount < 3)
             {
                 SetDestination();
                 return;

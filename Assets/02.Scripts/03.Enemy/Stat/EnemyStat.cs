@@ -1,3 +1,4 @@
+using DG.Tweening.Core.Easing;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,15 +45,10 @@ public class EnemyStat : SerializedMonoBehaviour
     private bool _canBuff;
 
     [ShowInInspector] public bool CanCharge => _canCharge;
-    [ShowInInspector] public bool CanSummon => _canSummon && (OnPhase2 || OnPhase3);
-    [ShowInInspector] public bool CanBuff => _canBuff && (OnPhase2 || OnPhase3);
+    [ShowInInspector] public bool CanSummon => _canSummon;
+    [ShowInInspector] public bool CanBuff => _canBuff;
 
     [ShowInInspector] public bool HasSuperArmor { get; private set; }
-    [ShowInInspector] public bool OnBerserk { get; private set; }
-
-    [ShowInInspector] public bool OnPhase1 { get; private set; }
-    [ShowInInspector] public bool OnPhase2 { get; private set; }
-    [ShowInInspector] public bool OnPhase3 { get; private set; }
 
     public virtual void Init()
     {
@@ -60,10 +56,7 @@ public class EnemyStat : SerializedMonoBehaviour
         _canSummon = true;
         _canBuff = true;
         HasSuperArmor = false;
-        OnBerserk = false; 
-        OnPhase1 = true;
-        OnPhase2 = false;
-        OnPhase3 = false;
+
         InitDictionaries();
         InitFromData(_data);
         if (EnemyType == EEnemyType.Boss)
@@ -139,37 +132,5 @@ public class EnemyStat : SerializedMonoBehaviour
     public void SetActiveBuff(bool enable)
     {
         _canBuff = enable;
-    }
-
-
-
-    public void ActiveBerserk()
-    {
-        if (OnBerserk)
-        {
-            return;
-        }
-
-        OnBerserk = true;
-        EnableSuperArmor();
-    }
-    public void ActivePhase2()
-    {
-        if (!OnPhase1 && OnPhase2)
-        {
-            return;
-        }
-
-        OnPhase2 = true;
-    }
-
-    public void ActivePhase3()
-    {
-        if (!OnPhase2 && OnPhase3)
-        {
-            return;
-        }
-
-        OnPhase3 = true;
     }
 }
