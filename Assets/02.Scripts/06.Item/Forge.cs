@@ -58,6 +58,11 @@ public class Forge : IForge
         _items.Clear();
         ResetUpgradeData(); 
     }
+
+    public bool CanUpgrade(IReadOnlyCurrency currency)
+    {
+        return IsFull && currency.Amount >= _upgradeData.Cost;
+    }
     
     public bool Upgrade(ICurrency currency, out ItemData item)
     {
