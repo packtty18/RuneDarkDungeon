@@ -18,11 +18,11 @@ public class IdleState : EnemyState
             return;
         }
 
-        if (controller.Stat.CanSummon)
+        if (controller.Behavior.CanSummon())
         {
             controller.FSM.ChangeState(EEnemyState.Summon);
+            return;
         }
-
 
         if (controller.IsTargetExist())
         {

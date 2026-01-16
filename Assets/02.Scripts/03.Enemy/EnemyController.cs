@@ -9,12 +9,11 @@ using UnityEngine;
 public class EnemyController : PoolableObject, IDamageable
 {
     [SerializeField] private ETeamType _team;
-
     [SerializeField] private Rigidbody _physics;
     [SerializeField] private Transform _target;
-
     [SerializeField] private UIBase _healthUI;
 
+    [ShowInInspector] private IEnemyBehavior _behavior;
     [ShowInInspector] private EnemyStateMachine _fsm;
     
 
@@ -24,21 +23,33 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private EnemyStat _stat;
     [SerializeField] private AnimatorController _anim;
     [SerializeField] private EnemyBuff _buff;
+    
+    
     [SerializeField] private bool _paused;
-    public bool Pause => _paused;
+    
     [SerializeField] private bool _wait = false;
-    public bool Wait => _wait;
+    
+
+
+    public ETeamType Team => _team;
     public EnemyStateMachine FSM => _fsm;
+    public IEnemyBehavior Behavior => _behavior; 
+
     public EnemyMove Move => _move;
     public EnemyAttack Attack => _attack;
     public EnemyHealth Health => _health;
     public EnemyStat Stat => _stat;
     public AnimatorController Anim => _anim;
     public EnemyBuff Buff => _buff;
-    public Transform Target => _target;
-    public ETeamType Team => _team;
 
+    public bool Pause => _paused;
+    public bool Wait => _wait;
+
+    public Transform Target => _target;
+   
     
+
+
 
     public SafeEvent<EnemyController> OnDead = new();
     private void Awake()
@@ -58,6 +69,7 @@ public class EnemyController : PoolableObject, IDamageable
         _anim.Init();
         _buff.Init();
 
+        _behavior = CreateBehavior(_stat.EnemyType);
         _fsm = new EnemyStateMachine(this);
     }
 
@@ -71,6 +83,19 @@ public class EnemyController : PoolableObject, IDamageable
         {
             _physics.constraints &= ~RigidbodyConstraints.FreezePositionY;
         }
+    }
+
+    private IEnemyBehavior CreateBehavior(EEnemyType type)
+    {
+        return type switch
+        {
+            EEnemyType.Warrior => new CommonEnemyBehavior(),
+            EEnemyType.Archer => new CommonEnemyBehavior(),
+            EEnemyType.Mage => new CommonEnemyBehavior(),
+            EEnemyType.Elite => new EliteEnemyBehavior(),
+            EEnemyType.Boss => new BossEnemyBehavior(),
+            _ => new CommonEnemyBehavior()
+        };
     }
 
     private void Update()
@@ -106,7 +131,9 @@ public class EnemyController : PoolableObject, IDamageable
         _anim.Init();
         _buff.Init();
 
-        _fsm.Reset();
+        _behavior?.Initialize(this);
+
+        _fsm?.Reset();
         _fsm.ChangeState(EEnemyState.Idle);
 
         _health.SetDamageable(true);
