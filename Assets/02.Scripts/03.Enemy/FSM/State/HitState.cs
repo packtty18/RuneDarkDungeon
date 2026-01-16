@@ -9,7 +9,7 @@ public class HitState : EnemyState
         base.Enter();
         controller.Move.PauseAgent();
         controller.CancelAttack();
-        controller.Anim.SetTrigger(AnimatorController.s_hitTrigger);
+        controller.Anim.SetTrigger(EnemyAnimator.s_hitTrigger);
     }
 
     public override void Tick(float deltaTime)

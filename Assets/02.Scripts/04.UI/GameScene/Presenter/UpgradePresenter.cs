@@ -6,57 +6,51 @@ public class UpgradePresenter : MonoBehaviour
     [SerializeField] private UI_SlotContainer _upgradeUI;
     [SerializeField] private UI_UpgradeInfo _upgradeInfoUI;
     [SerializeField] private UI_SlotContainer _inventoryUI;
-    [SerializeField] private ModePresenter _modePresenter;
-
-    private IReadOnlyInventory _upgradeInventory;
+    [SerializeField] private UI_Result _failed;
+    [SerializeField] private UI_Result _success;
+    
     private IForge _forge;
+    private IInventory _inventory;
+    private ICurrency _currency;
     
-    private ISlotEventHandler _eventHandler;
-    
-    public void Initialize(IReadOnlyInventory upgradeInventory, IForge forge, ISlotEventHandler eventHandler)
+    public void Initialize(IForge forge, IInventory inventory, ICurrency currency)
     {
-        _upgradeInventory = upgradeInventory;
         _forge = forge;
-        _eventHandler = eventHandler;
+        _inventory = inventory;
+        _currency = currency;
         
         _upgradeUI.OnSlotClicked += HandleSlotClicked;
-        _upgradeInventory.Subscribe(RefreshView);
-        _forge.Subscribe(RefreshInfo);
-        _modePresenter.Subscribe(HandleModeChanged);
+        _forge.Subscribe(Refresh);
     }
 
     private void OnDestroy()
     {
         _upgradeUI.OnSlotClicked -= HandleSlotClicked;
-        _upgradeInventory.Unsubscribe(RefreshView);
-        _forge.Unsubscribe(RefreshInfo);
-        _modePresenter.Unsubscribe(HandleModeChanged);
+        _forge.Unsubscribe(Refresh);
     }
 
-    private void RefreshView()
+    private void Refresh()
     {
-        _upgradeUI.Refresh(_upgradeInventory.Items);
-    }
-
-    private void RefreshInfo()
-    {
+        _upgradeUI.Refresh(_forge.Items);
         _upgradeUI.SetSlotCount(_forge.UpgradeData.Count);
-        _upgradeInfoUI.Refresh(_forge.UpgradeData);
+        _upgradeInfoUI.Refresh(_forge, _currency);
         _inventoryUI.RefreshFilter(_forge);
     }
 
     private void HandleSlotClicked(UI_Slot slot)
     {
-        _eventHandler.OnClickSlot(slot);
+        if (slot.IsEmpty) return;
+        _inventory.Add(slot.Item);
+        _forge.Unregister(slot.Item);
+        _forge.Notify();
     }
 
-    private void HandleModeChanged(EInventoryMode mode)
+    public void HandleModeChanged(EInventoryMode mode)
     {
         if (mode == EInventoryMode.Upgrade)
         {
             _upgradeUI.Show();
-            RefreshView();
-            RefreshInfo();
+            Refresh();
         }
         else
         {
@@ -67,6 +61,15 @@ public class UpgradePresenter : MonoBehaviour
         
     public void Upgrade()
     {
-        _forge.Upgrade();
+        if (!_forge.Upgrade(_currency, out var item))
+        {
+            _failed.Show();
+            _forge.Notify();
+            return;
+        }
+
+        _success.Show();
+        _inventory.Add(item);
+        _forge.Notify();
     }
 }

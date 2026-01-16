@@ -936,6 +936,7 @@ GameObject:
   - component: {fileID: 1042743547516713453}
   - component: {fileID: 586353862716160764}
   - component: {fileID: 6902963225114015534}
+  - component: {fileID: 3575207734991098442}
   m_Layer: 0
   m_Name: Mage
   m_TagString: Untagged
@@ -1085,6 +1086,7 @@ MonoBehaviour:
   _physics: {fileID: 0}
   _target: {fileID: 0}
   _healthUI: {fileID: 7495474264697228738}
+  _phase: {fileID: 0}
   _move: {fileID: 0}
   _attack: {fileID: 0}
   _health: {fileID: 0}
@@ -1167,7 +1169,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
   _data: {fileID: 11400000, guid: 7c5a3dcd20514404e85ba37e9dbf3d5e, type: 2}
-  CanCharge: 1
 --- !u!114 &2543639924521705484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1223,6 +1224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MageAttack
   controller: {fileID: 0}
+  _hitboxController: {fileID: 0}
   _magicShot: {fileID: 11400000, guid: 248455a7af601aa4ca62c3df9927657b, type: 2}
   _magicSpawnPos: {fileID: 442986001267007786}
 --- !u!114 &6902963225114015534
@@ -1237,6 +1239,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3a4c668ca468684f8aadd032ddea564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBuff
+--- !u!114 &3575207734991098442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702605027344997685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ce147e81048ca4e80b0f26d66f6815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyPhaseController
+  _phaseDataList: []
 --- !u!1 &2777145052023095628
 GameObject:
   m_ObjectHideFlags: 0

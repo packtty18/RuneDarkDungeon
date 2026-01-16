@@ -43,7 +43,27 @@ public class EnemySpawnManager : SerializedMonoBehaviour
 
         Debug.Log($"[SpawnManager] {_currentPhase} 페이즈 시작");
 
-        foreach (PhaseData data in _phaseDatas[_currentPhase].Datas)
+        SpawnByData(_phaseDatas[_currentPhase]);
+    }
+
+    public void BossSummon()
+    {
+        SpawnByData(_phaseDatas[0]);
+        //WakeUpEnemies();
+    }
+
+    private void WakeUpEnemies()
+    {
+        foreach (EnemyController enemy in _list)
+        {
+            //enemy.WakeUp();
+
+        }
+    }
+
+    private void SpawnByData(EnemyPhaseDataSO phaseDataSO)
+    {
+        foreach (PhaseData data in phaseDataSO.Datas)
         {
             SpawnEnemies(data.Type, data.Count, data.IsRandomSpawn);
         }
@@ -77,9 +97,8 @@ public class EnemySpawnManager : SerializedMonoBehaviour
             _aliveEnemyCount++;
 
             //적설정
+            enemy.transform.position = spawner.transform.position;
             enemy.OnDead.Subscribe(HandleEnemyDead);
-
-            
             enemy.SetTarget(GetTarget());
             enemy.Init();
 

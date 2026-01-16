@@ -12,13 +12,13 @@ public abstract class EnemyState
 
     public virtual void Enter()
     {
-        Debug.Log($"[FSM] Enter {GetType().Name}");
+        //Debug.Log($"[FSM] Enter {GetType().Name}");
     }
 
     public virtual void Tick(float deltaTime) { }
 
     public virtual void Exit()
     {
-        Debug.Log($"[FSM] Exit {GetType().Name}");
+        //Debug.Log($"[FSM] Exit {GetType().Name}");
     }
 }

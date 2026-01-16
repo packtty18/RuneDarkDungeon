@@ -28,7 +28,7 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHolder
     protected override void OnInit()
     {
         ItemFactory itemFactory = new(_itemDB);
-        _forge = new(itemFactory, _upgradeDB, _upgradeInventory, _inventory, _goldData);
+        _forge = new(itemFactory, _upgradeDB);
         
         itemFactory.SetItemInfo(Inventory.Items);
         itemFactory.SetItemInfo(Equipment.Items.Values);
