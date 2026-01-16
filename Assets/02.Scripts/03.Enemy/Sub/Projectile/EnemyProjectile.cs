@@ -11,7 +11,6 @@ public abstract class EnemyProjectile : MonoBehaviour
     [SerializeField] private float lifeTime = 5f; // seconds
 
     private float _lifeTimer;
-
     private bool _onInit = false;
 
     [Button]

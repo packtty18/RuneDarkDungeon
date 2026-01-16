@@ -12,7 +12,7 @@ public abstract class EnemyDelaySOBase : ScriptableObject
     }
 
     //실제 효과 발동
-    public abstract void Execute(Transform spawnPos, float damage);
+    public abstract void Execute(EnemyController owner, Transform spawnPos, float damage);
 
 }
 
