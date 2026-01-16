@@ -12,6 +12,7 @@ public class HPUIUpdate : MonoBehaviour
     void Start()
     {
         _playerStats.Health.Subscribe(OnHpUpdate);
+        _slider.value = _playerStats.Health.GetRatio();
     }
 
     private void OnHpUpdate(float value)

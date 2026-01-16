@@ -48,6 +48,9 @@ public class PlayerAttack : MonoBehaviour
     private int _currentCombo;
     private float _currentDamage;
 
+    public event Action<float, float> OnComboChange;
+    public event Action<bool> OnComboCharging;
+
     #region Life Cycle
     private void Awake()
     {
@@ -145,6 +148,8 @@ public class PlayerAttack : MonoBehaviour
         VisualShow();
         ExecuteSingleAttack(EAttackType.Jump, _attackConfig.JumpDashDamage);
         _currentCombo = 1;
+        OnComboChange?.Invoke(_currentCombo, _attackConfig.MaxPhaseCount);
+
     }
 
     private void StartComboAttack(EAttackType type)
@@ -154,6 +159,7 @@ public class PlayerAttack : MonoBehaviour
         _currentAttack = EAttackType.Basic;
 
         _currentCombo = 1;
+        OnComboChange?.Invoke(_currentCombo, _attackConfig.MaxPhaseCount);
         PlayCurrentCombo();
     }
 
@@ -173,6 +179,7 @@ public class PlayerAttack : MonoBehaviour
         if (_currentCombo < _attackConfig.MaxPhaseCount)
         {
             ExecuteComboAttack();
+            OnComboChange?.Invoke(_currentCombo, _attackConfig.MaxPhaseCount);
         }
         else
         {
@@ -184,14 +191,17 @@ public class PlayerAttack : MonoBehaviour
     private IEnumerator ComboFinisherCoroutine(float chargeTime)
     {
         _finisherTimer = 0;
+        OnComboCharging?.Invoke(false);
 
         while (InputManager.Instance.GetKey(EGameKeyType.Attack))
         {
             _finisherTimer += Time.deltaTime;
+
             if (_finisherTimer > chargeTime)
             {
                 //차지 피니셔.
                 ExecuteChargeFinisherAttack();
+                OnComboCharging?.Invoke(true);
                 yield break;
             }
             yield return null;
@@ -199,7 +209,7 @@ public class PlayerAttack : MonoBehaviour
         //일반 콤보 피니셔.
         ExecuteComboAttack();
         Debug.Log($"[Attack] 콤보 피니셔 {_currentCombo}타");
-        
+        OnComboChange?.Invoke(_currentCombo, _attackConfig.MaxPhaseCount);
         yield return null;
     }
 
@@ -254,6 +264,7 @@ public class PlayerAttack : MonoBehaviour
     private void GoNextCombo()
     {
         _currentCombo++;
+        
 
         PlayCurrentCombo();
     }
@@ -270,6 +281,7 @@ public class PlayerAttack : MonoBehaviour
         }
 
         _currentCombo = 0;
+        OnComboChange?.Invoke(_currentCombo, _attackConfig.MaxPhaseCount);
         _currentAttack = EAttackType.None;
     }
 
