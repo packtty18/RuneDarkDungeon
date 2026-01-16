@@ -11,10 +11,9 @@ public class EnemyMove : MonoBehaviour
     private NavMeshAgent _agent;
     private Transform _target;
 
-    // 외부 제어용 (Battle / Attack / Cutscene)
-    private bool _isPaused;
+    [SerializeField] private bool _isPaused;
 
-    private bool _canRotate;
+    [SerializeField] private bool _canRotate;
 
     [SerializeField] private bool _onTest = false;
 

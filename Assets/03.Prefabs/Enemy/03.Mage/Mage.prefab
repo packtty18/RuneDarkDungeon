@@ -1085,7 +1085,7 @@ MonoBehaviour:
   _team: 1
   _physics: {fileID: 0}
   _target: {fileID: 0}
-  _healthUI: {fileID: 7495474264697228738}
+  _ui: {fileID: 2005619665628329903}
   _phase: {fileID: 0}
   _move: {fileID: 0}
   _attack: {fileID: 0}
@@ -1194,6 +1194,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
   _rotationSpeed: 10
+  _isPaused: 0
+  _canRotate: 0
   _onTest: 0
 --- !u!114 &1042743547516713453
 MonoBehaviour:
@@ -2571,11 +2573,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1011656020808141106, guid: 12fd71dafd1bf7e4ca7c7a5c8dd5b445, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4248229212784430811, guid: 12fd71dafd1bf7e4ca7c7a5c8dd5b445, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4825508177491683770, guid: 12fd71dafd1bf7e4ca7c7a5c8dd5b445, type: 3}
       propertyPath: m_Pivot.x
@@ -2662,22 +2664,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12fd71dafd1bf7e4ca7c7a5c8dd5b445, type: 3}
---- !u!224 &6384515530690839868 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4825508177491683770, guid: 12fd71dafd1bf7e4ca7c7a5c8dd5b445, type: 3}
-  m_PrefabInstance: {fileID: 1904456473378335878}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7495474264697228738 stripped
+--- !u!114 &2005619665628329903 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8244044945815822660, guid: 12fd71dafd1bf7e4ca7c7a5c8dd5b445, type: 3}
+  m_CorrespondingSourceObject: {fileID: 124017658180459305, guid: 12fd71dafd1bf7e4ca7c7a5c8dd5b445, type: 3}
   m_PrefabInstance: {fileID: 1904456473378335878}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db70bed231d58ab479b21f46660d877d, type: 3}
+  m_Script: {fileID: 11500000, guid: f37d0dd75fd01ed458abb3a7759f6d71, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthUI
+  m_EditorClassIdentifier: Assembly-CSharp::UIAutoHide
+--- !u!224 &6384515530690839868 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4825508177491683770, guid: 12fd71dafd1bf7e4ca7c7a5c8dd5b445, type: 3}
+  m_PrefabInstance: {fileID: 1904456473378335878}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5572850487825081642
 PrefabInstance:
   m_ObjectHideFlags: 0

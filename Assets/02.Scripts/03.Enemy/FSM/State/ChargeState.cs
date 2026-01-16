@@ -16,6 +16,7 @@ public class ChargeState : EnemyState
         SetDestination();
 
         controller.EnablePhysics(false);
+        controller.Move.SetAbleToRatate(false);
         controller.Anim.SetBool(EnemyAnimator.s_moveBool, true);
         controller.Anim.SetBool(EnemyAnimator.s_chargeBool, true);
 
@@ -62,6 +63,7 @@ public class ChargeState : EnemyState
         {
             controller.Stat.DisableSuperArmor();
         }
+
         controller.Anim.SetBool(EnemyAnimator.s_moveBool, false);
         controller.Anim.SetBool(EnemyAnimator.s_chargeBool, false);
         controller.Attack.EndCharge();

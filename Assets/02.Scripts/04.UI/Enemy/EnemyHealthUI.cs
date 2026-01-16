@@ -1,12 +1,13 @@
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 using UnityEngine.UI;
-using Unity.VisualScripting;
 
+[RequireComponent(typeof(UIAutoHide))]
 public class EnemyHealthUI : UIBase
 {
     [Header("Reference")]
     [SerializeField] private EnemyStat _stat;
+    [SerializeField] private UIAutoHide _autoHider;
 
     [Header("HP Images")]
     [SerializeField] private Image _frontFill;
@@ -16,87 +17,89 @@ public class EnemyHealthUI : UIBase
     [SerializeField] private float _backDelay = 1f;
     [SerializeField] private float _backLerpDuration = 0.5f;
 
-    [Header("Auto Hide")]
-    [SerializeField] private float _autoHideDelay = 3f;
-
     [Header("VFX")]
     [SerializeField] private ParticleSystem _hitParticle;
 
     private Tween _backTween;
-    private Tween _shakeTween;
-    private Tween _hideTween;
     private float _currentHpRatio = 1f;
 
-    private IReadOnlyConsumable<float> _health => _stat != null ? _stat.GetValue(EEnemyConsumableFloat.Health) : null;
+    private IReadOnlyConsumable<float> _health => _stat != null ? _stat.GetValue(EEnemyConsumableFloat.Health): null;
+
 
     protected override void OnInit()
     {
         base.OnInit();
+
         _stat = GetComponentInParent<EnemyStat>();
+        _autoHider = GetComponent<UIAutoHide>();
+
         _frontFill.type = Image.Type.Filled;
         _backFill.type = Image.Type.Filled;
 
-        _frontFill.fillAmount = 1f;
-        _backFill.fillAmount = 1f;
+        // 초기값은 항상 풀 상태
+        SetHealthInstant(1f);
     }
 
     private void OnEnable()
     {
-        if(_health != null)
-        {
-            SetHealth(_health.Current, _health.Max);
-            _health.Subscribe(OnHit);
-        }
+        if (_health == null)
+            return;
+
+        // 풀링 복귀 시 즉시 동기화
+        SetHealth(_health.Current, _health.Max);
+        _health.Subscribe(OnHealthChanged);
     }
 
     private void OnDisable()
     {
         _backTween?.Kill();
-        _shakeTween?.Kill();
-        if (_health != null)
-        {
-            _health.Unsubscribe(OnHit);
-        }
-        
+        _backTween = null;
+
+        _health?.Unsubscribe(OnHealthChanged);
     }
 
     public void SetHealth(float currentHp, float maxHp)
     {
-        float targetRatio = Mathf.Clamp01(currentHp / maxHp);
+        float ratio = Mathf.Clamp01(currentHp / maxHp);
+        SetHealthInstant(ratio);
+    }
+
+    private void OnHealthChanged(float currentHp)
+    {
+        float targetRatio = currentHp / _health.Max;
 
         if (targetRatio >= _currentHpRatio)
         {
-            _frontFill.fillAmount = targetRatio;
-            _backFill.fillAmount = targetRatio;
-            _currentHpRatio = targetRatio;
+            // 회복 or 동일 → 즉시 반영
+            SetHealthInstant(targetRatio);
             return;
         }
 
-        OnHit(targetRatio);
+        PlayHitAnimation(targetRatio);
     }
 
-    private void OnHit(float current)
+    private void SetHealthInstant(float ratio)
     {
-        float targetRatio = current / _health.Max;
-        Debug.Log($"[EnemyHealthUI] Hit - TargetRatio: {targetRatio}");
+        _currentHpRatio = ratio;
+        _frontFill.fillAmount = ratio;
+        _backFill.fillAmount = ratio;
+    }
 
+    private void PlayHitAnimation(float targetRatio)
+    {
         _currentHpRatio = targetRatio;
 
-        // 즉시 Front 감소
+        // Front 즉시 감소
         _frontFill.fillAmount = targetRatio;
 
-        // 파티클
+        // VFX
         if (_hitParticle != null)
         {
-            _hitParticle.Play();
+            _hitParticle?.Play();
         }
 
-        // BackFill 지연 감소 (중첩 대응)
-        if (_backTween != null && _backTween.IsActive())
-        {
-            _backTween.Kill();
-        }
-
+        // BackFill 지연 감소
+        _backTween?.Kill();
         _backTween = DOVirtual.DelayedCall(_backDelay, () =>
         {
             _backFill
@@ -104,14 +107,7 @@ public class EnemyHealthUI : UIBase
                 .SetEase(Ease.OutCubic);
         });
 
-        ResetAutoHide();
+        // AutoHide 리셋
+        _autoHider.ResetTimer();
     }
-
-    private void ResetAutoHide()
-    {
-        _hideTween?.Kill();
-
-        _hideTween = DOVirtual.DelayedCall(_autoHideDelay,Hide);
-    }
-
 }

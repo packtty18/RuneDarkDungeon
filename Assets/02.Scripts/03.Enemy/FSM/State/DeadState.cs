@@ -8,9 +8,11 @@ public class DeadState : EnemyState
     {
         base.Enter();
         controller.Move.PauseAgent();
+        controller.Move.SetAbleToRatate(false);
+
         controller.CancelAttack();
         controller.Anim.SetTrigger(EnemyAnimator.s_deadTrigger);
-
+        
         controller.Dead();
     }
 

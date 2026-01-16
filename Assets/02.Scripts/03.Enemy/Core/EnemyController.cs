@@ -11,7 +11,7 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private ETeamType _team;
     [SerializeField] private Rigidbody _physics;
     [SerializeField] private Transform _target;
-    [SerializeField] private UIBase _healthUI;
+    [SerializeField] private UIBase _ui;
 
     [ShowInInspector] private IEnemyBehavior _behavior;
     [ShowInInspector] private EnemyStateMachine _fsm;
@@ -60,6 +60,39 @@ public class EnemyController : PoolableObject, IDamageable
         _physics = GetComponent<Rigidbody>();
         _phase = GetComponent<EnemyPhase>();
 
+        EnablePhysics(true);
+        _fsm = new EnemyStateMachine(this);
+    }
+
+    public override void OnSpawn()
+    {
+        if (BattleManager.Instance != null)
+        {
+            BattleManager.Instance.OnBattleStateChanged.Subscribe(OnBattleStateChanged);
+            OnBattleStateChanged(BattleManager.Instance.State);
+        }
+        _target = null;
+    }
+
+    public override void OnDespawn()
+    {
+        if (BattleManager.Instance != null)
+        {
+            BattleManager.Instance.OnBattleStateChanged.Unsubscribe(OnBattleStateChanged);
+        }
+
+        _fsm.Reset();
+        StopAllCoroutines();
+        loopRoutine = null;
+        base.OnDespawn();
+    }
+
+    #region 생명주기
+    [Button]
+    public void Init()
+    {
+        EnablePhysics(true);
+
         _stat.Init();
         _health.Init();
         _move.Init();
@@ -68,22 +101,14 @@ public class EnemyController : PoolableObject, IDamageable
         _buff.Init();
 
         _behavior = CreateBehavior(_stat.EnemyType);
+        _behavior?.Initialize(this);
 
-        _phase.Init();
+        _phase?.Reset();
 
-        _fsm = new EnemyStateMachine(this);
+        _fsm.Reset();
+        _fsm.ChangeState(EEnemyState.Idle);
     }
-    public void SetConstraintsYPosition(bool enable)
-    {
-        if (enable)
-        {
-            _physics.constraints |= RigidbodyConstraints.FreezePositionY;
-        }
-        else
-        {
-            _physics.constraints &= ~RigidbodyConstraints.FreezePositionY;
-        }
-    }
+
 
     private IEnemyBehavior CreateBehavior(EEnemyType type)
     {
@@ -118,28 +143,29 @@ public class EnemyController : PoolableObject, IDamageable
         return true;
     }
 
-    #region 생명주기
-    [Button]
-    public void Init()
+
+    public void SetConstraintsPosition(bool enable)
     {
-        EnablePhysics(true);
+        if (_physics == null)
+            return;
 
-        _stat.Init();
-        _health.Init();
-        _move.Init();
-        _attack.Init();
-        _anim.Init();
-        _buff.Init();
+        RigidbodyConstraints constraints = _physics.constraints;
 
-        _behavior?.Initialize(this);
-        _phase?.Reset();
+        // X
+        if (enable)
+        {
+            constraints |= RigidbodyConstraints.FreezePositionX;
+            constraints |= RigidbodyConstraints.FreezePositionY;
+            constraints |= RigidbodyConstraints.FreezePositionZ;
+        }
+        else
+        {
+            constraints &= ~RigidbodyConstraints.FreezePositionX;
+            constraints &= ~RigidbodyConstraints.FreezePositionY;
+            constraints &= ~RigidbodyConstraints.FreezePositionZ;
+        }
 
-        _fsm.Reset();
-        _fsm.ChangeState(EEnemyState.Idle);
-
-        _health.SetDamageable(true);
-
-        
+        _physics.constraints = constraints;
     }
 
     public void EnablePhysics(bool enable)
@@ -151,31 +177,13 @@ public class EnemyController : PoolableObject, IDamageable
 
     public void Dead()
     {
-        _health.SetDamageable(false);
-        _fsm.Reset();
-
         EnablePhysics(false);
         ReturnToPoolAfter(3f);
-
+        //_fsm.Reset();
+        _ui.Hide();
         OnDead?.Invoke(this);
     }
-    public override void OnSpawn()
-    {
-        if (BattleManager.Instance != null)
-        {
-            BattleManager.Instance.OnBattleStateChanged.Subscribe(OnBattleStateChanged);
-            OnBattleStateChanged(BattleManager.Instance.State);
-        }
-    }
-
-    public override void OnDespawn()
-    {
-        if (BattleManager.Instance != null)
-        {
-            BattleManager.Instance.OnBattleStateChanged.Unsubscribe(OnBattleStateChanged);
-        }
-        base.OnDespawn();
-    }
+    
     
     private void OnBattleStateChanged(EBattleState state)
     {
@@ -191,11 +199,8 @@ public class EnemyController : PoolableObject, IDamageable
                 OnPause(false);
                 break;
             case EBattleState.Pause:
-                {
-                    OnPause(true);
-                    break;
-                }
-                
+                OnPause(true);
+                break;
             case EBattleState.WaitingNextStage:
                 _wait = true;
                 break;
@@ -267,7 +272,7 @@ public class EnemyController : PoolableObject, IDamageable
             return;
         }
 
-        _healthUI?.Show();
+        _ui?.Show();
         if (!_health.TryApplyDamage(data.Damage))
         {
             return;
