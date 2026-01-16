@@ -27,7 +27,7 @@ public class MonsterActiveTrigger : MonoBehaviour
 
         _targetManager.OnAllPhaseCompleted.Subscribe(ActiveTrigger);
         _renderer.material = _deactiveMaterial;
-        _collider.enabled = false;
+        _collider.isTrigger = false;
     }
 
     private void ActiveTrigger()
@@ -38,7 +38,7 @@ public class MonsterActiveTrigger : MonoBehaviour
         }
         
         _renderer.material = _activeMaterial;
-        _collider.enabled = true;
+        _collider.isTrigger = true;
     }
 
     private void ActiveMonster()

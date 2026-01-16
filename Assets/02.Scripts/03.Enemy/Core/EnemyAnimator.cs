@@ -23,7 +23,7 @@ public class EnemyAnimator : MonoBehaviour
 
     public virtual void Init()
     {
-        Debug.Log("AniamtorController 초기화", this);
+        //Debug.Log("AniamtorController 초기화", this);
     }
 
     public void SetAnimSpeed(float speed)
