@@ -1,4 +1,5 @@
 using DG.Tweening;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -168,6 +169,16 @@ public class UIBasicAnimation : MonoBehaviour
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(_canvasGroup.DOFade(1f, duration).SetEase(ease));
 
+    }
+
+    public void FadeLoop(float duration = 0.3f, float minValue =0, Ease ease = Ease.OutQuad, int loops = -1)
+    {
+        _currentSequence?.Kill();
+
+        _currentSequence = DOTween.Sequence();
+        _currentSequence.Append(_canvasGroup.DOFade(minValue, duration * 0.5f).SetEase(ease));
+        _currentSequence.Append(_canvasGroup.DOFade(1f, duration * 0.5f).SetEase(ease));
+        _currentSequence.SetLoops(loops, LoopType.Restart);
     }
 
     public void PunchFadeIn(float duration = 0.3f, float punchScale = 0.2f, Ease ease = Ease.OutQuad,  int vibrato = 10, float elasticity = 1f)
