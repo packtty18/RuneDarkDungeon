@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 3749402387695274689}
   - component: {fileID: 4638820219099682028}
   - component: {fileID: 1403475144756251562}
+  - component: {fileID: 6089910729909486689}
   m_Layer: 0
   m_Name: Archer
   m_TagString: Untagged
@@ -281,6 +282,7 @@ MonoBehaviour:
   _physics: {fileID: 0}
   _target: {fileID: 0}
   _healthUI: {fileID: 7136649468679634869}
+  _phase: {fileID: 0}
   _move: {fileID: 0}
   _attack: {fileID: 0}
   _health: {fileID: 0}
@@ -363,7 +365,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
   _data: {fileID: 11400000, guid: fed03475ddee64648898f4bb8d042d8d, type: 2}
-  CanCharge: 1
 --- !u!114 &2543639924521705484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,6 +420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArchorAttack
   controller: {fileID: 0}
+  _hitboxController: {fileID: 0}
   _arrow: {fileID: 11400000, guid: 2025daeab9089f34d8cef4de087160fe, type: 2}
   _arrowSpawnPos: {fileID: 442986001267007786}
 --- !u!114 &1403475144756251562
@@ -433,6 +435,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3a4c668ca468684f8aadd032ddea564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBuff
+--- !u!114 &6089910729909486689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702605027344997685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ce147e81048ca4e80b0f26d66f6815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyPhaseController
+  _phaseDataList: []
 --- !u!1001 &210608922548355811
 PrefabInstance:
   m_ObjectHideFlags: 0

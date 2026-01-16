@@ -9,8 +9,12 @@ public class ModePresenter : MonoBehaviour
     [SerializeField] private UI_WindowToggleButton _equipmentToggleButton;
     [SerializeField] private UI_WindowToggleButton _shopToggleButton;
     
+    [Header("Presenter 연결")]
+    [SerializeField] private InventoryPresenter _inventory;
+    [SerializeField] private UpgradePresenter _upgrade;
+    [SerializeField] private EquipmentPresenter _equipment;
+    
     private EInventoryMode _mode = EInventoryMode.Closed;
-    private SafeEvent<EInventoryMode> _onModeChanged = new();
     
     private void Awake()
     {
@@ -51,16 +55,8 @@ public class ModePresenter : MonoBehaviour
     private void ChangeMode(EInventoryMode mode)
     {
         _mode = mode;
-        _onModeChanged?.Invoke(_mode);
-    }
-    
-    public void Subscribe(Action<EInventoryMode> action)
-    {
-        _onModeChanged.Subscribe(action);
-    }
-
-    public void Unsubscribe(Action<EInventoryMode> action)
-    {
-        _onModeChanged.Unsubscribe(action);
+        _inventory.HandleModeChanged(mode);
+        _upgrade.HandleModeChanged(mode);
+        _equipment.HandleModeChanged(mode);
     }
 }

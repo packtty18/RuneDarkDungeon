@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_SlotContainer : UI_Base
+public class UI_SlotContainer : PUBase
 { 
     [SerializeField] private ItemFrameSO _frameDB;
     
@@ -14,8 +14,9 @@ public class UI_SlotContainer : UI_Base
     public event Action<UI_Slot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
     
-    private void Awake()
+    protected override void OnInit()
     {
+        base.OnInit();
         foreach (var slot in _slots)
         {
             slot.OnSlotClicked += NotifySlotClicked;

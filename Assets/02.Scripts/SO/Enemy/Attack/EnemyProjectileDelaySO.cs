@@ -6,18 +6,17 @@ public class EnemyProjectileDelaySO : EnemyDelaySOBase
     [Header("Projectile")]
     [SerializeField] private GameObject _spawnPrefab;
 
-    public override void Execute(Transform spawnPos, float damage)
+    public override void Execute(EnemyController owner, Transform spawnPos, float damage)
     {
-        GameObject arrow = Instantiate(_spawnPrefab,spawnPos.position, spawnPos.rotation);
-
-        if(!arrow.TryGetComponent(out EnemyProjectile proj))
+        GameObject obj = Instantiate(_spawnPrefab,spawnPos.position, spawnPos.rotation);
+        if (obj.TryGetComponent(out EnemyAttackObject attack))
         {
-            Util.ObjectDestroy(arrow);
+            attack.Initialize(owner , damage);
             return;
         }
-        proj.Init(damage);
 
-        Debug.Log("[Windup] Arrow Fired");
+        Util.ObjectDestroy(obj);
+
     }
 }
 

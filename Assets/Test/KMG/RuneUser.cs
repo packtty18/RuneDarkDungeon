@@ -28,7 +28,7 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHolder
     protected override void OnInit()
     {
         ItemFactory itemFactory = new(_itemDB);
-        _forge = new(itemFactory, _upgradeDB, _upgradeInventory, _inventory, _goldData);
+        _forge = new(itemFactory, _upgradeDB);
         
         itemFactory.SetItemInfo(Inventory.Items);
         itemFactory.SetItemInfo(Equipment.Items.Values);
@@ -41,22 +41,25 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHolder
         if (Input.GetKeyDown(KeyCode.Q) && Time.time > NextQ)
         {
             Debug.Log("Q 사용");
-            _equipment.UseItem(gameObject, ESkillSlot.Q, out var qCooltime);
-            NextQ = Time.time + qCooltime;
+            var item = _equipment.GetItem(ESkillSlot.Q);
+            item.Use(gameObject);
+            NextQ = Time.time + item.GetCoolTime();
         }
 
         if (Input.GetKeyDown(KeyCode.E) && Time.time > NextE)
         {
             Debug.Log("E 사용");
-            _equipment.UseItem(gameObject, ESkillSlot.E, out var eCooltime);
-            NextE = Time.time + eCooltime;
+            var item = _equipment.GetItem(ESkillSlot.E);
+            item.Use(gameObject);
+            NextQ = Time.time + item.GetCoolTime();
         }
 
         if (Input.GetKeyDown(KeyCode.R) && Time.time > NextR)
         {
             Debug.Log("R 사용");
-            _equipment.UseItem(gameObject, ESkillSlot.R, out var rCooltime);
-            NextR = Time.time + rCooltime;
+            var item = _equipment.GetItem(ESkillSlot.R);
+            item.Use(gameObject);
+            NextQ = Time.time + item.GetCoolTime();
         }
     }
 

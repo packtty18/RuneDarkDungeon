@@ -65,7 +65,7 @@ public abstract class ItemBase : PoolableObject
         base.OnSpawn();
         if(BattleManager.IsExist())
         {
-            _target = BattleManager.Instance?.transform;
+            _target = BattleManager.Instance?.PlayerTransform;
         }
 
         ResetState();

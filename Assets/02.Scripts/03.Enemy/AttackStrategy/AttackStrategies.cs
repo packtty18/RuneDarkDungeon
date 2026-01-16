@@ -29,22 +29,21 @@ public class EnemyDirectAttack : IAttackStretagy
 }
 
 //히트박스를 가진 다른 객체를 생성하여 공격
-// Hitbox spawn attack strategy
 public class EnemySpawnAttack : IAttackStretagy
 {
     private readonly EnemyDelaySOBase _delayLoop;
     private readonly Transform _spawnPos;
     private readonly float _damage;
-
-    private bool _executed;
-
+    private readonly EnemyController _owner;
     public float LoopDelay => _delayLoop.Delay;
 
-    public EnemySpawnAttack(EnemyDelaySOBase delayLoop, Transform spawnPos, float damage)
+    private bool _executed;
+    public EnemySpawnAttack(EnemyDelaySOBase delayLoop, EnemyController owner, Transform spawnPos, float damage)
     {
         _delayLoop = delayLoop;
         _spawnPos = spawnPos;
         _damage = damage;
+        _owner = owner;
     }
 
     public void BeginAttack()
@@ -55,10 +54,11 @@ public class EnemySpawnAttack : IAttackStretagy
 
     public void EndAttack()
     {
-        if (_executed)
+        if(_executed)
+        {
             return;
-
-        _executed = true;
-        _delayLoop.Execute(_spawnPos, _damage);
+        }
+        _executed =true;
+        _delayLoop.Execute(_owner, _spawnPos, _damage);
     }
 }

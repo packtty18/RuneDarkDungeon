@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class SellEventHandler : ISlotEventHandler
 {
-    private IInventory _inventory;
-    private ICurrency _currency;
-    private InventoryManager _inventoryManager;
+    private readonly IInventory _inventory;
+    private readonly ICurrency _currency;
+    private readonly InventoryManager _inventoryManager;
 
     public SellEventHandler(IInventory inventory, ICurrency currency, InventoryManager inventoryManager)
     {
@@ -15,9 +15,8 @@ public class SellEventHandler : ISlotEventHandler
 
     public void OnClickSlot(UI_Slot slot)
     {
+        _currency.Add(slot.Item.Info.Price);
         _inventory.Remove(slot.Item);
-        _currency.Add(100);
-        Debug.Log("골드 획득");
     }
 
     public void OnHoverSlot(UI_Slot slot)

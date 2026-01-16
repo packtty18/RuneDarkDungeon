@@ -4,18 +4,15 @@ public class EquipmentPresenter : MonoBehaviour
 {
     [Header("UI 연결")]
     [SerializeField] private UI_EquipmentView _equipmentUI;
-    [SerializeField] private ModePresenter _modePresenter;
-    
-    [Header("로직 연결")]
     [SerializeField] private InventoryManager _inventoryManager;
     
-    private EquipmentManager _equipmentManager;
     private IEquipment _equipment;
+    private IInventory _inventory;
 
-    public void Initialize(EquipmentManager equipmentManager, IEquipment equipment)
+    public void Initialize(IEquipment equipment, IInventory inventory)
     {
-        _equipmentManager = equipmentManager;
         _equipment = equipment;
+        _inventory = inventory;
         
         _equipment.Subscribe(RefreshEquipment);
         _equipmentUI.OnSlotDoubleClicked += HandleSlotDoubleClicked;
@@ -23,8 +20,6 @@ public class EquipmentPresenter : MonoBehaviour
         _equipmentUI.OnSlotHovered += HandleSlotHovered;
         
         RefreshEquipment();
-        
-        _modePresenter.Subscribe(HandleModeChanged);
     }
 
     private void OnDestroy()
@@ -33,7 +28,6 @@ public class EquipmentPresenter : MonoBehaviour
         _equipmentUI.OnSlotDoubleClicked -= HandleSlotDoubleClicked;
         _equipmentUI.OnSlotClicked -= HandleSlotClicked;
         _equipmentUI.OnSlotHovered -= HandleSlotHovered;
-        _modePresenter.Unsubscribe(HandleModeChanged);
     }
     
     private void RefreshEquipment()
@@ -43,7 +37,10 @@ public class EquipmentPresenter : MonoBehaviour
 
     private void HandleSlotDoubleClicked(ESkillSlot slot)
     {
-        _equipmentManager.UnEquipItem(slot);
+        ItemData item = _equipment.UnEquip(slot);
+
+        if (item == null) return;
+        _inventory.Add(item);
     }
 
     private void HandleSlotClicked(ESkillSlot slot)
@@ -51,7 +48,11 @@ public class EquipmentPresenter : MonoBehaviour
         var item = _inventoryManager.GetSelectedItem();
         if (item == null) return;
         
-        _equipmentManager.EquipItem(slot, item);
+        _inventory.Remove(item);
+        ItemData oldItem = _equipment.Equip(slot, item);
+
+        if (oldItem == null) return;
+        _inventory.Add(oldItem);
     }
 
     private void HandleSlotHovered(UI_Slot slot)
@@ -59,7 +60,7 @@ public class EquipmentPresenter : MonoBehaviour
         _inventoryManager.ShowTooltip(slot);
     }
 
-    private void HandleModeChanged(EInventoryMode mode)
+    public void HandleModeChanged(EInventoryMode mode)
     {
         if (mode == EInventoryMode.Equipment)
         {

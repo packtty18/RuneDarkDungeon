@@ -25,10 +25,9 @@ public class ItemData
         _info = info;
     }
 
-    public void Use(GameObject user, out float coolTime)
+    public void Use(GameObject user)
     {
         _info.Use(user, _grade);
-        coolTime = _info.CoolTime;
     }
 
     public float GetCoolTime()

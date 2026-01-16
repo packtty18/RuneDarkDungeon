@@ -27,31 +27,16 @@ public class Equipment : IEquipment
         return item;
     }
 
-    public bool UseItem(GameObject user, ESkillSlot slot, out float coolTime)
-    {
-        coolTime = 0;
-        var item = GetItem(slot);
-        if (item == null) return false;
-        
-        item.Use(user, out coolTime);
-        return true;
-    }
-
-    public float GetCoolTime(ESkillSlot slot)
-    {
-        var item = GetItem(slot);
-        return item.GetCoolTime();
-    }
-
-    public AnimationClip GetClip(ESkillSlot slot)
-    {
-        var item = GetItem(slot);
-        return item.GetClip();
-    }
-
     public ItemData GetItem(ESkillSlot slot)
     {
         return _items.GetValueOrDefault(slot);
+    }
+
+    public bool TryGetItem(ESkillSlot slot, out ItemData item)
+    {
+        item = _items.GetValueOrDefault(slot);
+        if (item == null) return false;
+        return true;
     }
     
     public void Subscribe(Action action)

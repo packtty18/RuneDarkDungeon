@@ -6,6 +6,7 @@ public class EnemyExplosion : MonoBehaviour
 {
     [Title("Reference")]
     [SerializeField] private HitboxController _hitboxController;
+    [SerializeField] private GameObject _hitPrefab;
     [SerializeField] private string _hitboxKey = "Main";
 
     [Title("Damage")]
@@ -29,8 +30,13 @@ public class EnemyExplosion : MonoBehaviour
         transform.localScale = new Vector3(size, size, size);
         _timer = _activeDuration;
         _hitboxController.Activate("Main", damage);
+
+        if (_hitPrefab != null)
+        {
+            Instantiate(_hitPrefab, transform);
+        }
+
         _initted = true;
-        Debug.Log("[ExplosionHitboxRunner] Spawned");
     }
 
     private void Update()
@@ -39,6 +45,7 @@ public class EnemyExplosion : MonoBehaviour
         {
             return;
         }
+
         _timer -= Time.deltaTime;
 
         if (_timer > 0f)
@@ -48,7 +55,7 @@ public class EnemyExplosion : MonoBehaviour
 
         _hitboxController.DeactivateAll();
         _initted = false;
-        Util.DestroyAfterTime(3f,gameObject);
+        StartCoroutine(Util.DestroyAfterTime(3f,gameObject));
     }
 
 }

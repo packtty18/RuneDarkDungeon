@@ -1,10 +1,10 @@
-using TMPro;
 using UnityEngine;
+using DG.Tweening;
 
 public class CurrencyPresenter : MonoBehaviour
 {
     [Header("UI 연결")]
-    [SerializeField] private TextMeshProUGUI _goldTextUI;
+    [SerializeField] private UI_GoldText _goldView;
     
     private IReadOnlyCurrency _gold;
     
@@ -22,6 +22,6 @@ public class CurrencyPresenter : MonoBehaviour
 
     private void RefreshGold()
     {
-        _goldTextUI.SetText("{0}", _gold.Amount);
+        _goldView.Refresh(_gold.Amount);
     }
 }

@@ -5,7 +5,6 @@ public class InventoryPresenter : MonoBehaviour
 {
     [Header("UI 연결")]
     [SerializeField] private UI_SlotContainer _inventoryUI;
-    [SerializeField] private ModePresenter _modePresenter;
     
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
     private ISlotEventHandler _eventHandler;
@@ -23,7 +22,6 @@ public class InventoryPresenter : MonoBehaviour
         _inventoryUI.OnSlotClicked += HandleSlotClicked;
         _inventoryUI.OnSlotHovered += HandleSlotHovered;
         _inventory.Subscribe(RefreshInventory);
-        _modePresenter.Subscribe(HandleModeChanged);
     }
     
     private void OnDestroy()
@@ -31,7 +29,6 @@ public class InventoryPresenter : MonoBehaviour
         _inventoryUI.OnSlotClicked -= HandleSlotClicked;
         _inventoryUI.OnSlotHovered -= HandleSlotHovered;
         _inventory.Unsubscribe(RefreshInventory);
-        _modePresenter.Unsubscribe(HandleModeChanged);
     }
     
     private void RefreshInventory()
@@ -49,7 +46,7 @@ public class InventoryPresenter : MonoBehaviour
         _eventHandler.OnHoverSlot(slot);
     }
     
-    private void HandleModeChanged(EInventoryMode mode)
+    public void HandleModeChanged(EInventoryMode mode)
     {
         if (_handlerDict.TryGetValue(mode, out var handler))
         {

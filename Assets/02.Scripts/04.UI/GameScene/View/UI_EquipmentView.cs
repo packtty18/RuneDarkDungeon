@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_EquipmentView : UI_Base
+public class UI_EquipmentView : PUBase
 {
     [Header("슬롯 연결")]
     [SerializeField] private SerializableDictionary<ESkillSlot, UI_Slot> _slots;
@@ -14,7 +14,7 @@ public class UI_EquipmentView : UI_Base
     public event Action<ESkillSlot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
     
-    private void Awake()
+    protected override void OnInit()
     {
         _slotDict = new();
         foreach (var pair in _slots)

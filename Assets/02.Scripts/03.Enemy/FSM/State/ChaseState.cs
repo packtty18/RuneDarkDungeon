@@ -10,79 +10,27 @@ public class ChaseState : EnemyState
     {
         base.Enter();
         controller.Move.ResumeAgent();
-        
-        controller.Anim.SetBool(AnimatorController.s_moveBool, true);
+        controller.Move.SetAbleToRatate(true);
+        controller.Anim.SetBool(EnemyAnimator.s_moveBool, true);
+        controller.SetConstraintsYPosition(false);
     }
 
     public override void Tick(float deltaTime)
     {
-        switch(controller.Stat.EnemyType)
+        StateTransition transition = controller.Behavior.UpdateChase();
+
+        if (transition.ShouldTransition)
         {
-            case EEnemyType.Elite:
-                EliteChase();
-                break;
-            case EEnemyType.Boss:
-                BossChase();
-                break;
-            default:
-                CommonChase();
-                break;
+            controller.FSM.ChangeState(transition.NextState);
         }
     }
 
     public override void Exit()
     {
         base.Exit();
-        controller.Move.StopMove();
-        controller.Anim.SetBool(AnimatorController.s_moveBool, false);
-    }
-
-
-    public void CommonChase()
-    {
-        controller.Move.SetTarget(controller.Target);
-        controller.Move.StartMove();
-
-        if (!controller.IsTargetExist())
-        {
-            controller.FSM.ChangeState(EEnemyState.Idle);
-            return;
-        }
-
-        float attackRange = controller.Stat.GetValue(EEnemyValueFloat.AttackRange).Value;
-        if (controller.IsTargetInRange(attackRange))
-        {
-            controller.FSM.ChangeState(EEnemyState.Attack);
-        }
-    }
-
-    public void EliteChase()
-    {
-        controller.Move.SetTarget(controller.Target);
-        controller.Move.StartMove();
-
-        if (!controller.IsTargetExist())
-        {
-            controller.FSM.ChangeState(EEnemyState.Idle);
-            return;
-        }
-
-        float chargeRange = controller.Stat.GetValue(EEnemyValueFloat.ChargeRange).Value;
-        if (controller.Stat.CanCharge && controller.IsTargetInRange(chargeRange))
-        {
-            controller.FSM.ChangeState(EEnemyState.Charge);
-        }
-
-
-        float attackRange = controller.Stat.GetValue(EEnemyValueFloat.AttackRange).Value;
-        if (controller.IsTargetInRange(attackRange))
-        {
-            controller.FSM.ChangeState(EEnemyState.Attack);
-        }
-    }
-
-    public void BossChase()
-    {
-
+        controller.SetConstraintsYPosition(true);
+        controller.Move.SetAbleToRatate(false);
+        controller.Move.PauseAgent();
+        controller.Anim.SetBool(EnemyAnimator.s_moveBool, false);
     }
 }
