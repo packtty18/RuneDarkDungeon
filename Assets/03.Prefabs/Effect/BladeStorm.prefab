@@ -101,14 +101,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db9a7b88f9f5014f80d4fdf48b1a3d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BladeStormSkill
-  _damage: 100
+  _damage:
+    _pairs:
+    - Key: 0
+      Value:
+        Min: 10
+        Max: 20
+    - Key: 1
+      Value:
+        Min: 15
+        Max: 30
+    - Key: 2
+      Value:
+        Min: 30
+        Max: 50
+    - Key: 3
+      Value:
+        Min: 80
+        Max: 120
   _lifeTime: 3
   _dotDealer: {fileID: -5581487237972998269}
-  _interval: 0.25
+  _interval: 0.4
   _uniqueScale: 2
   _scaleDuration: 0.75
   _ease: 25
-  _pullForce: 2
+  _pullForce: 0.5
 --- !u!114 &822449522075036830
 MonoBehaviour:
   m_ObjectHideFlags: 0

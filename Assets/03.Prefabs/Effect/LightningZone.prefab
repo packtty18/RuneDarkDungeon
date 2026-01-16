@@ -53,11 +53,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a7b3cc2f0e62d46bec0dd19dce784e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightningZoneSkill
-  _damage: 100
+  _damage:
+    _pairs:
+    - Key: 0
+      Value:
+        Min: 3
+        Max: 9
+    - Key: 1
+      Value:
+        Min: 12
+        Max: 18
+    - Key: 2
+      Value:
+        Min: 30
+        Max: 40
+    - Key: 3
+      Value:
+        Min: 40
+        Max: 50
   _lifeTime: 2
   _dotDealer: {fileID: 6554637292936903847}
   _interval: 0.25
   _finalEffectPrefab: {fileID: 9136232383455400168, guid: 37492cdf632531c4bbadf9020ee97963, type: 3}
+  _finalDamage:
+    Min: 180
+    Max: 200
   _offset: {x: 0, y: 0, z: 0.25}
 --- !u!114 &8118179353494630557
 MonoBehaviour:

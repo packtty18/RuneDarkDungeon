@@ -3,7 +3,7 @@ using UnityEngine;
 public class MeteorHit : MonoBehaviour
 {
     [SerializeField] private GameObject _explosionPrefab;
-    [SerializeField] private float _damage;
+    [SerializeField] private RangeData<float> _damage;
     
     private void Awake()
     {
@@ -11,7 +11,7 @@ public class MeteorHit : MonoBehaviour
         
         if (explosion.TryGetComponent(out HitBox hitbox))
         {
-            hitbox.Activate(_damage);
+            hitbox.Activate(_damage.GetRandomValue());
         }
     }
 }

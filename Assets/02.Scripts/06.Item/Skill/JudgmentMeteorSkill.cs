@@ -8,9 +8,10 @@ public class JudgmentMeteorSkill : SkillBase
     
     [Header("레전드 추가 스킬")]
     [SerializeField] private GameObject _finalEffectPrefab;
+    [SerializeField] private RangeData<float> _finalDamage;
     
 #if UNITY_EDITOR
-    void Reset()
+    private void Reset()
     {
         _skillPrefab = GetComponent<DotDealer>();
     }
@@ -20,7 +21,7 @@ public class JudgmentMeteorSkill : SkillBase
     {
         if (_grade < EItemGrade.Unique) return;
         var dotSkill = Instantiate(_skillPrefab, transform);
-        dotSkill.StartDot(_damage, _interval, _lifeTime);
+        dotSkill.StartDot(_damage[grade], _interval, _lifeTime);
     }
 
     private void OnDestroy()
@@ -28,6 +29,6 @@ public class JudgmentMeteorSkill : SkillBase
         if (_grade != EItemGrade.Legendary) return;
         var finalEffect = Instantiate(_finalEffectPrefab, _user.transform.position, Quaternion.identity);
         if (!finalEffect.TryGetComponent<HitBox>(out var hitbox)) return;
-        hitbox.Activate(_damage);
+        hitbox.Activate(_finalDamage.GetRandomValue());
     }
 }

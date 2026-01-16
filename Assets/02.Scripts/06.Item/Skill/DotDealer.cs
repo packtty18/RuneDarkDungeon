@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class DotDealer : MonoBehaviour
 {
-    private float _damage;
+    private RangeData<float> _damage;
     private float _interval;
     private float _duration;
     
-    public void StartDot(float damage, float interval, float duration)
+    public void StartDot(RangeData<float> damage, float interval, float duration)
     {
         _damage = damage;
         _interval = interval;
@@ -24,7 +24,7 @@ public class DotDealer : MonoBehaviour
         
         while (timer < _duration)
         {
-            hitbox.Activate(_damage);
+            hitbox.Activate(_damage.GetRandomValue());
             yield return waitTick;
             timer += _interval;
         }
