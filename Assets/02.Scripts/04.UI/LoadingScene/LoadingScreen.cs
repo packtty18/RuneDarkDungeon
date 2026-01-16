@@ -1,7 +1,8 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
+using static UnityEngine.Rendering.DebugUI;
 
 public class LoadingScreen : MonoBehaviour
 {
@@ -13,10 +14,18 @@ public class LoadingScreen : MonoBehaviour
 
     private void Start()
     {
+        Initialized();
+
         var sceneLoadManager = SceneLoadManager.Instance;
         sceneLoadManager.OnSceneLoadProgress += SetProgress;
         sceneLoadManager.LoadTargetScene();
         SetLoadingTips();
+    }
+
+    private void Initialized()
+    {
+        _progressBar.value = 0f;
+        _progressText.text = $"Loading... 0%";
     }
     public void SetProgress(float progress)
     {
@@ -27,7 +36,7 @@ public class LoadingScreen : MonoBehaviour
             _progressBar.DOValue(_targetProgress, 0.1f);
         }   
         if (_progressText != null)
-            _progressText.text = $"{Mathf.RoundToInt(_targetProgress * 100f)}%";
+            _progressText.text = $"Loading... {Mathf.RoundToInt(_targetProgress * 100f)}%";
     }
 
     public void SetLoadingTips()
