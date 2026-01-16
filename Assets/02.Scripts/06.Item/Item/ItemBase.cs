@@ -73,8 +73,6 @@ public abstract class ItemBase : PoolableObject
 
         _spawnTime = Time.time;
         _detectDelay = Random.Range(_detectDelayRange.Min, _detectDelayRange.Max);
-        
-        Debug.Log($"{name} Get");
     }
 
     public override void OnDespawn()
@@ -84,8 +82,6 @@ public abstract class ItemBase : PoolableObject
 
         _isAttracting = false;
         base.OnDespawn();
-
-        Debug.Log($"{name} Release");
     }
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -101,8 +97,6 @@ public abstract class ItemBase : PoolableObject
     {
         _isAttracting = true;
         SetPhysics(false);
-
-        Debug.Log($"{name} Attract Start");
 
         _startPosition = transform.position;
         

@@ -93,7 +93,6 @@ public class EnemyStat : SerializedMonoBehaviour
         _floatValues[EEnemyValueFloat.ChargeSpeed].Init(data.chargeSpeed);
         _floatValues[EEnemyValueFloat.ChargeDistance].Init(data.chargeDistance);
         OnStatInitEnd?.Invoke();
-        Debug.Log("[EnemyStat] Initialized");
     }
 
     public IReadOnlyValue<float> GetValue(EEnemyValueFloat type)
@@ -111,13 +110,11 @@ public class EnemyStat : SerializedMonoBehaviour
     public void EnableSuperArmor()
     {
         HasSuperArmor = true;
-        Debug.Log("[EnemyStat] SuperArmor ON");
     }
 
     public void DisableSuperArmor()
     {
         HasSuperArmor = false;
-        Debug.Log("[EnemyStat] SuperArmor OFF");
     }
 
     public void SetActiveCharge(bool enable)

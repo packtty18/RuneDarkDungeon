@@ -7,7 +7,6 @@ public class BillboardUI : MonoBehaviour
     private void Awake()
     {
         _mainCamera = Camera.main;
-        Debug.Log("[WorldUIBillboard] Initialized");
     }
 
     private void LateUpdate()

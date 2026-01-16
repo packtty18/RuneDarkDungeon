@@ -29,7 +29,6 @@ public class EnemyPhase : MonoBehaviour
     {
         if (!HasPhases)
         {
-            Debug.Log($"[{gameObject.name}] Phase 데이터가 없습니다.");
             return;
         }
 
@@ -97,9 +96,8 @@ public class EnemyPhase : MonoBehaviour
         EnterPhase(_currentPhase);
     }
 
-    private void EnterPhase(PhaseDataSO phase)
-    {
-        Debug.Log($"[{gameObject.name}] {phase.PhaseName} 진입!");
+    private void EnterPhase(PhaseDataSO phase) 
+    { 
 
         foreach (var buff in phase.BuffsToApply)
         {

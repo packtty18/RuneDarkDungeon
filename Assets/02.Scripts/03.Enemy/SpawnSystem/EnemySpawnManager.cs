@@ -97,7 +97,7 @@ public class EnemySpawnManager : SerializedMonoBehaviour
             _aliveEnemyCount++;
 
             //적설정
-            enemy.transform.position = spawner.transform.position;
+            //enemy.transform.position = spawner.transform.position;
             enemy.OnDead.Subscribe(HandleEnemyDead);
             enemy.SetTarget(GetTarget());
             enemy.Init();
@@ -105,7 +105,7 @@ public class EnemySpawnManager : SerializedMonoBehaviour
             _list.Add(enemy);
         }
 
-        Debug.Log($"[SpawnManager] 스폰된 적 : {_aliveEnemyCount}");
+        
     }
 
     private Transform GetTarget()

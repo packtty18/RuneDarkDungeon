@@ -73,8 +73,6 @@ public class EnemyController : PoolableObject, IDamageable
 
         _fsm = new EnemyStateMachine(this);
     }
-
-
     public void SetConstraintsYPosition(bool enable)
     {
         if (enable)
@@ -163,8 +161,6 @@ public class EnemyController : PoolableObject, IDamageable
     }
     public override void OnSpawn()
     {
-        base.OnSpawn();
-
         if (BattleManager.Instance != null)
         {
             BattleManager.Instance.OnBattleStateChanged.Subscribe(OnBattleStateChanged);
@@ -217,8 +213,6 @@ public class EnemyController : PoolableObject, IDamageable
 
         _move.SetPaused(paused);
         _anim.SetAnimSpeed(paused ? 0f : 1f);
-
-        Debug.Log($"[Enemy] Pause={paused}");
     }
 
     #endregion
@@ -292,8 +286,6 @@ public class EnemyController : PoolableObject, IDamageable
         {
             HandleDamaged();
         }
-
-        Debug.Log($"{gameObject.name} 피격, {data.AttackId}, {data.HitDirection}, {dir}");
     }
 
     private int DirectionConvert( Vector3 hitDirection)
@@ -334,7 +326,6 @@ public class EnemyController : PoolableObject, IDamageable
     [Button]
     public void HitRecover()
     {
-        Debug.Log($"[HitRecover] frame:{Time.frameCount}, state:{FSM.CurrentState}");
         FSM.ChangeState(EEnemyState.Idle);
         _anim.SetTrigger(EnemyAnimator.s_resetTrigger);
     }

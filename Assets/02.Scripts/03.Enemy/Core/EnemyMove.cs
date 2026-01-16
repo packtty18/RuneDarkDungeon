@@ -46,16 +46,12 @@ public class EnemyMove : MonoBehaviour
         if (_agent == null)
         {
             _agent = GetComponent<NavMeshAgent>();
-            Debug.Log("EnemyMove :Agent Not Exist", this);
         }
 
         SetAgentSetting();
-        EnableAgent();
 
         _isPaused = false;
         _target = null;
-
-        Debug.Log("[EnemyMove] Initialized", this);
     }
 
     public void MoveByDirection(Vector3 direction, float speed)
@@ -78,7 +74,6 @@ public class EnemyMove : MonoBehaviour
     public void SetTarget(Transform target)
     {
         _target = target;
-        Debug.Log("[EnemyMove] 타겟 지정", this);
     }
 
 
@@ -91,7 +86,6 @@ public class EnemyMove : MonoBehaviour
         EnableAgent();
         _agent.SetDestination(_target.position);
 
-        Debug.Log("[EnemyMove] Move 시작", this);
     }
 
     [Button, ShowIf(nameof(_onTest))]
@@ -101,7 +95,6 @@ public class EnemyMove : MonoBehaviour
             return;
 
         _agent.ResetPath();
-        Debug.Log("[EnemyMove] Move 종료", this);
     }
     public void SetPaused(bool paused)
     {
@@ -124,8 +117,6 @@ public class EnemyMove : MonoBehaviour
         _isPaused = true;
 
         DisableAgent();
-
-        Debug.Log("[EnemyMove] 에이전트 비활성화", this);
     }
 
     [Button, ShowIf(nameof(_onTest))]
@@ -140,8 +131,6 @@ public class EnemyMove : MonoBehaviour
         {
             EnableAgent();
         }
-
-        Debug.Log("[EnemyMove] 에이전트 재활성화", this);
     }
 
     [Button, ShowIf(nameof(_onTest))]
@@ -152,8 +141,6 @@ public class EnemyMove : MonoBehaviour
 
         _isPaused = false;
         _target = null;
-
-        Debug.Log("[EnemyMove] 리셋", this);
     }
 
     private void RotateToTarget()
@@ -185,6 +172,7 @@ public class EnemyMove : MonoBehaviour
 
         _agent.enabled = true;
         _agent.Warp(transform.position);
+        _canRotate = false;
     }
 
     private void DisableAgent()
@@ -194,5 +182,6 @@ public class EnemyMove : MonoBehaviour
 
         _agent.ResetPath();
         _agent.enabled = false;
+        _canRotate = true;
     }
 }
