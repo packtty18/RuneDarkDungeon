@@ -6,15 +6,16 @@ using Random = UnityEngine.Random;
 public class Forge : IForge
 {
     private readonly List<ItemData> _items = new();
-    public IReadOnlyList<ItemData> Items => _items;
+    private ItemData _baseItem;
+    private UpgradeData _upgradeData = UpgradeData.Empty;
     
+    public IReadOnlyList<ItemData> Items => _items;
+    public ItemData BaseItem => _baseItem;
+    public UpgradeData UpgradeData => _upgradeData;
+
     private readonly ItemUpgradeDataSO _upgradeDB;
     private readonly ItemFactory _itemFactory;
     
-    private ItemData _baseItem;
-    private UpgradeData _upgradeData = UpgradeData.Empty;
-    public UpgradeData UpgradeData => _upgradeData;
-
     private readonly SafeEvent _onChanged = new();
 
     public Forge(ItemFactory itemFactory, ItemUpgradeDataSO upgradeDB)
@@ -69,7 +70,7 @@ public class Forge : IForge
         item = null;
         if (!IsFull || !currency.TryConsume(_upgradeData.Cost)) return false;
 
-        if (Random.value < _upgradeData.Rate) return false;
+        if (_upgradeData.Rate < Random.value) return false;
         
         item = _itemFactory.CreateUpgradedItem(_baseItem);
         _items.Clear();

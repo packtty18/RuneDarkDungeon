@@ -64,6 +64,7 @@ public class UpgradePresenter : MonoBehaviour
         if (!_forge.Upgrade(_currency, out var item))
         {
             _failed.Show();
+            _forge.Notify();
             return;
         }
 

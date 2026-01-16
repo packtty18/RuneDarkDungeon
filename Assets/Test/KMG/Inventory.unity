@@ -685,15 +685,21 @@ MonoBehaviour:
     - _id: 0
       _grade: 2
     - _id: 0
-      _grade: 1
+      _grade: 2
     - _id: 0
-      _grade: 1
+      _grade: 2
     - _id: 0
-      _grade: 0
+      _grade: 2
     - _id: 0
-      _grade: 0
+      _grade: 2
     - _id: 0
-      _grade: 0
+      _grade: 2
+    - _id: 0
+      _grade: 2
+    - _id: 0
+      _grade: 2
+    - _id: 0
+      _grade: 2
   _goldData:
     _amount: 500
   _equipment:
@@ -3862,6 +3868,17 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &1488886446 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7993688076817047423, guid: 2d063a2ff95bde64897c9fc9fb0ac85e, type: 3}
+  m_PrefabInstance: {fileID: 999146717}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9b43dafa207a6841966e59754c2296e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_Slot
 --- !u!1 &1496125948
 GameObject:
   m_ObjectHideFlags: 0
@@ -7010,11 +7027,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca6315dd439f7b14b991d307c73a98fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_UpgradeFilter
+  _frameDB: {fileID: 11400000, guid: a85cfe4de07d67e4d9c683d7fbb63416, type: 2}
   _costTextUI: {fileID: 857399570}
   _rateTextUI: {fileID: 2140572145928285997}
-  _buttonImage: {fileID: 336987383}
-  _availableSprite: {fileID: 21300000, guid: 188139d5f94d9a145a29082719992c91, type: 3}
-  _unavailableSprite: {fileID: 21300000, guid: 0c18b6f265645b747b80a4aacfad5be3, type: 3}
+  _buttonImage: {fileID: 336987382}
+  _resultSlot: {fileID: 1488886446}
 --- !u!114 &5757155410891264138
 MonoBehaviour:
   m_ObjectHideFlags: 0
