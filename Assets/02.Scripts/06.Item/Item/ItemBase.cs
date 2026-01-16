@@ -102,7 +102,7 @@ public abstract class ItemBase : PoolableObject
 
         _startPosition = transform.position;
         
-        Vector3 midPoint = (_startPosition + _controlPosition) / 2f;
+        Vector3 midPoint = (_startPosition + _target.position) / 2f;
         Vector3 randomOffset = Random.insideUnitSphere;
         randomOffset.y = Mathf.Abs(randomOffset.y);
         
