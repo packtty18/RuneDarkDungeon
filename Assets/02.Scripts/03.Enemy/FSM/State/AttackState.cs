@@ -60,8 +60,8 @@ public class AttackState : EnemyState
         _isAttacking = true;
         _cooldownTimer = controller.Stat.GetValue(EEnemyValueFloat.AttackCooldown).Value;
 
-        controller.Anim.SetInt(AnimatorController.s_attackIdInt, attackId);
-        controller.Anim.SetTrigger(AnimatorController.s_attackTrigger);
+        controller.Anim.SetInt(EnemyAnimator.s_attackIdInt, attackId);
+        controller.Anim.SetTrigger(EnemyAnimator.s_attackTrigger);
 
         controller.Behavior.OnAttackStart();
     }

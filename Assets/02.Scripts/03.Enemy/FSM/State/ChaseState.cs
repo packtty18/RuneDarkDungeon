@@ -10,7 +10,7 @@ public class ChaseState : EnemyState
     {
         base.Enter();
         controller.Move.ResumeAgent();
-        controller.Anim.SetBool(AnimatorController.s_moveBool, true);
+        controller.Anim.SetBool(EnemyAnimator.s_moveBool, true);
         controller.SetConstraintsYPosition(false);
     }
 
@@ -29,6 +29,6 @@ public class ChaseState : EnemyState
         base.Exit();
         controller.SetConstraintsYPosition(true);
         controller.Move.PauseAgent();
-        controller.Anim.SetBool(AnimatorController.s_moveBool, false);
+        controller.Anim.SetBool(EnemyAnimator.s_moveBool, false);
     }
 }

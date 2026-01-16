@@ -16,8 +16,8 @@ public class ChargeState : EnemyState
         SetDestination();
 
         controller.EnablePhysics(false);
-        controller.Anim.SetBool(AnimatorController.s_moveBool, true);
-        controller.Anim.SetBool(AnimatorController.s_chargeBool, true);
+        controller.Anim.SetBool(EnemyAnimator.s_moveBool, true);
+        controller.Anim.SetBool(EnemyAnimator.s_chargeBool, true);
 
         if (controller.Stat.EnemyType != EEnemyType.Boss)
         {
@@ -45,7 +45,7 @@ public class ChargeState : EnemyState
         {
             _chargeCount++;
 
-            bool isPhase3 = controller.PhaseController != null && controller.PhaseController.CurrentPhaseIndex >= 2;
+            bool isPhase3 = controller.Phase != null && controller.Phase.CurrentPhaseIndex >= 2;
             if (controller.Stat.EnemyType == EEnemyType.Boss && isPhase3 && _chargeCount < 3)
             {
                 SetDestination();
@@ -62,8 +62,8 @@ public class ChargeState : EnemyState
         {
             controller.Stat.DisableSuperArmor();
         }
-        controller.Anim.SetBool(AnimatorController.s_moveBool, false);
-        controller.Anim.SetBool(AnimatorController.s_chargeBool, false);
+        controller.Anim.SetBool(EnemyAnimator.s_moveBool, false);
+        controller.Anim.SetBool(EnemyAnimator.s_chargeBool, false);
         controller.Attack.EndCharge();
         controller.EnablePhysics(true);
         Debug.Log("[DashState] Exit → Chase");

@@ -18,12 +18,12 @@ public class EnemyController : PoolableObject, IDamageable
     [ShowInInspector] private IEnemyBehavior _behavior;
     [ShowInInspector] private EnemyStateMachine _fsm;
 
-    [SerializeField] private EnemyPhaseController _phaseController;
+    [SerializeField] private EnemyPhase _phase;
     [SerializeField] private EnemyMove _move;
     [SerializeField] private EnemyAttack _attack;
     [SerializeField] private EnemyHealth _health;
     [SerializeField] private EnemyStat _stat;
-    [SerializeField] private AnimatorController _anim;
+    [SerializeField] private EnemyAnimator _anim;
     [SerializeField] private EnemyBuff _buff;
     
     
@@ -35,16 +35,16 @@ public class EnemyController : PoolableObject, IDamageable
 
     public ETeamType Team => _team;
     public EnemyStateMachine FSM => _fsm;
-    public EnemyPhaseController PhaseController => _phaseController;
+    
     public IEnemyBehavior Behavior => _behavior; 
 
     public EnemyMove Move => _move;
     public EnemyAttack Attack => _attack;
     public EnemyHealth Health => _health;
     public EnemyStat Stat => _stat;
-    public AnimatorController Anim => _anim;
+    public EnemyAnimator Anim => _anim;
     public EnemyBuff Buff => _buff;
-
+    public EnemyPhase Phase => _phase;
     public bool Pause => _paused;
     public bool Wait => _wait;
 
@@ -57,10 +57,10 @@ public class EnemyController : PoolableObject, IDamageable
         _health = GetComponent<EnemyHealth>();
         _move = GetComponent<EnemyMove>();
         _attack = GetComponent<EnemyAttack>();
-        _anim = GetComponent<AnimatorController>();
+        _anim = GetComponent<EnemyAnimator>();
         _buff= GetComponent<EnemyBuff>();
         _physics = GetComponent<Rigidbody>();
-        _phaseController = GetComponent<EnemyPhaseController>();
+        _phase = GetComponent<EnemyPhase>();
 
         _stat.Init();
         _health.Init();
@@ -71,7 +71,7 @@ public class EnemyController : PoolableObject, IDamageable
 
         _behavior = CreateBehavior(_stat.EnemyType);
 
-        _phaseController.Init();
+        _phase.Init();
 
         _fsm = new EnemyStateMachine(this);
     }
@@ -136,7 +136,7 @@ public class EnemyController : PoolableObject, IDamageable
         _buff.Init();
 
         _behavior?.Initialize(this);
-        _phaseController?.Reset();
+        _phase?.Reset();
 
         _fsm.Reset();
         _fsm.ChangeState(EEnemyState.Idle);
@@ -276,10 +276,10 @@ public class EnemyController : PoolableObject, IDamageable
             return;
         }
 
-        _phaseController?.CheckPhaseTransition();
+        _phase?.CheckPhaseTransition();
 
         int dir = DirectionConvert(data.HitDirection);
-        Anim.SetInt(AnimatorController.s_hitDirInt, dir);
+        Anim.SetInt(EnemyAnimator.s_hitDirInt, dir);
 
         if (_health.IsDead)
         {
@@ -333,7 +333,7 @@ public class EnemyController : PoolableObject, IDamageable
     {
         Debug.Log($"[HitRecover] frame:{Time.frameCount}, state:{FSM.CurrentState}");
         FSM.ChangeState(EEnemyState.Idle);
-        _anim.SetTrigger(AnimatorController.s_resetTrigger);
+        _anim.SetTrigger(EnemyAnimator.s_resetTrigger);
     }
 
     public void OnBeginAttack()

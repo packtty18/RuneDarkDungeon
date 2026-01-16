@@ -13,7 +13,7 @@ public class SummonState : EnemyState
         controller.Attack.StartSummon();
         BossAttack attack = controller.Attack as BossAttack;
         attack.TargetSpawner.BossSummon();
-        controller.Anim.SetTrigger(AnimatorController.s_summonTrigger);
+        controller.Anim.SetTrigger(EnemyAnimator.s_summonTrigger);
         cooldownTimer = 3f;
     }
 

@@ -15,7 +15,7 @@ public class BuffState : EnemyState
         BossAttack attack = controller.Attack as BossAttack;
         //버프 오브젝트 생성 => 닿는 적들은 버프
         attack.InstantBuff();
-        controller.Anim.SetTrigger(AnimatorController.s_buffTrigger);
+        controller.Anim.SetTrigger(EnemyAnimator.s_buffTrigger);
         cooldownTimer = 3f;
     }
 

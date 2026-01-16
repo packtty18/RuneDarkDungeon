@@ -2,7 +2,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 //상속할수도
-public class AnimatorController : MonoBehaviour
+public class EnemyAnimator : MonoBehaviour
 {
     public static string s_attackTrigger = "Attack";
     public static string s_attackIdInt = "AttackID";

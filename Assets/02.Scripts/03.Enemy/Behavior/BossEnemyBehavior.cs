@@ -61,14 +61,14 @@ public class BossEnemyBehavior : EliteEnemyBehavior
     //페이즈2돌입시 소환과 버프 사용 가능
     public override bool CanSummon()
     {
-        EnemyPhaseController phaseController = _controller.PhaseController;
+        EnemyPhase phaseController = _controller.Phase;
         bool isPhase2OrAbove = phaseController != null && phaseController.CurrentPhaseIndex >= 1;
         return _controller.Stat.CanSummon && isPhase2OrAbove;
     }
 
     public override bool CanBuff()
     {
-        EnemyPhaseController phaseController = _controller.PhaseController;
+        EnemyPhase phaseController = _controller.Phase;
         bool isPhase2OrAbove = phaseController != null && phaseController.CurrentPhaseIndex >= 1;
         return _controller.Stat.CanBuff && isPhase2OrAbove;
     }

@@ -2,7 +2,7 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyPhaseController : MonoBehaviour
+public class EnemyPhase : MonoBehaviour
 {
     [Title("Phase 설정")]
     [SerializeField, InfoBox("Phase 데이터를 순서대로 등록하세요")]
