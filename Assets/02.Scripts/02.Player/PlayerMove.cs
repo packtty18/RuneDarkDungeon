@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -21,12 +22,14 @@ public class PlayerMove : MonoBehaviour
     private float _groundCheckOffset = 0.1f;
     [Header("그라운드 감지")]
     [SerializeField] private LayerMask _groundLayers;
+    [SerializeField] private LayerMask _walkableLayer;
+
 
     [Header("속도")]
     [SerializeField] private float _runSpeedMultiplier = 2f;
     [SerializeField] private float _speedChangeRate = 5;
 
-    private float _speedOffset = 0.1f;
+    private float _speedOffset = 0.2f;
     private float _currentSpeed;
     private float _walkSpeed;
     private float _runSpeed;
@@ -40,7 +43,7 @@ public class PlayerMove : MonoBehaviour
     private int _currentJumpCount;
     private float _jumpVelocity;
     private bool _jumpRequested = false;
-    private float _landOffset = 0.5f;
+    private float _landOffset = 0.7f;
     private bool _isJumping = false;
 
     private float _dodgeSpeed = 15f;
@@ -196,12 +199,13 @@ public class PlayerMove : MonoBehaviour
                 _verticalVelocity = _jumpVelocity;
                 _currentJumpCount++;
                 _jumpRequested = true;
-            }       
+            }
         }
-
+        Debug.Log(_verticalVelocity);
+        Debug.Log(IsGrounded);
         if (_currentJumpCount > 0 && _verticalVelocity < 0)
         {
-            if (GroundCheckInDirection(Vector3.down, _landOffset))
+            if (GroundCheckInDirection(Vector3.down, _landOffset, _walkableLayer))
             {
                 _animator.SetJump(false);
             }
@@ -319,15 +323,16 @@ public class PlayerMove : MonoBehaviour
     {
         float currentSpeed = 0;
         float acceleration = 100f; // 가속도
+        _controller.excludeLayers = _controller.excludeLayers | (_walkableLayer & ~_groundLayers);
 
-        while (!IsGrounded)
+        while (!GroundCheckInDirection(Vector3.down, 0, _groundLayers))
         {
             currentSpeed = Mathf.MoveTowards(currentSpeed, speed, acceleration * Time.deltaTime);
             _controller.Move(direction * speed * Time.deltaTime);
-
+            Debug.Log("adf");
             yield return null;
         }
-
+        _controller.excludeLayers = _controller.excludeLayers & ~_walkableLayer;
         OnDashEnd?.Invoke();
     }
 
@@ -340,7 +345,7 @@ public class PlayerMove : MonoBehaviour
         IsGrounded = _verticalVelocity <= 0 && Physics.CheckSphere(
             spherePosition,
             _groundCheckRadius,
-            _groundLayers,
+            _walkableLayer,
             QueryTriggerInteraction.Ignore
         );
 
@@ -349,6 +354,8 @@ public class PlayerMove : MonoBehaviour
         {
             IsJumping = false;
             _currentJumpCount = 0;
+            //_animator.SetJump(false);
+
         }
     }
 
@@ -360,14 +367,14 @@ public class PlayerMove : MonoBehaviour
             transform.position.z);
     }
 
-    public bool GroundCheckInDirection(Vector3 direction, float distance)
+    public bool GroundCheckInDirection(Vector3 direction, float distance, LayerMask layer)
     {
         Vector3 spherePosition = GetSpherePosition() + direction * distance;
 
          return Physics.CheckSphere(
                 spherePosition,
                 _groundCheckRadius,
-                _groundLayers,
+                layer,
                 QueryTriggerInteraction.Ignore
                 );
     }

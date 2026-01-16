@@ -2803,7 +2803,7 @@ GameObject:
   - component: {fileID: 7945708795833071493}
   - component: {fileID: 2030553530966688259}
   - component: {fileID: 2437778985582678411}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2869,7 +2869,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: aaa573eaf80249d46ad28c6a52e36478, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -2955,6 +2955,9 @@ MonoBehaviour:
   _groundLayers:
     serializedVersion: 2
     m_Bits: 256
+  _walkableLayer:
+    serializedVersion: 2
+    m_Bits: 401
   _runSpeedMultiplier: 2
   _speedChangeRate: 5
   _maxJumpCount: 2
@@ -3039,23 +3042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915db7ee9fe7265429ae2bdf2bc14267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSkillCaster
-  _hitboxController: {fileID: 0}
-  _equipment:
-    _items:
-      _pairs:
-      - Key: 1
-        Value:
-          _id: 1
-          _grade: 0
-      - Key: 2
-        Value:
-          _id: 0
-          _grade: 0
-      - Key: 3
-        Value:
-          _id: 2
-          _grade: 0
-  DB: {fileID: 11400000, guid: 94c151185365da44fab1ee6851781f21, type: 2}
+  _hitboxController: {fileID: 3872139809204004901}
 --- !u!114 &2437778985582678411
 MonoBehaviour:
   m_ObjectHideFlags: 0

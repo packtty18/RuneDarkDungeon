@@ -61,7 +61,6 @@ public class PlayerAttack : MonoBehaviour
         _spawner = GetComponent<GroundEffectSpawner>();
 
         _playerRenderers = GetComponentsInChildren<Renderer>();
-
     }
     private void Start()
     {
@@ -246,7 +245,9 @@ public class PlayerAttack : MonoBehaviour
 
         while (t < time)
         {
-            if (_attackBuffered)
+            if (_attackBuffered || 
+                (_currentCombo >= _attackConfig.MaxPhaseCount - 1 
+                && InputManager.Instance.GetKey(EGameKeyType.Attack)))
             {
                 _attackBuffered = false;
                 GoNextCombo();
