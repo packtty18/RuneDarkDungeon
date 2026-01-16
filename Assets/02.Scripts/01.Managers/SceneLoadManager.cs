@@ -64,6 +64,7 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
         }
         _nextSceneData = dataSO;
         //로딩씬 전환
+        CursorManager.Instance.SetCursorLock(true);
         UnityEngine.SceneManagement.SceneManager.LoadScene(_loadingSceneName);
         _sceneType = ESceneType.Loading;
     }
@@ -198,6 +199,7 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
         OnSceneLoadProgress?.Invoke(_loadingProgress);
 
         // 씬 활성화
+        CursorManager.Instance.SetCursorLock(_nextSceneData.IsCursorLocked);
         asyncLoad.allowSceneActivation = true;
 
         // 씬이 완전히 로드될 때까지 대기
