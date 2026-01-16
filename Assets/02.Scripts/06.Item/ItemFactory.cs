@@ -32,4 +32,12 @@ public class ItemFactory
 
         return newItem;
     }
+
+    public ItemData CreateRandomItem(EItemGrade grade)
+    {
+        int id = Random.Range(0, _itemDB.Count);
+        ItemData newItem = new ItemData(id, grade);
+        SetItemInfo(newItem);
+        return newItem;
+    }
 }

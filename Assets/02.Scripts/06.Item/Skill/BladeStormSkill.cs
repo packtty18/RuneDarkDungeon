@@ -16,6 +16,12 @@ public class BladeStormSkill : SkillBase
     [Header("레전드 추가 스킬")]
     [SerializeField] private float _pullForce = 1f;
     
+#if UNITY_EDITOR
+    void Reset()
+    {
+        _dotDealer = GetComponent<DotDealer>();
+    }
+#endif
     
     protected override void ApplyEffect(GameObject user, EItemGrade grade)
     {

@@ -64,18 +64,8 @@ public struct UpgradeData
 }
 
 [Serializable]
-public struct SlotData
+public struct RangeData<T>
 {
-    public ItemData Item;
-    public ItemSO Info;
-    public Color Color;
-
-    public SlotData(ItemData item, ItemSO info, Color color)
-    {
-        Item = item;
-        Info = info;
-        Color = color;
-    }
-
-    public static SlotData Empty => new SlotData(null, null, Color.white);
+    public T Min;
+    public T Max;
 }

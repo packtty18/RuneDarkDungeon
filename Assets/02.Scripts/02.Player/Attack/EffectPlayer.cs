@@ -1,9 +1,16 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class EffectPlayer : MonoBehaviour
 {
     private ParticleSystem[] _particles;
+
+    public event Action OnPlay;
+    public event Action<float> OnAttack;
+
+    [SerializeField]
+    private float _playTime = 2;
     void Awake()
     {
         _particles = GetComponentsInChildren<ParticleSystem>();
@@ -19,11 +26,22 @@ public class EffectPlayer : MonoBehaviour
 
     public void Play()
     {
-        Debug.Log($"Play! : {gameObject.name}{_particles.Length}");
         foreach (var particle in _particles)
         {
             particle.Play();
         }
+        OnPlay?.Invoke();
+    }
+
+    public void PlayDealEffectWorldPosition(Transform parent, Vector3 position, float damage)
+    {
+        gameObject.transform.SetParent(null);
+        gameObject.transform.position = position;
+
+        OnAttack?.Invoke(damage);
+        Play();
+        
+        StartCoroutine(ReturnTransform(parent, _playTime));
     }
 
     public void PlayAt(Transform parent, Transform transform)
@@ -34,7 +52,7 @@ public class EffectPlayer : MonoBehaviour
         Play();
         gameObject.transform.SetParent(null);
 
-        StartCoroutine(ReturnTransform(parent));
+        StartCoroutine(ReturnTransform(parent, _playTime));
     }
 
     public bool PlayEnd()
@@ -48,14 +66,9 @@ public class EffectPlayer : MonoBehaviour
         }
         return true;
     }
-
-    public IEnumerator ReturnTransform(Transform parent)
+    public IEnumerator ReturnTransform(Transform parent, float time)
     {
-        while (!PlayEnd())
-        {
-            yield return null;
-        }
-
+        yield return new WaitForSeconds(time);
         gameObject.transform.SetParent(parent);
         yield return null;
     }

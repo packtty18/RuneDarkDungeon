@@ -423,7 +423,7 @@ Transform:
   m_GameObject: {fileID: 888192294759829803}
   serializedVersion: 2
   m_LocalRotation: {x: 1, y: -0.000000014901159, z: -0.000000059604638, w: -0.000000104308114}
-  m_LocalPosition: {x: 0.7996321, y: 1.3609399, z: -0.034173813}
+  m_LocalPosition: {x: 0.7996321, y: 1.3609399, z: -0.17317382}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2217,7 +2217,7 @@ Transform:
   m_GameObject: {fileID: 6115983431937338912}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.139}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2572,7 +2572,7 @@ Transform:
   m_GameObject: {fileID: 7426504877775934507}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: -0.49999997, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 0.848, z: -0}
+  m_LocalPosition: {x: 0, y: 0.859, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2802,6 +2802,7 @@ GameObject:
   - component: {fileID: 275897205288014369}
   - component: {fileID: 7945708795833071493}
   - component: {fileID: 2030553530966688259}
+  - component: {fileID: 2437778985582678411}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2969,7 +2970,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e090d39ff2caf42a1bd5aa4ed78d1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  _slashVFXs: []
   _swordPosition: {fileID: 8229212516764268913}
   _attackConfig: {fileID: 11400000, guid: 1b371a66a71756a40ab75888da217879, type: 2}
   _hitboxController: {fileID: 3872139809204004901}
@@ -3056,6 +3056,22 @@ MonoBehaviour:
           _id: 2
           _grade: 0
   DB: {fileID: 11400000, guid: 94c151185365da44fab1ee6851781f21, type: 2}
+--- !u!114 &2437778985582678411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7897478960710564786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec444bb907e96242b4e4b0c280a5328, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GroundEffectSpawner
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  rayDistance: 10
 --- !u!1 &7900473698873661027
 GameObject:
   m_ObjectHideFlags: 0

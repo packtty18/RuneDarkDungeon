@@ -281,6 +281,12 @@ public class PlayerMove : MonoBehaviour
         _runSpeed = _walkSpeed * _runSpeedMultiplier;
     }
 
+
+    public void KnockBack(Vector3 direction)
+    {
+        _controller.Move(direction);
+    }
+
     #region Dash
     public void StartGroundDash(float dashAngle, float dashSpeed)
     {

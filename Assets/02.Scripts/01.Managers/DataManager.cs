@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataManager : GlobalSingleton<DataManager>, IDataHandler
+public class DataManager : GlobalSingleton<DataManager>, IDataHolder
 {
     private GameData _data = new();
     
