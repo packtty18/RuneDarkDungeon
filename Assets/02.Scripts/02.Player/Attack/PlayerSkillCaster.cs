@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerSkillCaster : MonoBehaviour
@@ -14,9 +12,8 @@ public class PlayerSkillCaster : MonoBehaviour
 
     [SerializeField]
     private HitboxController _hitboxController;
-    [SerializeField] private Equipment _equipment;
+    private IEquipment _equipment;
     private ItemData _currentItem;
-    public ItemDatabaseSO DB;
 
     public event Action<Dictionary<ESkillSlot, float>, Dictionary<ESkillSlot, float>> OnCoolTimeChanged;
 
@@ -41,18 +38,11 @@ public class PlayerSkillCaster : MonoBehaviour
         _stateMachine = GetComponent<PlayerStateMachine>();
         _playerAttack = GetComponent<PlayerAttack>();
         _animator = GetComponent<PlayerAnimator>();
-
-        SetItemInfo(_equipment.Items.Values);
     }
 
-    private void SetItemInfo(IEnumerable<ItemData> items)
+    public void Initialize(IEquipment equipment)
     {
-        foreach (var item in items)
-        {
-            if (item == null) continue;
-            ItemSO info = DB.GetItemInfo(item);
-            item.SetInfo(info);
-        }
+        _equipment = equipment;
     }
 
     private void Update()

@@ -12,19 +12,16 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHolder
     public ICurrency GoldData => _goldData;
     public IEquipment Equipment => _equipment;
     public IForge Forge => _forge;
-    private Inventory _upgradeInventory = new();
-    public IInventory UpgradeInventory => _upgradeInventory;
 
     [SerializeField] private ItemDatabaseSO _itemDB;
     [SerializeField] private ItemUpgradeDataSO _upgradeDB;
     
-    public float NextQ;
-    public float NextE;
-    public float NextR;
-    
     [Header("연결 대상 UI")]
     [SerializeField] private UI_Initializer _initializer;
 
+    [Header("연결 대상 플레이어")]
+    [SerializeField] private PlayerSkillCaster _playerSkillCaster;
+    
     protected override void OnInit()
     {
         ItemFactory itemFactory = new(_itemDB);
@@ -33,34 +30,7 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHolder
         itemFactory.SetItemInfo(Inventory.Items);
         itemFactory.SetItemInfo(Equipment.Items.Values);
         
-        _initializer.Initialize(this);
-    }
-    
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q) && Time.time > NextQ)
-        {
-            Debug.Log("Q 사용");
-            var item = _equipment.GetItem(ESkillSlot.Q);
-            item.Use(gameObject);
-            NextQ = Time.time + item.GetCoolTime();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E) && Time.time > NextE)
-        {
-            Debug.Log("E 사용");
-            var item = _equipment.GetItem(ESkillSlot.E);
-            item.Use(gameObject);
-            NextQ = Time.time + item.GetCoolTime();
-        }
-
-        if (Input.GetKeyDown(KeyCode.R) && Time.time > NextR)
-        {
-            Debug.Log("R 사용");
-            var item = _equipment.GetItem(ESkillSlot.R);
-            item.Use(gameObject);
-            NextQ = Time.time + item.GetCoolTime();
-        }
+        _playerSkillCaster.Initialize(_equipment);
     }
 
     public void Save() { }

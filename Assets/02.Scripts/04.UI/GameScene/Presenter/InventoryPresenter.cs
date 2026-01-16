@@ -59,7 +59,7 @@ public class InventoryPresenter : MonoBehaviour
         {
             _inventoryUI.Hide();
         }
-        else if (mode == EInventoryMode.Normal)
+        else
         {
             _inventoryUI.Show();
         }

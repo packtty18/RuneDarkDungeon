@@ -45,9 +45,10 @@ public class EquipmentPresenter : MonoBehaviour
 
     private void HandleSlotClicked(ESkillSlot slot)
     {
-        var item = _inventoryManager.GetSelectedItem();
+        var item = _inventoryManager.SelectedItem;
         if (item == null) return;
         
+        _inventoryManager.DeselectItem();
         _inventory.Remove(item);
         ItemData oldItem = _equipment.Equip(slot, item);
 
