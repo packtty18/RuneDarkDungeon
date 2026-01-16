@@ -1,10 +1,9 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using DG.Tweening;
 
 [RequireComponent(typeof(UIBasicAnimation))]
-public class ButtonAnimation : MonoBehaviour
+public class ButtonAnimationController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
 
     [Header("Hover Settings")]

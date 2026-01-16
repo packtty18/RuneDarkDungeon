@@ -1,18 +1,32 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SceneTransition : MonoBehaviour
 {
     [SerializeField]
-    private SceneDataSO _TargetScene;
+    private SceneDataSO _targetScene;
+
+    private Button _button;
+
     [SerializeField]
     private float _delay = 0;
 
     private bool _isTransitioning = false;
+
+    private void Start()
+    {
+        TryGetComponent<Button>(out  _button);
+        if (_button != null)
+        {
+            _button.onClick.AddListener(TransitionToScene);
+        }
+
+    }
     public void TransitionToScene()
     {
         if (_isTransitioning) return;
-        if (_TargetScene != null)
+        if (_targetScene != null)
         {
             _isTransitioning = true;
             StartCoroutine(TransitionWithDelay());
@@ -29,7 +43,15 @@ public class SceneTransition : MonoBehaviour
         {
             yield return new WaitForSeconds(_delay);
         }
-        _TargetScene.LoadScene();
+        _targetScene.LoadScene();
+    }
+
+    private void OnDestroy()
+    {
+        if (_button != null)
+        {
+            _button.onClick.RemoveAllListeners();
+        }
     }
 
 }

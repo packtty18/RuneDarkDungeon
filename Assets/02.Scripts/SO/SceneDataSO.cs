@@ -24,6 +24,9 @@ public class SceneDataSO : ScriptableObject
     [Tooltip("씬 타입")]
     [SerializeField] private ESceneType _sceneType = ESceneType.Gameplay;
 
+    [Tooltip("씬 커서 상태")]
+    [SerializeField] private bool _isCursorLocked;
+
     [Tooltip("이 씬을 로드할 때 표시할 로딩 팁")]
     [SerializeField] private string[] _loadingTips;
 
@@ -37,6 +40,8 @@ public class SceneDataSO : ScriptableObject
 
     public float MinimumLoadTime => _minimumLoadTime;
     public ESceneType SceneType => _sceneType;
+
+    public bool IsCursorLocked => _isCursorLocked;
     public string[] LoadingTips => _loadingTips;
 
     #endregion
