@@ -22,7 +22,7 @@ public class DataManager : GlobalSingleton<DataManager>, IDataHolder
         FileIO.Load(_data);
 
         ItemFactory itemFactory = new(_itemDB);
-        _forge = new(itemFactory, _upgradeDB, UpgradeInventory, Inventory, GoldData);
+        _forge = new(itemFactory, _upgradeDB);
         
         itemFactory.SetItemInfo(Inventory.Items);
         itemFactory.SetItemInfo(Equipment.Items.Values);

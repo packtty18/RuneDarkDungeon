@@ -20,13 +20,13 @@ public class UI_Initializer : MonoBehaviour
         Dictionary<EInventoryMode, ISlotEventHandler> inventoryHandlerDict = new()
         {
             { EInventoryMode.Normal, new SelectEventHandler(_inventoryManager) },
-            { EInventoryMode.Upgrade , new RegisterEventHandler(data.Forge) },
+            { EInventoryMode.Upgrade , new RegisterEventHandler(data.Inventory, data.Forge) },
             { EInventoryMode.Equipment, new EquipEventHandler(_inventoryManager) },
             { EInventoryMode.Sell, new SellEventHandler(data.Inventory, data.GoldData, _inventoryManager) },
         };
         
         _inventoryPresenter.Initialize(data.Inventory, inventoryHandlerDict);
-        _upgradePresenter.Initialize(data.UpgradeInventory, data.Forge);
+        _upgradePresenter.Initialize(data.Forge, data.Inventory, data.GoldData);
         _equipmentPresenter.Initialize(data.Equipment, data.Inventory);
         _currencyPresenter.Initialize(data.GoldData);
     }

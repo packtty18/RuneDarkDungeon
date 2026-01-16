@@ -7,33 +7,29 @@ public class UpgradePresenter : MonoBehaviour
     [SerializeField] private UI_UpgradeInfo _upgradeInfoUI;
     [SerializeField] private UI_SlotContainer _inventoryUI;
 
-    private IReadOnlyInventory _upgradeInventory;
     private IForge _forge;
+    private IInventory _inventory;
+    private ICurrency _currency;
     
-    public void Initialize(IReadOnlyInventory upgradeInventory, IForge forge)
+    public void Initialize(IForge forge, IInventory inventory, ICurrency currency)
     {
-        _upgradeInventory = upgradeInventory;
         _forge = forge;
+        _inventory = inventory;
+        _currency = currency;
         
         _upgradeUI.OnSlotClicked += HandleSlotClicked;
-        _upgradeInventory.Subscribe(RefreshView);
-        _forge.Subscribe(RefreshInfo);
+        _forge.Subscribe(Refresh);
     }
 
     private void OnDestroy()
     {
         _upgradeUI.OnSlotClicked -= HandleSlotClicked;
-        _upgradeInventory.Unsubscribe(RefreshView);
-        _forge.Unsubscribe(RefreshInfo);
+        _forge.Unsubscribe(Refresh);
     }
 
-    private void RefreshView()
+    private void Refresh()
     {
-        _upgradeUI.Refresh(_upgradeInventory.Items);
-    }
-
-    private void RefreshInfo()
-    {
+        _upgradeUI.Refresh(_forge.Items);
         _upgradeUI.SetSlotCount(_forge.UpgradeData.Count);
         _upgradeInfoUI.Refresh(_forge.UpgradeData);
         _inventoryUI.RefreshFilter(_forge);
@@ -42,7 +38,9 @@ public class UpgradePresenter : MonoBehaviour
     private void HandleSlotClicked(UI_Slot slot)
     {
         if (slot.IsEmpty) return;
+        _inventory.Add(slot.Item);
         _forge.Unregister(slot.Item);
+        _forge.Notify();
     }
 
     public void HandleModeChanged(EInventoryMode mode)
@@ -50,8 +48,7 @@ public class UpgradePresenter : MonoBehaviour
         if (mode == EInventoryMode.Upgrade)
         {
             _upgradeUI.Show();
-            RefreshView();
-            RefreshInfo();
+            Refresh();
         }
         else
         {
@@ -62,6 +59,8 @@ public class UpgradePresenter : MonoBehaviour
         
     public void Upgrade()
     {
-        _forge.Upgrade();
+        if (!_forge.Upgrade(_currency, out var item)) return;
+        _inventory.Add(item);
+        _forge.Notify();
     }
 }

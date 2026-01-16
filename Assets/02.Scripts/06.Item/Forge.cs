@@ -1,28 +1,25 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Forge : IForge
 {
-    private IInventory _upgradeInventory;
-    private IInventory _inventory;
-    private ICurrency _currency;
-
-    private ItemUpgradeDataSO _upgradeDB;
-    private ItemFactory _itemFactory;
+    private readonly List<ItemData> _items = new();
+    public IReadOnlyList<ItemData> Items => _items;
+    
+    private readonly ItemUpgradeDataSO _upgradeDB;
+    private readonly ItemFactory _itemFactory;
     
     private ItemData _baseItem;
     private UpgradeData _upgradeData = UpgradeData.Empty;
     public UpgradeData UpgradeData => _upgradeData;
 
-    private SafeEvent _onChanged = new();
+    private readonly SafeEvent _onChanged = new();
 
-    public Forge(ItemFactory itemFactory, ItemUpgradeDataSO upgradeDB, IInventory upgradeInventory, IInventory inventory, ICurrency currency)
+    public Forge(ItemFactory itemFactory, ItemUpgradeDataSO upgradeDB)
     {
         _itemFactory = itemFactory;
         _upgradeDB = upgradeDB;
-        _upgradeInventory = upgradeInventory;
-        _inventory = inventory;
-        _currency = currency;
     }
 
     public bool CanRegister(ItemData item)
@@ -32,55 +29,45 @@ public class Forge : IForge
         return _baseItem == null || _baseItem.TypeEquals(item);
     }
     
-    public void Register(ItemData item)
+    public bool TryRegister(ItemData item)
     {
-        if (!CanRegister(item)) return;
+        if (!CanRegister(item)) return false;
 
         if (IsEmpty)
         {
             SetUpgradeData(item);
         }
 
-        _inventory.Remove(item);
-        _upgradeInventory.Add(item);
-
-        Notify();
+        _items.Add(item);
+        return true;
     }
 
     public void Unregister(ItemData item)
     {
-        _upgradeInventory.Remove(item);
-        _inventory.Add(item);
+        _items.Remove(item);
 
         if (IsEmpty)
         {
             ResetUpgradeData();
         }
-
-        Notify();
     }
 
     public void UnregisterAll()
     {
-        foreach (var item in _upgradeInventory.Items)
-        {
-            _inventory.Add(item);
-        }
-
-        _upgradeInventory.Clear();
+        _items.Clear();
         ResetUpgradeData(); 
     }
-
-    public void Upgrade()
+    
+    public bool Upgrade(ICurrency currency, out ItemData item)
     {
-        if (!IsFull || !_currency.TryConsume(_upgradeData.Cost)) return;
+        item = null;
+        if (!IsFull || !currency.TryConsume(_upgradeData.Cost)) return false;
 
-        ItemData newItem = _itemFactory.CreateUpgradedItem(_baseItem);
-        _inventory.Add(newItem);
-        _upgradeInventory.Clear();
+        item = _itemFactory.CreateUpgradedItem(_baseItem);
+        _items.Clear();
 
         ResetUpgradeData();
-        Notify();
+        return true;
     }
 
     private void SetUpgradeData(ItemData item)
@@ -108,11 +95,11 @@ public class Forge : IForge
         _onChanged.Unsubscribe(action);
     }
     
-    private void Notify()
+    public void Notify()
     {
         _onChanged?.Invoke();
     }
 
-    private bool IsFull => _upgradeInventory.Count > 0 && _upgradeInventory.Count == _upgradeData.Count;
-    private bool IsEmpty => _upgradeInventory.Count == 0;
+    private bool IsFull => _items.Count > 0 && _items.Count == _upgradeData.Count;
+    private bool IsEmpty => _items.Count == 0;
 }
