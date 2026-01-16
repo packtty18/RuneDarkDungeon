@@ -72,4 +72,12 @@ public class BossEnemyBehavior : EliteEnemyBehavior
         bool isPhase2OrAbove = phaseController != null && phaseController.CurrentPhaseIndex >= 1;
         return _controller.Stat.CanBuff && isPhase2OrAbove;
     }
+
+    public override void OnAttackStart()
+    {
+    }
+
+    public override void OnAttackFinish()
+    {
+    }
 }

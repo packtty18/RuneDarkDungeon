@@ -1,10 +1,8 @@
-using DG.Tweening.Core.Easing;
+
 using Sirenix.OdinInspector;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+
 
 //전체적인 조작을 담당.
 //State머신에서는 여기에 있는 함수만을 사용함.
@@ -338,6 +336,7 @@ public class EnemyController : PoolableObject, IDamageable
 
     public void OnBeginAttack()
     {
+        _move.SetAbleToRatate(false);
         Attack.OnBeginAttack();
         StartLoopDelay(Attack.CurrentLoopDelay);
     }
@@ -374,11 +373,13 @@ public class EnemyController : PoolableObject, IDamageable
 
     public void OnEndAttack()
     {
+        
         _attack.OnEndAttack();
     }
     public void OnAttackComplete()
     {
         StopLoopDelay();
+        _move.SetAbleToRatate(true);
         Attack.Finish();
 
         if (FSM.CurrentState is AttackState attackState)

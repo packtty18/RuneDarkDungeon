@@ -26,12 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 450081009762039941}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5245809632157512554}
+  m_Father: {fileID: 3879169290518604517}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &5120538710934602087
 SphereCollider:
@@ -52,7 +52,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5120215801059179722
 MonoBehaviour:
@@ -80,8 +80,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3879169290518604517}
-  - component: {fileID: 3368729890361774686}
-  - component: {fileID: 3608102518691412666}
+  - component: {fileID: 3536683674174637688}
+  - component: {fileID: 3995881454501029528}
   m_Layer: 0
   m_Name: MagicMissileExplosion
   m_TagString: Untagged
@@ -102,37 +102,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5245809632157512554}
+  - {fileID: 4213177372986051144}
+  - {fileID: 8816591821889908457}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &3368729890361774686
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1427538609167561288}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &3608102518691412666
+--- !u!114 &3536683674174637688
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,110 +115,98 @@ MonoBehaviour:
   m_GameObject: {fileID: 1427538609167561288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94d146e31664a65418f24612d5aba70c, type: 3}
+  m_Script: {fileID: 11500000, guid: 61714c03e407e294e8ec0ad0f0b36714, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyExplosion
-  _hitboxController: {fileID: 4142781506420305673}
-  _hitPrefab: {fileID: 2646721239070356476, guid: 23e6785df563a5849847869472f0950e, type: 3}
-  _hitboxKey: Main
-  _damage: 20
-  _activeDuration: 1
---- !u!1 &5650437980039941973
-GameObject:
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackObject
+  data: {fileID: 11400000, guid: 3b9080a9fd4b1054e8af9ac30555d5c8, type: 2}
+  _damage: 0
+  _hitBox: {fileID: 5120215801059179722}
+  _initHitbox: 0
+--- !u!114 &3995881454501029528
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5245809632157512554}
-  - component: {fileID: 4142781506420305673}
-  m_Layer: 0
-  m_Name: Hitboxes
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5245809632157512554
-Transform:
+  m_GameObject: {fileID: 1427538609167561288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef3af6d2e0e395b4b915cd3b543d7a74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TimedTrigger
+  delay: 0
+  _autoDestory: 0
+--- !u!1001 &261405264445147569
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5650437980039941973}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8816591821889908457}
-  m_Father: {fileID: 3879169290518604517}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4142781506420305673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3879169290518604517}
+    m_Modifications:
+    - target: {fileID: 2200130844739267655, guid: 23e6785df563a5849847869472f0950e, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2646721239070356476, guid: 23e6785df563a5849847869472f0950e, type: 3}
+      propertyPath: m_Name
+      value: MagicMissileHitParticle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035210712943466957, guid: 23e6785df563a5849847869472f0950e, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168227468670895097, guid: 23e6785df563a5849847869472f0950e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168227468670895097, guid: 23e6785df563a5849847869472f0950e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168227468670895097, guid: 23e6785df563a5849847869472f0950e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168227468670895097, guid: 23e6785df563a5849847869472f0950e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168227468670895097, guid: 23e6785df563a5849847869472f0950e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168227468670895097, guid: 23e6785df563a5849847869472f0950e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168227468670895097, guid: 23e6785df563a5849847869472f0950e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168227468670895097, guid: 23e6785df563a5849847869472f0950e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168227468670895097, guid: 23e6785df563a5849847869472f0950e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4168227468670895097, guid: 23e6785df563a5849847869472f0950e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8446994287661401939, guid: 23e6785df563a5849847869472f0950e, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 23e6785df563a5849847869472f0950e, type: 3}
+--- !u!4 &4213177372986051144 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4168227468670895097, guid: 23e6785df563a5849847869472f0950e, type: 3}
+  m_PrefabInstance: {fileID: 261405264445147569}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5650437980039941973}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75cbf9d58add5ec4a9385fca2b648d5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HitboxController
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 5120215801059179722}
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: _hitboxes
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.Collections.Generic.List`1[[HitBox,
-        Assembly-CSharp]], mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
-        mscorlib]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: Main
-    - Name: $v
-      Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[HitBox, Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 

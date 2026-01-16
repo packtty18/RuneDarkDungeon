@@ -314,9 +314,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2075512626041876918}
-  - component: {fileID: 7394487770429217361}
-  - component: {fileID: 626095498252459321}
-  - component: {fileID: 4465814045033084339}
+  - component: {fileID: 1122120950692081553}
+  - component: {fileID: 7346757798584860896}
+  - component: {fileID: 1795424885054779136}
+  - component: {fileID: 3252154567177541808}
   m_Layer: 0
   m_Name: MagicMissile
   m_TagString: Untagged
@@ -340,35 +341,8 @@ Transform:
   - {fileID: 4527886673909115099}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &7394487770429217361
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7308780910150164065}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!65 &626095498252459321
-BoxCollider:
+--- !u!135 &1122120950692081553
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -386,9 +360,9 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4465814045033084339
+--- !u!114 &7346757798584860896
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -397,13 +371,39 @@ MonoBehaviour:
   m_GameObject: {fileID: 7308780910150164065}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c38b9150ea51fe499624e8b17943e95, type: 3}
+  m_Script: {fileID: 11500000, guid: 61714c03e407e294e8ec0ad0f0b36714, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyFireball
-  _speed: 10
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackObject
+  data: {fileID: 11400000, guid: d4705a40493b2eb4d97592c978ea0222, type: 2}
   _damage: 0
-  lifeTime: 30
-  _explosionPrefab: {fileID: 1427538609167561288, guid: 408c6e74f97bb344fa16a0ac9ea720ee, type: 3}
+  _hitBox: {fileID: 0}
+  _initHitbox: 0
+--- !u!114 &1795424885054779136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7308780910150164065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e18ffc478ed0064587905857ffd6496, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StraightMovement
+  speed: 10
+--- !u!114 &3252154567177541808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7308780910150164065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f7fc184115f8b540985a776c49adb11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnTriggerTrigger
+  _autoDestory: 1
 --- !u!1 &8486327598554218124
 GameObject:
   m_ObjectHideFlags: 0

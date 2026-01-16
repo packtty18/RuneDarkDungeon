@@ -1,79 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &582534673567527735
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3492080915510576845}
-  - component: {fileID: 2016892482431035333}
-  m_Layer: 0
-  m_Name: Hitbox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3492080915510576845
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 582534673567527735}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 9144009889039337370}
-  m_Father: {fileID: 6526096074626413332}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2016892482431035333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 582534673567527735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75cbf9d58add5ec4a9385fca2b648d5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HitboxController
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: _hitboxes
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.Collections.Generic.List`1[[HitBox,
-        Assembly-CSharp]], mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
-        mscorlib]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
 --- !u!1 &2008018425781660641
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6526096074626413332}
-  - component: {fileID: 7950040084061544925}
+  - component: {fileID: 8258733064791354003}
+  - component: {fileID: 7611165405156216556}
   m_Layer: 0
   m_Name: BloodExplosion
   m_TagString: Untagged
@@ -100,14 +27,14 @@ Transform:
   m_GameObject: {fileID: 2008018425781660641}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.23, y: -0.019999998, z: 2.31}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3492080915510576845}
+  - {fileID: 9144009889039337370}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7950040084061544925
+--- !u!114 &8258733064791354003
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,14 +43,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 2008018425781660641}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94d146e31664a65418f24612d5aba70c, type: 3}
+  m_Script: {fileID: 11500000, guid: 61714c03e407e294e8ec0ad0f0b36714, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyExplosion
-  _hitboxController: {fileID: 2016892482431035333}
-  _hitPrefab: {fileID: 438646512652176526, guid: 083d392094dd27e4db1a6d93ea656e5c, type: 3}
-  _hitboxKey: Main
-  _damage: 20
-  _activeDuration: 1
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackObject
+  data: {fileID: 11400000, guid: 40409d0cbfe143647ba85a40b36ea2f8, type: 2}
+  _damage: 0
+  _hitBox: {fileID: 5073826451645309062}
+  _initHitbox: 0
+--- !u!114 &7611165405156216556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008018425781660641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef3af6d2e0e395b4b915cd3b543d7a74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TimedTrigger
+  delay: 0.5
+  _autoDestory: 0
 --- !u!1 &6875105028863113495
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,12 +90,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6875105028863113495}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3492080915510576845}
+  m_Father: {fileID: 6526096074626413332}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &2277023533989442994
 SphereCollider:
@@ -176,7 +116,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 25
+  m_Radius: 6
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5073826451645309062
 MonoBehaviour:

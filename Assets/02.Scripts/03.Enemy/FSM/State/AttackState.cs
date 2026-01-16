@@ -43,6 +43,7 @@ public class AttackState : EnemyState
             return;
         }
 
+        
         // 쿨다운 체크
         _cooldownTimer -= deltaTime;
         if (_cooldownTimer > 0f)
@@ -75,7 +76,6 @@ public class AttackState : EnemyState
     public void OnAttackFinished()
     {
         _isAttacking = false;
-
         controller.Behavior.OnAttackFinish();
     }
 }

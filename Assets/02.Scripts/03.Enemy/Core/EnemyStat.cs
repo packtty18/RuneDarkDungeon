@@ -59,6 +59,7 @@ public class EnemyStat : SerializedMonoBehaviour
 
         InitDictionaries();
         InitFromData(_data);
+
         if (EnemyType == EEnemyType.Boss)
         {
             EnableSuperArmor();

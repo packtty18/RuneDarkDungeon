@@ -34,15 +34,16 @@ public class EnemySpawnAttack : IAttackStretagy
     private readonly EnemyDelaySOBase _delayLoop;
     private readonly Transform _spawnPos;
     private readonly float _damage;
-
+    private readonly EnemyController _owner;
     public float LoopDelay => _delayLoop.Delay;
 
     private bool _executed;
-    public EnemySpawnAttack(EnemyDelaySOBase delayLoop, Transform spawnPos, float damage)
+    public EnemySpawnAttack(EnemyDelaySOBase delayLoop, EnemyController owner, Transform spawnPos, float damage)
     {
         _delayLoop = delayLoop;
         _spawnPos = spawnPos;
         _damage = damage;
+        _owner = owner;
     }
 
     public void BeginAttack()
@@ -58,6 +59,6 @@ public class EnemySpawnAttack : IAttackStretagy
             return;
         }
         _executed =true;
-        _delayLoop.Execute(_spawnPos, _damage);
+        _delayLoop.Execute(_owner, _spawnPos, _damage);
     }
 }

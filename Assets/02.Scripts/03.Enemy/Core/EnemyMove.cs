@@ -14,7 +14,7 @@ public class EnemyMove : MonoBehaviour
     // 외부 제어용 (Battle / Attack / Cutscene)
     private bool _isPaused;
 
-    public bool IsMoving => IsAgentActive && !_isPaused;
+    private bool _canRotate;
 
     [SerializeField] private bool _onTest = false;
 
@@ -27,10 +27,18 @@ public class EnemyMove : MonoBehaviour
 
     private void Update()
     {
-        if (!IsMoving || _target == null)
+        if (_target == null)
             return;
 
-        RotateToTarget();
+        if(_canRotate)
+        {
+            RotateToTarget();
+        }
+    }
+
+    public void SetAbleToRatate(bool enable)
+    {
+        _canRotate = enable;
     }
 
     public void Init()

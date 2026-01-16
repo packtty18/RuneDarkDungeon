@@ -7,6 +7,6 @@ public class MageAttack : EnemyAttack
     public override void Init()
     {
         base.Init();
-        RegisterStrategy(0, new EnemySpawnAttack(_magicShot, _magicSpawnPos, _damage));   //기본공격1
+        RegisterStrategy(0, new EnemySpawnAttack(_magicShot,controller, _magicSpawnPos, _damage));   //기본공격1
     }
 }

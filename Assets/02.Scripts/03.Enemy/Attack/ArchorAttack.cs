@@ -7,6 +7,6 @@ public class ArchorAttack : EnemyAttack
     public override void Init()
     {
         base.Init();
-        RegisterStrategy(0, new EnemySpawnAttack(_arrow, _arrowSpawnPos, _damage));   //기본공격1
+        RegisterStrategy(0, new EnemySpawnAttack(_arrow,controller, _arrowSpawnPos, _damage));   //기본공격1
     }
 }
