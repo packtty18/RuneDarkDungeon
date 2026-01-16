@@ -190,7 +190,7 @@ public class UIBasicAnimation : MonoBehaviour
     public void Hide()
     {
         if (_canvasGroup == null) return;
-
+        StopAndReset();
         _canvasGroup.alpha = 0f;
     }
     public void Show()
@@ -208,7 +208,7 @@ public class UIBasicAnimation : MonoBehaviour
         _currentSequence?.Kill();
 
         _currentSequence = DOTween.Sequence();
-        _currentSequence.Append(_canvasGroup.DOFade(0f, duration).SetEase(ease));
+        _currentSequence.Append(_canvasGroup.DOFade(0f, duration).SetEase(ease)).OnComplete(() => StopAndReset());
     }
 
     public void StopAndReset()
@@ -216,6 +216,7 @@ public class UIBasicAnimation : MonoBehaviour
         _currentSequence?.Kill();
         transform.localScale = _originalScale;
         transform.localPosition = _originalPosition;
+        transform.localRotation = Quaternion.identity;
     }
 
     public void Stop()

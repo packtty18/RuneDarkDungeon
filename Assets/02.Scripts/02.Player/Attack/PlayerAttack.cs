@@ -73,6 +73,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(_currentAttack);
         if (!_stateMachine.CanReceiveMoveInput()) return;
 
         if (InputManager.Instance.GetKeyDown(EGameKeyType.Attack))
