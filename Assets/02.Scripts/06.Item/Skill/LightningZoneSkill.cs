@@ -15,7 +15,7 @@ public class LightningZoneSkill : SkillBase
     [SerializeField] private Vector3 _offset;
 
 #if UNITY_EDITOR
-    void Reset()
+    private void Reset()
     {
         _dotDealer = GetComponent<DotDealer>();
     }

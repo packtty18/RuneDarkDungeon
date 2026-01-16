@@ -11,7 +11,7 @@ public class JudgmentMeteorSkill : SkillBase
     [SerializeField] private RangeData<float> _finalDamage;
     
 #if UNITY_EDITOR
-    void Reset()
+    private void Reset()
     {
         _skillPrefab = GetComponent<DotDealer>();
     }
