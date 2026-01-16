@@ -11,13 +11,10 @@ public class UpgradePresenter : MonoBehaviour
     private IReadOnlyInventory _upgradeInventory;
     private IForge _forge;
     
-    private ISlotEventHandler _eventHandler;
-    
-    public void Initialize(IReadOnlyInventory upgradeInventory, IForge forge, ISlotEventHandler eventHandler)
+    public void Initialize(IReadOnlyInventory upgradeInventory, IForge forge)
     {
         _upgradeInventory = upgradeInventory;
         _forge = forge;
-        _eventHandler = eventHandler;
         
         _upgradeUI.OnSlotClicked += HandleSlotClicked;
         _upgradeInventory.Subscribe(RefreshView);
@@ -47,7 +44,8 @@ public class UpgradePresenter : MonoBehaviour
 
     private void HandleSlotClicked(UI_Slot slot)
     {
-        _eventHandler.OnClickSlot(slot);
+        if (slot.IsEmpty) return;
+        _forge.Unregister(slot.Item);
     }
 
     private void HandleModeChanged(EInventoryMode mode)

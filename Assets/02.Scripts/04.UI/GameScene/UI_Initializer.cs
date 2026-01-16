@@ -16,19 +16,18 @@ public class UI_Initializer : MonoBehaviour
     public void Initialize(IDataHolder data)
     {
         _inventoryManager.Initialize(data.Inventory);
-        EquipmentManager equipmentManager = new(data.Equipment, data.Inventory);
         
         Dictionary<EInventoryMode, ISlotEventHandler> inventoryHandlerDict = new()
         {
-            { EInventoryMode.Normal, new NormalEventHandler(_inventoryManager) },
+            { EInventoryMode.Normal, new SelectEventHandler(_inventoryManager) },
             { EInventoryMode.Upgrade , new RegisterEventHandler(data.Forge) },
-            { EInventoryMode.Equipment, new NormalEventHandler(_inventoryManager) },
+            { EInventoryMode.Equipment, new EquipEventHandler(_inventoryManager) },
             { EInventoryMode.Sell, new SellEventHandler(data.Inventory, data.GoldData, _inventoryManager) },
         };
         
         _inventoryPresenter.Initialize(data.Inventory, inventoryHandlerDict);
-        _upgradePresenter.Initialize(data.UpgradeInventory, data.Forge, new UnregisterEventHandler(data.Forge));
-        _equipmentPresenter.Initialize(equipmentManager, data.Equipment);
+        _upgradePresenter.Initialize(data.UpgradeInventory, data.Forge);
+        _equipmentPresenter.Initialize(data.Equipment, data.Inventory);
         _currencyPresenter.Initialize(data.GoldData);
     }
 }
