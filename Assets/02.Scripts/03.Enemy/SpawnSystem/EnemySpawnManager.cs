@@ -97,6 +97,7 @@ public class EnemySpawnManager : SerializedMonoBehaviour
             _aliveEnemyCount++;
 
             //적설정
+            enemy.transform.position = spawner.transform.position;
             enemy.OnDead.Subscribe(HandleEnemyDead);
             enemy.SetTarget(GetTarget());
             enemy.Init();
