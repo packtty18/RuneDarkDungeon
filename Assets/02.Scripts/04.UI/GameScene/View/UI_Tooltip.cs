@@ -17,7 +17,7 @@ public class UI_Tooltip : MonoBehaviour
     {
         _nameTextUI.text = info.name;
         _tooltipTextUI.text = info.Tooltip;
-        //_goldTextUI.SetText("{0} 골드", info.Price);
+        _goldTextUI.SetText("{0} 골드", info.Price);
         
         SetPositionNextToIcon(icon);
         

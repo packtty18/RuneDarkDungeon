@@ -11,7 +11,7 @@ public abstract class PUBase : UIBase
     [SerializeField, ShowIf(nameof(_animation))] protected Ease _showEase = Ease.OutBack;
     [SerializeField, ShowIf(nameof(_animation))] protected Ease _hideEase = Ease.InBack;
     
-    private Sequence _sequence;
+    protected Sequence _sequence;
     
     public virtual void Open()
     {

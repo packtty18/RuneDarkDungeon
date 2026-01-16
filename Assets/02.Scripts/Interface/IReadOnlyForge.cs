@@ -1,10 +1,9 @@
-using System;
 using UnityEngine;
 
-public interface IReadOnlyForge
+public interface IReadOnlyForge : IReadOnlyInventory
 {
+    ItemData BaseItem { get; }
     UpgradeData UpgradeData { get; }
     bool CanRegister(ItemData item);
-    void Subscribe(Action action);
-    void Unsubscribe(Action action);
+    bool CanUpgrade(IReadOnlyCurrency currency);
 }

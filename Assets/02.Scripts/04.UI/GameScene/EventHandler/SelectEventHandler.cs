@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class NormalEventHandler : ISlotEventHandler
+public class SelectEventHandler : ISlotEventHandler
 {
-    private InventoryManager _inventoryManager;
+    private readonly InventoryManager _inventoryManager;
 
-    public NormalEventHandler(InventoryManager inventoryManager)
+    public SelectEventHandler(InventoryManager inventoryManager)
     {
         _inventoryManager = inventoryManager;
     }

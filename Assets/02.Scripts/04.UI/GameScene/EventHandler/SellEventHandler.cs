@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class SellEventHandler : ISlotEventHandler
 {
-    private IInventory _inventory;
-    private ICurrency _currency;
-    private InventoryManager _inventoryManager;
+    private readonly IInventory _inventory;
+    private readonly ICurrency _currency;
+    private readonly InventoryManager _inventoryManager;
 
     public SellEventHandler(IInventory inventory, ICurrency currency, InventoryManager inventoryManager)
     {

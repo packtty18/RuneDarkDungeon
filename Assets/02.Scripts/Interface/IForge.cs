@@ -2,8 +2,9 @@
 
 public interface IForge : IReadOnlyForge
 {
-    void Register(ItemData item);
+    bool TryRegister(ItemData item);
     void Unregister(ItemData item);
     void UnregisterAll();
-    void Upgrade();
+    bool Upgrade(ICurrency currency, out ItemData item);
+    void Notify();
 }
