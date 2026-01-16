@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class SkillBase : MonoBehaviour
 {
     [Header("데미지 설정")]
-    [SerializeField] protected float _damage;
+    [SerializeField] protected SerializableDictionary<EItemGrade, RangeData<float>> _damage;
     
     [Header("지속 시간 설정")]
     [SerializeField] protected float _lifeTime = 2.0f;

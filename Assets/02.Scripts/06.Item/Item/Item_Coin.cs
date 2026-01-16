@@ -7,8 +7,7 @@ public class Item_Coin : ItemBase
     
     protected override void OnCollected()
     {
-        int amount = Random.Range(_amountRange.Min, _amountRange.Max);
+        int amount = _amountRange.GetRandomValue();
         GameEvents.NotifyCoinCollected(amount);
-        Debug.Log("코인 획득");
     }
 }

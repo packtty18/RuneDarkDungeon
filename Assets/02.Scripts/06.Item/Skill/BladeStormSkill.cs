@@ -27,7 +27,7 @@ public class BladeStormSkill : SkillBase
     {
         transform.SetParent(user.transform);
         
-        _dotDealer.StartDot(_damage, _interval, _lifeTime);
+        _dotDealer.StartDot(_damage[grade], _interval, _lifeTime);
         
         if (grade < EItemGrade.Unique) return;
 

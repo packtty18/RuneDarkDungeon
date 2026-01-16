@@ -52,7 +52,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeteorHIt
   _explosionPrefab: {fileID: 9136232383455400168, guid: 37492cdf632531c4bbadf9020ee97963, type: 3}
-  _damage: 100
+  _damage:
+    Min: 10
+    Max: 30
 --- !u!1 &1944707343604279553
 GameObject:
   m_ObjectHideFlags: 0

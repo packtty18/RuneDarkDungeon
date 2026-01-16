@@ -72,7 +72,7 @@ public abstract class ItemBase : PoolableObject
         AddSpawnForce();
 
         _spawnTime = Time.time;
-        _detectDelay = Random.Range(_detectDelayRange.Min, _detectDelayRange.Max);
+        _detectDelay = _detectDelayRange.GetRandomValue();
         
         Debug.Log($"{name} Get");
     }
@@ -123,7 +123,7 @@ public abstract class ItemBase : PoolableObject
         }
 
         float distance = Vector3.Distance(_startPosition, _target.position);
-        float duration = Mathf.Clamp(distance / _attractSpeed, 0.05f, 0.25f);
+        float duration = Mathf.Clamp(distance / _attractSpeed, 0.05f, 0.5f);
 
         float time = 0f;
         
