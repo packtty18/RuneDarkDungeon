@@ -10,9 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68425c46bfc7fe54f8182793d96f34a2, type: 3}
-  m_Name: Example3
+  m_Name: Stage1_phase2
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnerDataSO
   Datas:
-  - Type: 4
-    Count: 1
+  - Type: 0
+    Count: 5
     IsRandomSpawn: 0
+  - Type: 1
+    Count: 3
+    IsRandomSpawn: 0
+  - Type: 2
+    Count: 3
+    IsRandomSpawn: 1
