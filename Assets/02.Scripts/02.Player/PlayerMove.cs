@@ -51,14 +51,6 @@ public class PlayerMove : MonoBehaviour
     public bool CanMove { get; private set; }
     public bool IsGrounded { get; private set; }
     public bool ShouldRun { get; private set; }
-    public bool IsJumping 
-    {   get { return _isJumping; }
-        private set
-        {
-            _isJumping = value;
-            OnIsJumpingChanged?.Invoke(value);
-        }
-    }
 
     public event Action<bool> OnIsJumpingChanged;
     public event  Action<float> OnMoveSpeedChanged;
@@ -106,7 +98,6 @@ public class PlayerMove : MonoBehaviour
         _currentJumpCount = 0;
         CanMove = true;
         _jumpVelocity = Mathf.Sqrt(_playerStats.JumpPower.Value * -2f * _gravity);
-        IsJumping = false;
     }
 
     private void SubscribeEvents()
@@ -192,17 +183,13 @@ public class PlayerMove : MonoBehaviour
             if (!_stateMachine.CanReceiveMoveInput()) return;
             if (_currentJumpCount < _maxJumpCount)
             {
-                if (_currentJumpCount == 0)
-                {
-                    IsJumping = true;
-                }
                 _verticalVelocity = _jumpVelocity;
                 _currentJumpCount++;
                 _jumpRequested = true;
+                OnIsJumpingChanged?.Invoke(IsJumping());
             }
         }
-        Debug.Log(_verticalVelocity);
-        Debug.Log(IsGrounded);
+
         if (_currentJumpCount > 0 && _verticalVelocity < 0)
         {
             if (GroundCheckInDirection(Vector3.down, _landOffset, _walkableLayer))
@@ -211,6 +198,15 @@ public class PlayerMove : MonoBehaviour
             }
 
         }
+    }
+
+    public bool IsJumping()
+    {
+        if (_currentJumpCount > 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     private void ApplyGravity()
@@ -294,7 +290,7 @@ public class PlayerMove : MonoBehaviour
     #region Dash
     public void StartGroundDash(float dashAngle, float dashSpeed)
     {
-        if (IsGrounded || !IsJumping) return;
+        if (IsGrounded || !IsJumping()) return;
 
         //SetCanMove(false);
 
@@ -352,8 +348,8 @@ public class PlayerMove : MonoBehaviour
         // 점프 후 착지했을 때.
         if (IsGrounded && _currentJumpCount > 0)
         {
-            IsJumping = false;
             _currentJumpCount = 0;
+            OnIsJumpingChanged?.Invoke(IsJumping());
             //_animator.SetJump(false);
 
         }
