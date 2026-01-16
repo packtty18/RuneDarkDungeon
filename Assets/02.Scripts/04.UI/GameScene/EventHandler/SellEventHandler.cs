@@ -15,9 +15,8 @@ public class SellEventHandler : ISlotEventHandler
 
     public void OnClickSlot(UI_Slot slot)
     {
+        _currency.Add(slot.Item.Info.Price);
         _inventory.Remove(slot.Item);
-        _currency.Add(100);
-        Debug.Log("골드 획득");
     }
 
     public void OnHoverSlot(UI_Slot slot)
