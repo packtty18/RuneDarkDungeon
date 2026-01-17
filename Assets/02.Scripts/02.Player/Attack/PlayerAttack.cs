@@ -11,8 +11,6 @@ public class PlayerAttack : MonoBehaviour
     private PlayerStats _stats;
     private GroundEffectSpawner _spawner;
 
-    private bool _isJumping;
-
     private Coroutine _comboTimerCoroutine;
 
     private Renderer[] _playerRenderers;
@@ -61,7 +59,6 @@ public class PlayerAttack : MonoBehaviour
         _spawner = GetComponent<GroundEffectSpawner>();
 
         _playerRenderers = GetComponentsInChildren<Renderer>();
-
     }
     private void Start()
     {
@@ -101,7 +98,6 @@ public class PlayerAttack : MonoBehaviour
 
     private void Initialized()
     {
-        _isJumping = _playerMove.IsJumping;
         _comboReturnTime = _attackConfig.ComboReturnTime;
     }
 
@@ -124,7 +120,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void TryStartAttack()
     {
-        if (_playerMove.ShouldRun & _isJumping)
+        if (_playerMove.ShouldRun & _playerMove.IsJumping())
         {
             TryJumpAttack();
             return;
@@ -141,14 +137,18 @@ public class PlayerAttack : MonoBehaviour
 
         _stateMachine.SetActionState(EActionState.DashAttack);
         _playerMove.StartGroundDash(_attackConfig.JumpDashAngle, _attackConfig.JumpDashSpeed);
-        VisualHide();  
+        VisualHide();
+
+        ExecuteSingleAttack(EAttackType.Jump, _attackConfig.JumpDashDamage);
+        _currentCombo = 1;
+        OnComboChange?.Invoke(_currentCombo, _attackConfig.MaxPhaseCount);
     }
     private void StartJumpAttack()
     {
         VisualShow();
-        ExecuteSingleAttack(EAttackType.Jump, _attackConfig.JumpDashDamage);
+        /*ExecuteSingleAttack(EAttackType.Jump, _attackConfig.JumpDashDamage);
         _currentCombo = 1;
-        OnComboChange?.Invoke(_currentCombo, _attackConfig.MaxPhaseCount);
+        OnComboChange?.Invoke(_currentCombo, _attackConfig.MaxPhaseCount);*/
 
     }
 
@@ -246,7 +246,9 @@ public class PlayerAttack : MonoBehaviour
 
         while (t < time)
         {
-            if (_attackBuffered)
+            if (_attackBuffered || 
+                (_currentCombo >= _attackConfig.MaxPhaseCount - 1 
+                && InputManager.Instance.GetKey(EGameKeyType.Attack)))
             {
                 _attackBuffered = false;
                 GoNextCombo();
@@ -337,8 +339,6 @@ public class PlayerAttack : MonoBehaviour
     #region Value Change Event Method
     private void OnJumpingChange(bool value)
     {
-        _isJumping = value;
-
         // 점프 스킬 중에는 리셋 콤보 무시.
         if (_currentAttack == EAttackType.Jump)
         {
