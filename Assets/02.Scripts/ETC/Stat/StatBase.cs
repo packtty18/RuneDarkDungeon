@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 public abstract class StatBase<T> where T : struct, IConvertible
 {
     private readonly List<StatModifier> _modifiers = new();
-    private readonly SafeEvent<T> _onValueChanged = new();
+    [ShowInInspector]private readonly SafeEvent<T> _onValueChanged = new();
 
     public void Subscribe(Action<T> action)
     {

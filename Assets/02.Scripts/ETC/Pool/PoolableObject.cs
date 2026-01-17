@@ -16,7 +16,9 @@ public class PoolableObject : MonoBehaviour, IPoolable
 
     public virtual void OnSpawn()
     {
-        transform.position = Vector3.zero;
+        // PSH : 현재 이코드에 의해 스폰시 풀Root 기준의 원점으로 이동하는 문제가 발생합니다.
+        // 위치 초기화는 하위 클래스에서 처리하도록 변경이 필요합니다.
+        // transform.position = Vector3.zero;
         transform.rotation = Quaternion.identity;
     }
 

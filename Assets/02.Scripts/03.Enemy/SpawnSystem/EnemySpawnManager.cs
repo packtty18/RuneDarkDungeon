@@ -88,6 +88,7 @@ public class EnemySpawnManager : SerializedMonoBehaviour
         {
             EnemySpawner spawner = random ? spawnerList[Random.Range(0, spawnerList.Count)] : GetSequentialSpawner(type, spawnerList);
 
+            // 1. 풀에서 꺼내기 (OnSpawn 호출됨)
             EnemyController enemy = spawner.SpawnEnemy(EnemyToPoolType(type));
             if (enemy == null)
             {
@@ -96,11 +97,16 @@ public class EnemySpawnManager : SerializedMonoBehaviour
 
             _aliveEnemyCount++;
 
-            //적설정
-            //enemy.transform.position = spawner.transform.position;
-            enemy.OnDead.Subscribe(HandleEnemyDead);
+            // 2. 타겟 설정
             enemy.SetTarget(GetTarget());
+            
+            // 3. 이벤트 구독
+            enemy.OnDead.Subscribe(HandleEnemyDead);
+            
+            // 4. 초기화 (물리 엔진 활성화 포함)
             enemy.Init();
+            
+            Debug.Log($"[EnemySpawnManager] {type} 스폰 완료 - 최종 위치: {enemy.transform.position}");
 
             _list.Add(enemy);
         }

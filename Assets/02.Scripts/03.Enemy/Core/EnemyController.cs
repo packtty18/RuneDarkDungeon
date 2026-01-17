@@ -11,7 +11,7 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private ETeamType _team;
     [SerializeField] private Rigidbody _physics;
     [SerializeField] private Transform _target;
-    [SerializeField] private UIBase _ui;
+    [SerializeField] private EnemyHealthUI _healthUI;
 
     [ShowInInspector] private IEnemyBehavior _behavior;
     [ShowInInspector] private EnemyStateMachine _fsm;
@@ -72,6 +72,15 @@ public class EnemyController : PoolableObject, IDamageable
             OnBattleStateChanged(BattleManager.Instance.State);
         }
         _target = null;
+        
+        // 물리 엔진 비활성화 (위치 설정 전)
+        EnablePhysics(false);
+        
+        // NavMeshAgent도 비활성화
+        if (_move != null)
+        {
+            _move.ResetAgent();
+        }
     }
 
     public override void OnDespawn()
@@ -81,9 +90,26 @@ public class EnemyController : PoolableObject, IDamageable
             BattleManager.Instance.OnBattleStateChanged.Unsubscribe(OnBattleStateChanged);
         }
 
+        // FSM 및 코루틴 정리
         _fsm.Reset();
         StopAllCoroutines();
         loopRoutine = null;
+
+        // UI 숨기기
+        if (_healthUI != null)
+        {
+            _healthUI.OnOwnerDead();
+        }
+
+        // 물리 엔진 비활성화
+        EnablePhysics(false);
+        
+        // Agent 정리
+        if (_move != null)
+        {
+            _move.ResetAgent();
+        }
+        
         base.OnDespawn();
     }
 
@@ -91,22 +117,33 @@ public class EnemyController : PoolableObject, IDamageable
     [Button]
     public void Init()
     {
-        EnablePhysics(true);
-
+        // 1. Stat 먼저 초기화 (다른 시스템에서 참조하므로)
         _stat.Init();
+        
+        // 2. 나머지 컴포넌트 초기화 (Agent는 비활성화 상태 유지)
         _health.Init();
-        _move.Init();
+        _move.Init(); // Agent 비활성화
         _attack.Init();
         _anim.Init();
         _buff.Init();
 
+        // 3. Behavior 및 Phase 초기화
         _behavior = CreateBehavior(_stat.EnemyType);
         _behavior?.Initialize(this);
-
         _phase?.Reset();
 
+        // 4. UI 초기화 (체력바 등)
+        if (_healthUI != null)
+        {
+            _healthUI.Init();
+        }
+
+        // 5. FSM 초기화 및 시작 (Idle 상태에서 Agent 활성화됨)
         _fsm.Reset();
         _fsm.ChangeState(EEnemyState.Idle);
+        
+        // 6. 물리 엔진 활성화 (마지막에 수행)
+        EnablePhysics(true);
     }
 
 
@@ -178,9 +215,14 @@ public class EnemyController : PoolableObject, IDamageable
     public void Dead()
     {
         EnablePhysics(false);
+        
+        // UI 즉시 숨기기
+        if (_healthUI != null)
+        {
+            _healthUI.Hide();
+        }
+        
         ReturnToPoolAfter(3f);
-        //_fsm.Reset();
-        _ui.Hide();
         OnDead?.Invoke(this);
     }
     
@@ -272,7 +314,7 @@ public class EnemyController : PoolableObject, IDamageable
             return;
         }
 
-        _ui?.Show();
+        // 데미지 적용 (EnemyHealthUI가 자동으로 표시됨)
         if (!_health.TryApplyDamage(data.Damage))
         {
             return;

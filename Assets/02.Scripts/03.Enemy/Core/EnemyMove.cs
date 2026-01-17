@@ -47,10 +47,21 @@ public class EnemyMove : MonoBehaviour
             _agent = GetComponent<NavMeshAgent>();
         }
 
+        // Agent 완전 초기화
+        if (_agent != null)
+        {
+            if (_agent.enabled)
+            {
+                _agent.ResetPath();
+            }
+            _agent.enabled = false;
+        }
+
         SetAgentSetting();
 
         _isPaused = false;
         _target = null;
+        _canRotate = false;
     }
 
     public void MoveByDirection(Vector3 direction, float speed)
@@ -135,11 +146,15 @@ public class EnemyMove : MonoBehaviour
     [Button, ShowIf(nameof(_onTest))]
     public void ResetAgent()
     {
-        EnableAgent();
-        _agent.ResetPath();
+        if (_agent != null && _agent.enabled)
+        {
+            _agent.ResetPath();
+            _agent.enabled = false;
+        }
 
         _isPaused = false;
         _target = null;
+        _canRotate = false;
     }
 
     private void RotateToTarget()
@@ -170,6 +185,7 @@ public class EnemyMove : MonoBehaviour
             return;
 
         _agent.enabled = true;
+        // Warp를 통해 현재 위치를 Agent에 명확히 설정
         _agent.Warp(transform.position);
         _canRotate = false;
     }
