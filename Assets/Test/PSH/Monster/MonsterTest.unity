@@ -1814,18 +1814,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Archer
       objectReference: {fileID: 0}
-    - target: {fileID: 2702605027344997685, guid: 164a83a61311a8346ad934ba471728c5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2750660798940260602, guid: 164a83a61311a8346ad934ba471728c5, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 2750660798940260602, guid: 164a83a61311a8346ad934ba471728c5, type: 3}
-    - target: {fileID: 6936449633290105301, guid: 164a83a61311a8346ad934ba471728c5, type: 3}
-      propertyPath: _target
-      value: 
-      objectReference: {fileID: 47610179}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2314,17 +2306,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
---- !u!114 &1043780325 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5959845131567915786, guid: a509ea45a4a2e1c4fa2c213bbbc407f7, type: 3}
-  m_PrefabInstance: {fileID: 1355141861}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c34fd4e561f21da468a0263868c73308, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HitBox
 --- !u!1 &1090620175
 GameObject:
   m_ObjectHideFlags: 0
@@ -2496,7 +2477,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2702605027344997685, guid: da741590ea7728249af67c34bf9ad7aa, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2750660798940260602, guid: da741590ea7728249af67c34bf9ad7aa, type: 3}
       propertyPath: serializationData.Prefab
@@ -2534,22 +2515,6 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 125286002631472339, guid: 1db5faab75681144882665d3f88dccd1, type: 3}
-    - target: {fileID: 125286002631472339, guid: 1db5faab75681144882665d3f88dccd1, type: 3}
-      propertyPath: serializationData.PrefabModifications.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 125286002631472339, guid: 1db5faab75681144882665d3f88dccd1, type: 3}
-      propertyPath: 'serializationData.PrefabModifications.Array.data[0]'
-      value: '"path":"_hitboxes.{\"Main\"}.[0]","value":$eref:0'
-      objectReference: {fileID: 0}
-    - target: {fileID: 125286002631472339, guid: 1db5faab75681144882665d3f88dccd1, type: 3}
-      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 125286002631472339, guid: 1db5faab75681144882665d3f88dccd1, type: 3}
-      propertyPath: 'serializationData.PrefabModificationsReferencedUnityObjects.Array.data[0]'
-      value: 
-      objectReference: {fileID: 1842199140}
     - target: {fileID: 261245601222967555, guid: 1db5faab75681144882665d3f88dccd1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.9
@@ -2593,10 +2558,6 @@ PrefabInstance:
     - target: {fileID: 2702605027344997685, guid: 1db5faab75681144882665d3f88dccd1, type: 3}
       propertyPath: m_Name
       value: Warrior
-      objectReference: {fileID: 0}
-    - target: {fileID: 2702605027344997685, guid: 1db5faab75681144882665d3f88dccd1, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2750660798940260602, guid: 1db5faab75681144882665d3f88dccd1, type: 3}
       propertyPath: serializationData.Prefab
@@ -2982,29 +2943,9 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 6691671834920349894, guid: a509ea45a4a2e1c4fa2c213bbbc407f7, type: 3}
-    - target: {fileID: 6691671834920349894, guid: a509ea45a4a2e1c4fa2c213bbbc407f7, type: 3}
-      propertyPath: serializationData.PrefabModifications.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6691671834920349894, guid: a509ea45a4a2e1c4fa2c213bbbc407f7, type: 3}
-      propertyPath: 'serializationData.PrefabModifications.Array.data[0]'
-      value: '"path":"_hitboxes.{\"Main\"}.[0]","value":$eref:0'
-      objectReference: {fileID: 0}
-    - target: {fileID: 6691671834920349894, guid: a509ea45a4a2e1c4fa2c213bbbc407f7, type: 3}
-      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6691671834920349894, guid: a509ea45a4a2e1c4fa2c213bbbc407f7, type: 3}
-      propertyPath: 'serializationData.PrefabModificationsReferencedUnityObjects.Array.data[0]'
-      value: 
-      objectReference: {fileID: 1043780325}
     - target: {fileID: 8562400191214014964, guid: a509ea45a4a2e1c4fa2c213bbbc407f7, type: 3}
       propertyPath: m_Name
       value: Elite
-      objectReference: {fileID: 0}
-    - target: {fileID: 8562400191214014964, guid: a509ea45a4a2e1c4fa2c213bbbc407f7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3062,10 +3003,6 @@ PrefabInstance:
     - target: {fileID: 2702605027344997685, guid: 1b3f1902305b4124dbc15567b99ae2dc, type: 3}
       propertyPath: m_Name
       value: Mage
-      objectReference: {fileID: 0}
-    - target: {fileID: 2702605027344997685, guid: 1b3f1902305b4124dbc15567b99ae2dc, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2750660798940260602, guid: 1b3f1902305b4124dbc15567b99ae2dc, type: 3}
       propertyPath: serializationData.Prefab
@@ -3393,8 +3330,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db70bed231d58ab479b21f46660d877d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthUI
-  isInitialized: 0
+  _isInitialized: 0
+  _awakeInit: 0
   _stat: {fileID: 0}
+  _health: {fileID: 0}
   _autoHider: {fileID: 0}
   _frontFill: {fileID: 1268090527}
   _backFill: {fileID: 192271572}
@@ -3413,7 +3352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f37d0dd75fd01ed458abb3a7759f6d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIAutoHide
-  isInitialized: 0
+  _isInitialized: 0
+  _awakeInit: 0
   _autoHideDelay: 3
 --- !u!1 &1613814194
 GameObject:
@@ -3877,17 +3817,6 @@ Transform:
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5818967200685529976, guid: 918d57ea5eaf0c84d8b3474064af8f6b, type: 3}
   m_PrefabInstance: {fileID: 972836702}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c34fd4e561f21da468a0263868c73308, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HitBox
---- !u!114 &1842199140 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8596355717917678292, guid: 1db5faab75681144882665d3f88dccd1, type: 3}
-  m_PrefabInstance: {fileID: 1202207956}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -4731,9 +4660,9 @@ SceneRoots:
   - {fileID: 1613814199}
   - {fileID: 1219821646}
   - {fileID: 1010884272}
-  - {fileID: 1394717389}
   - {fileID: 1202207956}
   - {fileID: 901780138}
+  - {fileID: 1394717389}
   - {fileID: 1355141861}
   - {fileID: 1120174879}
   - {fileID: 972836702}

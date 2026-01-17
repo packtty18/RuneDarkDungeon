@@ -6,23 +6,37 @@ public class UIAutoHide : UIBase
     [SerializeField] private float _autoHideDelay = 3f;
 
     private Tween _hideTween;
-    private UIBase _ui;
-
-    private void Awake()
-    {
-        _ui = GetComponent<UIBase>();
-    }
 
     private void OnDisable()
     {
-        _hideTween?.Kill();
+        CancelTimer();
     }
 
+    /// <summary>
+    /// 타이머 리셋 및 시작 (3초 후 자동 숨김)
+    /// </summary>
     public void ResetTimer()
     {
-        _hideTween?.Kill();
+        CancelTimer();
 
-        _hideTween = DOVirtual.DelayedCall(_autoHideDelay, Hide);
+        // 3초 후 자동으로 숨김
+        _hideTween = DOVirtual.DelayedCall(_autoHideDelay, () =>
+        {
+            Hide();
+        });
     }
 
+    /// <summary>
+    /// 타이머 취소
+    /// </summary>
+    public void CancelTimer()
+    {
+        _hideTween?.Kill();
+        _hideTween = null;
+    }
+
+    private void OnDestroy()
+    {
+        CancelTimer();
+    }
 }

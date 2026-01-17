@@ -162,8 +162,6 @@ GameObject:
   - component: {fileID: 3641388704915893953}
   - component: {fileID: 727649362645739133}
   - component: {fileID: 110349600344730422}
-  - component: {fileID: 7270343866894768076}
-  - component: {fileID: 124017658180459305}
   m_Layer: 0
   m_Name: CommonUI
   m_TagString: Untagged
@@ -254,31 +252,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 503
---- !u!114 &7270343866894768076
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1011656020808141106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 365d2135b4483644cbad3a905353e1f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BillboardUI
---- !u!114 &124017658180459305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1011656020808141106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f37d0dd75fd01ed458abb3a7759f6d71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIAutoHide
-  _autoHideDelay: 3
 --- !u!1 &4248229212784430811
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,13 +263,14 @@ GameObject:
   - component: {fileID: 4714951873546871423}
   - component: {fileID: 8244044945815822660}
   - component: {fileID: 7486366559670453718}
+  - component: {fileID: 5058010584825962690}
   m_Layer: 5
   m_Name: HealthSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4714951873546871423
 RectTransform:
   m_ObjectHideFlags: 0
@@ -334,7 +308,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthUI
   isInitialized: 0
   _stat: {fileID: 0}
-  _autoHider: {fileID: 124017658180459305}
+  _health: {fileID: 0}
+  _autoHider: {fileID: 7486366559670453718}
   _frontFill: {fileID: 7213670790824266745}
   _backFill: {fileID: 8831216743491068061}
   _backDelay: 1
@@ -352,7 +327,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f37d0dd75fd01ed458abb3a7759f6d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIAutoHide
+  isInitialized: 0
   _autoHideDelay: 3
+--- !u!114 &5058010584825962690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4248229212784430811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 365d2135b4483644cbad3a905353e1f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BillboardUI
 --- !u!1 &5380862855429040260
 GameObject:
   m_ObjectHideFlags: 0
