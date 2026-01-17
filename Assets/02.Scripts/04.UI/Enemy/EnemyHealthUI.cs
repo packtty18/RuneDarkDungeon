@@ -3,31 +3,31 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(UIAutoHide))]
 public class EnemyHealthUI : UIBase
 {
     [Header("Reference")]
-    [SerializeField] private EnemyStat _stat;
-    [SerializeField] private EnemyHealth _health;
-    [SerializeField] private UIAutoHide _autoHider;
+    [SerializeField] protected EnemyStat _stat;
+    [SerializeField] protected EnemyHealth _health;
+    [SerializeField] protected UIAutoHide _autoHider;
 
     [Header("HP Images")]
-    [SerializeField] private Image _frontFill;
-    [SerializeField] private Image _backFill;
+    [SerializeField] protected Image _frontFill;
+    [SerializeField] protected Image _backFill;
 
 
     [Header("Animation Settings")]
-    [SerializeField] private float _backDelay = 1f;
-    [SerializeField] private float _backLerpDuration = 0.5f;
+    [SerializeField] protected float _backDelay = 1f;
+    [SerializeField] protected float _backLerpDuration = 0.5f;
 
     [Header("VFX")]
-    [SerializeField] private ParticleSystem _hitParticle;
+    [SerializeField] protected ParticleSystem _hitParticle;
 
-    private Tween _backTween;
-    private float _currentHpRatio = 1f;
+    protected Tween _backTween;
+    protected float _currentHpRatio = 1f;
 
-    [ShowInInspector] private IReadOnlyConsumable<float> _healthStat;
-
+    [ShowInInspector] protected IReadOnlyConsumable<float> _healthStat;
+    
+    //생성됬을때
     protected override void Awake()
     {
         base.Awake();
@@ -44,6 +44,8 @@ public class EnemyHealthUI : UIBase
 
         Hide();
     }
+
+    //적이 Init되었을때
     protected override void OnInit()
     {
         _healthStat = _stat.GetValue(EEnemyConsumableFloat.Health);
@@ -66,18 +68,21 @@ public class EnemyHealthUI : UIBase
         
     }
 
+    //적이 사망했을때
     public void OnOwnerDead()
     {
-        CleanupAnimations();
+        Hide();
         if (_healthStat != null)
         {
             _healthStat.Unsubscribe(OnHealthChanged);
         }
     }
 
-    private void OnHealthChanged(float currentHp)
+
+    //적의 HP에 변화가 있을때
+    protected void OnHealthChanged(float currentHp)
     {
-        if (_healthStat == null)
+        if (_healthStat == null || _healthStat.IsFull())
             return;
 
         float targetRatio = currentHp / _healthStat.Max;
@@ -98,7 +103,7 @@ public class EnemyHealthUI : UIBase
         PlayHitAnimation(targetRatio);
     }
 
-    private void SetHealthInstant(float ratio)
+    protected void SetHealthInstant(float ratio)
     {
         _currentHpRatio = Mathf.Clamp01(ratio);
         
@@ -109,7 +114,7 @@ public class EnemyHealthUI : UIBase
             _backFill.fillAmount = _currentHpRatio;
     }
 
-    private void PlayHitAnimation(float targetRatio)
+    protected void PlayHitAnimation(float targetRatio)
     {
         _currentHpRatio = Mathf.Clamp01(targetRatio);
 
@@ -140,7 +145,7 @@ public class EnemyHealthUI : UIBase
         }
     }
 
-    private void CleanupAnimations()
+    protected void CleanupAnimations()
     {
         _backTween?.Kill();
         _backTween = null;
