@@ -190,7 +190,7 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        if (_currentJumpCount > 0 && _verticalVelocity < 0)
+        if (!IsGrounded && _verticalVelocity < 0)
         {
             if (GroundCheckInDirection(Vector3.down, _landOffset, _walkableLayer))
             {
@@ -290,9 +290,7 @@ public class PlayerMove : MonoBehaviour
     #region Dash
     public void StartGroundDash(float dashAngle, float dashSpeed)
     {
-        if (IsGrounded || !IsJumping()) return;
-
-        //SetCanMove(false);
+        if (!IsJumping()) return;
 
         _currentJumpCount = _maxJumpCount;
         _verticalVelocity = 0f;
