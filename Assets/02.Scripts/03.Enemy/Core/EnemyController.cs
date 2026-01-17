@@ -1,6 +1,7 @@
 
 using Sirenix.OdinInspector;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -96,10 +97,7 @@ public class EnemyController : PoolableObject, IDamageable
         loopRoutine = null;
 
         // UI 숨기기
-        if (_healthUI != null)
-        {
-            _healthUI.OnOwnerDead();
-        }
+        UIDisable();
 
         // 물리 엔진 비활성화
         EnablePhysics(false);
@@ -119,7 +117,7 @@ public class EnemyController : PoolableObject, IDamageable
     {
         // 1. Stat 먼저 초기화 (다른 시스템에서 참조하므로)
         _stat.Init();
-        
+
         // 2. 나머지 컴포넌트 초기화 (Agent는 비활성화 상태 유지)
         _health.Init();
         _move.Init(); // Agent 비활성화
@@ -133,19 +131,36 @@ public class EnemyController : PoolableObject, IDamageable
         _phase?.Reset();
 
         // 4. UI 초기화 (체력바 등)
-        if (_healthUI != null)
-        {
-            _healthUI.Init();
-        }
+        UIEnable();
+
 
         // 5. FSM 초기화 및 시작 (Idle 상태에서 Agent 활성화됨)
         _fsm.Reset();
         _fsm.ChangeState(EEnemyState.Idle);
-        
+
         // 6. 물리 엔진 활성화 (마지막에 수행)
         EnablePhysics(true);
     }
 
+    private void UIEnable()
+    {
+        if (_healthUI != null)
+        {
+            _healthUI.Init();
+        }
+        if (_wait && Stat.EnemyType == EEnemyType.Boss)
+        {
+            _healthUI.Hide();
+        }
+    }
+
+    private void UIDisable()
+    {
+        if (_healthUI != null)
+        {
+            _healthUI.Hide();
+        }
+    }
 
     private IEnemyBehavior CreateBehavior(EEnemyType type)
     {
@@ -187,8 +202,6 @@ public class EnemyController : PoolableObject, IDamageable
             return;
 
         RigidbodyConstraints constraints = _physics.constraints;
-
-        // X
         if (enable)
         {
             constraints |= RigidbodyConstraints.FreezePositionX;
@@ -215,13 +228,8 @@ public class EnemyController : PoolableObject, IDamageable
     public void Dead()
     {
         EnablePhysics(false);
-        
         // UI 즉시 숨기기
-        if (_healthUI != null)
-        {
-            _healthUI.Hide();
-        }
-        
+        UIDisable();
         ReturnToPoolAfter(3f);
         OnDead?.Invoke(this);
     }
@@ -239,6 +247,10 @@ public class EnemyController : PoolableObject, IDamageable
             case EBattleState.InProgress:
                 _wait = false;
                 OnPause(false);
+                if(Stat.EnemyType == EEnemyType.Boss)
+                {
+                    UIEnable();
+                }
                 break;
             case EBattleState.Pause:
                 OnPause(true);
@@ -428,6 +440,29 @@ public class EnemyController : PoolableObject, IDamageable
         if (FSM.CurrentState is AttackState attackState)
         {
             attackState.OnAttackFinished();
+        }
+    }
+
+    #endregion
+
+    #region Collision Detection (for ChargeState)
+    
+    /// <summary>
+    /// 물리 충돌 감지 (돌진 중 벽 충돌 시 사용)
+    /// </summary>
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 돌진 중일 때만 처리
+        if (FSM.CurrentState is ChargeState chargeState)
+        {
+            // 벽이나 장애물과 충돌 시 돌진 중단
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") ||
+                collision.gameObject.layer == LayerMask.NameToLayer("Obstacle") ||
+                collision.gameObject.layer == LayerMask.NameToLayer("Default"))
+            {
+                Debug.Log($"[EnemyController] 충돌 감지: {collision.gameObject.name} - 돌진 중단");
+                FSM.ChangeState(EEnemyState.Chase);
+            }
         }
     }
 

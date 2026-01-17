@@ -129,12 +129,12 @@ public class EnemyAttack : MonoBehaviour
     #region Animation Events
     public void OnBeginAttack()
     {
-        current?.BeginAttack();
+        current?.AttackReady();
     }
 
     public void OnEndAttack()
     {
-        current?.EndAttack();
+        current?.AttackExecute();
     }
 
     public int GetRandomAttackId()

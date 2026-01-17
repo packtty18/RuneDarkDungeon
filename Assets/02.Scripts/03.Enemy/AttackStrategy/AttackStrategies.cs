@@ -17,12 +17,12 @@ public class EnemyDirectAttack : IAttackStretagy
         _damage = damage;
     }
 
-    public void BeginAttack()
+    public void AttackReady()
     {
         _hitbox.Activate(_key, _damage);
     }
 
-    public void EndAttack()
+    public void AttackExecute()
     {
         _hitbox.Deactivate(_key);
     }
@@ -46,13 +46,13 @@ public class EnemySpawnAttack : IAttackStretagy
         _owner = owner;
     }
 
-    public void BeginAttack()
+    public void AttackReady()
     {
         _executed = false;
         _delayLoop.BeginLoop();
     }
 
-    public void EndAttack()
+    public void AttackExecute()
     {
         if(_executed)
         {
