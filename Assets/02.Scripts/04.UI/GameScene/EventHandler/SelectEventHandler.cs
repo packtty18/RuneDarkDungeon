@@ -3,33 +3,33 @@ using UnityEngine;
 public class SelectEventHandler : ISlotEventHandler
 {
     private readonly IInventory _inventory;
-    private readonly InventoryManager _inventoryManager;
+    private readonly SelectionManager _selectionManager;
 
-    public SelectEventHandler(IInventory inventory, InventoryManager inventoryManager)
+    public SelectEventHandler(IInventory inventory, SelectionManager selectionManager)
     {
         _inventory = inventory;
-        _inventoryManager = inventoryManager;
+        _selectionManager = selectionManager;
     }
 
     public void OnClickSlot(UI_Slot slot)
     {
-        var selectedItem = _inventoryManager.SelectedItem;
+        var selectedItem = _selectionManager.SelectedItem;
         
         if (selectedItem == null)
         {
             if (slot.IsEmpty) return;
-            _inventoryManager.SelectItem(slot.Item);
+            _selectionManager.SelectItem(slot.Item);
         }
         else
         {
             _inventory.Swap(selectedItem, slot.Item);
-            _inventoryManager.DeselectItem();
+            _selectionManager.DeselectItem();
         }
     }
 
     public void OnHoverSlot(UI_Slot slot)
     {
-        _inventoryManager.ShowTooltip(slot);
+        _selectionManager.ShowTooltip(slot);
     }
     
     public void OnDoubleClickSlot(UI_Slot slot) { }
@@ -38,6 +38,6 @@ public class SelectEventHandler : ISlotEventHandler
 
     public void OnExit()
     {
-        _inventoryManager.DeselectItem();
+        _selectionManager.DeselectItem();
     }
 }

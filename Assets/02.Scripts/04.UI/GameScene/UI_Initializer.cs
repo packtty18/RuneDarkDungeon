@@ -11,16 +11,16 @@ public class UI_Initializer : MonoBehaviour
     [SerializeField] private CurrencyPresenter _currencyPresenter;
     
     [Space]
-    [SerializeField] private InventoryManager _inventoryManager;
+    [SerializeField] private SelectionManager _selectionManager;
     
     public void Initialize(IDataHolder data)
     {
         Dictionary<EInventoryMode, ISlotEventHandler> inventoryHandlerDict = new()
         {
-            { EInventoryMode.Normal, new SelectEventHandler(data.Inventory, _inventoryManager) },
+            { EInventoryMode.Normal, new SelectEventHandler(data.Inventory, _selectionManager) },
             { EInventoryMode.Upgrade , new RegisterEventHandler(data.Inventory, data.Forge) },
-            { EInventoryMode.Equipment, new SelectEventHandler(data.Inventory, _inventoryManager) },
-            { EInventoryMode.Sell, new SellEventHandler(data.Inventory, data.GoldData, _inventoryManager) },
+            { EInventoryMode.Equipment, new SelectEventHandler(data.Inventory, _selectionManager) },
+            { EInventoryMode.Sell, new SellEventHandler(data.Inventory, data.GoldData, _selectionManager) },
         };
         
         _inventoryPresenter.Initialize(data.Inventory, inventoryHandlerDict);
