@@ -74,6 +74,14 @@ public enum EGameKeyType
     Click,
 }
 
+public enum ECameraMode
+{
+    None,
+    Default,
+    Cave,
+    Boss,
+}
+
 public enum ESceneType
 {
     MainMenu,

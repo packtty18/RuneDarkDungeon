@@ -28,8 +28,6 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private HitboxController _hitboxController;
     [SerializeField]
-    private CameraShakeController _cameraShake;
-    [SerializeField]
     private float _finisherShakeTime = 0.5f;
     [SerializeField]
     private float _finisherShakeAmplitude = 3;
@@ -403,7 +401,7 @@ public class PlayerAttack : MonoBehaviour
         
         EndCombo();
 
-        _cameraShake.CameraShake(_finisherShakeAmplitude, _finisherShakeTime);
+        CameraManager.Instance.CameraShake(_finisherShakeAmplitude, _finisherShakeTime);
     }
 
     public void OnFinisherFinish()
