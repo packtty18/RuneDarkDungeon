@@ -12,7 +12,7 @@ public class ChaseState : EnemyState
         controller.Move.ResumeAgent();
         controller.Move.SetAbleToRatate(true);
         controller.Anim.SetBool(EnemyAnimator.s_moveBool, true);
-        controller.SetConstraintsYPosition(false);
+        controller.SetConstraintsPosition(false);
     }
 
     public override void Tick(float deltaTime)
@@ -28,7 +28,7 @@ public class ChaseState : EnemyState
     public override void Exit()
     {
         base.Exit();
-        controller.SetConstraintsYPosition(true);
+        controller.SetConstraintsPosition(true);
         controller.Move.SetAbleToRatate(false);
         controller.Move.PauseAgent();
         controller.Anim.SetBool(EnemyAnimator.s_moveBool, false);

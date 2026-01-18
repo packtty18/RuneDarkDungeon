@@ -3,22 +3,20 @@ using UnityEngine;
 
 public abstract class UIBase : MonoBehaviour
 {
-    [SerializeField,ReadOnly]protected bool isInitialized;
-
-    private void Awake()
+    [SerializeField,ReadOnly]protected bool _isInitialized;
+    [SerializeField] private bool _awakeInit;
+    protected virtual void Awake()
     {
-        Init();
+        if(_awakeInit)
+        {
+            Init();
+        }
     }
 
     public virtual void Init()
     {
-        if (isInitialized)
-        {
-            return;
-        }
-
         OnInit();
-        isInitialized = true;
+        _isInitialized = true;
     }
 
     protected virtual void OnInit()

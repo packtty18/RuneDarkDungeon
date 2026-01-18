@@ -1,117 +1,165 @@
-using UnityEngine;
 using DG.Tweening;
+using Sirenix.OdinInspector;
+using UnityEngine;
 using UnityEngine.UI;
-using Unity.VisualScripting;
 
 public class EnemyHealthUI : UIBase
 {
     [Header("Reference")]
-    [SerializeField] private EnemyStat _stat;
+    [SerializeField] protected EnemyStat _stat;
+    [SerializeField] protected EnemyHealth _health;
+    [SerializeField] protected UIAutoHide _autoHider;
 
     [Header("HP Images")]
-    [SerializeField] private Image _frontFill;
-    [SerializeField] private Image _backFill;
+    [SerializeField] protected Image _frontFill;
+    [SerializeField] protected Image _backFill;
+
 
     [Header("Animation Settings")]
-    [SerializeField] private float _backDelay = 1f;
-    [SerializeField] private float _backLerpDuration = 0.5f;
-
-    [Header("Auto Hide")]
-    [SerializeField] private float _autoHideDelay = 3f;
+    [SerializeField] protected float _backDelay = 1f;
+    [SerializeField] protected float _backLerpDuration = 0.5f;
 
     [Header("VFX")]
-    [SerializeField] private ParticleSystem _hitParticle;
+    [SerializeField] protected ParticleSystem _hitParticle;
 
-    private Tween _backTween;
-    private Tween _shakeTween;
-    private Tween _hideTween;
-    private float _currentHpRatio = 1f;
+    protected Tween _backTween;
+    protected float _currentHpRatio = 1f;
 
-    private IReadOnlyConsumable<float> _health => _stat != null ? _stat.GetValue(EEnemyConsumableFloat.Health) : null;
+    [ShowInInspector] protected IReadOnlyConsumable<float> _healthStat;
+    
+    //생성됬을때
+    protected override void Awake()
+    {
+        base.Awake();
+        if (_stat == null)
+            _stat = GetComponentInParent<EnemyStat>();
+        if (_health == null)
+            _health = GetComponentInParent<EnemyHealth>();
+        if (_autoHider == null)
+            _autoHider = GetComponent<UIAutoHide>();
+        if (_frontFill != null)
+            _frontFill.type = Image.Type.Filled;
+        if (_backFill != null)
+            _backFill.type = Image.Type.Filled;
 
+        Hide();
+    }
+
+    //적이 Init되었을때
     protected override void OnInit()
     {
-        base.OnInit();
-        _stat = GetComponentInParent<EnemyStat>();
-        _frontFill.type = Image.Type.Filled;
-        _backFill.type = Image.Type.Filled;
-
-        _frontFill.fillAmount = 1f;
-        _backFill.fillAmount = 1f;
-    }
-
-    private void OnEnable()
-    {
-        if(_health != null)
+        _healthStat = _stat.GetValue(EEnemyConsumableFloat.Health);
+        if (_healthStat == null)
         {
-            SetHealth(_health.Current, _health.Max);
-            _health.Subscribe(OnHit);
-        }
-    }
-
-    private void OnDisable()
-    {
-        _backTween?.Kill();
-        _shakeTween?.Kill();
-        if (_health != null)
-        {
-            _health.Unsubscribe(OnHit);
-        }
-        
-    }
-
-    public void SetHealth(float currentHp, float maxHp)
-    {
-        float targetRatio = Mathf.Clamp01(currentHp / maxHp);
-
-        if (targetRatio >= _currentHpRatio)
-        {
-            _frontFill.fillAmount = targetRatio;
-            _backFill.fillAmount = targetRatio;
-            _currentHpRatio = targetRatio;
+            Debug.LogWarning("[EnemyHealthUI] Health stat is null!");
             return;
         }
 
-        OnHit(targetRatio);
+
+        base.OnInit();
+
+        float ratio = _healthStat.Current / _healthStat.Max;
+        SetHealthInstant(ratio);
+        _healthStat.Unsubscribe(OnHealthChanged); // 중복 방지
+        _healthStat.Subscribe(OnHealthChanged);
+
+        Hide();
+        _isInitialized = true;
+        
     }
 
-    private void OnHit(float current)
+    //적이 사망했을때
+    public void OnOwnerDead()
     {
-        float targetRatio = current / _health.Max;
-        Debug.Log($"[EnemyHealthUI] Hit - TargetRatio: {targetRatio}");
+        Hide();
+        if (_healthStat != null)
+        {
+            _healthStat.Unsubscribe(OnHealthChanged);
+        }
+    }
 
-        _currentHpRatio = targetRatio;
 
-        // 즉시 Front 감소
-        _frontFill.fillAmount = targetRatio;
+    //적의 HP에 변화가 있을때
+    protected void OnHealthChanged(float currentHp)
+    {
+        if (_healthStat == null || _healthStat.IsFull())
+            return;
 
-        // 파티클
+        float targetRatio = currentHp / _healthStat.Max;
+
+        if (_health != null && _health.IsDead)
+        {
+            Hide();
+            return;
+        }
+
+        if (targetRatio >= _currentHpRatio)
+        {
+            SetHealthInstant(targetRatio);
+            return;
+        }
+
+        Show();
+        PlayHitAnimation(targetRatio);
+    }
+
+    protected void SetHealthInstant(float ratio)
+    {
+        _currentHpRatio = Mathf.Clamp01(ratio);
+        
+        if (_frontFill != null)
+            _frontFill.fillAmount = _currentHpRatio;
+        
+        if (_backFill != null)
+            _backFill.fillAmount = _currentHpRatio;
+    }
+
+    protected void PlayHitAnimation(float targetRatio)
+    {
+        _currentHpRatio = Mathf.Clamp01(targetRatio);
+
+        if (_frontFill != null)
+            _frontFill.fillAmount = _currentHpRatio;
+
         if (_hitParticle != null)
         {
             _hitParticle.Play();
         }
 
-        // BackFill 지연 감소 (중첩 대응)
-        if (_backTween != null && _backTween.IsActive())
-        {
-            _backTween.Kill();
-        }
-
+        CleanupAnimations();
+        
         _backTween = DOVirtual.DelayedCall(_backDelay, () =>
         {
-            _backFill
-                .DOFillAmount(targetRatio, _backLerpDuration)
-                .SetEase(Ease.OutCubic);
+            if (_backFill != null)
+            {
+                _backFill
+                    .DOFillAmount(_currentHpRatio, _backLerpDuration)
+                    .SetEase(Ease.OutCubic);
+            }
         });
 
-        ResetAutoHide();
+        // AutoHide 타이머 리셋 (3초 후 자동 숨김)
+        if (_autoHider != null)
+        {
+            _autoHider.ResetTimer();
+        }
     }
 
-    private void ResetAutoHide()
+    protected void CleanupAnimations()
     {
-        _hideTween?.Kill();
+        _backTween?.Kill();
+        _backTween = null;
 
-        _hideTween = DOVirtual.DelayedCall(_autoHideDelay,Hide);
+        // 파티클 정지
+        if (_hitParticle != null && _hitParticle.isPlaying)
+        {
+            _hitParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
     }
 
+    public override void Hide()
+    {
+        CleanupAnimations();
+        base.Hide();
+    }
 }

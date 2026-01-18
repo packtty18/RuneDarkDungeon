@@ -22,9 +22,12 @@ public class EnemySpawner : PoolSpawner
             return null;
         }
 
+        // 위치 설정을 먼저 수행 (Agent가 비활성화된 상태)
         Vector3 spawnPos = CalculateSpawnPosition();
         enemy.transform.position = spawnPos;
-        Debug.Log($"[SpawnManager] 스폰 위치 설정 {spawnPos}");
+        
+        Debug.Log($"[EnemySpawner] 스폰 위치 설정: {spawnPos}, 실제 위치: {enemy.transform.position}");
+        
         return enemy;
     }
 

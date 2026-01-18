@@ -1,6 +1,7 @@
 
 using Sirenix.OdinInspector;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -11,7 +12,7 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private ETeamType _team;
     [SerializeField] private Rigidbody _physics;
     [SerializeField] private Transform _target;
-    [SerializeField] private UIBase _healthUI;
+    [SerializeField] private EnemyHealthUI _healthUI;
 
     [ShowInInspector] private IEnemyBehavior _behavior;
     [ShowInInspector] private EnemyStateMachine _fsm;
@@ -60,28 +61,104 @@ public class EnemyController : PoolableObject, IDamageable
         _physics = GetComponent<Rigidbody>();
         _phase = GetComponent<EnemyPhase>();
 
+        EnablePhysics(true);
+        _fsm = new EnemyStateMachine(this);
+    }
+
+    public override void OnSpawn()
+    {
+        if (BattleManager.Instance != null)
+        {
+            BattleManager.Instance.OnBattleStateChanged.Subscribe(OnBattleStateChanged);
+            OnBattleStateChanged(BattleManager.Instance.State);
+        }
+        _target = null;
+        
+        // 물리 엔진 비활성화 (위치 설정 전)
+        EnablePhysics(false);
+        
+        // NavMeshAgent도 비활성화
+        if (_move != null)
+        {
+            _move.ResetAgent();
+        }
+    }
+
+    public override void OnDespawn()
+    {
+        if (BattleManager.Instance != null)
+        {
+            BattleManager.Instance.OnBattleStateChanged.Unsubscribe(OnBattleStateChanged);
+        }
+
+        // FSM 및 코루틴 정리
+        _fsm.Reset();
+        StopAllCoroutines();
+        loopRoutine = null;
+
+        // UI 숨기기
+        UIDisable();
+
+        // 물리 엔진 비활성화
+        EnablePhysics(false);
+        
+        // Agent 정리
+        if (_move != null)
+        {
+            _move.ResetAgent();
+        }
+        
+        base.OnDespawn();
+    }
+
+    #region 생명주기
+    [Button]
+    public void Init()
+    {
+        // 1. Stat 먼저 초기화 (다른 시스템에서 참조하므로)
         _stat.Init();
+
+        // 2. 나머지 컴포넌트 초기화 (Agent는 비활성화 상태 유지)
         _health.Init();
-        _move.Init();
+        _move.Init(); // Agent 비활성화
         _attack.Init();
         _anim.Init();
         _buff.Init();
 
+        // 3. Behavior 및 Phase 초기화
         _behavior = CreateBehavior(_stat.EnemyType);
+        _behavior?.Initialize(this);
+        _phase?.Reset();
 
-        _phase.Init();
+        // 4. UI 초기화 (체력바 등)
+        UIEnable();
 
-        _fsm = new EnemyStateMachine(this);
+
+        // 5. FSM 초기화 및 시작 (Idle 상태에서 Agent 활성화됨)
+        _fsm.Reset();
+        _fsm.ChangeState(EEnemyState.Idle);
+
+        // 6. 물리 엔진 활성화 (마지막에 수행)
+        EnablePhysics(true);
     }
-    public void SetConstraintsYPosition(bool enable)
+
+    private void UIEnable()
     {
-        if (enable)
+        if (_healthUI != null)
         {
-            _physics.constraints |= RigidbodyConstraints.FreezePositionY;
+            _healthUI.Init();
         }
-        else
+        if (_wait && Stat.EnemyType == EEnemyType.Boss)
         {
-            _physics.constraints &= ~RigidbodyConstraints.FreezePositionY;
+            _healthUI.Hide();
+        }
+    }
+
+    private void UIDisable()
+    {
+        if (_healthUI != null)
+        {
+            _healthUI.Hide();
         }
     }
 
@@ -118,28 +195,27 @@ public class EnemyController : PoolableObject, IDamageable
         return true;
     }
 
-    #region 생명주기
-    [Button]
-    public void Init()
+
+    public void SetConstraintsPosition(bool enable)
     {
-        EnablePhysics(true);
+        if (_physics == null)
+            return;
 
-        _stat.Init();
-        _health.Init();
-        _move.Init();
-        _attack.Init();
-        _anim.Init();
-        _buff.Init();
+        RigidbodyConstraints constraints = _physics.constraints;
+        if (enable)
+        {
+            constraints |= RigidbodyConstraints.FreezePositionX;
+            constraints |= RigidbodyConstraints.FreezePositionY;
+            constraints |= RigidbodyConstraints.FreezePositionZ;
+        }
+        else
+        {
+            constraints &= ~RigidbodyConstraints.FreezePositionX;
+            constraints &= ~RigidbodyConstraints.FreezePositionY;
+            constraints &= ~RigidbodyConstraints.FreezePositionZ;
+        }
 
-        _behavior?.Initialize(this);
-        _phase?.Reset();
-
-        _fsm.Reset();
-        _fsm.ChangeState(EEnemyState.Idle);
-
-        _health.SetDamageable(true);
-
-        
+        _physics.constraints = constraints;
     }
 
     public void EnablePhysics(bool enable)
@@ -151,31 +227,13 @@ public class EnemyController : PoolableObject, IDamageable
 
     public void Dead()
     {
-        _health.SetDamageable(false);
-        _fsm.Reset();
-
         EnablePhysics(false);
+        // UI 즉시 숨기기
+        UIDisable();
         ReturnToPoolAfter(3f);
-
         OnDead?.Invoke(this);
     }
-    public override void OnSpawn()
-    {
-        if (BattleManager.Instance != null)
-        {
-            BattleManager.Instance.OnBattleStateChanged.Subscribe(OnBattleStateChanged);
-            OnBattleStateChanged(BattleManager.Instance.State);
-        }
-    }
-
-    public override void OnDespawn()
-    {
-        if (BattleManager.Instance != null)
-        {
-            BattleManager.Instance.OnBattleStateChanged.Unsubscribe(OnBattleStateChanged);
-        }
-        base.OnDespawn();
-    }
+    
     
     private void OnBattleStateChanged(EBattleState state)
     {
@@ -189,13 +247,14 @@ public class EnemyController : PoolableObject, IDamageable
             case EBattleState.InProgress:
                 _wait = false;
                 OnPause(false);
+                if(Stat.EnemyType == EEnemyType.Boss)
+                {
+                    UIEnable();
+                }
                 break;
             case EBattleState.Pause:
-                {
-                    OnPause(true);
-                    break;
-                }
-                
+                OnPause(true);
+                break;
             case EBattleState.WaitingNextStage:
                 _wait = true;
                 break;
@@ -267,7 +326,7 @@ public class EnemyController : PoolableObject, IDamageable
             return;
         }
 
-        _healthUI?.Show();
+        // 데미지 적용 (EnemyHealthUI가 자동으로 표시됨)
         if (!_health.TryApplyDamage(data.Damage))
         {
             return;
@@ -381,6 +440,29 @@ public class EnemyController : PoolableObject, IDamageable
         if (FSM.CurrentState is AttackState attackState)
         {
             attackState.OnAttackFinished();
+        }
+    }
+
+    #endregion
+
+    #region Collision Detection (for ChargeState)
+    
+    /// <summary>
+    /// 물리 충돌 감지 (돌진 중 벽 충돌 시 사용)
+    /// </summary>
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 돌진 중일 때만 처리
+        if (FSM.CurrentState is ChargeState chargeState)
+        {
+            // 벽이나 장애물과 충돌 시 돌진 중단
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") ||
+                collision.gameObject.layer == LayerMask.NameToLayer("Obstacle") ||
+                collision.gameObject.layer == LayerMask.NameToLayer("Default"))
+            {
+                Debug.Log($"[EnemyController] 충돌 감지: {collision.gameObject.name} - 돌진 중단");
+                FSM.ChangeState(EEnemyState.Chase);
+            }
         }
     }
 
