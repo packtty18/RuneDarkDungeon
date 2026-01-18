@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InventoryManager : MonoBehaviour
+public class SelectionManager : MonoBehaviour
 {
     [Header("UI 연결")]
     [SerializeField] private UI_Tooltip _tooltip;

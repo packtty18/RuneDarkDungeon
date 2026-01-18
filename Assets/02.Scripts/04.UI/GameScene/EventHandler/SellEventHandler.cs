@@ -4,13 +4,13 @@ public class SellEventHandler : ISlotEventHandler
 {
     private readonly IInventory _inventory;
     private readonly ICurrency _currency;
-    private readonly InventoryManager _inventoryManager;
+    private readonly SelectionManager _selectionManager;
 
-    public SellEventHandler(IInventory inventory, ICurrency currency, InventoryManager inventoryManager)
+    public SellEventHandler(IInventory inventory, ICurrency currency, SelectionManager selectionManager)
     {
         _inventory = inventory;
         _currency = currency;
-        _inventoryManager = inventoryManager;
+        _selectionManager = selectionManager;
     }
 
     public void OnClickSlot(UI_Slot slot)
@@ -21,18 +21,18 @@ public class SellEventHandler : ISlotEventHandler
 
     public void OnHoverSlot(UI_Slot slot)
     {
-        _inventoryManager.ShowTooltip(slot, true);
+        _selectionManager.ShowTooltip(slot, true);
     }
 
     public void OnDoubleClickSlot(UI_Slot slot) { }
 
     public void OnEnter()
     {
-        _inventoryManager.SetSellCursor();
+        _selectionManager.SetSellCursor();
     }
 
     public void OnExit()
     {
-        _inventoryManager.ResetCursor();
+        _selectionManager.ResetCursor();
     }
 }
