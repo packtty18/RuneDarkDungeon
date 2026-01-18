@@ -37,7 +37,7 @@ public class ModePresenter : MonoBehaviour
         ChangeMode(_mode == EInventoryMode.Closed ? EInventoryMode.Normal : EInventoryMode.Closed);
     }
 
-    private void OnClickUpgradeButton()
+    public void OnClickUpgradeButton()
     {
         ChangeMode(_mode == EInventoryMode.Upgrade ? EInventoryMode.Normal : EInventoryMode.Upgrade);
     }

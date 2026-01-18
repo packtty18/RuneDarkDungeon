@@ -59,6 +59,7 @@ public enum EEnemyState
 
 public enum EGameKeyType
 {
+    None,
     Front,
     Back,
     Left,
@@ -72,6 +73,15 @@ public enum EGameKeyType
     Run,
     Enter,
     Click,
+    ESC,
+}
+
+public enum ECameraMode
+{
+    None,
+    Default,
+    Cave,
+    Boss,
 }
 
 public enum ESceneType

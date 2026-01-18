@@ -4,7 +4,7 @@ public class EquipmentPresenter : MonoBehaviour
 {
     [Header("UI 연결")]
     [SerializeField] private UI_EquipmentView _equipmentUI;
-    [SerializeField] private InventoryManager _inventoryManager;
+    [SerializeField] private SelectionManager _selectionManager;
     
     private IEquipment _equipment;
     private IInventory _inventory;
@@ -45,10 +45,10 @@ public class EquipmentPresenter : MonoBehaviour
 
     private void HandleSlotClicked(ESkillSlot slot)
     {
-        var item = _inventoryManager.SelectedItem;
+        var item = _selectionManager.SelectedItem;
         if (item == null) return;
         
-        _inventoryManager.DeselectItem();
+        _selectionManager.DeselectItem();
         _inventory.Remove(item);
         ItemData oldItem = _equipment.Equip(slot, item);
 
@@ -58,7 +58,7 @@ public class EquipmentPresenter : MonoBehaviour
 
     private void HandleSlotHovered(UI_Slot slot)
     {
-        _inventoryManager.ShowTooltip(slot);
+        _selectionManager.ShowTooltip(slot);
     }
 
     public void HandleModeChanged(EInventoryMode mode)

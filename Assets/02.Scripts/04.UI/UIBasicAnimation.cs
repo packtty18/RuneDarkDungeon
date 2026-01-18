@@ -1,4 +1,5 @@
 using DG.Tweening;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -22,6 +23,29 @@ public class UIBasicAnimation : MonoBehaviour
     {
         _currentSequence?.Kill();
     }
+
+    #region Popup
+
+    public void PopUp(float duration = 0.2f)
+    {
+        Show();
+        transform.localScale = Vector3.zero;
+
+        _currentSequence?.Kill();
+
+        _currentSequence = DOTween.Sequence();
+        _currentSequence.Append(transform.DOScale(Vector3.one, duration).SetEase(Ease.OutBack));
+    }
+
+    public void PopDown(float duration = 0.2f)
+    {
+        _currentSequence?.Kill();
+
+        _currentSequence = DOTween.Sequence();
+        _currentSequence.Append(transform.DOScale(Vector3.zero, duration).SetEase(Ease.InBack)).OnComplete(() => Hide());
+    }
+
+    #endregion
 
     /// 작아졌다가 원래 크기로 돌아오기.
     public void ScaleDownAndRecover(float targetScale = 0.8f, float duration = 0.2f)
@@ -170,6 +194,16 @@ public class UIBasicAnimation : MonoBehaviour
 
     }
 
+    public void FadeLoop(float duration = 0.3f, float minValue =0, Ease ease = Ease.OutQuad, int loops = -1)
+    {
+        _currentSequence?.Kill();
+
+        _currentSequence = DOTween.Sequence();
+        _currentSequence.Append(_canvasGroup.DOFade(minValue, duration * 0.5f).SetEase(ease));
+        _currentSequence.Append(_canvasGroup.DOFade(1f, duration * 0.5f).SetEase(ease));
+        _currentSequence.SetLoops(loops, LoopType.Restart);
+    }
+
     public void PunchFadeIn(float duration = 0.3f, float punchScale = 0.2f, Ease ease = Ease.OutQuad,  int vibrato = 10, float elasticity = 1f)
     {
         if (_canvasGroup == null) return;
@@ -190,7 +224,7 @@ public class UIBasicAnimation : MonoBehaviour
     public void Hide()
     {
         if (_canvasGroup == null) return;
-
+        StopAndReset();
         _canvasGroup.alpha = 0f;
     }
     public void Show()
@@ -208,7 +242,7 @@ public class UIBasicAnimation : MonoBehaviour
         _currentSequence?.Kill();
 
         _currentSequence = DOTween.Sequence();
-        _currentSequence.Append(_canvasGroup.DOFade(0f, duration).SetEase(ease));
+        _currentSequence.Append(_canvasGroup.DOFade(0f, duration).SetEase(ease)).OnComplete(() => StopAndReset());
     }
 
     public void StopAndReset()
@@ -216,6 +250,7 @@ public class UIBasicAnimation : MonoBehaviour
         _currentSequence?.Kill();
         transform.localScale = _originalScale;
         transform.localPosition = _originalPosition;
+        transform.localRotation = Quaternion.identity;
     }
 
     public void Stop()
