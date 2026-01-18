@@ -20,7 +20,8 @@ public class InputManager : GlobalSingleton<InputManager>
         { EGameKeyType.QSkill,   new KeyCode[]{ KeyCode.Q} },
         { EGameKeyType.ESkill,   new KeyCode[]{ KeyCode.E} },
         { EGameKeyType.RSkill,   new KeyCode[]{ KeyCode.R} },
-        { EGameKeyType.Enter,   new KeyCode[]{ KeyCode.Return} }
+        { EGameKeyType.Enter,   new KeyCode[]{ KeyCode.Return} },
+        { EGameKeyType.ESC,   new KeyCode[]{ KeyCode.Escape} }
     };
 
     // 키 상태 저장
@@ -42,6 +43,11 @@ public class InputManager : GlobalSingleton<InputManager>
     {
         foreach (var key in _gameKeyType)
         {
+            if (key == EGameKeyType.None)
+            {
+                continue;
+            }
+
             // 이전 상태 갱신.
             _previousDownStates[key] = _currentDownStates[key];
 
