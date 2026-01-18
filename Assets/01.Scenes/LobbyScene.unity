@@ -4712,6 +4712,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 476446557}
+  - component: {fileID: 476446558}
   m_Layer: 5
   m_Name: Runes
   m_TagString: Untagged
@@ -4741,6 +4742,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -448}
   m_SizeDelta: {x: 755.7, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &476446558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476446556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdc9455f526f4cf5b6d9f2a5b141580c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_Rune
+  _qRune: {fileID: 22017389}
+  _eRune: {fileID: 660271793}
+  _rRune: {fileID: 1405123291}
+  _qRuneImage: {fileID: 1162268524}
+  _eRuneImage: {fileID: 1842481645}
+  _rRuneImage: {fileID: 493143011}
 --- !u!1 &478198012
 GameObject:
   m_ObjectHideFlags: 0
@@ -4832,6 +4851,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &493143011 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4529211313149630689, guid: a57d31b4639fd454c81c50d7563b35b7, type: 3}
+  m_PrefabInstance: {fileID: 1621129932}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &503802377
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11442,6 +11472,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3a9ba92df4e5548825f2b2db75b229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_WindowToggleButton
+--- !u!114 &1162268524 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4529211313149630689, guid: a57d31b4639fd454c81c50d7563b35b7, type: 3}
+  m_PrefabInstance: {fileID: 8345128479316801148}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &1175880288
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17443,6 +17484,17 @@ Transform:
   - {fileID: 279389482}
   m_Father: {fileID: 2134898955}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1842481645 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4529211313149630689, guid: a57d31b4639fd454c81c50d7563b35b7, type: 3}
+  m_PrefabInstance: {fileID: 805036747}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1846592298
 GameObject:
   m_ObjectHideFlags: 0
