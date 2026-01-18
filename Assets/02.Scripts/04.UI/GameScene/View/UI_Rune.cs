@@ -42,23 +42,23 @@ public class UI_Rune : MonoBehaviour
         var eItem = _equipment.GetItem(ESkillSlot.E);
         if (eItem == null)
         {
-            _qRune.SetActive(false);
+            _eRune.SetActive(false);
         }
         else
         {
-            _qRune.SetActive(true);
-            _qRuneImage.sprite = eItem.Icon;
+            _eRune.SetActive(true);
+            _eRuneImage.sprite = eItem.Icon;
         }
         
         var rItem = _equipment.GetItem(ESkillSlot.R);
         if (rItem == null)
         {
-            _qRune.SetActive(false);
+            _rRune.SetActive(false);
         }
         else
         {
-            _qRune.SetActive(true);
-            _qRuneImage.sprite = rItem.Icon;
+            _rRune.SetActive(true);
+            _rRuneImage.sprite = rItem.Icon;
         }
     }
 }

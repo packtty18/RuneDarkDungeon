@@ -23,9 +23,9 @@ public class UI_Initializer : MonoBehaviour
             { EInventoryMode.Sell, new SellEventHandler(data.Inventory, data.GoldData, _selectionManager) },
         };
         
-        _inventoryPresenter.Initialize(data.Inventory, inventoryHandlerDict);
-        _upgradePresenter.Initialize(data.Forge, data.Inventory, data.GoldData);
-        _equipmentPresenter.Initialize(data.Equipment, data.Inventory);
-        _currencyPresenter.Initialize(data.GoldData);
+        _inventoryPresenter?.Initialize(data.Inventory, inventoryHandlerDict);
+        _upgradePresenter?.Initialize(data.Forge, data.Inventory, data.GoldData);
+        _equipmentPresenter?.Initialize(data.Equipment, data.Inventory);
+        _currencyPresenter?.Initialize(data.GoldData);
     }
 }
