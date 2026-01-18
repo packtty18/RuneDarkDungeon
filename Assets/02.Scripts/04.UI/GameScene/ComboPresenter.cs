@@ -3,8 +3,11 @@ using TMPro;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
-public class ComboUIUpdate : MonoBehaviour
+public class ComboPresenter : MonoBehaviour
 {
+    [SerializeField]
+    private PlayerContext _playerContext;
+
     [SerializeField]
     private TextMeshProUGUI _comboText;
     [SerializeField]
@@ -16,14 +19,25 @@ public class ComboUIUpdate : MonoBehaviour
     [SerializeField]
     private UIBasicAnimation _chargingFinisher;
 
-    [SerializeField]
     private PlayerAttack _playerAttack;
 
+    private void Awake()
+    {
+        if (_playerContext.Attack != null)
+            Bind();
+
+        _playerContext.Subscribe(Bind);
+    }
+    private void Bind()
+    {
+        _playerAttack = _playerContext.Attack;
+
+        _playerAttack.OnComboChange += ComboUpdate;
+        _playerAttack.OnComboCharging += OnCharging;
+    }
     void Start()
     {
         HideAll();
-        _playerAttack.OnComboChange += ComboUpdate;
-        _playerAttack.OnComboCharging += OnCharging;  
     }
 
     void ComboUpdate (float currentCombo, float maxCombo)
@@ -79,6 +93,7 @@ public class ComboUIUpdate : MonoBehaviour
 
     private void OnDestroy()
     {
+        _playerContext?.Unsubscribe(Bind);
         if (_playerAttack != null)
         {
             _playerAttack.OnComboChange -= ComboUpdate;
