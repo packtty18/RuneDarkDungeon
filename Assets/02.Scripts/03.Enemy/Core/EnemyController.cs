@@ -24,6 +24,7 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private EnemyStat _stat;
     [SerializeField] private EnemyAnimator _anim;
     [SerializeField] private EnemyBuff _buff;
+    [SerializeField] private EnemySound _sound;
     
     
     [SerializeField] private bool _paused;
@@ -44,6 +45,7 @@ public class EnemyController : PoolableObject, IDamageable
     public EnemyAnimator Anim => _anim;
     public EnemyBuff Buff => _buff;
     public EnemyPhase Phase => _phase;
+    public EnemySound Sound => _sound;
     public bool Pause => _paused;
     public bool Wait => _wait;
 
@@ -57,7 +59,8 @@ public class EnemyController : PoolableObject, IDamageable
         _move = GetComponent<EnemyMove>();
         _attack = GetComponent<EnemyAttack>();
         _anim = GetComponent<EnemyAnimator>();
-        _buff= GetComponent<EnemyBuff>();
+        _buff = GetComponent<EnemyBuff>();
+        _sound = GetComponent<EnemySound>();
         _physics = GetComponent<Rigidbody>();
         _phase = GetComponent<EnemyPhase>();
 
@@ -124,6 +127,12 @@ public class EnemyController : PoolableObject, IDamageable
         _attack.Init();
         _anim.Init();
         _buff.Init();
+        
+        // 사운드 초기화
+        if (_sound != null)
+        {
+            _sound.Init();
+        }
 
         // 3. Behavior 및 Phase 초기화
         _behavior = CreateBehavior(_stat.EnemyType);
@@ -343,6 +352,9 @@ public class EnemyController : PoolableObject, IDamageable
         }
         else
         {
+            // 피격 사운드 재생
+            _sound?.PlayHit();
+            
             HandleDamaged();
         }
     }

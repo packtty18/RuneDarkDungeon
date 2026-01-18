@@ -13,6 +13,8 @@ public class DeadState : EnemyState
         controller.CancelAttack();
         controller.Anim.SetTrigger(EnemyAnimator.s_deadTrigger);
         
+        controller.Sound?.PlayDeath();
+        
         controller.Dead();
     }
 
