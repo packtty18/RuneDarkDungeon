@@ -24,6 +24,29 @@ public class UIBasicAnimation : MonoBehaviour
         _currentSequence?.Kill();
     }
 
+    #region Popup
+
+    public void PopUp(float duration = 0.2f)
+    {
+        Show();
+        transform.localScale = Vector3.zero;
+
+        _currentSequence?.Kill();
+
+        _currentSequence = DOTween.Sequence();
+        _currentSequence.Append(transform.DOScale(Vector3.one, duration).SetEase(Ease.OutBack));
+    }
+
+    public void PopDown(float duration = 0.2f)
+    {
+        _currentSequence?.Kill();
+
+        _currentSequence = DOTween.Sequence();
+        _currentSequence.Append(transform.DOScale(Vector3.zero, duration).SetEase(Ease.InBack)).OnComplete(() => Hide());
+    }
+
+    #endregion
+
     /// 작아졌다가 원래 크기로 돌아오기.
     public void ScaleDownAndRecover(float targetScale = 0.8f, float duration = 0.2f)
     {
