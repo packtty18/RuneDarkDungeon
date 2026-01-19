@@ -8,7 +8,8 @@ using UnityEngine;
 public class EnemyController : PoolableObject, IDamageable
 {
     [SerializeField] private ETeamType _team;
-    [SerializeField] private Rigidbody _physics;
+    [SerializeField] private Rigidbody _rigid;
+    [SerializeField] private Collider _physicCollider;
     [SerializeField] private Transform _target;
     [SerializeField] private EnemyHealthUI _healthUI;
 
@@ -60,9 +61,11 @@ public class EnemyController : PoolableObject, IDamageable
         _anim = GetComponent<EnemyAnimator>();
         _buff = GetComponent<EnemyBuff>();
         _sound = GetComponent<EnemySound>();
-        _physics = GetComponent<Rigidbody>();
         _phase = GetComponent<EnemyPhase>();
         _shader = GetComponent<EnemyShaderFeedback>();
+
+        _rigid = GetComponent<Rigidbody>();
+        _physicCollider = GetComponent<Collider>();
 
         EnablePhysics(true);
         _fsm = new EnemyStateMachine(this);
@@ -97,22 +100,12 @@ public class EnemyController : PoolableObject, IDamageable
             BattleManager.Instance.OnBattleStateChanged.Unsubscribe(OnBattleStateChanged);
         }
 
-        // FSM 및 코루틴 정리
         _fsm.Reset();
         StopAllCoroutines();
         loopRoutine = null;
-
-        // UI 숨기기
         UIDisable();
-
-        // 물리 엔진 비활성화
         EnablePhysics(false);
-
-        // Agent 정리
-        if (_move != null)
-        {
-            _move.ResetAgent();
-        }
+        _move.ResetAgent();
 
         base.OnDespawn();
     }
@@ -208,10 +201,10 @@ public class EnemyController : PoolableObject, IDamageable
 
     public void SetConstraintsPosition(bool enable)
     {
-        if (_physics == null)
+        if (_rigid == null)
             return;
 
-        RigidbodyConstraints constraints = _physics.constraints;
+        RigidbodyConstraints constraints = _rigid.constraints;
         if (enable)
         {
             constraints |= RigidbodyConstraints.FreezePositionX;
@@ -225,14 +218,15 @@ public class EnemyController : PoolableObject, IDamageable
             constraints &= ~RigidbodyConstraints.FreezePositionZ;
         }
 
-        _physics.constraints = constraints;
+        _rigid.constraints = constraints;
     }
 
     public void EnablePhysics(bool enable)
     {
-        if (_physics == null)
+        if (_rigid == null)
             return;
-        _physics.isKinematic = !enable;
+        _rigid.isKinematic = !enable;
+        _physicCollider.isTrigger = !enable;
     }
 
     public void Dead()
@@ -243,9 +237,6 @@ public class EnemyController : PoolableObject, IDamageable
         OnDead?.Invoke(this);
     }
 
-    
-    
-    
     private void OnBattleStateChanged(EBattleState state)
     {
         switch (state)
