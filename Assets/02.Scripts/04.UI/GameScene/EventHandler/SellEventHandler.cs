@@ -15,6 +15,8 @@ public class SellEventHandler : ISlotEventHandler
 
     public void OnClickSlot(UI_Slot slot)
     {
+        SoundManager.Instance.Play(ESoundType.Rune_Sell);
+        
         _currency.Add(slot.Item.Info.Price);
         _inventory.Remove(slot.Item);
     }
