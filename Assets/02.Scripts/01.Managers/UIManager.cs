@@ -16,6 +16,9 @@ public class UIManager : GlobalSingleton<UIManager>
     [Header("Popup")]
     [SerializeField] private Dictionary<string, PUBase> _pus;
 
+    [SerializeField] private UI_Popup _setting;
+
+    private ESceneType sceneType;
 
     // 씬 전환시 해당 씬에 맞는 UI상태 적용
     public void ApplySceneUIState(ESceneType state)
@@ -30,6 +33,25 @@ public class UIManager : GlobalSingleton<UIManager>
             case ESceneType.Loading:
                 break;
             case ESceneType.Lobby:
+                break;
+        }
+    }
+
+    public void Update()
+    {
+        sceneType = SceneLoadManager.Instance.CurrentSceneData.SceneType;
+
+        switch (sceneType)
+        {
+            case ESceneType.MainMenu:
+                break;
+            case ESceneType.Gameplay:
+                _setting.InputCheck();
+                break;
+            case ESceneType.Loading:
+                break;
+            case ESceneType.Lobby:
+                _setting.InputCheck();
                 break;
         }
     }

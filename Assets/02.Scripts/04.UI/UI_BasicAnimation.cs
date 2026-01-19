@@ -252,11 +252,9 @@ public class UI_BasicAnimation : MonoBehaviour
             _canvasGroup.alpha = 0f;
         }
         StopAndReset();
-        gameObject.SetActive(false);
     }
     public void Show()
     {
-        gameObject.SetActive(true);
         if (_canvasGroup != null)
         {
             _canvasGroup.alpha = 1f;
