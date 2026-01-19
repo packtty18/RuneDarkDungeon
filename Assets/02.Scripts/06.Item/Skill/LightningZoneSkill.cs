@@ -23,6 +23,8 @@ public class LightningZoneSkill : SkillBase
     
     protected override void ApplyEffect(GameObject user, EItemGrade grade)
     {
+        SoundManager.Instance.Play(ESoundType.Skill_Lightningzone);
+        
         transform.position += _offset;
         
         _dotDealer.StartDot(_damage[grade], _interval, _lifeTime);

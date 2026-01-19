@@ -11,6 +11,14 @@ public enum ESoundType
     Sfx_Test1,
     Sfx_Test2,
     Sfx_Test3,
+    
+    UI_Button_Click,
+    Rune_Sell,
+    Gold_Get,
+    
+    Skill_BladeStorm,
+    Skill_Lightningzone,
+    Skill_JudgmentMeteor,
 
     Enemy_Warrior_Footstep,
     Enemy_Warrior_Attack,

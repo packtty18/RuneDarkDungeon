@@ -41,14 +41,14 @@ public class SelectionManager : MonoBehaviour
         SetBackgroundsActive(false);
     }
 
-    public void ShowTooltip(UI_Slot slot, bool showGold = false)
+    public void ShowTooltip(UI_Slot slot, int gold = 0)
     {
         if (slot == null)
         {
             _tooltip.Hide();
             return;
         }
-        _tooltip.Show(slot.Item.Info, slot.transform, showGold);
+        _tooltip.Show(slot.Item.Info, slot.transform, gold);
     }
 
     public void SetSellCursor()

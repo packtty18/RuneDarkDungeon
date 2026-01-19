@@ -14,7 +14,7 @@ public class UI_EquipmentView : PUBase
     public event Action<ESkillSlot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
     
-    protected override void OnInit()
+    public void Initialize()
     {
         _slotDict = new();
         foreach (var pair in _slots)
