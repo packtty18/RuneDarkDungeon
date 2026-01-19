@@ -46,28 +46,25 @@ public class EnemySound : MonoBehaviour
             {
                 EEnemyType.Warrior, new EnemySoundSet
                 {
-                    Attack = ESoundType.Enemy_Warrior_Attack,
-                    Death = ESoundType.Enemy_Warrior_Death
+                    Attack = ESoundType.Enemy_Warrior_Slash,
                 }
             },
             {
                 EEnemyType.Archer, new EnemySoundSet
                 {
-                    Attack = ESoundType.Enemy_Archer_Attack,
-                    Death = ESoundType.Enemy_Archer_Death
+                    Attack = ESoundType.Enemy_Archer_Shoot,
                 }
             },
             {
                 EEnemyType.Mage, new EnemySoundSet
                 {
-                    Attack = ESoundType.Enemy_Mage_Attack,
-                    Death = ESoundType.Enemy_Mage_Death
+                    Attack = ESoundType.Enemy_Mage_Fireball,
                 }
             },
             {
                 EEnemyType.Elite, new EnemySoundSet
                 {
-                    Attack = ESoundType.Enemy_Elite_Attack,
+                    Attack = ESoundType.Enemy_Elite_Slash,
                     Death = ESoundType.Enemy_Elite_Death,
                     Charge = ESoundType.Enemy_Elite_Charge
                 }
@@ -75,11 +72,10 @@ public class EnemySound : MonoBehaviour
             {
                 EEnemyType.Boss, new EnemySoundSet
                 {
-                    Attack = ESoundType.Enemy_Boss_Attack,
+                    Attack = ESoundType.Enemy_Boss_Slash,
                     Death = ESoundType.Enemy_Boss_Death,
                     Charge = ESoundType.Enemy_Boss_Charge,
                     Summon = ESoundType.Enemy_Boss_Summon,
-                    Buff = ESoundType.Enemy_Boss_Buff
                 }
             }
         };
