@@ -12,6 +12,7 @@ public class UI_Initializer : MonoBehaviour
     
     [Space]
     [SerializeField] private SelectionManager _selectionManager;
+    [SerializeField] private ItemPriceDataSO _priceDB;
     
     public void Initialize(IDataHolder data)
     {
@@ -20,12 +21,14 @@ public class UI_Initializer : MonoBehaviour
             { EInventoryMode.Normal, new SelectEventHandler(data.Inventory, _selectionManager) },
             { EInventoryMode.Upgrade , new RegisterEventHandler(data.Inventory, data.Forge) },
             { EInventoryMode.Equipment, new SelectEventHandler(data.Inventory, _selectionManager) },
-            { EInventoryMode.Sell, new SellEventHandler(data.Inventory, data.GoldData, _selectionManager) },
+            { EInventoryMode.Sell, new SellEventHandler(data.Inventory, data.GoldData, _selectionManager, _priceDB) },
         };
         
         _inventoryPresenter?.Initialize(data.Inventory, inventoryHandlerDict);
         _upgradePresenter?.Initialize(data.Forge, data.Inventory, data.GoldData);
         _equipmentPresenter?.Initialize(data.Equipment, data.Inventory);
         _currencyPresenter?.Initialize(data.GoldData);
+        
+        Destroy(gameObject);
     }
 }

@@ -13,16 +13,16 @@ public class UI_Tooltip : MonoBehaviour
     [SerializeField] private float _widthOffsetRatio = 0.6f;
     [SerializeField] private float _heightOffsetRatio = 0.4f;
 
-    public void Show(ItemSO info, Transform icon, bool showGold = false)
+    public void Show(ItemSO info, Transform icon, int gold = 0)
     {
         _nameTextUI.text = info.name;
         _tooltipTextUI.text = info.Tooltip;
-        _goldTextUI.SetText("{0} 골드", info.Price);
+        _goldTextUI.SetText("{0} 골드", gold);
         
         SetPositionNextToIcon(icon);
         
         gameObject.SetActive(true);
-        _goldTextUI.gameObject.SetActive(showGold);
+        _goldTextUI.gameObject.SetActive(gold != 0);
     }
     
     public void Hide()
