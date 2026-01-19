@@ -126,6 +126,7 @@ public class UI_BasicAnimation : MonoBehaviour
 
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(transform.DOLocalMove(targetPosition, duration).SetEase(ease));
+
         _currentSequence.Join(transform.DOScale(scaleTarget, duration).SetEase(ease));
     }
 
@@ -250,6 +251,7 @@ public class UI_BasicAnimation : MonoBehaviour
         if (_canvasGroup != null)
         {
             _canvasGroup.alpha = 0f;
+            _canvasGroup.blocksRaycasts = false;
         }
         StopAndReset();
     }
@@ -258,6 +260,7 @@ public class UI_BasicAnimation : MonoBehaviour
         if (_canvasGroup != null)
         {
             _canvasGroup.alpha = 1f;
+            _canvasGroup.blocksRaycasts = true;
         }
     }
 
