@@ -46,28 +46,25 @@ public class EnemySound : MonoBehaviour
             {
                 EEnemyType.Warrior, new EnemySoundSet
                 {
-                    Attack = ESoundType.Enemy_Warrior_Attack,
-                    Death = ESoundType.Enemy_Warrior_Death
+                    Attack = ESoundType.Enemy_Warrior_Slash,
                 }
             },
             {
                 EEnemyType.Archer, new EnemySoundSet
                 {
-                    Attack = ESoundType.Enemy_Archer_Attack,
-                    Death = ESoundType.Enemy_Archer_Death
+                    Attack = ESoundType.Enemy_Archer_Shoot,
                 }
             },
             {
                 EEnemyType.Mage, new EnemySoundSet
                 {
-                    Attack = ESoundType.Enemy_Mage_Attack,
-                    Death = ESoundType.Enemy_Mage_Death
+
                 }
             },
             {
                 EEnemyType.Elite, new EnemySoundSet
                 {
-                    Attack = ESoundType.Enemy_Elite_Attack,
+                    Attack = ESoundType.Enemy_Elite_Slash,
                     Death = ESoundType.Enemy_Elite_Death,
                     Charge = ESoundType.Enemy_Elite_Charge
                 }
@@ -75,11 +72,10 @@ public class EnemySound : MonoBehaviour
             {
                 EEnemyType.Boss, new EnemySoundSet
                 {
-                    Attack = ESoundType.Enemy_Boss_Attack,
+                    Attack = ESoundType.Enemy_Boss_Slash,
                     Death = ESoundType.Enemy_Boss_Death,
                     Charge = ESoundType.Enemy_Boss_Charge,
                     Summon = ESoundType.Enemy_Boss_Summon,
-                    Buff = ESoundType.Enemy_Boss_Buff
                 }
             }
         };
@@ -106,7 +102,7 @@ public class EnemySound : MonoBehaviour
 
         if (_soundSets.TryGetValue(_enemyType, out var soundSet))
         {
-            PlaySoundImmediate(soundSet.Death); // 사망음은 쿨다운 무시
+            PlaySound(soundSet.Death); // 사망음은 쿨다운 무시
         }
     }
 
@@ -117,7 +113,7 @@ public class EnemySound : MonoBehaviour
 
         if (_soundSets.TryGetValue(_enemyType, out var soundSet) && soundSet.Charge != ESoundType.None)
         {
-            PlaySound(soundSet.Charge);
+            PlaySoundImmediate(soundSet.Charge);
         }
     }
 
@@ -128,7 +124,7 @@ public class EnemySound : MonoBehaviour
 
         if (_soundSets.TryGetValue(_enemyType, out var soundSet) && soundSet.Summon != ESoundType.None)
         {
-            PlaySound(soundSet.Summon);
+            PlaySoundImmediate(soundSet.Summon);
         }
     }
 

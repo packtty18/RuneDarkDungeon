@@ -111,174 +111,6 @@ MonoBehaviour:
       volume: 1
       minDistance: 10
       maxDistance: 50
-  - key: Enemy_Warrior_Footstep
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Warrior_Attack
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Warrior_Hit
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Warrior_Death
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Archer_Footstep
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Archer_Attack
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Archer_Hit
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Archer_Death
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Mage_Footstep
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Mage_Attack
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Mage_Hit
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Mage_Death
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Elite_Footstep
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Elite_Attack
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Elite_Hit
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Elite_Death
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Elite_Charge
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Boss_Footstep
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Boss_Attack
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Boss_Hit
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Boss_Death
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Boss_Charge
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Boss_Summon
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
-  - key: Enemy_Boss_Buff
-    data:
-      clip: {fileID: 0}
-      isBgm: 0
-      volume: 0
-      minDistance: 0
-      maxDistance: 0
   - key: Player_Land
     data:
       clip: {fileID: 8300000, guid: 64f8bd4aa1245b441a630a3327028f74, type: 3}
@@ -307,3 +139,101 @@ MonoBehaviour:
       volume: 1
       minDistance: 10
       maxDistance: 50
+  - key: Enemy_Warrior_Slash
+    data:
+      clip: {fileID: 8300000, guid: 98dcb3ae1faf3da458e08d3fbdc151fa, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 3
+      maxDistance: 10
+  - key: Enemy_Archer_Shoot
+    data:
+      clip: {fileID: 8300000, guid: 5552ee561a4cbe74888cb4a4320474f9, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 3
+      maxDistance: 10
+  - key: Enemy_Mage_Fireball
+    data:
+      clip: {fileID: 8300000, guid: 15d3a6e27b26daf48a3299bdf44d1290, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 3
+      maxDistance: 10
+  - key: Enemy_Elite_Slash
+    data:
+      clip: {fileID: 8300000, guid: 79909089105c5fc4a8acc5ea0f070d29, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 3
+      maxDistance: 10
+  - key: Enemy_Elite_Death
+    data:
+      clip: {fileID: 8300000, guid: 283e33c34fbf9ca44be335d5315ddf97, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 3
+      maxDistance: 10
+  - key: Enemy_Elite_Charge
+    data:
+      clip: {fileID: 8300000, guid: a0bb6f9a13b500d4da9218cc87fc3817, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 3
+      maxDistance: 10
+  - key: Enemy_Boss_Slash
+    data:
+      clip: {fileID: 8300000, guid: 5971b95143b7b3645b4c90e44703d258, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 3
+      maxDistance: 10
+  - key: Enemy_Boss_MagicMissile
+    data:
+      clip: {fileID: 8300000, guid: 5168a7f0881a4aa4fa53926f60e02b60, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 3
+      maxDistance: 10
+  - key: Enemy_Boss_Lightening
+    data:
+      clip: {fileID: 8300000, guid: 12080a4f490c7794ea8015bb776881bc, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 3
+      maxDistance: 10
+  - key: Enemy_Boss_BloodExplosion
+    data:
+      clip: {fileID: 8300000, guid: 15d3a6e27b26daf48a3299bdf44d1290, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 3
+      maxDistance: 10
+  - key: Enemy_Boss_Death
+    data:
+      clip: {fileID: 8300000, guid: 283e33c34fbf9ca44be335d5315ddf97, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 3
+      maxDistance: 10
+  - key: Enemy_Boss_Charge
+    data:
+      clip: {fileID: 8300000, guid: a0bb6f9a13b500d4da9218cc87fc3817, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 3
+      maxDistance: 10
+  - key: Enemy_Boss_Summon
+    data:
+      clip: {fileID: 8300000, guid: 6d6b8f80d0ce0064486b430c4bfe58e6, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 3
+      maxDistance: 10
+  - key: Enemy_Boss_Buff
+    data:
+      clip: {fileID: 8300000, guid: b307b91adb79e8c4aaab3cfa43c4703a, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 3
+      maxDistance: 10
