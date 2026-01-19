@@ -8,6 +8,8 @@ public enum ESoundType
     Bgm_Test1,
     Bgm_Test2,
     Bgm_Lobby,
+    Bgm_Main,
+    Bgm_Game,
 
     Sfx_Test1,
     Sfx_Test2,
