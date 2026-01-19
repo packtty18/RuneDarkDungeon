@@ -19,6 +19,7 @@ public class UpgradePresenter : MonoBehaviour
         _inventory = inventory;
         _currency = currency;
         
+        _upgradeUI.Initialize();
         _upgradeUI.OnSlotClicked += HandleSlotClicked;
         _forge.Subscribe(Refresh);
     }

@@ -28,6 +28,8 @@ public abstract class PUBase : UIBase
     {
         if (gameObject.activeSelf) return;
         
+        SoundManager.Instance?.Play(ESoundType.UI_Button_Click);
+        
         gameObject.SetActive(true);
         if (!_animation) return;
         
@@ -43,6 +45,8 @@ public abstract class PUBase : UIBase
     public override void Hide()
     {
         if (!gameObject.activeSelf) return;
+        
+        SoundManager.Instance?.Play(ESoundType.UI_Button_Click);
         
         if (!_animation)
         {

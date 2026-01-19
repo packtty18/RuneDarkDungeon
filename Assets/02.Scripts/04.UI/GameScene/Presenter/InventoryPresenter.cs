@@ -9,13 +9,14 @@ public class InventoryPresenter : MonoBehaviour
     private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
     private ISlotEventHandler _eventHandler;
 
-    private IReadOnlyInventory _inventory;
+    private IInventory _inventory;
     
-    public void Initialize(IReadOnlyInventory inventory, Dictionary<EInventoryMode, ISlotEventHandler> handlerDict)
+    public void Initialize(IInventory inventory, Dictionary<EInventoryMode, ISlotEventHandler> handlerDict)
     {
         _inventory = inventory;
         _handlerDict = handlerDict;
 
+        _inventoryUI.Initialize();
         RefreshInventory();
         HandleModeChanged(EInventoryMode.Closed);
         
@@ -63,5 +64,10 @@ public class InventoryPresenter : MonoBehaviour
         {
             _inventoryUI.Show();
         }
+    }
+
+    public void Sort()
+    {
+        _inventory.Sort();
     }
 }

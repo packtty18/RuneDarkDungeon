@@ -54,4 +54,6 @@ public static class FileIO
         Debug.Log(data.GetSummary());
 #endif
     }
+
+    public static bool Exists => File.Exists(s_saveFilePath);
 }

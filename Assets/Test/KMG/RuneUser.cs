@@ -30,7 +30,8 @@ public class RuneUser : LocalSingleton<RuneUser>, IDataHolder
         itemFactory.SetItemInfo(Inventory.Items);
         itemFactory.SetItemInfo(Equipment.Items.Values);
         
-        _playerSkillCaster.Initialize(_equipment);
+        _initializer?.Initialize(this);
+        _playerSkillCaster?.Initialize(_equipment);
     }
 
     public void Save() { }
