@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : LocalSingleton<GameManager>
@@ -7,15 +9,30 @@ public class GameManager : LocalSingleton<GameManager>
     [SerializeField]
     private float _fadeTime = 0.5f;
 
-    void Start()
+    [SerializeField]
+    private float _gameOverDelay = 1f;
+
+    private SceneTransition _transition;
+
+
+    private void Start()
     {
         _fadeBlack?.Show();
         _fadeBlack?.FadeOut(_fadeTime);
+        TryGetComponent<SceneTransition>(out _transition);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GameOver()
     {
-        
+        StartCoroutine(GameOverDelay());
+    }
+
+    private IEnumerator GameOverDelay()
+    {
+        yield return new WaitForSeconds(_gameOverDelay);
+        _fadeBlack?.FadeIn(_fadeTime, DG.Tweening.Ease.InOutElastic).OnComplete(() =>
+        {
+            _transition?.TransitionToScene();
+        });
     }
 }

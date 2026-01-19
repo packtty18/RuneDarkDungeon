@@ -207,15 +207,16 @@ public class UI_BasicAnimation : MonoBehaviour
     #endregion
 
 
-    public void FadeIn(float duration = 0.3f, Ease ease = Ease.OutQuad)
+    public Tween FadeIn(float duration = 0.3f, Ease ease = Ease.OutQuad)
     {
-        if (_canvasGroup == null) return;
-        if (_canvasGroup.alpha == 1) return;
+        if (_canvasGroup == null) return null;
+        if (_canvasGroup.alpha == 1) return null;
 
         _currentSequence?.Kill();
 
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(_canvasGroup.DOFade(1f, duration).SetEase(ease));
+        return _currentSequence;
 
     }
 
@@ -264,15 +265,17 @@ public class UI_BasicAnimation : MonoBehaviour
         }
     }
 
-    public void FadeOut(float duration = 0.3f, Ease ease = Ease.OutQuad)
+    public Tween FadeOut(float duration = 0.3f, Ease ease = Ease.OutQuad)
     {
-        if (_canvasGroup == null) return;
-        if (_canvasGroup.alpha < 0.1f) return;
+        if (_canvasGroup == null) return null;
+        if (_canvasGroup.alpha < 0.1f) return null;
 
         _currentSequence?.Kill();
 
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(_canvasGroup.DOFade(0f, duration).SetEase(ease)).OnComplete(() => StopAndReset());
+
+        return _currentSequence;
     }
 
     public void StopAndReset()

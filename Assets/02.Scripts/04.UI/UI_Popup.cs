@@ -8,10 +8,14 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CanvasGroup))]
 public class UI_Popup : UIBase
 {
+
     [SerializeField]
-    private EGameKeyType _upKey;
-    [SerializeField] 
-    private EGameKeyType _downKey;
+    private bool _useKey = false;
+
+    [SerializeField, ShowIf(nameof(_useKey))]
+    private EGameKeyType _upKey = EGameKeyType.None;
+    [SerializeField, ShowIf(nameof(_useKey))] 
+    private EGameKeyType _downKey = EGameKeyType.None;
 
     [SerializeField]
     private bool _useButton = false;

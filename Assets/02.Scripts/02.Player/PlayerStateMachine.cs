@@ -22,6 +22,8 @@ public class PlayerStateMachine : MonoBehaviour
 
     public bool CanReceiveMoveInput()
     {
+        if (GameFlowManager.Instance.IsPaused)
+            return false;
         return CurrentState != EPlayerState.Dead
             && CurrentActionState != EActionState.Skill
             && CurrentActionState != EActionState.Dodge
@@ -45,6 +47,9 @@ public class PlayerStateMachine : MonoBehaviour
 
         switch (_currentState)
         {
+            case EPlayerState.Dead:
+                BattleManager.Instance?.NotifyPlayerDead();
+                break;
             default:
                 break;
         }
