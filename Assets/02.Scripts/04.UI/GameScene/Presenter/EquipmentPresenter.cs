@@ -19,6 +19,7 @@ public class EquipmentPresenter : MonoBehaviour
         _equipmentUI.OnSlotClicked += HandleSlotClicked;
         _equipmentUI.OnSlotHovered += HandleSlotHovered;
         
+        _equipmentUI.Initialize();
         RefreshEquipment();
     }
 

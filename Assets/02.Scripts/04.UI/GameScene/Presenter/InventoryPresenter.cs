@@ -16,6 +16,7 @@ public class InventoryPresenter : MonoBehaviour
         _inventory = inventory;
         _handlerDict = handlerDict;
 
+        _inventoryUI.Initialize();
         RefreshInventory();
         HandleModeChanged(EInventoryMode.Closed);
         
