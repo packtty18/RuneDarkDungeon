@@ -8,7 +8,6 @@ public class ItemSO : ScriptableObject
     [SerializeField] private Sprite _icon;
     [SerializeField] private string _name;
     [SerializeField, TextArea] private string _tooltip;
-    [SerializeField] private int _price;
     
     [Header("아이템 효과")]
     [SerializeField] private SkillBase _skill; 
@@ -27,7 +26,6 @@ public class ItemSO : ScriptableObject
     public Sprite Icon => _icon;
     public string Name => _name;
     public string Tooltip => _tooltip;
-    public int Price => _price;
     
     public void Use(GameObject user, EItemGrade grade)
     {

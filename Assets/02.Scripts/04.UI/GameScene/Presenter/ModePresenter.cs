@@ -32,6 +32,14 @@ public class ModePresenter : MonoBehaviour
         _shopToggleButton.OnModeChanged -= OnClickShopButton;
     }
 
+    private void Update()
+    {
+        if (InputManager.Instance.GetKey(EGameKeyType.ESC))
+        {
+            ChangeMode(EInventoryMode.Closed);
+        }
+    }
+    
     private void OnClickInventoryButton()
     {
         ChangeMode(_mode == EInventoryMode.Closed ? EInventoryMode.Normal : EInventoryMode.Closed);

@@ -11,35 +11,14 @@ public enum ESoundType
     Sfx_Test1,
     Sfx_Test2,
     Sfx_Test3,
-
-    Enemy_Warrior_Footstep,
-    Enemy_Warrior_Attack,
-    Enemy_Warrior_Hit,
-    Enemy_Warrior_Death,
-
-    Enemy_Archer_Footstep,
-    Enemy_Archer_Attack,
-    Enemy_Archer_Hit,
-    Enemy_Archer_Death,
-
-    Enemy_Mage_Footstep,
-    Enemy_Mage_Attack,
-    Enemy_Mage_Hit,
-    Enemy_Mage_Death,
-
-    Enemy_Elite_Footstep,
-    Enemy_Elite_Attack,
-    Enemy_Elite_Hit,
-    Enemy_Elite_Death,
-    Enemy_Elite_Charge,
-
-    Enemy_Boss_Footstep,
-    Enemy_Boss_Attack,
-    Enemy_Boss_Hit,
-    Enemy_Boss_Death,
-    Enemy_Boss_Charge,
-    Enemy_Boss_Summon,
-    Enemy_Boss_Buff,
+    
+    UI_Button_Click,
+    Rune_Sell,
+    Gold_Get,
+    
+    Skill_BladeStorm,
+    Skill_Lightningzone,
+    Skill_JudgmentMeteor,
 }
 
 public class SoundManager : GlobalSingleton<SoundManager>
