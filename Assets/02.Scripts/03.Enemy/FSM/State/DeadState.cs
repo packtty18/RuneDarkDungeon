@@ -7,6 +7,7 @@ public class DeadState : EnemyState
     public override void Enter()
     {
         base.Enter();
+
         controller.Move.PauseAgent();
         controller.Move.SetAbleToRatate(false);
 
@@ -15,11 +16,8 @@ public class DeadState : EnemyState
             BossAttack attack = controller.Attack as BossAttack;
             attack.TargetSpawner.KillAll();
         }
-
-
         controller.CancelAttack();
         controller.Anim.SetTrigger(EnemyAnimator.s_deadTrigger);
-        
         controller.Sound?.PlayDeath();
         
         controller.Dead();

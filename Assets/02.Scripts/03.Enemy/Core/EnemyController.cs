@@ -2,11 +2,12 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using UnityEngine;
 
-
-//전체적인 조작을 담당.
-//State머신에서는 여기에 있는 함수만을 사용함.
+// 전체적인 조작을 담당.
+// State머신에서는 여기에 있는 함수만을 사용함.
 public class EnemyController : PoolableObject, IDamageable
 {
+    #region Fields & Properties
+
     [SerializeField] private ETeamType _team;
     [SerializeField] private Rigidbody _rigid;
     [SerializeField] private Collider _physicCollider;
@@ -27,15 +28,11 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private EnemyShaderFeedback _shader;
 
     [SerializeField] private bool _paused;
-    
     [SerializeField] private bool _wait = false;
-    
-
 
     public ETeamType Team => _team;
     public EnemyStateMachine FSM => _fsm;
-    
-    public IEnemyBehavior Behavior => _behavior; 
+    public IEnemyBehavior Behavior => _behavior;
 
     public EnemyMove Move => _move;
     public EnemyAttack Attack => _attack;
@@ -46,12 +43,17 @@ public class EnemyController : PoolableObject, IDamageable
     public EnemyPhase Phase => _phase;
     public EnemySound Sound => _sound;
     public EnemyShaderFeedback Shader => _shader;
+
     public bool Pause => _paused;
     public bool Wait => _wait;
-
     public Transform Target => _target;
 
     public SafeEvent<EnemyController> OnDead = new();
+
+    #endregion
+
+    #region Unity Lifecycle
+
     private void Awake()
     {
         _stat = GetComponent<EnemyStat>();
@@ -71,9 +73,20 @@ public class EnemyController : PoolableObject, IDamageable
         _fsm = new EnemyStateMachine(this);
     }
 
+    private void Update()
+    {
+        if (!CanTick())
+        {
+            return;
+        }
 
+        _fsm.Tick(Time.deltaTime);
+    }
 
-    #region 생명주기
+    #endregion
+
+    #region Pool Lifecycle
+
     public override void OnSpawn()
     {
         if (BattleManager.Instance != null)
@@ -81,12 +94,11 @@ public class EnemyController : PoolableObject, IDamageable
             BattleManager.Instance.OnBattleStateChanged.Subscribe(OnBattleStateChanged);
             OnBattleStateChanged(BattleManager.Instance.State);
         }
+
         _target = null;
 
-        // 물리 엔진 비활성화 (위치 설정 전)
         EnablePhysics(false);
 
-        // NavMeshAgent도 비활성화
         if (_move != null)
         {
             _move.ResetAgent();
@@ -100,25 +112,28 @@ public class EnemyController : PoolableObject, IDamageable
             BattleManager.Instance.OnBattleStateChanged.Unsubscribe(OnBattleStateChanged);
         }
 
-        _fsm.Reset();
-        StopAllCoroutines();
-        loopRoutine = null;
-        UIDisable();
-        EnablePhysics(false);
         _move.ResetAgent();
 
+        StopAllCoroutines();
+        loopRoutine = null;
+
+        UIDisable();
+        EnablePhysics(false);
+  
         base.OnDespawn();
     }
+
+    #endregion
+
+    #region Initialization
 
     [Button]
     public void Init()
     {
-        // 1. Stat 먼저 초기화 (다른 시스템에서 참조하므로)
         _stat.Init();
 
-        // 2. 나머지 컴포넌트 초기화 (Agent는 비활성화 상태 유지)
         _health.Init();
-        _move.Init(); // Agent 비활성화
+        _move.Init();
         _attack.Init();
         _anim.Init();
         _buff.Init();
@@ -131,37 +146,14 @@ public class EnemyController : PoolableObject, IDamageable
 
         UIEnable();
 
-
-        // 5. FSM 초기화 및 시작 (Idle 상태에서 Agent 활성화됨)
         _fsm.Reset();
         _fsm.ChangeState(EEnemyState.Idle);
 
-        // 6. 물리 엔진 활성화 (마지막에 수행)
         EnablePhysics(true);
 
         if (_stat.EnemyType == EEnemyType.Boss)
         {
             SetActiveSuperArmor(true);
-        }
-    }
-
-    private void UIEnable()
-    {
-        if (_healthUI != null)
-        {
-            _healthUI.Init();
-        }
-        if (_wait && Stat.EnemyType == EEnemyType.Boss)
-        {
-            _healthUI.Hide();
-        }
-    }
-
-    private void UIDisable()
-    {
-        if (_healthUI != null)
-        {
-            _healthUI.Hide();
         }
     }
 
@@ -178,15 +170,10 @@ public class EnemyController : PoolableObject, IDamageable
         };
     }
 
-    private void Update()
-    {
-        if (!CanTick())
-        {
-            return;
-        }
+    #endregion
 
-        _fsm.Tick(Time.deltaTime);
-    }
+    #region Tick Control
+
     private bool CanTick()
     {
         if (_paused)
@@ -198,6 +185,56 @@ public class EnemyController : PoolableObject, IDamageable
         return true;
     }
 
+    [Button]
+    private void OnPause(bool paused)
+    {
+        _paused = paused;
+
+        _move.SetPaused(paused);
+        _anim.SetAnimSpeed(paused ? 0f : 1f);
+    }
+
+    #endregion
+
+    #region Battle State
+
+    private void OnBattleStateChanged(EBattleState state)
+    {
+        switch (state)
+        {
+            case EBattleState.Preparing:
+            case EBattleState.WaitingNextStage:
+                _wait = true;
+                break;
+
+            case EBattleState.InProgress:
+                _wait = false;
+                OnPause(false);
+
+                if (Stat.EnemyType == EEnemyType.Boss)
+                {
+                    UIEnable();
+                }
+                break;
+
+            case EBattleState.Pause:
+                OnPause(true);
+                break;
+        }
+    }
+
+    #endregion
+
+    #region Physics Control
+
+    public void EnablePhysics(bool enable)
+    {
+        if (_rigid == null)
+            return;
+
+        _rigid.isKinematic = !enable;
+        _physicCollider.isTrigger = !enable;
+    }
 
     public void SetConstraintsPosition(bool enable)
     {
@@ -205,6 +242,7 @@ public class EnemyController : PoolableObject, IDamageable
             return;
 
         RigidbodyConstraints constraints = _rigid.constraints;
+
         if (enable)
         {
             constraints |= RigidbodyConstraints.FreezePositionX;
@@ -221,70 +259,15 @@ public class EnemyController : PoolableObject, IDamageable
         _rigid.constraints = constraints;
     }
 
-    public void EnablePhysics(bool enable)
-    {
-        if (_rigid == null)
-            return;
-        _rigid.isKinematic = !enable;
-        _physicCollider.isTrigger = !enable;
-    }
-
-    public void Dead()
-    {
-        EnablePhysics(false);
-        UIDisable();
-        ReturnToPoolAfter(5);
-        OnDead?.Invoke(this);
-    }
-
-    private void OnBattleStateChanged(EBattleState state)
-    {
-        switch (state)
-        {
-            case EBattleState.None:
-                break;
-            case EBattleState.Preparing:
-                _wait = true;
-                break;
-            case EBattleState.InProgress:
-                _wait = false;
-                OnPause(false);
-                if(Stat.EnemyType == EEnemyType.Boss)
-                {
-                    UIEnable();
-                }
-                break;
-            case EBattleState.Pause:
-                OnPause(true);
-                break;
-            case EBattleState.WaitingNextStage:
-                _wait = true;
-                break;
-            case EBattleState.Victory:
-                break;
-            case EBattleState.Defeat:
-                break;
-        }
-    }
-
-    [Button]
-    private void OnPause(bool paused)
-    {
-        _paused = paused;
-
-        _move.SetPaused(paused);
-        _anim.SetAnimSpeed(paused ? 0f : 1f);
-    }
-
     #endregion
 
     #region Target
+
     public void SetTarget(Transform target)
     {
         if (target == null)
-        {
             return;
-        }
+
         _target = target;
     }
 
@@ -295,33 +278,25 @@ public class EnemyController : PoolableObject, IDamageable
 
     public Vector3 GetTargetPosition()
     {
-        if(!IsTargetExist())
-        {
-            //타겟이 없을때 호출되면 자기자신을 반환
-            return transform.position;
-        }
-        return _target.position;
+        return _target != null ? _target.position : transform.position;
     }
 
     public bool IsTargetInRange(float range)
     {
         if (_target == null)
-
-        {
             return false;
-        }
 
-       float sqrDistance = (transform.position - _target.position).sqrMagnitude;
-
+        float sqrDistance = (transform.position - _target.position).sqrMagnitude;
         return sqrDistance <= range * range;
     }
 
     #endregion
-   
-    #region Shader가 적용되는 기능
+
+    #region Shader Feedback
+
     public void SetActiveSuperArmor(bool enable)
     {
-        if(enable)
+        if (enable)
         {
             Shader.EnableSuperArmorOutline();
             Stat.EnableSuperArmor();
@@ -333,24 +308,25 @@ public class EnemyController : PoolableObject, IDamageable
         }
     }
 
+    public void PlayDeadFade()
+    {
+        Shader.PlayDeathFade();
+    }
+
     #endregion
-    #region Health관련
+
+    #region Health & Damage
 
     [Button]
     public void ApplyDamage(DamageData data)
     {
-        if(_wait)
-        {
+        if (_wait)
             return;
-        }
 
         Shader.PlayHit();
 
-        // 데미지 적용 (EnemyHealthUI가 자동으로 표시됨)
         if (!_health.TryApplyDamage(data.Damage))
-        {
             return;
-        }
 
         _phase?.CheckPhaseTransition();
 
@@ -358,23 +334,19 @@ public class EnemyController : PoolableObject, IDamageable
         Anim.SetInt(EnemyAnimator.s_hitDirInt, dir);
 
         if (_health.IsDead)
-        {
             HandleDead();
-        }
         else
-        {
             HandleDamaged();
-        }
     }
 
-    private int DirectionConvert( Vector3 hitDirection)
+    private int DirectionConvert(Vector3 hitDirection)
     {
         Vector3 localDir = transform.InverseTransformDirection(hitDirection);
         localDir.y = 0f;
 
         if (Mathf.Abs(localDir.x) > Mathf.Abs(localDir.z))
         {
-            return localDir.x < 0f? (int)EHitDirection.Right : (int)EHitDirection.Left;
+            return localDir.x < 0f ? (int)EHitDirection.Right : (int)EHitDirection.Left;
         }
 
         return localDir.z < 0f ? (int)EHitDirection.Front : (int)EHitDirection.Back;
@@ -383,31 +355,31 @@ public class EnemyController : PoolableObject, IDamageable
     public void HandleDamaged()
     {
         if (FSM.CurrentState is DeadState || Stat.HasSuperArmor)
-        {
             return;
-        }
 
         _fsm.ChangeState(EEnemyState.Hit);
     }
 
     public void HandleDead()
     {
-        if (FSM.CurrentState is DeadState)
-        {
+        if (FSM.CurrentState is DeadState || !gameObject.activeSelf)
             return;
-        }
 
         _fsm.ChangeState(EEnemyState.Dead);
     }
-    #endregion
 
-    #region 애니메이션 이벤트용
-    public void PlayDeadFade()
+    public void Dead()
     {
-        Shader.PlayDeathFade();
+        EnablePhysics(false);
+        UIDisable();
+        ReturnToPoolAfter(5);
+        OnDead?.Invoke(this);
     }
 
-    [Button]
+    #endregion
+
+    #region Animation Events
+
     public void HitRecover()
     {
         FSM.ChangeState(EEnemyState.Idle);
@@ -421,7 +393,29 @@ public class EnemyController : PoolableObject, IDamageable
         StartLoopDelay(Attack.CurrentLoopDelay);
     }
 
+    public void OnEndAttack()
+    {
+        _attack.OnEndAttack();
+    }
+
+    public void OnAttackComplete()
+    {
+        StopLoopDelay();
+        _move.SetAbleToRatate(true);
+        Attack.Finish();
+
+        if (FSM.CurrentState is AttackState attackState)
+        {
+            attackState.OnAttackFinished();
+        }
+    }
+
+    #endregion
+
+    #region Attack Loop Helper
+
     private Coroutine loopRoutine;
+
     private void StartLoopDelay(float delay)
     {
         if (delay <= 0f)
@@ -430,7 +424,7 @@ public class EnemyController : PoolableObject, IDamageable
         StopLoopDelay();
         loopRoutine = StartCoroutine(LoopDelayRoutine(delay));
     }
-   
+
     private IEnumerator LoopDelayRoutine(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -451,40 +445,50 @@ public class EnemyController : PoolableObject, IDamageable
         }
     }
 
-    public void OnEndAttack()
-    {
-        
-        _attack.OnEndAttack();
-    }
-    public void OnAttackComplete()
-    {
-        StopLoopDelay();
-        _move.SetAbleToRatate(true);
-        Attack.Finish();
+    #endregion
 
-        if (FSM.CurrentState is AttackState attackState)
+    #region UI
+
+    private void UIEnable()
+    {
+        if (_healthUI != null)
         {
-            attackState.OnAttackFinished();
+            _healthUI.Init();
+        }
+
+        if (_wait && Stat.EnemyType == EEnemyType.Boss)
+        {
+            _healthUI.Hide();
+        }
+    }
+
+    private void UIDisable()
+    {
+        if (_healthUI != null)
+        {
+            _healthUI.Hide();
         }
     }
 
     #endregion
 
+    #region Collision
 
     private void OnCollisionEnter(Collision collision)
     {
-        // 돌진 중일 때만 처리
-        if (FSM.CurrentState is ChargeState chargeState)
+        if (FSM.CurrentState is ChargeState)
         {
-            // 벽이나 장애물과 충돌 시 돌진 중단
-            if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") ||
-                collision.gameObject.layer == LayerMask.NameToLayer("Obstacle") ||
-                collision.gameObject.layer == LayerMask.NameToLayer("Default"))
+            int layer = collision.gameObject.layer;
+
+            if (layer == LayerMask.NameToLayer("Wall") ||
+                layer == LayerMask.NameToLayer("Obstacle") ||
+                layer == LayerMask.NameToLayer("Default"))
             {
                 Debug.Log($"[EnemyController] 충돌 감지: {collision.gameObject.name} - 돌진 중단");
                 FSM.ChangeState(EEnemyState.Chase);
             }
         }
     }
-}
 
+    #endregion
+}

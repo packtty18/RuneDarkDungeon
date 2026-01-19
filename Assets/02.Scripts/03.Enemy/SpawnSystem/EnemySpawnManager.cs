@@ -171,15 +171,25 @@ public class EnemySpawnManager : SerializedMonoBehaviour
             _ => EPoolType.None
         };
     }
-    //테스트용 현재 스폰된 모든 적을 죽이기 => 다음 페이즈 실행
+
+
     [Button]
     public void KillAll()
     {
-        if (_list == null || _list.Count == 0) return;
+        if (_list == null || _list.Count == 0)
+            return;
 
-        for (int i = _list.Count - 1; i >= 0; i--)
+        // Snapshot to avoid modification during iteration
+        var snapshot = new List<EnemyController>(_list);
+
+        foreach (var enemy in snapshot)
         {
-            _list[i].HandleDead ();
+            if (enemy == null)
+                continue;
+
+            enemy.HandleDead();
         }
+
+        Debug.Log($"[EnemySpawnManager] KillAll executed. SnapshotCount={snapshot.Count}");
     }
 }
