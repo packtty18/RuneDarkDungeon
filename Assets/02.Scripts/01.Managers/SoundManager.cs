@@ -15,6 +15,10 @@ public enum ESoundType
     UI_Button_Click,
     Rune_Sell,
     Gold_Get,
+    
+    Skill_BladeStorm,
+    Skill_Lightningzone,
+    Skill_JudgmentMeteor,
 }
 
 public class SoundManager : GlobalSingleton<SoundManager>

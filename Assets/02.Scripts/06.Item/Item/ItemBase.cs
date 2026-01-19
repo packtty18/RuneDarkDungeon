@@ -143,7 +143,7 @@ public abstract class ItemBase : PoolableObject
     
     protected virtual void Collect()
     {
-        SoundManager.Instance.Play(ESoundType.Gold_Get);
+        if (Random.value < 0.25f) SoundManager.Instance.Play(ESoundType.Gold_Get);
         KillTween();
         OnCollected();
         ReturnToPool();
