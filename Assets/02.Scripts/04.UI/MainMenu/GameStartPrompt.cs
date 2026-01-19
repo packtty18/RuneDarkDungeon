@@ -53,7 +53,7 @@ public class GameStartPrompt : MonoBehaviour
 
     private void NewGame()
     {
-        //새로운 데이터를 생성
+        DataManager.Instance.CreateNewGameData();
         _transition.TransitionToScene();
     }
 
@@ -67,14 +67,14 @@ public class GameStartPrompt : MonoBehaviour
         if (InputManager.Instance.GetKeyDown(_gameKey))
         {
             _loadDataPopup.PopUp();
-            /*if (DataManager.Instance.Inventory == null)
+            if (!FileIO.Exists)
             {
                 NewGame();
             }
             else
             {
                 _loadDataPopup.PopUp();
-            }*/
+            }
         }
     }
 

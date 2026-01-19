@@ -2483,7 +2483,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cdfcf81d12f418448c87e5654802321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_EquipmentView
-  isInitialized: 0
+  _isInitialized: 0
+  _awakeInit: 0
   _animation: 0
   _duration: 0.3
   _showEase: 27
@@ -6169,7 +6170,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7f727f78023864493c05969d279ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_SlotContainer
-  isInitialized: 0
+  _isInitialized: 0
+  _awakeInit: 0
   _animation: 0
   _duration: 0.3
   _showEase: 27
@@ -8517,7 +8519,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb0b4eec665e244c8e298f8ad6a3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_Result
-  isInitialized: 0
+  _isInitialized: 0
+  _awakeInit: 0
   _animation: 1
   _duration: 0.3
   _showEase: 27
@@ -10443,6 +10446,7 @@ MonoBehaviour:
   _equipmentPresenter: {fileID: 809973590}
   _currencyPresenter: {fileID: 809973589}
   _selectionManager: {fileID: 1283928996}
+  _priceDB: {fileID: 11400000, guid: 53c3ae6d31810504e97584a98853926c, type: 2}
 --- !u!1 &1089658579
 GameObject:
   m_ObjectHideFlags: 0
@@ -14268,7 +14272,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb0b4eec665e244c8e298f8ad6a3e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_Result
-  isInitialized: 0
+  _isInitialized: 0
+  _awakeInit: 0
   _animation: 1
   _duration: 0.15
   _showEase: 27
@@ -19481,7 +19486,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7f727f78023864493c05969d279ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_SlotContainer
-  isInitialized: 0
+  _isInitialized: 0
+  _awakeInit: 0
   _animation: 1
   _duration: 0.3
   _showEase: 27

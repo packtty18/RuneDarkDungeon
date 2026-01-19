@@ -26,6 +26,11 @@ public class DataManager : GlobalSingleton<DataManager>, IDataHolder
         itemFactory.SetItemInfo(Equipment.Items.Values);
     }
 
+    public void CreateNewGameData()
+    {
+        _data = new();
+    }
+
     public void Save()
     {
         FileIO.Save(_data);
