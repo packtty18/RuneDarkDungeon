@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using Sirenix.OdinInspector;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace ProceduralMeshExploder
         Renderer parentRenderer;
         bool animating;
 
+        [Button]
         public void Explode()
         {
             gameObject.SetActive(true);
