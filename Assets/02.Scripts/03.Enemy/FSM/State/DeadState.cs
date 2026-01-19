@@ -10,6 +10,13 @@ public class DeadState : EnemyState
         controller.Move.PauseAgent();
         controller.Move.SetAbleToRatate(false);
 
+        if (controller.Stat.EnemyType == EEnemyType.Boss)
+        {
+            BossAttack attack = controller.Attack as BossAttack;
+            attack.TargetSpawner.KillAll();
+        }
+
+
         controller.CancelAttack();
         controller.Anim.SetTrigger(EnemyAnimator.s_deadTrigger);
         

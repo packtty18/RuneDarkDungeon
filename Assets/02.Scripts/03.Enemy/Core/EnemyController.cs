@@ -1,7 +1,5 @@
-
 using Sirenix.OdinInspector;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -25,8 +23,8 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private EnemyAnimator _anim;
     [SerializeField] private EnemyBuff _buff;
     [SerializeField] private EnemySound _sound;
-    
-    
+    [SerializeField] private EnemyShaderFeedback _shader;
+
     [SerializeField] private bool _paused;
     
     [SerializeField] private bool _wait = false;
@@ -46,6 +44,7 @@ public class EnemyController : PoolableObject, IDamageable
     public EnemyBuff Buff => _buff;
     public EnemyPhase Phase => _phase;
     public EnemySound Sound => _sound;
+    public EnemyShaderFeedback Shader => _shader;
     public bool Pause => _paused;
     public bool Wait => _wait;
 
@@ -63,11 +62,15 @@ public class EnemyController : PoolableObject, IDamageable
         _sound = GetComponent<EnemySound>();
         _physics = GetComponent<Rigidbody>();
         _phase = GetComponent<EnemyPhase>();
+        _shader = GetComponent<EnemyShaderFeedback>();
 
         EnablePhysics(true);
         _fsm = new EnemyStateMachine(this);
     }
 
+
+
+    #region 생명주기
     public override void OnSpawn()
     {
         if (BattleManager.Instance != null)
@@ -76,10 +79,10 @@ public class EnemyController : PoolableObject, IDamageable
             OnBattleStateChanged(BattleManager.Instance.State);
         }
         _target = null;
-        
+
         // 물리 엔진 비활성화 (위치 설정 전)
         EnablePhysics(false);
-        
+
         // NavMeshAgent도 비활성화
         if (_move != null)
         {
@@ -104,17 +107,16 @@ public class EnemyController : PoolableObject, IDamageable
 
         // 물리 엔진 비활성화
         EnablePhysics(false);
-        
+
         // Agent 정리
         if (_move != null)
         {
             _move.ResetAgent();
         }
-        
+
         base.OnDespawn();
     }
 
-    #region 생명주기
     [Button]
     public void Init()
     {
@@ -127,19 +129,13 @@ public class EnemyController : PoolableObject, IDamageable
         _attack.Init();
         _anim.Init();
         _buff.Init();
-        
-        // 사운드 초기화
-        if (_sound != null)
-        {
-            _sound.Init();
-        }
+        _sound.Init();
+        _shader.Init();
 
-        // 3. Behavior 및 Phase 초기화
         _behavior = CreateBehavior(_stat.EnemyType);
         _behavior?.Initialize(this);
         _phase?.Reset();
 
-        // 4. UI 초기화 (체력바 등)
         UIEnable();
 
 
@@ -149,6 +145,11 @@ public class EnemyController : PoolableObject, IDamageable
 
         // 6. 물리 엔진 활성화 (마지막에 수행)
         EnablePhysics(true);
+
+        if (_stat.EnemyType == EEnemyType.Boss)
+        {
+            SetActiveSuperArmor(true);
+        }
     }
 
     private void UIEnable()
@@ -237,11 +238,12 @@ public class EnemyController : PoolableObject, IDamageable
     public void Dead()
     {
         EnablePhysics(false);
-        // UI 즉시 숨기기
         UIDisable();
-        ReturnToPoolAfter(3f);
+        ReturnToPoolAfter(5);
         OnDead?.Invoke(this);
     }
+
+    
     
     
     private void OnBattleStateChanged(EBattleState state)
@@ -324,7 +326,23 @@ public class EnemyController : PoolableObject, IDamageable
     }
 
     #endregion
+   
+    #region Shader가 적용되는 기능
+    public void SetActiveSuperArmor(bool enable)
+    {
+        if(enable)
+        {
+            Shader.EnableSuperArmorOutline();
+            Stat.EnableSuperArmor();
+        }
+        else
+        {
+            Shader.DisableSuperArmorOutline();
+            Stat.DisableSuperArmor();
+        }
+    }
 
+    #endregion
     #region Health관련
 
     [Button]
@@ -334,6 +352,8 @@ public class EnemyController : PoolableObject, IDamageable
         {
             return;
         }
+
+        Shader.PlayHit();
 
         // 데미지 적용 (EnemyHealthUI가 자동으로 표시됨)
         if (!_health.TryApplyDamage(data.Damage))
@@ -352,9 +372,6 @@ public class EnemyController : PoolableObject, IDamageable
         }
         else
         {
-            // 피격 사운드 재생
-            _sound?.PlayHit();
-            
             HandleDamaged();
         }
     }
@@ -394,6 +411,11 @@ public class EnemyController : PoolableObject, IDamageable
     #endregion
 
     #region 애니메이션 이벤트용
+    public void PlayDeadFade()
+    {
+        Shader.PlayDeathFade();
+    }
+
     [Button]
     public void HitRecover()
     {
@@ -457,11 +479,7 @@ public class EnemyController : PoolableObject, IDamageable
 
     #endregion
 
-    #region Collision Detection (for ChargeState)
-    
-    /// <summary>
-    /// 물리 충돌 감지 (돌진 중 벽 충돌 시 사용)
-    /// </summary>
+
     private void OnCollisionEnter(Collision collision)
     {
         // 돌진 중일 때만 처리
@@ -477,7 +495,5 @@ public class EnemyController : PoolableObject, IDamageable
             }
         }
     }
-
-    #endregion
 }
 

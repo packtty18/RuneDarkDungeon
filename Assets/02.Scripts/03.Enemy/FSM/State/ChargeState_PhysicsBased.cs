@@ -41,7 +41,7 @@ public class ChargeState_PhysicsBased : EnemyState
 
         if (controller.Stat.EnemyType != EEnemyType.Boss)
         {
-            controller.Stat.EnableSuperArmor();
+            controller.SetActiveSuperArmor(true);
         }
 
         controller.Attack.StartCharge();
@@ -108,7 +108,7 @@ public class ChargeState_PhysicsBased : EnemyState
 
         if (controller.Stat.EnemyType != EEnemyType.Boss)
         {
-            controller.Stat.DisableSuperArmor();
+            controller.SetActiveSuperArmor(false);
         }
 
         controller.Anim.SetBool(EnemyAnimator.s_moveBool, false);

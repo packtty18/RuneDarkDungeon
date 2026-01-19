@@ -29,6 +29,14 @@ public class EnemySpawnManager : SerializedMonoBehaviour
     [SerializeField] Transform _target;
     [SerializeField] private List<EnemyController> _list = new List<EnemyController>();
 
+    public void Init()
+    {
+        _currentPhase = 0;
+        _aliveEnemyCount = 0;
+        _spawnIndexByType = new();
+        _list = new List<EnemyController>();
+    }
+
     //페이즈를 시작한다.
     [Button]
     public void SpawnCurrentPhase()
@@ -46,9 +54,10 @@ public class EnemySpawnManager : SerializedMonoBehaviour
         SpawnByData(_phaseDatas[_currentPhase]);
     }
 
-    public void BossSummon()
+    public List<EnemyController> BossSummon()
     {
         SpawnByData(_phaseDatas[0]);
+        return _list;
         //WakeUpEnemies();
     }
 
@@ -164,7 +173,7 @@ public class EnemySpawnManager : SerializedMonoBehaviour
     }
     //테스트용 현재 스폰된 모든 적을 죽이기 => 다음 페이즈 실행
     [Button]
-    private void KillAll()
+    public void KillAll()
     {
         if (_list == null || _list.Count == 0) return;
 

@@ -46,36 +46,28 @@ public class EnemySound : MonoBehaviour
             {
                 EEnemyType.Warrior, new EnemySoundSet
                 {
-                    Footstep = ESoundType.Enemy_Warrior_Footstep,
                     Attack = ESoundType.Enemy_Warrior_Attack,
-                    Hit = ESoundType.Enemy_Warrior_Hit,
                     Death = ESoundType.Enemy_Warrior_Death
                 }
             },
             {
                 EEnemyType.Archer, new EnemySoundSet
                 {
-                    Footstep = ESoundType.Enemy_Archer_Footstep,
                     Attack = ESoundType.Enemy_Archer_Attack,
-                    Hit = ESoundType.Enemy_Archer_Hit,
                     Death = ESoundType.Enemy_Archer_Death
                 }
             },
             {
                 EEnemyType.Mage, new EnemySoundSet
                 {
-                    Footstep = ESoundType.Enemy_Mage_Footstep,
                     Attack = ESoundType.Enemy_Mage_Attack,
-                    Hit = ESoundType.Enemy_Mage_Hit,
                     Death = ESoundType.Enemy_Mage_Death
                 }
             },
             {
                 EEnemyType.Elite, new EnemySoundSet
                 {
-                    Footstep = ESoundType.Enemy_Elite_Footstep,
                     Attack = ESoundType.Enemy_Elite_Attack,
-                    Hit = ESoundType.Enemy_Elite_Hit,
                     Death = ESoundType.Enemy_Elite_Death,
                     Charge = ESoundType.Enemy_Elite_Charge
                 }
@@ -83,9 +75,7 @@ public class EnemySound : MonoBehaviour
             {
                 EEnemyType.Boss, new EnemySoundSet
                 {
-                    Footstep = ESoundType.Enemy_Boss_Footstep,
                     Attack = ESoundType.Enemy_Boss_Attack,
-                    Hit = ESoundType.Enemy_Boss_Hit,
                     Death = ESoundType.Enemy_Boss_Death,
                     Charge = ESoundType.Enemy_Boss_Charge,
                     Summon = ESoundType.Enemy_Boss_Summon,
@@ -96,22 +86,7 @@ public class EnemySound : MonoBehaviour
     }
 
     #region 애니메이션 혹은 state
-    [Button("Test Footstep")]
-    public void PlayFootstep()
-    {
-        if (!_isInitialized) return;
 
-        // 쿨다운 체크
-        if (Time.time - _lastFootstepTime < _footstepCooldown)
-            return;
-
-        _lastFootstepTime = Time.time;
-
-        if (_soundSets.TryGetValue(_enemyType, out var soundSet))
-        {
-            PlaySound(soundSet.Footstep);
-        }
-    }
 
     [Button("Test Attack")]
     public void PlayAttack()
@@ -121,17 +96,6 @@ public class EnemySound : MonoBehaviour
         if (_soundSets.TryGetValue(_enemyType, out var soundSet))
         {
             PlaySound(soundSet.Attack);
-        }
-    }
-
-    [Button("Test Hit")]
-    public void PlayHit()
-    {
-        if (!_isInitialized) return;
-
-        if (_soundSets.TryGetValue(_enemyType, out var soundSet))
-        {
-            PlaySound(soundSet.Hit);
         }
     }
 
@@ -222,9 +186,7 @@ public class EnemySound : MonoBehaviour
 [System.Serializable]
 public class EnemySoundSet
 {
-    public ESoundType Footstep = ESoundType.None;
     public ESoundType Attack = ESoundType.None;
-    public ESoundType Hit = ESoundType.None;
     public ESoundType Death = ESoundType.None;
     public ESoundType Charge = ESoundType.None;
     public ESoundType Summon = ESoundType.None;

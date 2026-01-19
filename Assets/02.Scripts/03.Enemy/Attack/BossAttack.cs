@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BossAttack : EliteAttack
@@ -17,7 +18,7 @@ public class BossAttack : EliteAttack
     public override void Init()
     {
         base.Init();
-
+        _allySpawnManager.Init();
         RegisterStrategy(0, new EnemyDirectAttack(_hitboxController, "Main", _damage));   //강타
         RegisterStrategy(1, new EnemyDirectAttack(_hitboxController, "Main", _damage));   //3연베기
     }

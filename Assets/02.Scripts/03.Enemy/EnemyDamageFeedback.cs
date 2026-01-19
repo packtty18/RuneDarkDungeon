@@ -2,21 +2,29 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
+/// <summary>
+/// Handles visual hit feedback using All In 1 3D Shader hit effect.
+/// Single responsibility: only visual feedback.
+/// </summary>
 public class EnemyDamageFeedback : MonoBehaviour
 {
+    [Header("Hit Settings")]
     [SerializeField] private Color hitColor = Color.red;
+    [SerializeField] private float hitIntensity = 1f;
     [SerializeField] private float flashDuration = 0.2f;
 
+    [Header("References")]
     [SerializeField] private DamageReceiver _receiver;
     [SerializeField] private Renderer _renderer;
-
-    private Color _originalColor;
-    private Color _currentColor;
 
     private Tween _currentTween;
     private MaterialPropertyBlock _mpb;
 
-    private static readonly int BaseColorID = Shader.PropertyToID("_BaseColor");
+    private static readonly int HitEnableID = Shader.PropertyToID("_HitEnabled");
+    private static readonly int HitColorID = Shader.PropertyToID("_HitColor");
+    private static readonly int HitAmountID = Shader.PropertyToID("_HitBlend");
+
+    private float _currentHitAmount;
 
     private void Awake()
     {
@@ -25,19 +33,8 @@ public class EnemyDamageFeedback : MonoBehaviour
 
         _mpb = new MaterialPropertyBlock();
 
-        if (_renderer.sharedMaterial.HasProperty(BaseColorID))
-        {
-            _originalColor = _renderer.sharedMaterial.GetColor(BaseColorID);
-        }
-        else
-        {
-            _originalColor = Color.white;
-            Debug.LogWarning("[DamageFeedback] Material has no _BaseColor property.", this);
-        }
-
-        _currentColor = _originalColor;
+        Debug.Log("[DamageFeedback] Initialized (All In 1 3D Shader Hit)");
     }
-
 
     private void OnEnable()
     {
@@ -51,33 +48,54 @@ public class EnemyDamageFeedback : MonoBehaviour
 
     private void HandleDamaged()
     {
-        PlayFlash();
+        PlayHitFlash();
     }
 
-    [Button("Test Flash")]
-    public void PlayFlash()
+    [Button("Test Hit Flash")]
+    public void PlayHitFlash()
     {
         _currentTween?.Kill();
 
-        _currentColor = hitColor;
-        SetColor(_currentColor);
+        EnableHit(true);
+        SetHitColor(hitColor);
 
+        _currentHitAmount = hitIntensity;
+        SetHitAmount(_currentHitAmount);
+
+        // Fade hit amount back to zero
         _currentTween = DOTween.To(
-            () => _currentColor,
-            color =>
+            () => _currentHitAmount,
+            value =>
             {
-                _currentColor = color;
-                SetColor(_currentColor);
+                _currentHitAmount = value;
+                SetHitAmount(_currentHitAmount);
             },
-            _originalColor,
+            0f,
             flashDuration
-        );
+        ).OnComplete(() =>
+        {
+            EnableHit(false);
+        });
     }
 
-    private void SetColor(Color color)
+    private void EnableHit(bool enabled)
     {
         _renderer.GetPropertyBlock(_mpb);
-        _mpb.SetColor(BaseColorID, color);
+        _mpb.SetFloat(HitEnableID, enabled ? 1f : 0f);
+        _renderer.SetPropertyBlock(_mpb);
+    }
+
+    private void SetHitColor(Color color)
+    {
+        _renderer.GetPropertyBlock(_mpb);
+        _mpb.SetColor(HitColorID, color);
+        _renderer.SetPropertyBlock(_mpb);
+    }
+
+    private void SetHitAmount(float amount)
+    {
+        _renderer.GetPropertyBlock(_mpb);
+        _mpb.SetFloat(HitAmountID, amount);
         _renderer.SetPropertyBlock(_mpb);
     }
 }

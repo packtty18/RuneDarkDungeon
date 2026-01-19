@@ -1,4 +1,6 @@
 
+using System.Collections.Generic;
+
 public class SummonState : EnemyState
 {
     public override EEnemyState StateType => EEnemyState.Summon;
@@ -12,11 +14,9 @@ public class SummonState : EnemyState
         base.Enter();
         controller.Attack.StartSummon();
         BossAttack attack = controller.Attack as BossAttack;
-        attack.TargetSpawner.BossSummon();
+        attack.TargetSpawner.SpawnCurrentPhase();
         controller.Anim.SetTrigger(EnemyAnimator.s_summonTrigger);
-        
         controller.Sound?.PlaySummon();
-        
         cooldownTimer = 3f;
     }
 
