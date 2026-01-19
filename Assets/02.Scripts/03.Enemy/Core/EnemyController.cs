@@ -121,7 +121,10 @@ public class EnemyController : PoolableObject, IDamageable
             BattleManager.Instance.OnBattleStateChanged.Unsubscribe(OnBattleStateChanged);
         }
 
-        _move.ResetAgent();
+        if (_move != null)
+        {
+            _move.ResetAgent();
+        }
 
         StopAllCoroutines();
         loopRoutine = null;

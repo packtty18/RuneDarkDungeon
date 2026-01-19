@@ -14,7 +14,7 @@ public class SummonState : EnemyState
         base.Enter();
         controller.Attack.StartSummon();
         BossAttack attack = controller.Attack as BossAttack;
-        attack.TargetSpawner.SpawnCurrentPhase();
+        attack.TargetSpawner.BossSummon();
         controller.Anim.SetTrigger(EnemyAnimator.s_summonTrigger);
         controller.Sound?.PlaySummon();
         cooldownTimer = 3f;
