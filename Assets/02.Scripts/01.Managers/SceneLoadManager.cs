@@ -76,6 +76,7 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
             Debug.LogWarning($"[SceneLoadManager] 로드할 씬 데이터가 없습니다.");
             return;
         }
+        SoundManager.Instance?.StopBGM();
         StartCoroutine(LoadSceneAsync());
     }
 

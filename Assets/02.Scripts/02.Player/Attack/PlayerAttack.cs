@@ -355,6 +355,11 @@ public class PlayerAttack : MonoBehaviour
         _hitboxController.Activate("Main", _currentDamage);
     }
 
+    public void SoundPlay(ESoundType soundType)
+    {
+        SoundManager.Instance.Play(soundType, transform.position);
+    }
+
     public void OnChargeFinisherEffect()
     {
         _spawner.SpawnGroundEffect(_finisherVFX, _swordPosition.transform.position, transform);
