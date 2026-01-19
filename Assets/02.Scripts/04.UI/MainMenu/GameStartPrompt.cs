@@ -51,14 +51,13 @@ public class GameStartPrompt : MonoBehaviour
     {
         if (InputManager.Instance.GetKeyDown(_gameKey))
         {
-            _loadDataPopup.PopUp();
             if (!FileIO.Exists)
             {
                 NewGame();
             }
             else
             {
-                _loadDataPopup.PopUp();
+                _loadDataPopup.Show();
             }
         }
     }
