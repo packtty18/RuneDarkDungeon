@@ -30,10 +30,13 @@ public class ChargeState : EnemyState
 
         if (controller.Stat.EnemyType != EEnemyType.Boss)
         {
-            controller.Stat.EnableSuperArmor();
+            controller.SetActiveSuperArmor(true);
         }
 
         controller.Attack.StartCharge();
+        
+        controller.Sound?.PlayCharge();
+        
         _chargeCount = 0;
         Debug.Log("[ChargeState] Enter - 돌진 시작");
     }
@@ -122,7 +125,7 @@ public class ChargeState : EnemyState
     {
         if (controller.Stat.EnemyType != EEnemyType.Boss)
         {
-            controller.Stat.DisableSuperArmor();
+            controller.SetActiveSuperArmor(false);
         }
 
         controller.Anim.SetBool(EnemyAnimator.s_moveBool, false);

@@ -99,6 +99,12 @@ public class BattleManager : LocalSingleton<BattleManager>
 
     private void ActiveCurrentSpawnManager()
     {
+        if(_currentIndex >=_spawnManagers.Length)
+        {
+            OnBattleWin.Invoke();
+            return;
+        }
+
         EnemySpawnManager manager = _spawnManagers[_currentIndex];
         manager.OnAllPhaseCompleted.Subscribe(HandleStageCleared);
         manager.SpawnCurrentPhase();

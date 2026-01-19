@@ -36,5 +36,7 @@ public class PropObject : MonoBehaviour, IDamageable
             _dropper.Drop();
         }
         _exploder.Explode();
+
+        Util.ObjectDestroy(gameObject);
     }
 }

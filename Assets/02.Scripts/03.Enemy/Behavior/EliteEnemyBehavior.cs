@@ -43,11 +43,11 @@ public class EliteEnemyBehavior : CommonEnemyBehavior
     //엘리트는 공격시 슈퍼아머 활성화
     public override void OnAttackStart()
     {
-        _controller.Stat.EnableSuperArmor();
+        _controller.SetActiveSuperArmor(true);
     }
 
     public override void OnAttackFinish()
     {
-        _controller.Stat.DisableSuperArmor();
+        _controller.SetActiveSuperArmor(false);
     }
 }

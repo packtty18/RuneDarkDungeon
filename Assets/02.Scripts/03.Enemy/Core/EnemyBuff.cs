@@ -43,6 +43,7 @@ public class EnemyBuff : MonoBehaviour
         modifier = new StatModifier(buff.Value, buff.ModType);
         _controller.Stat.GetValue(buff.TargetStat).AddModifier(modifier);
         _activeBuffs.Add(new ActiveBuff(buff, modifier));
+        _controller.Shader.EnableBuffRim();
     }
 
     public void RemoveBuff(BuffSO buff)
@@ -67,6 +68,7 @@ public class EnemyBuff : MonoBehaviour
     private void RemoveBuffInternal(ActiveBuff buff)
     {
         _controller.Stat.GetValue(buff.Data.TargetStat).RemoveModifier(buff.Modifier);
+        _controller.Shader.DisableBuffRim();
         _activeBuffs.Remove(buff);
     }
 
