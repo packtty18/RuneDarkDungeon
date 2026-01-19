@@ -59,7 +59,7 @@ public class UI_Popup : UIBase
 
     private void Start()
     {
-        Hide();
+        _animation.Hide();
         _inputManager = InputManager.Instance;
     }
 
@@ -124,10 +124,5 @@ public class UI_Popup : UIBase
     public void OnDestroy()
     {
         _showButton?.onClick.RemoveAllListeners();
-    }
-
-    public void OnDisable()
-    {
-        Debug.Log("De");
     }
 }

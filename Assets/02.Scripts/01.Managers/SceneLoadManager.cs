@@ -200,11 +200,11 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
         OnSceneLoadProgress?.Invoke(_loadingProgress);
 
         // 씬 활성화
-        CursorManager.Instance.SetCursorLock(_nextSceneData.IsCursorLocked);
         asyncLoad.allowSceneActivation = true;
 
         // 씬이 완전히 로드될 때까지 대기
         yield return asyncLoad;
+        CursorManager.Instance.SetCursorLock(_nextSceneData.IsCursorLocked);
 
         // 사용하지 않는 리소스 언로드 (비동기)
         AsyncOperation unloadOp = Resources.UnloadUnusedAssets();
