@@ -12,11 +12,12 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private Rigidbody _rigid;
     [SerializeField] private Collider _physicCollider;
     [SerializeField] private Transform _target;
-    [SerializeField] private EnemyHealthUI _healthUI;
+    
 
     [ShowInInspector] private IEnemyBehavior _behavior;
     [ShowInInspector] private EnemyStateMachine _fsm;
 
+    [Title("Components")]
     [SerializeField] private EnemyPhase _phase;
     [SerializeField] private EnemyMove _move;
     [SerializeField] private EnemyAttack _attack;
@@ -28,10 +29,16 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private EnemyShaderFeedback _shader;
     [SerializeField] private ItemDropper _dropper;
 
+    [Title("boolean")]
     [SerializeField] private bool _paused;
     [SerializeField] private bool _wait = false;
 
     [SerializeField] private bool _canDropItem = false;
+
+    [Title("optional")]
+    [SerializeField] private EnemyHealthUI _healthUI;
+    [SerializeField] private TrailRenderer _weaponTrail;
+
     public void SetItemDrop(bool enabled)
     {
         _canDropItem = enabled;
@@ -80,6 +87,7 @@ public class EnemyController : PoolableObject, IDamageable
 
         EnablePhysics(true);
         _fsm = new EnemyStateMachine(this);
+        OnTrailEnd();
     }
 
     private void Update()
@@ -107,11 +115,13 @@ public class EnemyController : PoolableObject, IDamageable
         _target = null;
 
         EnablePhysics(false);
-
+        OnTrailEnd();
         if (_move != null)
         {
             _move.ResetAgent();
         }
+
+        
     }
 
     public override void OnDespawn()
@@ -121,7 +131,10 @@ public class EnemyController : PoolableObject, IDamageable
             BattleManager.Instance.OnBattleStateChanged.Unsubscribe(OnBattleStateChanged);
         }
 
-        _move.ResetAgent();
+        if (_move != null)
+        {
+            _move.ResetAgent();
+        }
 
         StopAllCoroutines();
         loopRoutine = null;
@@ -430,6 +443,22 @@ public class EnemyController : PoolableObject, IDamageable
         }
     }
 
+    public void OnTrailStart()
+    {
+        if (_weaponTrail == null)
+            return;
+
+        _weaponTrail.emitting = true;
+    }
+
+    public void OnTrailEnd()
+    {
+        if (_weaponTrail == null)
+            return;
+
+        _weaponTrail.emitting = false;
+    }
+
     #endregion
 
     #region Attack Loop Helper
@@ -464,6 +493,16 @@ public class EnemyController : PoolableObject, IDamageable
             loopRoutine = null;
         }
     }
+
+    private void PlaySlashSound()
+    {
+        if (loopRoutine != null)
+        {
+            StopCoroutine(loopRoutine);
+            loopRoutine = null;
+        }
+    }
+
 
     #endregion
 
