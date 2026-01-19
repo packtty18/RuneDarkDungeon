@@ -40,4 +40,11 @@ public class ItemFactory
         SetItemInfo(newItem);
         return newItem;
     }
+
+    public ItemData Create(int id, EItemGrade grade)
+    {
+        ItemData newItem = new ItemData(id, grade);
+        SetItemInfo(newItem);
+        return newItem;
+    }
 }
