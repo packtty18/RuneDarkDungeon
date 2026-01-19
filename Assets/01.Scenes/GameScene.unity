@@ -10496,7 +10496,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2113990732}
+  m_Father: {fileID: 531224756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &130063347
 MonoBehaviour:
@@ -10555,7 +10555,19 @@ MonoBehaviour:
       m_Calls: []
   OnBattleLose:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2113990733}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: GameOver
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _state: 0
 --- !u!4 &133804366
 Transform:
@@ -23769,6 +23781,52 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: -2.5, y: 0.943, z: 0.26200002}
   m_TimeToStationary: 0.5
+--- !u!1 &298844223
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 298844224}
+  - component: {fileID: 298844225}
+  m_Layer: 0
+  m_Name: GameFlowManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &298844224
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298844223}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -51.00269, y: 14.35788, z: 122.52793}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 531224756}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &298844225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298844223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c69263aaaedd9f347912f0c54196e888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameFlowManager
+  _pauseUI: {fileID: 2017221489}
+  _pauseKey: 14
 --- !u!1001 &299323473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40165,7 +40223,9 @@ Transform:
   m_Children:
   - {fileID: 416959437}
   - {fileID: 133804366}
+  - {fileID: 130063346}
   - {fileID: 2113990732}
+  - {fileID: 298844224}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &532588315
@@ -83471,6 +83531,22 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7094712493706731195, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7094712493706731195, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7094712493706731195, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7094712493706731195, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7278281889978154152, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -83578,6 +83654,34 @@ PrefabInstance:
     - target: {fileID: 7485868237679323896, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
       propertyPath: m_Name
       value: UI_Settings
+      objectReference: {fileID: 0}
+    - target: {fileID: 7545184869920624412, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7545184869920624412, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7545184869920624412, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7545184869920624412, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8561069207217759093, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
+      propertyPath: _upKey
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8561069207217759093, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
+      propertyPath: _useKey
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8561069207217759093, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
+      propertyPath: _downKey
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8652101022532997670, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
       propertyPath: m_AnchorMax.x
@@ -160002,6 +160106,17 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: -2.4720001, y: 2.525, z: 0.058000002}
   m_TimeToStationary: 0.5
+--- !u!114 &2017221489 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8561069207217759093, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
+  m_PrefabInstance: {fileID: 1043731822}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb0a817137946bc45bf858231f0f1e6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_Popup
 --- !u!1001 &2018291745
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -167097,6 +167212,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2113990732}
   - component: {fileID: 2113990733}
+  - component: {fileID: 2113990734}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -167116,8 +167232,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 130063346}
+  m_Children: []
   m_Father: {fileID: 531224756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2113990733
@@ -167134,6 +167249,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   _fadeBlack: {fileID: 537370979}
   _fadeTime: 3
+  _gameOverDelay: 1
+--- !u!114 &2113990734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113990731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3760c674c9f48a439444798f55369d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneTransition
+  _targetScene: {fileID: 11400000, guid: 49a39755cd388664cb5f3d019ecb0af6, type: 2}
+  _delay: 0
 --- !u!1001 &2114344389
 PrefabInstance:
   m_ObjectHideFlags: 0

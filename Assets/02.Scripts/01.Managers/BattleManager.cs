@@ -134,4 +134,15 @@ public class BattleManager : LocalSingleton<BattleManager>
     {
         SetState(EBattleState.Defeat);
     }
+
+    [Button]
+    public void NotifyGamePause()
+    {
+        SetState(EBattleState.Pause);
+    }
+
+    public void NotifyGameResume()
+    {
+        SetState(EBattleState.InProgress);
+    }
 }
