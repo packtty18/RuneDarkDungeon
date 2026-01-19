@@ -18,7 +18,7 @@ public class UI_UpgradeInfo : MonoBehaviour
         _costTextUI.SetText("{0}", data.Cost);
         _rateTextUI.SetText("성공 확률 {0}%", data.Rate * 100);
         _buttonImage.interactable = forge.CanUpgrade(currency);
-        _buttonImage.GetComponent<UI_ButtonAnimationController>()?.SetActive(forge.CanUpgrade(currency));
+        _buttonImage.GetComponent<ButtonReactionController>()?.SetActive(forge.CanUpgrade(currency));
 
         var item = forge.BaseItem;
         if (item == null)

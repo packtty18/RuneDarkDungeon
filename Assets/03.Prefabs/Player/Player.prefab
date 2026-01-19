@@ -2796,6 +2796,7 @@ GameObject:
   - component: {fileID: 5641526960196326193}
   - component: {fileID: 2638318267183947454}
   - component: {fileID: 484416285610723721}
+  - component: {fileID: 3245818722346406277}
   - component: {fileID: 5251428063860501268}
   - component: {fileID: 4718409816780025331}
   - component: {fileID: 6019706068357259016}
@@ -2909,7 +2910,7 @@ MonoBehaviour:
     _regen: 0
   Attack:
     _max: 100000000
-    _current: 1
+    _current: 500
     _regen: 0
   Defense:
     _max: 100
@@ -2939,6 +2940,18 @@ MonoBehaviour:
     _max: 0.3
     _current: 0
     _regen: 0
+--- !u!114 &3245818722346406277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7897478960710564786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8153ec34991ab13499ba463f8118b854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSound
 --- !u!114 &5251428063860501268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2976,7 +2989,6 @@ MonoBehaviour:
   _swordPosition: {fileID: 8229212516764268913}
   _attackConfig: {fileID: 11400000, guid: 1b371a66a71756a40ab75888da217879, type: 2}
   _hitboxController: {fileID: 3872139809204004901}
-  _cameraShake: {fileID: 0}
   _finisherShakeTime: 0.5
   _finisherShakeAmplitude: 3
 --- !u!114 &6019706068357259016
