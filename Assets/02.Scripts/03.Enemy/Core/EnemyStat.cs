@@ -97,11 +97,20 @@ public class EnemyStat : SerializedMonoBehaviour
 
     public IReadOnlyValue<float> GetValue(EEnemyValueFloat type)
     {
+        if(_floatValues.Count == 0)
+        {
+            return null;
+        }
+
         return _floatValues[type];
     }
 
     public IReadOnlyConsumable<float> GetValue(EEnemyConsumableFloat type)
     {
+        if (_floatConsumables.Count == 0)
+        {
+            return null;
+        }
         return _floatConsumables[type];
     }
 
