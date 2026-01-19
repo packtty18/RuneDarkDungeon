@@ -11,13 +11,13 @@ public class ComboPresenter : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _comboText;
     [SerializeField]
-    private UIBasicAnimation _combo;
+    private UI_BasicAnimation _combo;
     [SerializeField]
-    private UIBasicAnimation _finisher;
+    private UI_BasicAnimation _finisher;
     [SerializeField]
-    private UIBasicAnimation _charging;
+    private UI_BasicAnimation _charging;
     [SerializeField]
-    private UIBasicAnimation _chargingFinisher;
+    private UI_BasicAnimation _chargingFinisher;
 
     private PlayerAttack _playerAttack;
 

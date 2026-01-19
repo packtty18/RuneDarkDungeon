@@ -3,7 +3,7 @@ using UnityEngine;
 public class GameManager : LocalSingleton<GameManager>
 {
     [SerializeField]
-    private UIBasicAnimation _fadeBlack;
+    private UI_BasicAnimation _fadeBlack;
     [SerializeField]
     private float _fadeTime = 0.5f;
 

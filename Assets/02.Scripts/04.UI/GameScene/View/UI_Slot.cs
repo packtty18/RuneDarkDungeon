@@ -11,6 +11,8 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     [SerializeField] private Sprite _defaultBorderImage;
     [SerializeField] private GameObject _iconCover;
     
+    private UI_SlotAnimationController _animation;
+
     private ItemData _item;
     public ItemData Item => _item;
     public bool IsEmpty => _item == null;
@@ -19,7 +21,12 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public event Action<UI_Slot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
     public event Action<UI_Slot> OnSlotDoubleClicked;
-    
+
+    private void Awake()
+    {
+        TryGetComponent<UI_SlotAnimationController>(out _animation);
+    }
+
     public void SetItem(ItemData item, Sprite border)
     {
         if (item == null)
@@ -50,6 +57,8 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     {
         _iconCover.SetActive(!isOn);
         _isInteractable = isOn;
+        _animation?.Reset();
+        _animation?.SetActive(isOn);
     }
     
     public void OnPointerEnter(PointerEventData eventData)
