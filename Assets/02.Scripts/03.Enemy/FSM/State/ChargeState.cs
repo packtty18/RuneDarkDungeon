@@ -35,8 +35,6 @@ public class ChargeState : EnemyState
 
         controller.Attack.StartCharge();
         
-        controller.Sound?.PlayCharge();
-        
         _chargeCount = 0;
         Debug.Log("[ChargeState] Enter - 돌진 시작");
     }

@@ -43,7 +43,7 @@ public enum ESoundType
     Enemy_Boss_Death,
     Enemy_Boss_Charge,
     Enemy_Boss_Summon,
-    Enemy_Boss_BuffObject,
+    Enemy_Boss_Buff
 }
 
 public class SoundManager : GlobalSingleton<SoundManager>

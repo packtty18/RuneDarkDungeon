@@ -494,6 +494,16 @@ public class EnemyController : PoolableObject, IDamageable
         }
     }
 
+    private void PlaySlashSound()
+    {
+        if (loopRoutine != null)
+        {
+            StopCoroutine(loopRoutine);
+            loopRoutine = null;
+        }
+    }
+
+
     #endregion
 
     #region UI

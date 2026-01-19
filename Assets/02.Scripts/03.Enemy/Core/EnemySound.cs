@@ -58,7 +58,7 @@ public class EnemySound : MonoBehaviour
             {
                 EEnemyType.Mage, new EnemySoundSet
                 {
-                    Attack = ESoundType.Enemy_Mage_Fireball,
+
                 }
             },
             {
@@ -102,7 +102,7 @@ public class EnemySound : MonoBehaviour
 
         if (_soundSets.TryGetValue(_enemyType, out var soundSet))
         {
-            PlaySoundImmediate(soundSet.Death); // 사망음은 쿨다운 무시
+            PlaySound(soundSet.Death); // 사망음은 쿨다운 무시
         }
     }
 
@@ -113,7 +113,7 @@ public class EnemySound : MonoBehaviour
 
         if (_soundSets.TryGetValue(_enemyType, out var soundSet) && soundSet.Charge != ESoundType.None)
         {
-            PlaySound(soundSet.Charge);
+            PlaySoundImmediate(soundSet.Charge);
         }
     }
 
@@ -124,7 +124,7 @@ public class EnemySound : MonoBehaviour
 
         if (_soundSets.TryGetValue(_enemyType, out var soundSet) && soundSet.Summon != ESoundType.None)
         {
-            PlaySound(soundSet.Summon);
+            PlaySoundImmediate(soundSet.Summon);
         }
     }
 
