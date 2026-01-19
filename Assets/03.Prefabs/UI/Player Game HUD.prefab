@@ -4454,7 +4454,6 @@ GameObject:
   - component: {fileID: 4560154167357536625}
   - component: {fileID: 5775035027194552111}
   - component: {fileID: 5480768758766000725}
-  - component: {fileID: 3084157351895197012}
   m_Layer: 5
   m_Name: Coin
   m_TagString: Untagged
@@ -4555,23 +4554,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_GoldText
   _goldTextUI: {fileID: 4646545642473542313}
---- !u!114 &3084157351895197012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3475406250171623051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bcee681fd17219418dce667ca7df9e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_Initializer
-  _inventoryPresenter: {fileID: 0}
-  _upgradePresenter: {fileID: 0}
-  _equipmentPresenter: {fileID: 0}
-  _currencyPresenter: {fileID: 5775035027194552111}
-  _selectionManager: {fileID: 0}
 --- !u!1 &3481239077375897227
 GameObject:
   m_ObjectHideFlags: 0
@@ -6699,12 +6681,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5c3be524a1818846b19c2b132b81a82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ComboUIUpdate
+  _playerContext: {fileID: 0}
   _comboText: {fileID: 5639819579153474830}
   _combo: {fileID: 4128225441841218053}
   _finisher: {fileID: 8740049170277245838}
   _charging: {fileID: 7516781209888207834}
   _chargingFinisher: {fileID: 395878991435946102}
-  _playerAttack: {fileID: 0}
 --- !u!1 &5844497382549761432
 GameObject:
   m_ObjectHideFlags: 0
@@ -9839,4 +9821,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7163fb0d3657604fbecc017e82a005a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HPUIUpdate
-  _playerStats: {fileID: 0}
+  _playerContext: {fileID: 0}

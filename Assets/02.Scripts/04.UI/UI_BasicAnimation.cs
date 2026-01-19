@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UIBasicAnimation : MonoBehaviour
+public class UI_BasicAnimation : MonoBehaviour
 {
     private Vector3 _originalScale;
     private Vector3 _originalPosition;
@@ -26,10 +26,10 @@ public class UIBasicAnimation : MonoBehaviour
 
     #region Popup
 
-    public void PopUp(float duration = 0.2f)
+    public void PopUp(float duration = 0.2f, float startScale = 0f)
     {
         Show();
-        transform.localScale = Vector3.zero;
+        transform.localScale = Vector3.one * startScale;
 
         _currentSequence?.Kill();
 
@@ -37,15 +37,24 @@ public class UIBasicAnimation : MonoBehaviour
         _currentSequence.Append(transform.DOScale(Vector3.one, duration).SetEase(Ease.OutBack));
     }
 
-    public void PopDown(float duration = 0.2f)
+    public void PopDown(float duration = 0.2f, float startScale = 0f)
     {
         _currentSequence?.Kill();
 
         _currentSequence = DOTween.Sequence();
-        _currentSequence.Append(transform.DOScale(Vector3.zero, duration).SetEase(Ease.InBack)).OnComplete(() => Hide());
+        _currentSequence.Append(transform.DOScale(Vector3.one * startScale, duration).SetEase(Ease.InBack)).OnComplete(() => Hide());
     }
 
     #endregion
+
+
+    public void Scale(float targetScale = 0.8f, float duration = 0.2f, Ease ease = Ease.OutBack)
+    {
+        _currentSequence?.Kill();
+
+        _currentSequence = DOTween.Sequence();
+        _currentSequence.Append(transform.DOScale(_originalScale * targetScale, duration * 0.5f).SetEase(ease));
+    }
 
     /// 작아졌다가 원래 크기로 돌아오기.
     public void ScaleDownAndRecover(float targetScale = 0.8f, float duration = 0.2f)
@@ -78,6 +87,21 @@ public class UIBasicAnimation : MonoBehaviour
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(transform.DOScale(targetScale, duration * 0.5f).SetEase(ease));
         _currentSequence.Append(transform.DOScale(_originalScale, duration * 0.5f).SetEase(ease));
+        _currentSequence.SetLoops(loops, LoopType.Restart);
+    }
+
+    // 커졌다가 작아지기 페이드인 페이드 아웃 반복
+    public void ScaleAndAlphaLoop(float duration = 1f, float scaleMultiplier = 1.15f, float minAlpha = 0.8f, int loops = -1, Ease ease = Ease.InOutQuad)
+    {
+        _currentSequence?.Kill();
+
+        Vector3 targetScale = _originalScale * scaleMultiplier;
+
+        _currentSequence = DOTween.Sequence();
+        _currentSequence.Append(transform.DOScale(targetScale, duration * 0.5f).SetEase(ease));
+        _currentSequence.Join(_canvasGroup.DOFade(minAlpha, duration * 0.5f).SetEase(ease));
+        _currentSequence.Append(transform.DOScale(_originalScale, duration * 0.5f).SetEase(ease));     
+        _currentSequence.Join(_canvasGroup.DOFade(1f, duration * 0.5f).SetEase(ease));
         _currentSequence.SetLoops(loops, LoopType.Restart);
     }
 
@@ -223,15 +247,20 @@ public class UIBasicAnimation : MonoBehaviour
 
     public void Hide()
     {
-        if (_canvasGroup == null) return;
+        if (_canvasGroup != null)
+        {
+            _canvasGroup.alpha = 0f;
+        }
         StopAndReset();
-        _canvasGroup.alpha = 0f;
+        gameObject.SetActive(false);
     }
     public void Show()
     {
-        if (_canvasGroup == null) return;
-
-        _canvasGroup.alpha = 1f;
+        gameObject.SetActive(true);
+        if (_canvasGroup != null)
+        {
+            _canvasGroup.alpha = 1f;
+        }
     }
 
     public void FadeOut(float duration = 0.3f, Ease ease = Ease.OutQuad)

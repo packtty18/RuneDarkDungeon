@@ -5,10 +5,15 @@ using UnityEngine;
 [Serializable]
 public class Equipment : IEquipment
 {
-    [SerializeField] private SerializableDictionary<ESkillSlot, ItemData> _items = new();
+    [SerializeField] private SerializableDictionary<ESkillSlot, ItemData> _items;
     public IReadOnlyDictionary<ESkillSlot, ItemData> Items => _items;
     
     private SafeEvent _onChanged = new();
+
+    public Equipment(SerializableDictionary<ESkillSlot, ItemData> items = null)
+    {
+        _items = items ?? new();
+    }
     
     public ItemData Equip(ESkillSlot slot, ItemData item)
     {

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DataManager : GlobalSingleton<DataManager>, IDataHolder
@@ -14,11 +13,22 @@ public class DataManager : GlobalSingleton<DataManager>, IDataHolder
     
     [SerializeField] private ItemDatabaseSO _itemDB;
     [SerializeField] private ItemUpgradeDataSO _upgradeDB;
+    [SerializeField] private StartDataSO _startData;
     
     protected override void OnInit()
     {
-        FileIO.Load(_data);
+        if (FileIO.Load(_data))
+        {
+            InitializeItems();
+        }
+        else
+        {
+            CreateNewGameData();
+        }
+    }
 
+    private void InitializeItems()
+    {
         ItemFactory itemFactory = new(_itemDB);
         _forge = new(itemFactory, _upgradeDB);
         
@@ -28,7 +38,13 @@ public class DataManager : GlobalSingleton<DataManager>, IDataHolder
 
     public void CreateNewGameData()
     {
-        _data = new();
+        GoldData gold = new(_startData.Gold);
+        Inventory inventory = new(_startData.Inventory);
+        Equipment equipment = new(_startData.Equipment);
+        
+        _data = new(gold, inventory, equipment);
+
+        InitializeItems();
     }
 
     public void Save()

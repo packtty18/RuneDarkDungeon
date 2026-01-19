@@ -9,6 +9,7 @@ public class JudgmentMeteorSkill : SkillBase
     [Header("레전드 추가 스킬")]
     [SerializeField] private GameObject _finalEffectPrefab;
     [SerializeField] private RangeData<float> _finalDamage;
+    [SerializeField] private float _finalLifeTime;
     
 #if UNITY_EDITOR
     private void Reset()
@@ -32,5 +33,6 @@ public class JudgmentMeteorSkill : SkillBase
         var finalEffect = Instantiate(_finalEffectPrefab, _user.transform.position, Quaternion.identity);
         if (!finalEffect.TryGetComponent<HitBox>(out var hitbox)) return;
         hitbox.Activate(_finalDamage.GetRandomValue());
+        Destroy(finalEffect, _finalLifeTime);
     }
 }

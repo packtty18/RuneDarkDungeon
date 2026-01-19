@@ -5,6 +5,13 @@ public enum EGameState
     GameOver
 }
 
+public enum EAnimationType
+{
+    AlphaLoop,
+    ScaleLoop,
+    AlphaAndScaleLoop,
+}
+
 public enum EAttackType
 {
     None,
