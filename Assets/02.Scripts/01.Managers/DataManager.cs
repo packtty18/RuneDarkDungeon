@@ -14,10 +14,14 @@ public class DataManager : GlobalSingleton<DataManager>, IDataHolder
     
     [SerializeField] private ItemDatabaseSO _itemDB;
     [SerializeField] private ItemUpgradeDataSO _upgradeDB;
+    [SerializeField] private StartDataSO _startData;
     
     protected override void OnInit()
     {
-        FileIO.Load(_data);
+        if (!FileIO.Load(_data))
+        {
+            CreateNewGameData();
+        }
 
         ItemFactory itemFactory = new(_itemDB);
         _forge = new(itemFactory, _upgradeDB);
@@ -28,7 +32,28 @@ public class DataManager : GlobalSingleton<DataManager>, IDataHolder
 
     public void CreateNewGameData()
     {
-        _data = new();
+        GoldData gold = new();
+        Inventory inventory = new();
+        Equipment equipment = new();
+        
+        gold.Add(_startData.Gold);
+        
+        foreach (var item in _startData.Inventory)
+        {
+            inventory.Add(item);
+        }
+
+        foreach (var item in _startData.Equipment)
+        {
+            equipment.Equip(item.Key, item.Value);
+        }
+        
+        _data = new(gold, inventory, equipment);
+        
+        ItemFactory itemFactory = new(_itemDB);
+        
+        itemFactory.SetItemInfo(Inventory.Items);
+        itemFactory.SetItemInfo(Equipment.Items.Values);
     }
 
     public void Save()

@@ -961,8 +961,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0a817137946bc45bf858231f0f1e6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PopUpDown
+  _isInitialized: 0
+  _awakeInit: 0
   _upKey: 0
   _downKey: 14
+  _popUpAnimation: 1
   _popDownAnimation: 0
   _popDuration: 0.5
   _startScale: 0.5
@@ -2288,6 +2291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ce1e7607cd9c04ea3595cb6d90c62e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonAnimationController
+  _active: 1
   _hoverMoveOffset: {x: 0, y: 0, z: 0}
   _hoverScale: 1
   _hoverDuration: 0.25
@@ -3157,6 +3161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ce1e7607cd9c04ea3595cb6d90c62e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonAnimationController
+  _active: 1
   _hoverMoveOffset: {x: 0, y: 0, z: 0}
   _hoverScale: 1
   _hoverDuration: 0.25
