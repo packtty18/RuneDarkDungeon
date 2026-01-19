@@ -7,12 +7,14 @@ public class TestItemMaker : MonoBehaviour
     private ItemFactory _itemFactory;
     private IInventory _inventory;
     private IEquipment _equipment;
+    private ICurrency _gold;
     
     private void Start()
     {
         var data = DataManager.Instance;
         _inventory = data.Inventory;
         _equipment = data.Equipment;
+        _gold = data.GoldData;
         
         _itemFactory = new ItemFactory(_itemDB);
     }
@@ -46,6 +48,19 @@ public class TestItemMaker : MonoBehaviour
 
         _equipment.Equip(TargetSkill, newItem);
         Debug.Log($"[Test] Equipped: ID {TargetId}, Grade {TargetGrade}");
+    }
+    
+    [BoxGroup("Currency")]
+    [LabelText("Amount")]
+    public int GoldAmount = 1000;
+
+    [BoxGroup("Currency")]
+    [Button("Add Gold", ButtonSizes.Large), GUIColor(1f, 0.84f, 0f)]
+    public void AddGold()
+    {
+        _gold.Add(GoldAmount); 
+        
+        Debug.Log($"[Test] Gold Added: {GoldAmount}. Current: {_gold.Amount}");
     }
     
     private bool VerifyAndCreateItem(out ItemData newItem)
