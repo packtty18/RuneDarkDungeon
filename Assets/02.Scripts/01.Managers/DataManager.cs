@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DataManager : GlobalSingleton<DataManager>, IDataHolder
@@ -18,11 +17,18 @@ public class DataManager : GlobalSingleton<DataManager>, IDataHolder
     
     protected override void OnInit()
     {
-        if (!FileIO.Load(_data))
+        if (FileIO.Load(_data))
+        {
+            InitializeItems();
+        }
+        else
         {
             CreateNewGameData();
         }
+    }
 
+    private void InitializeItems()
+    {
         ItemFactory itemFactory = new(_itemDB);
         _forge = new(itemFactory, _upgradeDB);
         
@@ -32,28 +38,13 @@ public class DataManager : GlobalSingleton<DataManager>, IDataHolder
 
     public void CreateNewGameData()
     {
-        GoldData gold = new();
-        Inventory inventory = new();
-        Equipment equipment = new();
-        
-        gold.Add(_startData.Gold);
-        
-        foreach (var item in _startData.Inventory)
-        {
-            inventory.Add(item);
-        }
-
-        foreach (var item in _startData.Equipment)
-        {
-            equipment.Equip(item.Key, item.Value);
-        }
+        GoldData gold = new(_startData.Gold);
+        Inventory inventory = new(_startData.Inventory);
+        Equipment equipment = new(_startData.Equipment);
         
         _data = new(gold, inventory, equipment);
-        
-        ItemFactory itemFactory = new(_itemDB);
-        
-        itemFactory.SetItemInfo(Inventory.Items);
-        itemFactory.SetItemInfo(Equipment.Items.Values);
+
+        InitializeItems();
     }
 
     public void Save()

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(UI_BasicAnimation))]
-public class UI_ButtonAnimationController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class ButtonReactionController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
 
     [SerializeField]
@@ -47,6 +47,7 @@ public class UI_ButtonAnimationController : MonoBehaviour, IPointerEnterHandler,
     {
         if (!_active) return;
         _animator.ScaleDownAndRecover(_clickScale, _clickDuration);
+        SoundManager.Instance?.Play(ESoundType.UI_Button_Click, SoundManager.Instance.transform.position);
     }
 
     public void Reset()

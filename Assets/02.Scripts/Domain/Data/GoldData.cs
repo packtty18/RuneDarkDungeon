@@ -8,6 +8,11 @@ public class GoldData : ICurrency
     public int Amount => _amount;
     
     private readonly SafeEvent _onChanged = new();
+
+    public GoldData(int amount = 0)
+    {
+        _amount = amount;
+    }
     
     private void SetAmount(int amount)
     {
