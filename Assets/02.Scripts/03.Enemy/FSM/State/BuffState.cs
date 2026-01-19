@@ -16,6 +16,9 @@ public class BuffState : EnemyState
         //버프 오브젝트 생성 => 닿는 적들은 버프
         attack.InstantBuff();
         controller.Anim.SetTrigger(EnemyAnimator.s_buffTrigger);
+        
+        controller.Sound?.PlayBuff();
+        
         cooldownTimer = 3f;
     }
 
