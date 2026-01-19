@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 6089910729909486689}
   - component: {fileID: 4507023274120236218}
   - component: {fileID: 3464385925130371481}
+  - component: {fileID: 960482163453597766}
   m_Layer: 11
   m_Name: Archer
   m_TagString: Untagged
@@ -280,7 +281,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   _team: 1
-  _physics: {fileID: 0}
+  _rigid: {fileID: 0}
+  _physicCollider: {fileID: 0}
   _target: {fileID: 0}
   _healthUI: {fileID: 7136649468679634869}
   _phase: {fileID: 0}
@@ -292,6 +294,7 @@ MonoBehaviour:
   _buff: {fileID: 0}
   _sound: {fileID: 0}
   _shader: {fileID: 0}
+  _dropper: {fileID: 0}
   _paused: 0
   _wait: 0
 --- !u!114 &2750660798940260602
@@ -471,6 +474,20 @@ MonoBehaviour:
   hitFadeDuration: 0.3
   outlineOffColor: {r: 0, g: 0, b: 0, a: 1}
   outlineOnColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &960482163453597766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702605027344997685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e189268c09d35f34c88fec8baa88cf8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDropper
+  _dropTable: {fileID: 11400000, guid: 228cd5018ef886f4695b557c7f7e8f36, type: 2}
+  _spawnRadius: 0.5
 --- !u!1001 &210608922548355811
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -26,9 +26,17 @@ public class EnemyController : PoolableObject, IDamageable
     [SerializeField] private EnemyBuff _buff;
     [SerializeField] private EnemySound _sound;
     [SerializeField] private EnemyShaderFeedback _shader;
+    [SerializeField] private ItemDropper _dropper;
 
     [SerializeField] private bool _paused;
     [SerializeField] private bool _wait = false;
+
+    [SerializeField] private bool _canDropItem = false;
+    public void SetItemDrop(bool enabled)
+    {
+        _canDropItem = enabled;
+    }
+
 
     public ETeamType Team => _team;
     public EnemyStateMachine FSM => _fsm;
@@ -68,6 +76,7 @@ public class EnemyController : PoolableObject, IDamageable
 
         _rigid = GetComponent<Rigidbody>();
         _physicCollider = GetComponent<Collider>();
+        _dropper = GetComponent<ItemDropper>();
 
         EnablePhysics(true);
         _fsm = new EnemyStateMachine(this);
@@ -373,7 +382,18 @@ public class EnemyController : PoolableObject, IDamageable
         EnablePhysics(false);
         UIDisable();
         ReturnToPoolAfter(5);
+        
         OnDead?.Invoke(this);
+    }
+
+    public void DropItem()
+    {
+        if(!_canDropItem)
+        {
+            return;
+        }
+
+        _dropper.Drop();
     }
 
     #endregion

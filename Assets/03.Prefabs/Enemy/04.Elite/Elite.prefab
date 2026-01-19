@@ -2254,6 +2254,7 @@ GameObject:
   - component: {fileID: 7828422622161200261}
   - component: {fileID: 1393447800365247200}
   - component: {fileID: 6617419931973417312}
+  - component: {fileID: 936028888295177316}
   m_Layer: 11
   m_Name: Elite
   m_TagString: Untagged
@@ -2399,7 +2400,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   _team: 1
-  _physics: {fileID: 0}
+  _rigid: {fileID: 0}
+  _physicCollider: {fileID: 0}
   _target: {fileID: 0}
   _healthUI: {fileID: 6088886116306262847}
   _phase: {fileID: 0}
@@ -2411,6 +2413,7 @@ MonoBehaviour:
   _buff: {fileID: 0}
   _sound: {fileID: 0}
   _shader: {fileID: 0}
+  _dropper: {fileID: 0}
   _paused: 0
   _wait: 0
 --- !u!114 &2408069751317137024
@@ -2590,6 +2593,20 @@ MonoBehaviour:
   hitFadeDuration: 0.3
   outlineOffColor: {r: 0, g: 0, b: 0, a: 1}
   outlineOnColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &936028888295177316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8562400191214014964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e189268c09d35f34c88fec8baa88cf8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDropper
+  _dropTable: {fileID: 11400000, guid: ec99b523293a9304fb2046d30f6e6f49, type: 2}
+  _spawnRadius: 0.5
 --- !u!1 &8972945130652191451
 GameObject:
   m_ObjectHideFlags: 0

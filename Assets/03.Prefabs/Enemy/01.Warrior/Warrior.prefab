@@ -751,6 +751,7 @@ GameObject:
   - component: {fileID: 6310836611552175727}
   - component: {fileID: 8132105026166843401}
   - component: {fileID: 813795989879576782}
+  - component: {fileID: 6425509349561826173}
   m_Layer: 11
   m_Name: Warrior
   m_TagString: Untagged
@@ -896,7 +897,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   _team: 1
-  _physics: {fileID: 0}
+  _rigid: {fileID: 0}
+  _physicCollider: {fileID: 0}
   _target: {fileID: 0}
   _healthUI: {fileID: 8429375148749182475}
   _phase: {fileID: 0}
@@ -908,6 +910,7 @@ MonoBehaviour:
   _buff: {fileID: 0}
   _sound: {fileID: 0}
   _shader: {fileID: 0}
+  _dropper: {fileID: 0}
   _paused: 0
   _wait: 0
 --- !u!114 &2750660798940260602
@@ -1085,6 +1088,20 @@ MonoBehaviour:
   hitFadeDuration: 0.3
   outlineOffColor: {r: 0, g: 0, b: 0, a: 1}
   outlineOnColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &6425509349561826173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702605027344997685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e189268c09d35f34c88fec8baa88cf8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDropper
+  _dropTable: {fileID: 11400000, guid: 228cd5018ef886f4695b557c7f7e8f36, type: 2}
+  _spawnRadius: 0.5
 --- !u!1 &2807259697589098678
 GameObject:
   m_ObjectHideFlags: 0

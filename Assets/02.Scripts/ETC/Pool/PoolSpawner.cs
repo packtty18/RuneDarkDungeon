@@ -12,7 +12,6 @@ public class PoolSpawner : MonoBehaviour
             return null;
         }
 
-        
         return obj;
     }
 }
