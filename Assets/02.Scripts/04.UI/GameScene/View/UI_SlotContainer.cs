@@ -14,9 +14,8 @@ public class UI_SlotContainer : PUBase
     public event Action<UI_Slot> OnSlotClicked;
     public event Action<UI_Slot> OnSlotHovered;
     
-    protected override void OnInit()
+    public void Initialize()
     {
-        base.OnInit();
         foreach (var slot in _slots)
         {
             slot.OnSlotClicked += NotifySlotClicked;
