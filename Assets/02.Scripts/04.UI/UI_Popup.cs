@@ -1,5 +1,8 @@
+using Sirenix.OdinInspector;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(UI_BasicAnimation))]
 [RequireComponent(typeof(CanvasGroup))]
@@ -9,6 +12,12 @@ public class UI_Popup : UIBase
     private EGameKeyType _upKey;
     [SerializeField] 
     private EGameKeyType _downKey;
+
+    [SerializeField]
+    private bool _useButton = false;
+
+    [SerializeField, ShowIf(nameof(_useButton))]
+    private Button _showButton;
 
     [SerializeField]
     private bool _popUpAnimation = true;
@@ -33,11 +42,24 @@ public class UI_Popup : UIBase
     {
         base.Awake();
         TryGetComponent<UI_BasicAnimation>(out _animation);
-        Hide();
+        _showButton?.onClick.AddListener(OnButtonClick);
+    }
+
+    private void OnButtonClick()
+    {
+        if (_isOpened)
+        {
+            Hide();
+        }
+        else
+        {
+            Show();
+        }
     }
 
     private void Start()
     {
+        Hide();
         _inputManager = InputManager.Instance;
     }
 
@@ -97,5 +119,15 @@ public class UI_Popup : UIBase
             _animation.Hide();
         }
         _isOpened = false;
+    }
+
+    public void OnDestroy()
+    {
+        _showButton?.onClick.RemoveAllListeners();
+    }
+
+    public void OnDisable()
+    {
+        Debug.Log("De");
     }
 }
