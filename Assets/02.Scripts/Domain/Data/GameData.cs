@@ -13,9 +13,9 @@ public class GameData
 
     public GameData(GoldData gold = null, Inventory inventory = null, Equipment equipment = null)
     {
-        _gold = gold;
-        _inventory = inventory;
-        _equipment = equipment;
+        _gold = gold ?? new();
+        _inventory = inventory ?? new();
+        _equipment = equipment ?? new();
     }
     
     public string GetSummary()

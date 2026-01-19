@@ -5,10 +5,15 @@ using System;
 [Serializable]
 public class Inventory : IInventory
 {
-    [SerializeField] private List<ItemData> _items = new();
+    [SerializeField] private List<ItemData> _items;
     public IReadOnlyList<ItemData> Items => _items;
     
     private SafeEvent _onChanged = new();
+
+    public Inventory(List<ItemData> items = null)
+    {
+        _items = items ?? new();
+    }
     
     public void Add(ItemData item)
     {
