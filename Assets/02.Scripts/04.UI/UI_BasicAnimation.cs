@@ -35,6 +35,8 @@ public class UI_BasicAnimation : MonoBehaviour
 
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(transform.DOScale(Vector3.one, duration).SetEase(Ease.OutBack));
+
+        _currentSequence.SetUpdate(true);
     }
 
     public void PopDown(float duration = 0.2f, float startScale = 0f)
@@ -43,6 +45,8 @@ public class UI_BasicAnimation : MonoBehaviour
 
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(transform.DOScale(Vector3.one * startScale, duration).SetEase(Ease.InBack)).OnComplete(() => Hide());
+
+        _currentSequence.SetUpdate(true);
     }
 
     #endregion
@@ -54,6 +58,8 @@ public class UI_BasicAnimation : MonoBehaviour
 
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(transform.DOScale(_originalScale * targetScale, duration * 0.5f).SetEase(ease));
+
+        _currentSequence.SetUpdate(true);
     }
 
     /// 작아졌다가 원래 크기로 돌아오기.
@@ -65,6 +71,8 @@ public class UI_BasicAnimation : MonoBehaviour
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(transform.DOScale(_originalScale * targetScale, duration * 0.5f).SetEase(Ease.InQuad));
         _currentSequence.Append(transform.DOScale(_previousScale, duration * 0.5f).SetEase(Ease.OutQuad));
+
+        _currentSequence.SetUpdate(true);
     }
 
     /// 커졌다가 원래 크기로 돌아오기 (펀치 효과 - 콤보용).
@@ -75,6 +83,8 @@ public class UI_BasicAnimation : MonoBehaviour
 
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(transform.DOPunchScale(punchVector, duration, vibrato, elasticity));
+
+        _currentSequence.SetUpdate(true);
     }
 
     // 커졌다가 작아지기 반복.
@@ -88,6 +98,8 @@ public class UI_BasicAnimation : MonoBehaviour
         _currentSequence.Append(transform.DOScale(targetScale, duration * 0.5f).SetEase(ease));
         _currentSequence.Append(transform.DOScale(_originalScale, duration * 0.5f).SetEase(ease));
         _currentSequence.SetLoops(loops, LoopType.Restart);
+
+        _currentSequence.SetUpdate(true);
     }
 
     // 커졌다가 작아지기 페이드인 페이드 아웃 반복
@@ -103,6 +115,8 @@ public class UI_BasicAnimation : MonoBehaviour
         _currentSequence.Append(transform.DOScale(_originalScale, duration * 0.5f).SetEase(ease));     
         _currentSequence.Join(_canvasGroup.DOFade(1f, duration * 0.5f).SetEase(ease));
         _currentSequence.SetLoops(loops, LoopType.Restart);
+
+        _currentSequence.SetUpdate(true);
     }
 
 
@@ -114,6 +128,8 @@ public class UI_BasicAnimation : MonoBehaviour
         Vector3 targetPosition = _originalPosition + moveOffset;
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(transform.DOLocalMove(targetPosition, duration).SetEase(ease));
+
+        _currentSequence.SetUpdate(true);
     }
 
     /// 움직이면서 동시에 커지기.
@@ -128,6 +144,8 @@ public class UI_BasicAnimation : MonoBehaviour
         _currentSequence.Append(transform.DOLocalMove(targetPosition, duration).SetEase(ease));
 
         _currentSequence.Join(transform.DOScale(scaleTarget, duration).SetEase(ease));
+
+        _currentSequence.SetUpdate(true);
     }
 
     /// 원래 위치로 돌아오기.
@@ -137,6 +155,8 @@ public class UI_BasicAnimation : MonoBehaviour
 
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(transform.DOLocalMove(_originalPosition, duration).SetEase(ease));
+
+        _currentSequence.SetUpdate(true);
     }
 
     /// 원래 위치와 스케일로 동시에 돌아오기.
@@ -147,6 +167,8 @@ public class UI_BasicAnimation : MonoBehaviour
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(transform.DOLocalMove(_originalPosition, duration).SetEase(ease));
         _currentSequence.Join(transform.DOScale(_originalScale, duration).SetEase(ease));
+
+        _currentSequence.SetUpdate(true);
     }
 
     /// 원래 스케일로 돌아오기.
@@ -156,6 +178,8 @@ public class UI_BasicAnimation : MonoBehaviour
 
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(transform.DOScale(_originalScale, duration).SetEase(ease));
+
+        _currentSequence.SetUpdate(true);
     }
 
     #region Shake Animations
@@ -166,6 +190,8 @@ public class UI_BasicAnimation : MonoBehaviour
 
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(transform.DOShakePosition(duration, strength, vibrato, randomness));
+
+        _currentSequence.SetUpdate(true);
     }
 
     public void ShakeRotation(float strength = 30f, float duration = 0.5f, int vibrato = 10, float randomness = 90f)
@@ -174,6 +200,8 @@ public class UI_BasicAnimation : MonoBehaviour
 
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(transform.DOShakeRotation(duration, strength, vibrato, randomness));
+
+        _currentSequence.SetUpdate(true);
     }
 
     public void ShakeScale(float strength = 0.3f, float duration = 0.5f, int vibrato = 10, float randomness = 90f)
@@ -182,6 +210,8 @@ public class UI_BasicAnimation : MonoBehaviour
 
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(transform.DOShakeScale(duration, strength, vibrato, randomness));
+
+        _currentSequence.SetUpdate(true);
     }
 
     public void ShakeAll(float positionStrength = 10f, float rotationStrength = 20f, float duration = 0.5f, int vibrato = 10)
@@ -191,6 +221,8 @@ public class UI_BasicAnimation : MonoBehaviour
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(transform.DOShakePosition(duration, positionStrength, vibrato, 90f));
         _currentSequence.Join(transform.DOShakeRotation(duration, rotationStrength, vibrato, 90f));
+
+        _currentSequence.SetUpdate(true);
     }
 
     /// 진동 무한 루프.
@@ -202,6 +234,8 @@ public class UI_BasicAnimation : MonoBehaviour
         _currentSequence.Append(transform.DOShakePosition(duration, positionStrength, vibrato, 90f));
         _currentSequence.Join(transform.DOShakeRotation(duration, rotationStrength, vibrato, 90f));
         _currentSequence.SetLoops(-1, LoopType.Restart);
+
+        _currentSequence.SetUpdate(true);
     }
 
     #endregion
@@ -216,6 +250,8 @@ public class UI_BasicAnimation : MonoBehaviour
 
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(_canvasGroup.DOFade(1f, duration).SetEase(ease));
+
+        _currentSequence.SetUpdate(true);
         return _currentSequence;
 
     }
@@ -228,6 +264,8 @@ public class UI_BasicAnimation : MonoBehaviour
         _currentSequence.Append(_canvasGroup.DOFade(minValue, duration * 0.5f).SetEase(ease));
         _currentSequence.Append(_canvasGroup.DOFade(1f, duration * 0.5f).SetEase(ease));
         _currentSequence.SetLoops(loops, LoopType.Restart);
+
+        _currentSequence.SetUpdate(true);
     }
 
     public void PunchFadeIn(float duration = 0.3f, float punchScale = 0.2f, Ease ease = Ease.OutQuad,  int vibrato = 10, float elasticity = 1f)
@@ -245,6 +283,8 @@ public class UI_BasicAnimation : MonoBehaviour
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(_canvasGroup.DOFade(1f, duration).SetEase(ease));
         _currentSequence.Join(transform.DOPunchScale(punchVector, duration, vibrato, elasticity)); ;
+
+        _currentSequence.SetUpdate(true);
     }
 
     public void Hide()
@@ -274,6 +314,8 @@ public class UI_BasicAnimation : MonoBehaviour
 
         _currentSequence = DOTween.Sequence();
         _currentSequence.Append(_canvasGroup.DOFade(0f, duration).SetEase(ease)).OnComplete(() => StopAndReset());
+
+        _currentSequence.SetUpdate(true);
 
         return _currentSequence;
     }
