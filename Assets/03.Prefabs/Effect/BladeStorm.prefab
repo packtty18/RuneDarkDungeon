@@ -117,15 +117,18 @@ MonoBehaviour:
         Max: 50
     - Key: 3
       Value:
-        Min: 80
-        Max: 120
+        Min: 50
+        Max: 70
   _lifeTime: 3
   _dotDealer: {fileID: -5581487237972998269}
   _interval: 0.4
   _uniqueScale: 1.5
   _scaleDuration: 0.75
   _ease: 25
-  _pullForce: 0.5
+  _pullForce: 2
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!114 &822449522075036830
 MonoBehaviour:
   m_ObjectHideFlags: 0

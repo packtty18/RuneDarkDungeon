@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class UI_Result : PUBase
+public class UI_UpgradeResult : PUBase
 {
     [SerializeField] private float _displayDuration = 0.2f;
     

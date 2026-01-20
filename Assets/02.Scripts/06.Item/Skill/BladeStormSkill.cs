@@ -12,10 +12,10 @@ public class BladeStormSkill : SkillBase
     [SerializeField] private float _uniqueScale = 2f;
     [SerializeField] private float _scaleDuration = 0.5f;
     [SerializeField] private Ease _ease;
-    private int _hurtBoxLayer;
     
     [Header("레전드 추가 스킬")]
     [SerializeField] private float _pullForce = 1f;
+    [SerializeField] private LayerMask _targetLayer;
     
 #if UNITY_EDITOR
     private void Reset()
@@ -23,11 +23,6 @@ public class BladeStormSkill : SkillBase
         _dotDealer = GetComponent<DotDealer>();
     }
 #endif
-    
-    protected override void OnInit()
-    {
-        _hurtBoxLayer = LayerMask.NameToLayer("Hurtbox");
-    }
     
     protected override void ApplyEffect(GameObject user, EItemGrade grade)
     {
@@ -48,10 +43,9 @@ public class BladeStormSkill : SkillBase
     
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer != _hurtBoxLayer) return;
+        if (((1 << other.gameObject.layer) & _targetLayer) == 0) return;
         if (_grade != EItemGrade.Legendary) return;
-        var target = other.transform.parent?.parent;
-        PullEnemy(target);
+        PullEnemy(other.transform);
     }
 
     private void PullEnemy(Transform enemy)
