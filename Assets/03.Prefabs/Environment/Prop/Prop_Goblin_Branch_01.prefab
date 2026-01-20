@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6123507164847151693}
   - component: {fileID: 3233270122162003285}
   - component: {fileID: 6704169091412812677}
-  - component: {fileID: 4519091900230728313}
   m_Layer: 0
   m_Name: Prop_Goblin_Branch_01
   m_TagString: Untagged
@@ -76,22 +75,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PropObject
   _exploder: {fileID: 6464377962845685512}
-  _dropper: {fileID: 4519091900230728313}
+  _dropper: {fileID: 0}
   _hitCount: 1
---- !u!114 &4519091900230728313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1293706880458487586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e189268c09d35f34c88fec8baa88cf8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ItemDropper
-  _dropTable: {fileID: 11400000, guid: 3b2dcaba59c4a7b459d7e882b5d7fa6a, type: 2}
-  _spawnRadius: 0.5
 --- !u!1 &4752590111605039143
 GameObject:
   m_ObjectHideFlags: 0

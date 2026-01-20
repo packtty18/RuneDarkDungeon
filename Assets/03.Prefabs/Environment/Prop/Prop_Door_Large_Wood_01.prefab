@@ -318,7 +318,6 @@ GameObject:
   - component: {fileID: 5224191503412148184}
   - component: {fileID: 3619035100892594039}
   - component: {fileID: 8788565758899268976}
-  - component: {fileID: 7584816360124349208}
   m_Layer: 0
   m_Name: Prop_Door_Large_Wood_01
   m_TagString: Untagged
@@ -383,22 +382,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PropObject
   _exploder: {fileID: 4602375050625979989}
-  _dropper: {fileID: 7584816360124349208}
+  _dropper: {fileID: 0}
   _hitCount: 10
---- !u!114 &7584816360124349208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5797726914981597877}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e189268c09d35f34c88fec8baa88cf8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ItemDropper
-  _dropTable: {fileID: 11400000, guid: 3b2dcaba59c4a7b459d7e882b5d7fa6a, type: 2}
-  _spawnRadius: 0.5
 --- !u!1 &6697751696327816941
 GameObject:
   m_ObjectHideFlags: 0

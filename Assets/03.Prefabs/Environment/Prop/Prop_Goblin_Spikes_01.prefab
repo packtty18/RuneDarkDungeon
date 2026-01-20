@@ -432,7 +432,6 @@ GameObject:
   - component: {fileID: 3450929205469806805}
   - component: {fileID: 3454727568026475829}
   - component: {fileID: 1923275492796788872}
-  - component: {fileID: 3850161181395803339}
   m_Layer: 0
   m_Name: Prop_Goblin_Spikes_01
   m_TagString: Untagged
@@ -497,19 +496,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PropObject
   _exploder: {fileID: 8339242842423882376}
-  _dropper: {fileID: 3850161181395803339}
+  _dropper: {fileID: 0}
   _hitCount: 3
---- !u!114 &3850161181395803339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8297949366179718902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e189268c09d35f34c88fec8baa88cf8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ItemDropper
-  _dropTable: {fileID: 11400000, guid: 3b2dcaba59c4a7b459d7e882b5d7fa6a, type: 2}
-  _spawnRadius: 0.5

@@ -185,7 +185,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -284,7 +284,6 @@ MonoBehaviour:
   _rigid: {fileID: 0}
   _physicCollider: {fileID: 0}
   _target: {fileID: 0}
-  _healthUI: {fileID: 7136649468679634869}
   _phase: {fileID: 0}
   _move: {fileID: 0}
   _attack: {fileID: 0}
@@ -297,6 +296,9 @@ MonoBehaviour:
   _dropper: {fileID: 0}
   _paused: 0
   _wait: 0
+  _canDropItem: 0
+  _healthUI: {fileID: 7136649468679634869}
+  _weaponTrail: {fileID: 0}
 --- !u!114 &2750660798940260602
 MonoBehaviour:
   m_ObjectHideFlags: 0
