@@ -1,8 +1,21 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerStats))]
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
+    [Button]
+    public void PlayerDead()
+    {
+        _stats.Health.SetCurrent(0);
+
+
+        if (_stats.Health.IsEmpty())
+        {
+            _animator.SetDieTrigger();
+            _stateMachine.SetState(EPlayerState.Dead);
+        }
+    }
     public ETeamType Team => ETeamType.Player;
 
     private PlayerStats _stats;
