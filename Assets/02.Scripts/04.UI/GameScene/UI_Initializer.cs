@@ -9,9 +9,11 @@ public class UI_Initializer : MonoBehaviour
     [SerializeField] private UpgradePresenter _upgradePresenter;
     [SerializeField] private EquipmentPresenter _equipmentPresenter;
     [SerializeField] private CurrencyPresenter _currencyPresenter;
+    [SerializeField] private RewardPresenter _rewardPresenter;
     
     [Space]
     [SerializeField] private SelectionManager _selectionManager;
+    [SerializeField] private RewardManager _rewardManager;
     [SerializeField] private ItemPriceDataSO _priceDB;
     
     public void Initialize(IDataHolder data)
@@ -28,6 +30,7 @@ public class UI_Initializer : MonoBehaviour
         _upgradePresenter?.Initialize(data.Forge, data.Inventory, data.GoldData);
         _equipmentPresenter?.Initialize(data.Equipment, data.Inventory);
         _currencyPresenter?.Initialize(data.GoldData);
+        _rewardPresenter?.Initialize(_rewardManager.RewardItems, _rewardManager.RewardGold);
         
         Destroy(gameObject);
     }
