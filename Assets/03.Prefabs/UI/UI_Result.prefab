@@ -87,9 +87,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61e23717bd7b99b42a9d566221035c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RewardPresenter
-  _rewardPopup: {fileID: 7453371381594850808}
+  _sequencePopup: {fileID: 7453371381594850808}
   _rewardUI: {fileID: 1799810154351450167}
   _rewardGoldTextUI: {fileID: 7102714523935881688}
+  _startDelay: 2
 --- !u!1 &499597054380999835
 GameObject:
   m_ObjectHideFlags: 0
@@ -1122,7 +1123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI_SlotContainer
   _isInitialized: 0
   _awakeInit: 0
-  _animation: 0
+  _animation: 1
   _duration: 0.3
   _showEase: 27
   _hideEase: 26
@@ -1142,15 +1143,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9906f3c73c4af524b9f0a9d087983691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_RewardPopup
-  _isInitialized: 0
-  _awakeInit: 0
-  _animation: 1
-  _duration: 0.3
-  _showEase: 27
-  _hideEase: 26
   _slotParent: {fileID: 1393500189898323729}
   _scrollRect: {fileID: 6552165920279802632}
-  _startDelay: 2
+  _startDelay: 1.5
   _interval: 0.1
   _scaleTime: 0.3
   _easeType: 27
@@ -1296,7 +1291,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
+    m_Top: 16
     m_Bottom: 30
   m_ChildAlignment: 0
   m_StartCorner: 0
@@ -1353,7 +1348,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -65.13334}
+  m_AnchoredPosition: {x: 0, y: -50.13334}
   m_SizeDelta: {x: 1000, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6505613892814909676
@@ -1491,8 +1486,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -295.40002}
-  m_SizeDelta: {x: 1000, y: 300}
+  m_AnchoredPosition: {x: 0, y: -285.0035}
+  m_SizeDelta: {x: 1000, y: 320.793}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6552165920279802632
 MonoBehaviour:
