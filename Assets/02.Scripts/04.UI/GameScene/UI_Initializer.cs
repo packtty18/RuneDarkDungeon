@@ -5,16 +5,22 @@ public class UI_Initializer : MonoBehaviour
 {
     [Header("UI 연결")]
     [Space]
+    
+    [Header("--- 공통 ---")]
+    [SerializeField] private CurrencyPresenter _currencyPresenter;
+    
+    [Header("--- 로비씬 전용 ---")]
     [SerializeField] private InventoryPresenter _inventoryPresenter;
     [SerializeField] private UpgradePresenter _upgradePresenter;
     [SerializeField] private EquipmentPresenter _equipmentPresenter;
-    [SerializeField] private CurrencyPresenter _currencyPresenter;
-    [SerializeField] private RewardPresenter _rewardPresenter;
     
     [Space]
     [SerializeField] private SelectionManager _selectionManager;
-    [SerializeField] private RewardManager _rewardManager;
     [SerializeField] private ItemPriceDataSO _priceDB;
+    
+    [Header("--- 게임씬 전용 ---")]
+    [SerializeField] private RewardPresenter _rewardPresenter;
+    [SerializeField] private RewardManager _rewardManager;
     
     public void Initialize(IDataHolder data)
     {
