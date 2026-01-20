@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RewardManager : MonoBehaviour
@@ -8,6 +9,12 @@ public class RewardManager : MonoBehaviour
     
     [SerializeField] private ItemDatabaseSO _itemDB;
 
+    private readonly GoldData _rewardGold = new();
+    private readonly List<ItemData> _rewardItems = new();
+    
+    public IReadOnlyCurrency RewardGold => _rewardGold;
+    public IReadOnlyList<ItemData> RewardItems => _rewardItems;
+    
     private void Awake()
     {
         _itemFactory = new(_itemDB);
@@ -15,6 +22,7 @@ public class RewardManager : MonoBehaviour
 
     private void Start()
     {
+        if (DataManager.Instance == null) return;
         Initialize(DataManager.Instance);
     }
     
@@ -36,11 +44,13 @@ public class RewardManager : MonoBehaviour
     private void GetGold(int amount)
     {
         _currency.Add(amount);
+        _rewardGold.Add(amount);
     }
 
     private void GetRandomRune(EItemGrade grade)
     {
         var newItem = _itemFactory.CreateRandomItem(grade);
         _inventory.Add(newItem);
+        _rewardItems.Add(newItem);
     }
 }

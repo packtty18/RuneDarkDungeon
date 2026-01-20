@@ -75,7 +75,7 @@ public abstract class ItemBase : PoolableObject
         _spawnTime = Time.time;
         _detectDelay = _detectDelayRange.GetRandomValue();
         
-        Debug.Log($"{name} Get");
+        _isAttracting = false;
     }
 
     public override void OnDespawn()

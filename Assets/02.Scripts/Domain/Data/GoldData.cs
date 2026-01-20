@@ -7,7 +7,7 @@ public class GoldData : ICurrency
     [SerializeField] private int _amount;
     public int Amount => _amount;
     
-    private readonly SafeEvent _onChanged = new();
+    private event Action _onChanged;
 
     public GoldData(int amount = 0)
     {
@@ -39,12 +39,12 @@ public class GoldData : ICurrency
 
     public void Subscribe(Action action)
     {
-        _onChanged.Subscribe(action);
+        _onChanged += action;
     }
 
     public void Unsubscribe(Action action)
     {
-        _onChanged.Unsubscribe(action);
+        _onChanged -= action;
     }
     
     private void Notify()
