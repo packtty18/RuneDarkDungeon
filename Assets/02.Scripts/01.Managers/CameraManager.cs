@@ -18,12 +18,6 @@ public class CameraManager : LocalSingleton<CameraManager>
     [SerializeField]
     private CinemachineCamera _deathCamera;
 
-    [SerializeField]
-    private PlayableDirector _deathSceneDirector;
-
-    [SerializeField]
-    private PlayableDirector _startSceneDirector;
-
     private CinemachineBrain _brain;
 
     private ECameraMode _cameraMode;
@@ -49,9 +43,6 @@ public class CameraManager : LocalSingleton<CameraManager>
 
         switch (_cameraMode)
         {
-            case ECameraMode.Death:
-                _deathSceneDirector.Play();
-                break;
             case ECameraMode.Cave:
                 _brain.DefaultBlend.Time = _caveBlendTime;
                 break;
@@ -69,10 +60,4 @@ public class CameraManager : LocalSingleton<CameraManager>
 
         activeCamera.GetComponent<CameraShakeController>()?.CameraShake(intensity, duration);
     }
-
-    public void OnDeath()
-    {
-        SetCameraMode(ECameraMode.Death);
-    }
-
 }

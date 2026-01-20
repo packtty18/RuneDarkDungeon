@@ -89,7 +89,6 @@ public enum ECameraMode
     Default,
     Cave,
     Boss,
-    Death,
 }
 
 public enum ESceneType
