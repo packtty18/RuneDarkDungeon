@@ -19,7 +19,6 @@ Material:
   - _FOG_ON
   - _GREYSCALESTAGE_BEFORELIGHTING
   - _HEIGHTGRADIENTPOSITIONSPACE_LOCAL
-  - _HOLOGRAM_ON
   - _LIGHTMODEL_CLASSIC
   - _MATCAPBLENDMODE_MULTIPLY
   - _OUTLINETYPE_NONE
@@ -27,13 +26,14 @@ Material:
   - _RECEIVE_SHADOWS_ON
   - _REFLECTIONS_CLASSIC
   - _RIMLIGHTINGSTAGE_BEFORELIGHTINGLAST
-  - _SCROLL_TEXTURE_ON
   - _SHADINGMODEL_PBR
   - _SPECULARMODEL_CLASSIC
   - _TEXTUREBLENDINGMODE_RGB
   - _TEXTUREBLENDINGSOURCE_VERTEXCOLOR
   - _TRIPLANARNORMALSPACE_WORLD
   - _USE_WIND_VERTICAL_MASK
+  - _UV_DISTORTION_ON
+  - _WAVE_UV_ON
   m_InvalidKeywords:
   - _ALPHAPREMULTIPLY_ON
   - _GLITCHWORLDSPACE_ON
@@ -124,7 +124,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 42b2a15773865f847ad2ae0a8b3297f6, type: 3}
+        m_Texture: {fileID: 2800000, guid: 733421517a34bb14595ac856875168f1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MatcapTex:
@@ -254,7 +254,7 @@ Material:
     - _DepthGlowPower: 25
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DistortAmount: 0.3
+    - _DistortAmount: 0.13
     - _DistortTexXSpeed: 2
     - _DistortTexYSpeed: 2
     - _DitherOn: 0
@@ -303,7 +303,7 @@ Material:
     - _Hit: 0
     - _HitBlend: 1
     - _HitGlow: 5
-    - _Hologram: 1
+    - _Hologram: 0
     - _HologramAccentAlpha: 0.5
     - _HologramAccentFrequency: 2
     - _HologramAccentSpeed: 1
@@ -373,7 +373,7 @@ Material:
     - _SSSPower: 1
     - _ScaleWithCameraDistance: 0
     - _ScreenSpaceUVOn: 0
-    - _ScrollTextureOn: 1
+    - _ScrollTextureOn: 0
     - _ScrollTextureX: 1
     - _ScrollTextureY: 1
     - _ShadingModel: 1
@@ -393,8 +393,8 @@ Material:
     - _SrcBlendAlpha: 1
     - _StencilRef: 1
     - _StochasticSampling: 0
-    - _StochasticScale: 3.464
-    - _StochasticSkew: 0.57735026
+    - _StochasticScale: 10
+    - _StochasticSkew: 3
     - _SubsurfaceScattering: 0
     - _Surface: 1
     - _TextureBlending: 0
@@ -410,11 +410,11 @@ Material:
     - _TriplanarNormalSpace: 1
     - _TriplanarSharpness: 15
     - _TriplanarTransitionPower: 0.75
-    - _UVDistortion: 0
+    - _UVDistortion: 1
     - _UseCustomTime: 0
     - _UseVerticalMask: 1
     - _VertexColorBlending: 1
-    - _VertexDistortionAmount: 0
+    - _VertexDistortionAmount: 0.18
     - _VertexDistortionNoiseSpeedX: 4
     - _VertexDistortionNoiseSpeedY: 4
     - _VertexDistortionOn: 0
@@ -423,10 +423,10 @@ Material:
     - _VoxelBlend: 1
     - _VoxelSize: 100
     - _Voxelize: 0
-    - _WaveAmount: 7
-    - _WaveSpeed: 10
+    - _WaveAmount: 20.3
+    - _WaveSpeed: 2.6
     - _WaveStrength: 7.5
-    - _WaveUVOn: 0
+    - _WaveUVOn: 1
     - _WaveX: 0
     - _WaveY: 0.5
     - _WindAttenuation: 1

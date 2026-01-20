@@ -13,13 +13,13 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALBEDOVERTEXCOLORMODE_REPLACE
+  - _ALLIN13D_SURFACE_TRANSPARENT
   - _CAST_SHADOWS_ON
   - _COLORRAMPLIGHTINGSTAGE_AFTERLIGHTING
   - _FADEUVSET_UV1
   - _FOG_ON
   - _GREYSCALESTAGE_BEFORELIGHTING
   - _HEIGHTGRADIENTPOSITIONSPACE_LOCAL
-  - _HOLOGRAM_ON
   - _LIGHTMODEL_CLASSIC
   - _MATCAPBLENDMODE_MULTIPLY
   - _OUTLINETYPE_NONE
@@ -27,7 +27,6 @@ Material:
   - _RECEIVE_SHADOWS_ON
   - _REFLECTIONS_CLASSIC
   - _RIMLIGHTINGSTAGE_BEFORELIGHTINGLAST
-  - _SCROLL_TEXTURE_ON
   - _SHADINGMODEL_PBR
   - _SPECULARMODEL_CLASSIC
   - _TEXTUREBLENDINGMODE_RGB
@@ -219,7 +218,7 @@ Material:
     - _Blend: 0
     - _BlendDst: 10
     - _BlendModePreserveSpecular: 1
-    - _BlendSrc: 1
+    - _BlendSrc: 5
     - _BlendingMaskCutoffB: 0.1
     - _BlendingMaskCutoffG: 0.1
     - _BlendingMaskCutoffWhite: 0.15
@@ -276,7 +275,7 @@ Material:
     - _FlatNormalsBlend: 1
     - _FlatNormalsEnabled: 0
     - _FogOn: 1
-    - _GeneralAlpha: 1
+    - _GeneralAlpha: 0
     - _Glitch: 0
     - _GlitchAmount: 0.5
     - _GlitchSpeed: 2.5
@@ -303,7 +302,7 @@ Material:
     - _Hit: 0
     - _HitBlend: 1
     - _HitGlow: 5
-    - _Hologram: 1
+    - _Hologram: 0
     - _HologramAccentAlpha: 0.5
     - _HologramAccentFrequency: 2
     - _HologramAccentSpeed: 1
@@ -373,7 +372,7 @@ Material:
     - _SSSPower: 1
     - _ScaleWithCameraDistance: 0
     - _ScreenSpaceUVOn: 0
-    - _ScrollTextureOn: 1
+    - _ScrollTextureOn: 0
     - _ScrollTextureX: 1
     - _ScrollTextureY: 1
     - _ShadingModel: 1
@@ -436,11 +435,11 @@ Material:
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZTestMode: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
     - _AOColor: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 0.23120713, g: 1, b: 0, a: 0.36862746}
-    - _Color: {r: 0.23120704, g: 1, b: 0, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _CustomAmbientColor: {r: 0.65, g: 0.65, b: 0.65, a: 1}
     - _DepthGlowColor: {r: 1, g: 0.9869999, b: 0.6, a: 1}
     - _EmissionColor: {r: 2, g: 0, b: 0, a: 1}
