@@ -136,6 +136,18 @@ public enum  EPoolType
     Item_Coin,
     Item_Rune,
     UI_Damage,
+    EnemyAttack_Arrow,
+    EnemyAttack_Fireball,
+    EnemyAttack_FireballExplosion,
+    EnemyAttack_BloodReady,
+    EnemyAttack_BloodHit,
+    EnemyAttack_BloodVFX,
+    EnemyAttack_RangeBuff,
+    EnemyAttack_LighteningReady,
+    EnemyAttack_LighteningHit,
+    EnemyAttack_MagicMissile,
+    EnemyAttack_MagicExplosion,
+
 }
 
 #region PlayerStat
