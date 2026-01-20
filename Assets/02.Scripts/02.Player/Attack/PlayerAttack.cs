@@ -191,8 +191,18 @@ public class PlayerAttack : MonoBehaviour
         _finisherTimer = 0;
         OnComboCharging?.Invoke(false);
 
-        while (InputManager.Instance.GetKey(EGameKeyType.Attack))
+        while (true)
         {
+            while (!_stateMachine.CanReceiveMoveInput())
+            {
+                yield return null;
+            }
+
+            if (!InputManager.Instance.GetKey(EGameKeyType.Attack))
+            {
+                break;
+            }
+
             _finisherTimer += Time.deltaTime;
 
             if (_finisherTimer > chargeTime)

@@ -33,6 +33,8 @@ public class PlayerStateMachine : MonoBehaviour
 
     public bool CanReceiveSkillInput()
     {
+        if (GameFlowManager.Instance.IsPaused)
+            return false;
         return CurrentState != EPlayerState.Dead
             && CurrentActionState != EActionState.Skill
             && CurrentActionState != EActionState.Dodge
