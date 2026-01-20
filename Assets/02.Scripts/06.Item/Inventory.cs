@@ -8,7 +8,7 @@ public class Inventory : IInventory
     [SerializeField] private List<ItemData> _items;
     public IReadOnlyList<ItemData> Items => _items;
     
-    private SafeEvent _onChanged = new();
+    private event Action _onChanged;
 
     public Inventory(List<ItemData> items = null)
     {
@@ -63,12 +63,12 @@ public class Inventory : IInventory
     
     public void Subscribe(Action action)
     {
-        _onChanged.Subscribe(action);
+        _onChanged += action;
     }
 
     public void Unsubscribe(Action action)
     {
-        _onChanged.Unsubscribe(action);
+        _onChanged -= action;
     }
 
     private void Notify()
