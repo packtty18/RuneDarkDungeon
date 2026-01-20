@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,20 +6,31 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
-public class CoolDown : MonoBehaviour
+public class CoolDownPresenter : MonoBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
+    private PlayerContext _playerContext;
+
     private PlayerSkillCaster _skillCaster;
-    [SerializeField] 
+
+    [SerializeField]
     private List<Image> coolDownImages;
 
-    void Start()
+    private void Awake()
     {
+        if (_playerContext.Stats != null)
+            Bind();
+
+        _playerContext.Subscribe(Bind);
+    }
+
+    private void Bind()
+    {
+        _skillCaster = _playerContext.SkilCaster;
         _skillCaster.OnCoolTimeChanged += CoolTimeUpdate;
 
         InitCoolTime();
     }
-
 
     private void CoolTimeUpdate(Dictionary<ESkillSlot, float> coolTimes, Dictionary<ESkillSlot, float> coolDowns)
     {
@@ -46,5 +58,6 @@ public class CoolDown : MonoBehaviour
     private void OnDestroy()
     {
         _skillCaster.OnCoolTimeChanged += CoolTimeUpdate;
+        _playerContext?.Unsubscribe(Bind);
     }
 }

@@ -22,7 +22,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public bool CanReceiveMoveInput()
     {
-        if (GameFlowManager.Instance.IsPaused)
+        if (GameFlowManager.Instance.IsPaused || GameFlowManager.Instance.IsPlayingCutScene)
             return false;
         return CurrentState != EPlayerState.Dead
             && CurrentActionState != EActionState.Skill
@@ -33,7 +33,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public bool CanReceiveSkillInput()
     {
-        if (GameFlowManager.Instance.IsPaused)
+        if (GameFlowManager.Instance.IsPaused || GameFlowManager.Instance.IsPlayingCutScene)
             return false;
         return CurrentState != EPlayerState.Dead
             && CurrentActionState != EActionState.Skill
