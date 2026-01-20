@@ -18,7 +18,11 @@ public class CameraManager : LocalSingleton<CameraManager>
     [SerializeField]
     private CinemachineCamera _deathCamera;
 
-    private PlayableDirector _playableDirector;
+    [SerializeField]
+    private PlayableDirector _deathSceneDirector;
+
+    [SerializeField]
+    private PlayableDirector _startSceneDirector;
 
     private CinemachineBrain _brain;
 
@@ -34,7 +38,6 @@ public class CameraManager : LocalSingleton<CameraManager>
         base.Awake();
 
         Camera.main.TryGetComponent<CinemachineBrain>(out _brain);
-        TryGetComponent<PlayableDirector>(out _playableDirector);
     }
     private void Start()
     {
@@ -47,7 +50,7 @@ public class CameraManager : LocalSingleton<CameraManager>
         switch (_cameraMode)
         {
             case ECameraMode.Death:
-                _playableDirector.Play();
+                _deathSceneDirector.Play();
                 break;
             case ECameraMode.Cave:
                 _brain.DefaultBlend.Time = _caveBlendTime;
