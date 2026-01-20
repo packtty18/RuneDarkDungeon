@@ -27,6 +27,6 @@ public class RewardTest : MonoBehaviour
     {
         Debug.Log(_rewardManager.RewardGold.Amount);
         Debug.Log(string.Join(", ", _rewardManager.RewardItems));
-        _presenter.ShowReward();
+        _presenter.ShowVictory();
     }
 }
