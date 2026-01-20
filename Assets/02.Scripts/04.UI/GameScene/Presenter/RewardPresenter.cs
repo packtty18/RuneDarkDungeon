@@ -4,7 +4,7 @@ using UnityEngine;
 public class RewardPresenter : MonoBehaviour
 {
     [Header("UI 및 데이터 연결")]
-    [SerializeField] private UI_RewardPopup _rewardPopup;
+    [SerializeField] private UI_SequencePopup _sequencePopup;
     [SerializeField] private UI_SlotContainer _rewardUI;
     [SerializeField] private UI_GoldText _rewardGoldTextUI;
 
@@ -22,6 +22,6 @@ public class RewardPresenter : MonoBehaviour
         _rewardUI.Refresh(_items);
         _rewardGoldTextUI.Refresh(_gold.Amount);
         
-        _rewardPopup.PlayRewardAnimation();
+        _sequencePopup.PlayAnimation();
     }
 }
