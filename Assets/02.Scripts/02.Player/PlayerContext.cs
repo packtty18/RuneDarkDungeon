@@ -10,7 +10,7 @@ public class PlayerContext : MonoBehaviour
     public PlayerStats Stats { get; private set; }
     public PlayerAttack Attack { get; private set; }
 
-    public PlayerSkillCaster SkiilCaster { get; private set; }
+    public PlayerSkillCaster SkilCaster { get; private set; }
 
     public event Action OnPlayerAssigned;
 
@@ -26,7 +26,7 @@ public class PlayerContext : MonoBehaviour
         Player = player;
         Stats = player.GetComponent<PlayerStats>();
         Attack = player.GetComponent<PlayerAttack>();
-        SkiilCaster = player.GetComponent<PlayerSkillCaster>();
+        SkilCaster = player.GetComponent<PlayerSkillCaster>();
 
         OnPlayerAssigned?.Invoke();
     }

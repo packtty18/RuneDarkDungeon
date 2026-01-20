@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using Unity.VisualScripting;
@@ -17,9 +18,10 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
 
     private bool _isPaused = false;
     private bool _isPlayingCutScene = false;
-    public bool IsPaused => _isPaused;
 
+    public bool IsPaused => _isPaused;
     public bool IsPlayingCutScene => _isPlayingCutScene;
+
     [SerializeField]
     private UI_BasicAnimation _fadeBlack;
     [SerializeField]
@@ -30,6 +32,9 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
 
     [SerializeField]
     private float _gameOverDelay = 2.0f;
+
+    [SerializeField]
+    private float _clearDelay = 2.0f;
 
     private SceneTransition _transition;
 
@@ -77,12 +82,13 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
 
     #endregion
 
+    #region Init
     private void Initialize()
     {
         Time.timeScale = 1.0f;
     }
 
-
+    #endregion
 
     #region Game Pause
 
@@ -122,13 +128,7 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
 
     #endregion
 
-    private void PlayStartScene()
-    {
-        _startSceneDirector.Play();
-        _isPlayingCutScene = true;
-        _startSceneSkipCoroutine = StartCoroutine(StartCutSceneSkip());
-    }
-
+    #region Coroutine
     private IEnumerator StartCutSceneSkip()
     {
         while (true)
@@ -142,19 +142,10 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
         _startSceneDirector.Stop();
     }
 
-    #region Event
-    public void OnGameOver()
+    private IEnumerator ClearUIPopupDelay()
     {
-        _playerHUD.FadeOut(_defaultFadeTime);
-        _deathSceneDirector.Play();
-        StartCoroutine(GameOverDelay());
+        yield return new WaitForSeconds(_clearDelay);
     }
-
-    public void OnClear()
-    {
-        _clearSceneDirector.Play();
-    }
-
     private IEnumerator GameOverDelay()
     {
         yield return new WaitForSeconds(_gameOverDelay);
@@ -165,14 +156,40 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
         });
     }
 
+    #endregion
+
+    #region Play Cut Scene & End Event
+
+    private void PlayStartScene()
+    {
+        _startSceneDirector.Play();
+        _isPlayingCutScene = true;
+        _startSceneSkipCoroutine = StartCoroutine(StartCutSceneSkip());
+    }
+    public void OnGameOver()
+    {
+        _playerHUD.FadeOut(_defaultFadeTime);
+        _deathSceneDirector.Play();
+        StartCoroutine(GameOverDelay());
+    }
+
+    [Button]
+    public void OnClear()
+    {
+        _playerHUD.FadeOut(_defaultFadeTime);
+        _clearSceneDirector.Play();
+        _isPlayingCutScene = true;
+        StartCoroutine(ClearUIPopupDelay());
+    }
+
     private void OnClearTimelineEnd(PlayableDirector director)
     {
-
+        _isPlayingCutScene = false;
     }
 
     private void OnDeathTimelineEnd(PlayableDirector director)
     {
-
+        _isPlayingCutScene = false;
     }
 
     private void OnStartTimelineEnd(PlayableDirector director)
@@ -186,6 +203,7 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
 
     #endregion
 
+    #region Event Subscribe
     private void EventSubscribe()
     {
         _startSceneDirector.stopped += OnStartTimelineEnd;
@@ -199,4 +217,6 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
         _deathSceneDirector.stopped -= OnDeathTimelineEnd;
         _clearSceneDirector.stopped -= OnClearTimelineEnd;
     }
+
+    #endregion
 }

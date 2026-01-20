@@ -1643,6 +1643,7 @@ GameObject:
   - component: {fileID: 18081067}
   - component: {fileID: 18081066}
   - component: {fileID: 18081065}
+  - component: {fileID: 18081069}
   m_Layer: 0
   m_Name: ClearCut4
   m_TagString: Untagged
@@ -1769,6 +1770,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 415948845}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &18081069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18081063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354cf1e117cf7b9438e39330e5e56320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraTartgetPresenter
+  _playerContext: {fileID: 0}
 --- !u!1001 &18601521
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10693,7 +10707,19 @@ MonoBehaviour:
       m_Calls: []
   OnBattleWin:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 298844225}
+        m_TargetAssemblyTypeName: GameFlowManager, Assembly-CSharp
+        m_MethodName: OnClear
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnBattleLose:
     m_PersistentCalls:
       m_Calls:
@@ -11815,6 +11841,7 @@ GameObject:
   - component: {fileID: 146037195}
   - component: {fileID: 146037194}
   - component: {fileID: 146037190}
+  - component: {fileID: 146037196}
   m_Layer: 0
   m_Name: DeathCut Front2
   m_TagString: Untagged
@@ -11941,6 +11968,19 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   FollowOffset: {x: 0, y: 1.56, z: 1.07}
+--- !u!114 &146037196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146037188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354cf1e117cf7b9438e39330e5e56320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraTartgetPresenter
+  _playerContext: {fileID: 0}
 --- !u!1001 &146541669
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24115,6 +24155,7 @@ MonoBehaviour:
   _defaultFadeTime: 0.5
   _deathFadeTime: 2
   _gameOverDelay: 2
+  _clearDelay: 2
   _deathSceneDirector: {fileID: 355648246}
   _startSceneDirector: {fileID: 1236844182}
   _clearSceneDirector: {fileID: 415948844}
@@ -32745,7 +32786,7 @@ PlayableDirector:
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: 20249337d6aa083409b6539503c40efe, type: 2}
   m_InitialState: 0
-  m_WrapMode: 2
+  m_WrapMode: 0
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
   m_SceneBindings:
@@ -53135,6 +53176,7 @@ GameObject:
   - component: {fileID: 688471421}
   - component: {fileID: 688471420}
   - component: {fileID: 688471419}
+  - component: {fileID: 688471423}
   m_Layer: 0
   m_Name: StartCut Foot
   m_TagString: Untagged
@@ -53261,6 +53303,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1236844183}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &688471423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688471417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354cf1e117cf7b9438e39330e5e56320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraTartgetPresenter
+  _playerContext: {fileID: 0}
 --- !u!1001 &688763663
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58294,6 +58349,10 @@ PrefabInstance:
       propertyPath: _skillCaster
       value: 
       objectReference: {fileID: 2057483610}
+    - target: {fileID: 9176197825079048523, guid: eb56357da404ed5458a819ead30ae7a2, type: 3}
+      propertyPath: _playerContext
+      value: 
+      objectReference: {fileID: 378420321}
     - target: {fileID: 9212951839243646826, guid: eb56357da404ed5458a819ead30ae7a2, type: 3}
       propertyPath: _playerContext
       value: 
@@ -64349,6 +64408,51 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 1.0480001, z: 0}
   m_TimeToStationary: 0.5
+--- !u!1 &808191441
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 808191443}
+  - component: {fileID: 808191442}
+  m_Layer: 0
+  m_Name: 'BossContext '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &808191442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808191441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fda7c529d82625489e21a06588eebd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerContext
+  _player: {fileID: 1784665073}
+--- !u!4 &808191443
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808191441}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &808821129
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70757,6 +70861,7 @@ GameObject:
   - component: {fileID: 874546046}
   - component: {fileID: 874546045}
   - component: {fileID: 874546044}
+  - component: {fileID: 874546048}
   m_Layer: 0
   m_Name: DeathCut Top2
   m_TagString: Untagged
@@ -70883,6 +70988,19 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!114 &874546048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874546042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354cf1e117cf7b9438e39330e5e56320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraTartgetPresenter
+  _playerContext: {fileID: 0}
 --- !u!1001 &875666642
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78209,6 +78327,7 @@ GameObject:
   - component: {fileID: 976670156}
   - component: {fileID: 976670155}
   - component: {fileID: 976670154}
+  - component: {fileID: 976670158}
   m_Layer: 0
   m_Name: ClearCut3
   m_TagString: Untagged
@@ -78335,6 +78454,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 415948845}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &976670158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976670152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354cf1e117cf7b9438e39330e5e56320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraTartgetPresenter
+  _playerContext: {fileID: 0}
 --- !u!1001 &977633381
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -91049,6 +91181,7 @@ GameObject:
   - component: {fileID: 1135293487}
   - component: {fileID: 1135293486}
   - component: {fileID: 1135293485}
+  - component: {fileID: 1135293489}
   m_Layer: 0
   m_Name: StartCut Side
   m_TagString: Untagged
@@ -91175,6 +91308,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1236844183}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1135293489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135293483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354cf1e117cf7b9438e39330e5e56320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraTartgetPresenter
+  _playerContext: {fileID: 0}
 --- !u!1001 &1135688630
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -106351,6 +106497,7 @@ GameObject:
   - component: {fileID: 1318553242}
   - component: {fileID: 1318553241}
   - component: {fileID: 1318553240}
+  - component: {fileID: 1318553244}
   m_Layer: 0
   m_Name: ClearCut1
   m_TagString: Untagged
@@ -106477,6 +106624,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 415948845}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1318553244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318553238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354cf1e117cf7b9438e39330e5e56320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraTartgetPresenter
+  _playerContext: {fileID: 0}
 --- !u!1001 &1321982628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -107958,6 +108118,7 @@ GameObject:
   - component: {fileID: 1340831577}
   - component: {fileID: 1340831576}
   - component: {fileID: 1340831575}
+  - component: {fileID: 1340831579}
   m_Layer: 0
   m_Name: StartCut Side2
   m_TagString: Untagged
@@ -108084,6 +108245,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1236844183}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1340831579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340831573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354cf1e117cf7b9438e39330e5e56320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraTartgetPresenter
+  _playerContext: {fileID: 0}
 --- !u!1001 &1341226536
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -111723,6 +111897,7 @@ GameObject:
   - component: {fileID: 1386033982}
   - component: {fileID: 1386033981}
   - component: {fileID: 1386033977}
+  - component: {fileID: 1386033983}
   m_Layer: 0
   m_Name: DeathCut Front1
   m_TagString: Untagged
@@ -111849,6 +112024,19 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   FollowOffset: {x: 0, y: 1.56, z: 2}
+--- !u!114 &1386033983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386033975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354cf1e117cf7b9438e39330e5e56320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraTartgetPresenter
+  _playerContext: {fileID: 0}
 --- !u!1001 &1388984629
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -112771,6 +112959,7 @@ GameObject:
   - component: {fileID: 1398591586}
   - component: {fileID: 1398591585}
   - component: {fileID: 1398591584}
+  - component: {fileID: 1398591588}
   m_Layer: 0
   m_Name: StartCut Front
   m_TagString: Untagged
@@ -112897,6 +113086,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1236844183}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1398591588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1398591582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354cf1e117cf7b9438e39330e5e56320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraTartgetPresenter
+  _playerContext: {fileID: 0}
 --- !u!1001 &1399662131
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -113007,7 +113209,7 @@ GameObject:
   - component: {fileID: 1400194747}
   - component: {fileID: 1400194750}
   - component: {fileID: 1400194749}
-  - component: {fileID: 1400194748}
+  - component: {fileID: 1400194752}
   m_Layer: 0
   m_Name: DeathCut Top
   m_TagString: Untagged
@@ -113058,19 +113260,6 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
---- !u!114 &1400194748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1400194746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 354cf1e117cf7b9438e39330e5e56320, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraTartgetPresenter
-  _playerContext: {fileID: 378420321}
 --- !u!114 &1400194749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113134,6 +113323,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 355648245}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1400194752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400194746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354cf1e117cf7b9438e39330e5e56320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraTartgetPresenter
+  _playerContext: {fileID: 378420321}
 --- !u!1001 &1400721108
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -117796,6 +117998,7 @@ GameObject:
   - component: {fileID: 1456291368}
   - component: {fileID: 1456291367}
   - component: {fileID: 1456291366}
+  - component: {fileID: 1456291370}
   m_Layer: 0
   m_Name: ClearCut2
   m_TagString: Untagged
@@ -117922,6 +118125,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 415948845}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1456291370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456291364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354cf1e117cf7b9438e39330e5e56320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraTartgetPresenter
+  _playerContext: {fileID: 0}
 --- !u!1001 &1458214826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -173735,6 +173951,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 378420322}
+  - {fileID: 808191443}
   - {fileID: 1209409232}
   - {fileID: 1911018632}
   - {fileID: 355648245}
