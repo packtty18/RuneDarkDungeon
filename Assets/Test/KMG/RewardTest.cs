@@ -1,6 +1,5 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
-using UnityEngine.Rendering;
 
 public class RewardTest : MonoBehaviour
 {

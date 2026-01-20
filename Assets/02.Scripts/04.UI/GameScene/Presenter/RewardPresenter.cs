@@ -21,7 +21,7 @@ public class RewardPresenter : MonoBehaviour
     {
         _rewardUI.Show();
         
-        _rewardGoldTextUI.SetText("획득한 골드 : {0}", _gold.Amount);
+        _rewardGoldTextUI.SetText("+ {0}", _gold.Amount);
         _rewardUI.Refresh(_items);
     }
 
