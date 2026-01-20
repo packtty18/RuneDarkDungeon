@@ -2009,10 +2009,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1391433542120266252, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1669182768}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
 --- !u!1 &237678050
 GameObject:
@@ -16439,28 +16436,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1662885369}
   m_CullTransparentMesh: 0
---- !u!1 &1669182765 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1391433542120266252, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
-  m_PrefabInstance: {fileID: 228256652}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1669182768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1669182765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2be265db801fd144d85357971a41e745, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TestItemMaker
-  _itemDB: {fileID: 11400000, guid: 94c151185365da44fab1ee6851781f21, type: 2}
-  TargetId: 0
-  TargetGrade: 0
-  TargetSkill: 0
-  GoldAmount: 1000
 --- !u!1001 &1672228098
 PrefabInstance:
   m_ObjectHideFlags: 0
