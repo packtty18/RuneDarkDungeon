@@ -90,7 +90,10 @@ MonoBehaviour:
   _sequencePopup: {fileID: 7453371381594850808}
   _rewardUI: {fileID: 1799810154351450167}
   _rewardGoldTextUI: {fileID: 7102714523935881688}
+  _titleTextUI: {fileID: 3280329431248729499}
   _startDelay: 2
+  _victoryString: VICTORY
+  _defeatString: DEFEAT
 --- !u!1 &499597054380999835
 GameObject:
   m_ObjectHideFlags: 0
@@ -994,7 +997,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Dungeon Clear
+  m_text: Result
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d70f485aa27dc43f79a8fd168f58435c, type: 2}
   m_sharedMaterial: {fileID: 5416806443266638455, guid: d70f485aa27dc43f79a8fd168f58435c, type: 2}
