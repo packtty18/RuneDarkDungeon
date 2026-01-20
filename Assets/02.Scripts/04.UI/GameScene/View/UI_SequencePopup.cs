@@ -9,6 +9,7 @@ public class UI_SequencePopup : MonoBehaviour
     [SerializeField] private ScrollRect _scrollRect;
     
     [Header("Effect Settings")]
+    [SerializeField] private float _startDelay = 0.5f;
     [SerializeField] private float _interval = 0.1f;
     [SerializeField] private float _scaleTime = 0.3f;
     [SerializeField] private Ease _easeType = Ease.OutBack;
@@ -27,23 +28,9 @@ public class UI_SequencePopup : MonoBehaviour
         {
             Transform child = _slotParent.GetChild(i);
             child.localScale = Vector3.zero;
-            float startTime = count * _interval;
+            float startTime = _startDelay + count * _interval;
             _sequence.Insert(startTime, child.DOScale(1f, _scaleTime).SetEase(_easeType));
             count++;
-        }
-        
-        Canvas.ForceUpdateCanvases(); 
-        bool needScroll = _scrollRect.content.rect.height > _scrollRect.viewport.rect.height;
-
-        if (needScroll)
-        {
-            float totalAnimDuration = _slotParent.childCount * _interval;
-            
-            float scrollDelay = _interval; 
-
-            _sequence.Insert(scrollDelay, 
-                _scrollRect.DOVerticalNormalizedPos(0f, totalAnimDuration - scrollDelay)
-                    .SetEase(Ease.InOutQuad));
         }
         
         _sequence.OnComplete(() => 
