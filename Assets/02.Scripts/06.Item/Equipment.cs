@@ -8,7 +8,7 @@ public class Equipment : IEquipment
     [SerializeField] private SerializableDictionary<ESkillSlot, ItemData> _items;
     public IReadOnlyDictionary<ESkillSlot, ItemData> Items => _items;
     
-    private SafeEvent _onChanged = new();
+    private event Action _onChanged;
 
     public Equipment(SerializableDictionary<ESkillSlot, ItemData> items = null)
     {
@@ -46,12 +46,12 @@ public class Equipment : IEquipment
     
     public void Subscribe(Action action)
     {
-        _onChanged.Subscribe(action);
+        _onChanged += action;
     }
 
     public void Unsubscribe(Action action)
     {
-        _onChanged.Unsubscribe(action);
+        _onChanged -= action;
     }
 
     private void Notify()

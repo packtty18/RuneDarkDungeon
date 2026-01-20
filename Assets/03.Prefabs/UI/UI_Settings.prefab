@@ -3420,6 +3420,7 @@ GameObject:
   - component: {fileID: 3362347042370055406}
   - component: {fileID: 8561069207217759093}
   - component: {fileID: 1118228166595227354}
+  - component: {fileID: 8185758608875997223}
   m_Layer: 5
   m_Name: UI_Settings
   m_TagString: Untagged
@@ -3496,6 +3497,28 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &8185758608875997223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7485868237679323896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3807a972bf278134f8d8cc43d4674351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingPresenter
+  _bgmVolumeSlider: {fileID: 3410592812862115666}
+  _bgmVolumeTextUI: {fileID: 8274683297895058592}
+  _bgmIconOn: {fileID: 1342076932880980393}
+  _bgmIconOff: {fileID: 5798627654172163465}
+  _sfxVolumeSlider: {fileID: 7634656868882153022}
+  _sfxVolumeTextUI: {fileID: 6671208206140961071}
+  _sfxIconOn: {fileID: 3889957631226558621}
+  _sfxIconOff: {fileID: 8017432475484134576}
+  _normalColor: {r: 0.98039216, g: 0.6901961, b: 0.21568628, a: 1}
+  _zeroColor: {r: 0.4627451, g: 0.38039216, b: 0.49019608, a: 1}
 --- !u!1 &7498176110198610048
 GameObject:
   m_ObjectHideFlags: 0

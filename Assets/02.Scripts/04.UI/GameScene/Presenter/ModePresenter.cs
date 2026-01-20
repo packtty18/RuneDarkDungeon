@@ -34,10 +34,10 @@ public class ModePresenter : MonoBehaviour
 
     private void Update()
     {
-        if (InputManager.Instance.GetKey(EGameKeyType.ESC))
+        /*if (InputManager.Instance.GetKey(EGameKeyType.ESC))
         {
             ChangeMode(EInventoryMode.Closed);
-        }
+        }*/
     }
     
     private void OnClickInventoryButton()

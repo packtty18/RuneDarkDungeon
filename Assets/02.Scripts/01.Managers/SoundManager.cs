@@ -52,7 +52,11 @@ public class SoundManager : GlobalSingleton<SoundManager>
 
     [SerializeField] private AudioSource _bgmSource;
     private SoundFactory _soundFactory;
-    
+
+    private float _globalBgmVolume = 1f;
+    private float _globalSfxVolume = 1f;
+    public float GlobalBgmVolume => _globalBgmVolume;
+    public float GlobalSfxVolume => _globalSfxVolume;
 
     protected override void Awake()
     {
@@ -62,8 +66,6 @@ public class SoundManager : GlobalSingleton<SoundManager>
         {
             CreateBgmSource();
         }
-        
-        
     }
 
     private void Start()
@@ -71,6 +73,19 @@ public class SoundManager : GlobalSingleton<SoundManager>
         _soundFactory = new SoundFactory(PoolManager.Instance, EPoolType.SFX);
     }
 
+    public void SetBgmVolume(float volume)
+    {
+        _globalBgmVolume = Mathf.Clamp01(volume);
+
+        if (_bgmSource == null || !_bgmSource.isPlaying) return;
+        _bgmSource.volume = _globalBgmVolume;
+    }
+
+    public void SetSfxVolume(float volume)
+    {
+        _globalSfxVolume = Mathf.Clamp01(volume);
+    }
+    
     //BGM 오디오 소스 생성
     //BGM은 오직 하나만 생성되며 씬이 변경되더라도 해당 매니저에 붙어 파괴되지 않음.
     private void CreateBgmSource()
@@ -80,7 +95,6 @@ public class SoundManager : GlobalSingleton<SoundManager>
 
         _bgmSource = go.AddComponent<AudioSource>();
         _bgmSource.loop = true;
-        
     }
 
     public void Play(ESoundType key, Vector3 position = default)
@@ -108,13 +122,14 @@ public class SoundManager : GlobalSingleton<SoundManager>
         }
 
         _bgmSource.clip = data.clip;
-        _bgmSource.volume = data.volume;
+        _bgmSource.volume = data.volume * _globalBgmVolume;
         _bgmSource.spatialBlend = 0;
         _bgmSource.Play();
     }
 
     private void PlayInternalSfx(SoundData data, Vector3 position)
     {
+        data.volume *= _globalSfxVolume;
         _soundFactory.Play(data, position);
     }
 
