@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class RewardPresenter : MonoBehaviour
 {
     [Header("UI 및 데이터 연결")]
+    [SerializeField] private UI_RewardPopup _rewardPopup;
     [SerializeField] private UI_SlotContainer _rewardUI;
-    [SerializeField] private TextMeshProUGUI _rewardGoldTextUI;
+    [SerializeField] private UI_GoldText _rewardGoldTextUI;
 
     private IReadOnlyList<ItemData> _items;
     private IReadOnlyCurrency _gold;
@@ -19,14 +19,9 @@ public class RewardPresenter : MonoBehaviour
     
     public void ShowReward()
     {
-        _rewardUI.Show();
-        
-        _rewardGoldTextUI.SetText("+ {0}", _gold.Amount);
         _rewardUI.Refresh(_items);
-    }
-
-    public void HideReward()
-    {
-        _rewardUI.Hide();
+        _rewardGoldTextUI.Refresh(_gold.Amount);
+        
+        _rewardPopup.PlayRewardAnimation();
     }
 }

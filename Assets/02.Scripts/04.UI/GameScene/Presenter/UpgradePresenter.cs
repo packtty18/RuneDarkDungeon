@@ -6,8 +6,8 @@ public class UpgradePresenter : MonoBehaviour
     [SerializeField] private UI_SlotContainer _upgradeUI;
     [SerializeField] private UI_UpgradeInfo _upgradeInfoUI;
     [SerializeField] private UI_SlotContainer _inventoryUI;
-    [SerializeField] private UI_Result _failed;
-    [SerializeField] private UI_Result _success;
+    [SerializeField] private UI_UpgradeResult _failed;
+    [SerializeField] private UI_UpgradeResult _success;
     
     private IForge _forge;
     private IInventory _inventory;

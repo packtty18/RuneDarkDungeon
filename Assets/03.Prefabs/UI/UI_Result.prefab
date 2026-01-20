@@ -46,9 +46,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 499597054137291943}
-  - component: {fileID: 3496403971085919441}
-  - component: {fileID: 4947231231934221375}
-  - component: {fileID: 1510868997341618426}
   - component: {fileID: 3350840218300767875}
   m_Layer: 5
   m_Name: UI_Result
@@ -78,53 +75,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: -0.000030517578}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3496403971085919441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 499597054137291936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51c8ef3bd36d3e74780fb67a09fdb3e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_BasicAnimation
---- !u!225 &4947231231934221375
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 499597054137291936}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
---- !u!114 &1510868997341618426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 499597054137291936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb0a817137946bc45bf858231f0f1e6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_Popup
-  _isInitialized: 0
-  _awakeInit: 0
-  _useKey: 0
-  _upKey: 0
-  _downKey: 0
-  _useButton: 0
-  _showButton: {fileID: 0}
-  _popUpAnimation: 1
-  _popDownAnimation: 0
-  _popDuration: 0.5
-  _startScale: 0.5
 --- !u!114 &3350840218300767875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,8 +87,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61e23717bd7b99b42a9d566221035c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RewardPresenter
+  _rewardPopup: {fileID: 7453371381594850808}
   _rewardUI: {fileID: 1799810154351450167}
-  _rewardGoldTextUI: {fileID: 8054253524574863718}
+  _rewardGoldTextUI: {fileID: 7102714523935881688}
 --- !u!1 &499597054380999835
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,6 +309,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2535339182857199655}
+  - component: {fileID: 7102714523935881688}
   m_Layer: 5
   m_Name: Gold
   m_TagString: Untagged
@@ -386,6 +338,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7102714523935881688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740476866399511014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8091c7b448b4dbb4aa3eb4ef251a4161, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_GoldText
+  _goldTextUI: {fileID: 8054253524574863718}
 --- !u!1 &2223466844639187693
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,7 +599,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 350, y: 0}
+  m_SizeDelta: {x: 400, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1931528750377778832
 CanvasRenderer:
@@ -664,7 +629,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: + 2000
+  m_text: + 99999
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 540b23795854dd94c81de3aec38a0a42, type: 2}
   m_sharedMaterial: {fileID: -8417320120806693936, guid: 540b23795854dd94c81de3aec38a0a42, type: 2}
@@ -1110,6 +1075,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3280329431338491963}
   - component: {fileID: 1799810154351450167}
+  - component: {fileID: 7453371381594850808}
   m_Layer: 5
   m_Name: Popup
   m_TagString: Untagged
@@ -1164,6 +1130,23 @@ MonoBehaviour:
   _slots: []
   _slotParent: {fileID: 4848628241550963117}
   _slotPrefab: {fileID: 7993688076817047423, guid: 2d063a2ff95bde64897c9fc9fb0ac85e, type: 3}
+--- !u!114 &7453371381594850808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3280329431338491956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9906f3c73c4af524b9f0a9d087983691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI_RewardPopup
+  _slotParent: {fileID: 4848628241550963117}
+  _startDelay: 2
+  _interval: 0.1
+  _scaleTime: 0.3
+  _easeType: 27
 --- !u!1 &6707312959384391508
 GameObject:
   m_ObjectHideFlags: 0
