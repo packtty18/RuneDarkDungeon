@@ -22,16 +22,16 @@ Material:
   - _GREYSCALESTAGE_BEFORELIGHTING
   - _HEIGHTGRADIENTPOSITIONSPACE_LOCAL
   - _HIT_ON
-  - _LIGHTMODEL_CLASSIC
+  - _LIGHTMODEL_TOON
   - _MATCAPBLENDMODE_MULTIPLY
   - _OUTLINETYPE_SIMPLE
   - _RECEIVEDSHADOWSTYPE_CLASSIC
   - _RECEIVE_SHADOWS_ON
-  - _REFLECTIONS_CLASSIC
+  - _REFLECTIONS_TOON
   - _RIMLIGHTINGSTAGE_BEFORELIGHTINGLAST
   - _RIM_LIGHTING_ON
   - _SHADINGMODEL_PBR
-  - _SPECULARMODEL_CLASSIC
+  - _SPECULARMODEL_TOON
   - _TEXTUREBLENDINGMODE_RGB
   - _TEXTUREBLENDINGSOURCE_VERTEXCOLOR
   - _TRIPLANARNORMALSPACE_WORLD
@@ -326,7 +326,7 @@ Material:
     - _IntersectionFadeFactor: 1
     - _IntersectionFadeOn: 0
     - _IntersectionGlowOn: 0
-    - _LightModel: 1
+    - _LightModel: 2
     - _LightmapColorCorrection: 0
     - _Matcap: 0
     - _MatcapBlend: 1
@@ -363,7 +363,7 @@ Material:
     - _RecalculateNormals: 0
     - _ReceiveShadows: 1
     - _ReceivedShadowsType: 0
-    - _Reflections: 1
+    - _Reflections: 2
     - _ReflectionsAtten: 1
     - _RenderPreset: 1
     - _RimAttenuation: 0
@@ -383,11 +383,11 @@ Material:
     - _ShakeBlend: 1
     - _ShakeSpeedMult: 1
     - _Shininess: 6.94
-    - _Smoothness: 0.2
+    - _Smoothness: 0.393
     - _SmoothnessTextureChannel: 0
     - _SpecularAtten: 1
     - _SpecularHighlights: 1
-    - _SpecularModel: 1
+    - _SpecularModel: 2
     - _SpecularToonCutoff: 0.836
     - _SpecularToonSmoothness: 0
     - _SpherizeNormals: 0

@@ -90,7 +90,6 @@ GameObject:
   - component: {fileID: 1665452312872974671}
   - component: {fileID: 1626725103613004849}
   - component: {fileID: 4616828480180316413}
-  - component: {fileID: 6062510850608186124}
   m_Layer: 0
   m_Name: Prop_Goblin_Rotisserie_Meat_01
   m_TagString: Untagged
@@ -155,22 +154,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PropObject
   _exploder: {fileID: 9218600907085270075}
-  _dropper: {fileID: 6062510850608186124}
+  _dropper: {fileID: 0}
   _hitCount: 1
---- !u!114 &6062510850608186124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3655775020200715985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e189268c09d35f34c88fec8baa88cf8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ItemDropper
-  _dropTable: {fileID: 11400000, guid: 3b2dcaba59c4a7b459d7e882b5d7fa6a, type: 2}
-  _spawnRadius: 0.5
 --- !u!1 &4953227968048556471
 GameObject:
   m_ObjectHideFlags: 0

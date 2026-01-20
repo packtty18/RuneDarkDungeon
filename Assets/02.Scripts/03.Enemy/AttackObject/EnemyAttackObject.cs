@@ -2,7 +2,7 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using UnityEngine;
 
-public class EnemyAttackObject : MonoBehaviour
+public class EnemyAttackObject : PoolableObject
 {
     [Header("Data")]
     [SerializeField] private AttackObjectDataSO data;
@@ -23,8 +23,19 @@ public class EnemyAttackObject : MonoBehaviour
 
     private void OnEnable()
     {
+        
+    }
+
+    public override void OnSpawn()
+    {
         DeactivateHitBox();
     }
+
+    public override void OnDespawn()
+    {
+        init = false;
+    }
+
     [Button]
     public void Initialize(EnemyController owner, float damage = 0)
     {
@@ -72,14 +83,10 @@ public class EnemyAttackObject : MonoBehaviour
 
     private void Update()
     {
+        if (!init)
+            return;
         _movement?.Tick(Time.deltaTime);
     }
-
-    private void OnDisable()
-    {
-        init = false;
-    }
-
 
     public void ExecuteEffects(Vector3 position)
     {
@@ -112,25 +119,50 @@ public class EnemyAttackObject : MonoBehaviour
         Debug.Log("[EnemyAttackObject] HitBox deactivated");
     }
 
-    public void StartSpawnRoutine(
-        GameObject prefab,
-        Vector3 position,
-        int count,
-        float delay)
+    public void StartSpawnRoutine(GameObject prefab,Vector3 position,int count,float delay)
     {
         StartCoroutine(SpawnCoroutine(prefab, position, count, delay));
     }
 
-    private IEnumerator SpawnCoroutine(
-        GameObject prefab,
-        Vector3 position,
-        int count,
-        float delay)
+    public void StartSpawnRoutine(EPoolType poolType,Vector3 position,int count,float delay)
+    {
+        StartCoroutine(SpawnCoroutine(poolType, position, count, delay));
+    }
+
+    private IEnumerator SpawnCoroutine(GameObject prefab,Vector3 position,int count,float delay)
     {
         for (int i = 0; i < count; i++)
         {
             GameObject obj = Instantiate(prefab, position, Quaternion.identity);
 
+            EnemyAttackObject attackObj =
+                obj.GetComponent<EnemyAttackObject>();
+
+            attackObj?.Initialize(Owner);
+
+            Debug.Log($"[EnemyAttackObject] Spawned {i + 1}/{count}");
+
+            if (delay > 0f)
+                yield return new WaitForSeconds(delay);
+        }
+    }
+    private IEnumerator SpawnCoroutine(EPoolType poolType,Vector3 position,int count,float delay)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            GameObject obj;
+            if (!PoolManager.IsExist())
+            {
+                yield break;
+            }
+
+            obj = PoolManager.Instance.Get(poolType);
+            if(obj == null)
+            {
+                yield break;
+            }
+            obj.transform.position = position;
+            obj.transform.rotation = Quaternion.identity;
             EnemyAttackObject attackObj =
                 obj.GetComponent<EnemyAttackObject>();
 

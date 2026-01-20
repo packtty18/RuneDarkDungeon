@@ -251,34 +251,10 @@ public class EnemyController : PoolableObject, IDamageable
 
     public void EnablePhysics(bool enable)
     {
-        if (_rigid == null)
+        if (_physicCollider == null)
             return;
 
-        _rigid.isKinematic = !enable;
         _physicCollider.isTrigger = !enable;
-    }
-
-    public void SetConstraintsPosition(bool enable)
-    {
-        if (_rigid == null)
-            return;
-
-        RigidbodyConstraints constraints = _rigid.constraints;
-
-        if (enable)
-        {
-            constraints |= RigidbodyConstraints.FreezePositionX;
-            constraints |= RigidbodyConstraints.FreezePositionY;
-            constraints |= RigidbodyConstraints.FreezePositionZ;
-        }
-        else
-        {
-            constraints &= ~RigidbodyConstraints.FreezePositionX;
-            constraints &= ~RigidbodyConstraints.FreezePositionY;
-            constraints &= ~RigidbodyConstraints.FreezePositionZ;
-        }
-
-        _rigid.constraints = constraints;
     }
 
     #endregion
