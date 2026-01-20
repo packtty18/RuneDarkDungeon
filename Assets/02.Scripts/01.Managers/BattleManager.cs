@@ -138,11 +138,11 @@ public class BattleManager : LocalSingleton<BattleManager>
     [Button]
     public void NotifyGamePause()
     {
-        SetState(EBattleState.Pause);
+        
     }
 
     public void NotifyGameResume()
     {
-        SetState(EBattleState.InProgress);
+        
     }
 }

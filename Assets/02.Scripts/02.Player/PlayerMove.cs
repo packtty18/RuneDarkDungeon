@@ -323,7 +323,7 @@ public class PlayerMove : MonoBehaviour
         {
             currentSpeed = Mathf.MoveTowards(currentSpeed, speed, acceleration * Time.deltaTime);
             _controller.Move(direction * speed * Time.deltaTime);
-            Debug.Log("adf");
+ 
             yield return null;
         }
         _controller.excludeLayers = _controller.excludeLayers & ~_walkableLayer;

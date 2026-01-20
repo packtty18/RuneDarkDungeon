@@ -1,4 +1,10 @@
+using DG.Tweening;
+using Sirenix.OdinInspector;
+using System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class GameFlowManager : LocalSingleton<GameFlowManager>
 {
@@ -7,14 +13,58 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
     [SerializeField]
     private EGameKeyType _pauseKey;
 
-    private bool _isPaused = false;
-    public bool IsPaused => _isPaused;
+    [SerializeField]
+    private UI_BasicAnimation _playerHUD;
 
+    private bool _isPaused = false;
+    private bool _isPlayingCutScene = false;
+
+    public bool IsPaused => _isPaused;
+    public bool IsPlayingCutScene => _isPlayingCutScene;
+
+    [SerializeField]
+    private UI_BasicAnimation _fadeBlack;
+    [SerializeField]
+    private float _defaultFadeTime = 0.5f;
+
+    [SerializeField]
+    private float _deathFadeTime = 2.0f;
+
+    [SerializeField]
+    private float _gameOverDelay = 2.0f;
+
+    [SerializeField]
+    private float _clearDelay = 2.0f;
+
+    private SceneTransition _transition;
+
+    [SerializeField]
+    private PlayableDirector _deathSceneDirector;
+
+    [SerializeField]
+    private PlayableDirector _startSceneDirector;
+
+    [SerializeField]
+    private PlayableDirector _clearSceneDirector;
+
+    private Coroutine _startSceneSkipCoroutine;
+
+
+    #region Life Cycle
     protected override void Awake()
     {
         base.Awake();
         Initialize();
+        EventSubscribe();
+        _playerHUD.Hide();
     }
+
+    private void Start()
+    {
+        PlayStartScene();
+        TryGetComponent<SceneTransition>(out _transition);
+    }
+
     private void Update()
     {
         if (InputManager.Instance.GetKeyDown(_pauseKey))
@@ -23,10 +73,24 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
         }
     }
 
+    protected override void OnDestroy()
+    {
+        Resume();
+        EventUnsubscribe();
+        base.OnDestroy();
+    }
+
+    #endregion
+
+    #region Init
     private void Initialize()
     {
         Time.timeScale = 1.0f;
     }
+
+    #endregion
+
+    #region Game Pause
 
     public void TogglePause()
     {
@@ -62,9 +126,97 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
         BattleManager.Instance?.NotifyGameResume();
     }
 
-    protected override void OnDestroy()
+    #endregion
+
+    #region Coroutine
+    private IEnumerator StartCutSceneSkip()
     {
-        Resume();
-        base.OnDestroy();
+        while (true)
+        {
+            if (InputManager.Instance.GetKeyDown(EGameKeyType.Enter))
+            {
+                break;
+            }
+            yield return null;
+        }
+        _startSceneDirector.Stop();
     }
+
+    private IEnumerator ClearUIPopupDelay()
+    {
+        yield return new WaitForSeconds(_clearDelay);
+    }
+    private IEnumerator GameOverDelay()
+    {
+        yield return new WaitForSeconds(_gameOverDelay);
+        _fadeBlack?.FadeIn(_deathFadeTime, DG.Tweening.Ease.OutElastic).OnComplete(() =>
+        {
+            //획득 UI Popup 
+            _transition?.TransitionToScene();
+        });
+    }
+
+    #endregion
+
+    #region Play Cut Scene & End Event
+
+    private void PlayStartScene()
+    {
+        _startSceneDirector.Play();
+        _isPlayingCutScene = true;
+        _startSceneSkipCoroutine = StartCoroutine(StartCutSceneSkip());
+    }
+    public void OnGameOver()
+    {
+        _playerHUD.FadeOut(_defaultFadeTime);
+        _deathSceneDirector.Play();
+        StartCoroutine(GameOverDelay());
+    }
+
+    [Button]
+    public void OnClear()
+    {
+        _playerHUD.FadeOut(_defaultFadeTime);
+        _clearSceneDirector.Play();
+        _isPlayingCutScene = true;
+        StartCoroutine(ClearUIPopupDelay());
+    }
+
+    private void OnClearTimelineEnd(PlayableDirector director)
+    {
+        _isPlayingCutScene = false;
+    }
+
+    private void OnDeathTimelineEnd(PlayableDirector director)
+    {
+        _isPlayingCutScene = false;
+    }
+
+    private void OnStartTimelineEnd(PlayableDirector director)
+    {
+        _isPlayingCutScene = false;
+        StopCoroutine(_startSceneSkipCoroutine);
+        _fadeBlack?.Show();
+        _fadeBlack?.FadeOut(_defaultFadeTime);
+        _playerHUD.FadeIn(_defaultFadeTime);
+    }
+
+    #endregion
+
+    #region Event Subscribe
+    private void EventSubscribe()
+    {
+        _startSceneDirector.stopped += OnStartTimelineEnd;
+        _deathSceneDirector.stopped += OnDeathTimelineEnd;
+        _clearSceneDirector.stopped += OnClearTimelineEnd;
+    }
+
+    private void EventUnsubscribe()
+    {
+        _startSceneDirector.stopped -= OnStartTimelineEnd;
+        _deathSceneDirector.stopped -= OnDeathTimelineEnd;
+        _clearSceneDirector.stopped -= OnClearTimelineEnd;
+    }
+
+    #endregion
 }
