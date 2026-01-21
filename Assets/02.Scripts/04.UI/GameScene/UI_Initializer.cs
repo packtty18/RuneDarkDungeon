@@ -8,11 +8,11 @@ public class UI_Initializer : MonoBehaviour
     
     [Header("--- 공통 ---")]
     [SerializeField] private CurrencyPresenter _currencyPresenter;
+    [SerializeField] private EquipmentPresenter _equipmentPresenter;
     
     [Header("--- 로비씬 전용 ---")]
     [SerializeField] private InventoryPresenter _inventoryPresenter;
     [SerializeField] private UpgradePresenter _upgradePresenter;
-    [SerializeField] private EquipmentPresenter _equipmentPresenter;
     
     [Space]
     [SerializeField] private SelectionManager _selectionManager;
