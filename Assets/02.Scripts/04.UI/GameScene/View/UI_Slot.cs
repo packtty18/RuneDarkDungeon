@@ -7,8 +7,8 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 {
     [Header("UI 연결")]
     [SerializeField] private Image _iconImage;
-    [SerializeField] private Image _borderImage;
-    [SerializeField] private Sprite _defaultBorderImage;
+    [SerializeField] private Image _frameImage;
+    [SerializeField] private Sprite _defaultFrameImage;
     [SerializeField] private GameObject _iconCover;
     
     private UI_SlotAnimationController _animation;
@@ -27,7 +27,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         TryGetComponent<UI_SlotAnimationController>(out _animation);
     }
 
-    public void SetItem(ItemData item, Sprite border)
+    public void SetItem(ItemData item)
     {
         if (item == null)
         {
@@ -37,7 +37,12 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         _item = item;
         _iconImage.sprite = item.Icon;
         _iconImage.gameObject.SetActive(true);
-        _borderImage.sprite = border;
+    }
+
+    public void SetItem(ItemData item, Sprite frame)
+    {
+        _frameImage.sprite = frame;
+        SetItem(item);
     }
 
     public void Clear()
@@ -45,7 +50,7 @@ public class UI_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
         _item = null;
         _iconImage.sprite = null;
         _iconImage.gameObject.SetActive(false);
-        _borderImage.sprite = _defaultBorderImage;
+        _frameImage.sprite = _defaultFrameImage;
     }
 
     public void SetActive(bool active)
