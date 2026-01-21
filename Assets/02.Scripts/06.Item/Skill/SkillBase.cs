@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class SkillBase : PoolableObject
+public abstract class SkillBase : MonoBehaviour
 {
     [Header("데미지 설정")]
     [SerializeField] protected SerializableDictionary<EItemGrade, RangeData<float>> _damage;

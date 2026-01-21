@@ -316,8 +316,7 @@ GameObject:
   - component: {fileID: 5574763771572371625}
   - component: {fileID: 9176197825079048523}
   - component: {fileID: 5305252617277265456}
-  - component: {fileID: 9163541374920035977}
-  - component: {fileID: 3677257930902499954}
+  - component: {fileID: 7445937997216497271}
   m_Layer: 5
   m_Name: Rune Slot
   m_TagString: Untagged
@@ -359,7 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85c0ebbad8cbf8d47a619ead715ccd7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoolDown
-  _playerContext: {fileID: 0}
+  _skillCaster: {fileID: 0}
   coolDownImages:
   - {fileID: 6606748975092131617}
   - {fileID: 7120636287423438137}
@@ -390,7 +389,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &9163541374920035977
+--- !u!114 &7445937997216497271
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -399,34 +398,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 745999292800612911}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cdfcf81d12f418448c87e5654802321, type: 3}
+  m_Script: {fileID: 11500000, guid: bdc9455f526f4cf5b6d9f2a5b141580c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_EquipmentView
-  _isInitialized: 0
-  _awakeInit: 0
-  _animation: 0
-  _duration: 0.3
-  _showEase: 27
-  _hideEase: 26
-  _slots:
-    _pairs: []
-  _isInteractable: 0
-  _showFrame: 0
-  _frameDB: {fileID: 0}
---- !u!114 &3677257930902499954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 745999292800612911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ada19aa721e9f045b3e7016b425dba5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EquipmentPresenter
-  _equipmentUI: {fileID: 9163541374920035977}
-  _selectionManager: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::UI_Rune
+  _qRune: {fileID: 2079448488790645651}
+  _eRune: {fileID: 5498283393474549950}
+  _rRune: {fileID: 1294109625215712798}
+  _qRuneImage: {fileID: 8696093525523657411}
+  _eRuneImage: {fileID: 6920263381777104142}
+  _rRuneImage: {fileID: 5939236563697866867}
 --- !u!1 &758162884883344533
 GameObject:
   m_ObjectHideFlags: 0
@@ -1835,7 +1815,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3026371834611454559}
-  - component: {fileID: 7094612306712109416}
   m_Layer: 5
   m_Name: RSlot
   m_TagString: Untagged
@@ -1864,22 +1843,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 130, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7094612306712109416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1294109625215712798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9b43dafa207a6841966e59754c2296e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_Slot
-  _iconImage: {fileID: 5939236563697866867}
-  _frameImage: {fileID: 3583607983260884230}
-  _defaultFrameImage: {fileID: 21300000, guid: 0ee5ce27866c14801b7b6442f15c4628, type: 3}
-  _iconCover: {fileID: 0}
 --- !u!1 &1418273379837047456
 GameObject:
   m_ObjectHideFlags: 0
@@ -2506,7 +2469,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6784113699668654805}
-  - component: {fileID: 8035303942511082137}
   m_Layer: 5
   m_Name: QSlot
   m_TagString: Untagged
@@ -2535,22 +2497,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 130, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8035303942511082137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2079448488790645651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9b43dafa207a6841966e59754c2296e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_Slot
-  _iconImage: {fileID: 8696093525523657411}
-  _frameImage: {fileID: 1948540614413513236}
-  _defaultFrameImage: {fileID: 21300000, guid: 0ee5ce27866c14801b7b6442f15c4628, type: 3}
-  _iconCover: {fileID: 0}
 --- !u!1 &2133115159711609425
 GameObject:
   m_ObjectHideFlags: 0
@@ -6105,7 +6051,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3559379034263726389}
-  - component: {fileID: 5984886277048267073}
   m_Layer: 5
   m_Name: ESlot
   m_TagString: Untagged
@@ -6134,22 +6079,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 130, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5984886277048267073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5498283393474549950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9b43dafa207a6841966e59754c2296e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI_Slot
-  _iconImage: {fileID: 6920263381777104142}
-  _frameImage: {fileID: 2164288224163938289}
-  _defaultFrameImage: {fileID: 21300000, guid: 0ee5ce27866c14801b7b6442f15c4628, type: 3}
-  _iconCover: {fileID: 0}
 --- !u!1 &5593419974188932310
 GameObject:
   m_ObjectHideFlags: 0
