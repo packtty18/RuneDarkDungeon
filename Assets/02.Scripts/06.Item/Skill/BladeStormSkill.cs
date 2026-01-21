@@ -26,7 +26,7 @@ public class BladeStormSkill : SkillBase
     
     protected override void ApplyEffect(GameObject user, EItemGrade grade)
     {
-        SoundManager.Instance.Play(ESoundType.Skill_BladeStorm);
+        SoundManager.Instance.Play(ESoundType.Skill_BladeStorm,user.transform.position);
         
         transform.SetParent(user.transform);
         

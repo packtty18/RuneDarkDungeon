@@ -13212,6 +13212,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 476196461518297955, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
+      propertyPath: _soundCooldown
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5876496599182944654, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
       propertyPath: m_Name
       value: GlobalManagers
@@ -24407,15 +24411,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameFlowManager
   _pauseUI: {fileID: 0}
-  _pauseKey: 14
+  _resultUI: {fileID: 0}
   _playerHUD: {fileID: 0}
   _fadeBlack: {fileID: 0}
+  _pauseKey: 14
   _defaultFadeTime: 0.5
   _deathFadeTime: 2
   _gameOverDelay: 2
   _clearDelay: 2
-  _deathSceneDirector: {fileID: 0}
   _startSceneDirector: {fileID: 0}
+  _deathSceneDirector: {fileID: 0}
   _clearSceneDirector: {fileID: 0}
 --- !u!4 &1684655791 stripped
 Transform:

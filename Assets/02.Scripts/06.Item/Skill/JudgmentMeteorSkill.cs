@@ -20,7 +20,7 @@ public class JudgmentMeteorSkill : SkillBase
     
     protected override void ApplyEffect(GameObject user, EItemGrade grade)
     {
-        SoundManager.Instance.Play(ESoundType.Skill_JudgmentMeteor);
+        SoundManager.Instance.Play(ESoundType.Skill_JudgmentMeteor,user.transform.position);
         
         if (_grade < EItemGrade.Unique) return;
         var dotSkill = Instantiate(_skillPrefab, transform);

@@ -5613,6 +5613,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1704149429 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 3239087208866123719, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
+  m_PrefabInstance: {fileID: 8526610271865488335}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1705405542
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7512,6 +7517,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 476196461518297955, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
+      propertyPath: _bgmSource
+      value: 
+      objectReference: {fileID: 1704149429}
+    - target: {fileID: 476196461518297955, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
+      propertyPath: _soundCooldown
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5876496599182944654, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
       propertyPath: m_Name
       value: GlobalManagers

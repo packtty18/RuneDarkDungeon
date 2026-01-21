@@ -23,7 +23,7 @@ public class LightningZoneSkill : SkillBase
     
     protected override void ApplyEffect(GameObject user, EItemGrade grade)
     {
-        SoundManager.Instance.Play(ESoundType.Skill_Lightningzone);
+        SoundManager.Instance.Play(ESoundType.Skill_Lightningzone, user.transform.position);
         
         transform.position += _offset;
         

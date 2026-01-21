@@ -47,7 +47,7 @@ public class ButtonReactionController : MonoBehaviour, IPointerEnterHandler, IPo
     {
         if (!_active) return;
         _animator.ScaleDownAndRecover(_clickScale, _clickDuration);
-        SoundManager.Instance?.Play(ESoundType.UI_Button_Click, SoundManager.Instance.transform.position);
+        SoundManager.Instance?.Play(ESoundType.UI_Button_Click, Camera.main.transform.position);
     }
 
     public void Reset()
