@@ -26,6 +26,7 @@ public class BladeStormSkill : SkillBase
     
     protected override void ApplyEffect(GameObject user, EItemGrade grade)
     {
+        transform.localScale = Vector3.one;
         transform.SetParent(user.transform);
         
         _dotDealer.StartDot(_damage[grade], _interval, _lifeTime);
@@ -34,9 +35,8 @@ public class BladeStormSkill : SkillBase
 
         Vector3 targetScale = transform.localScale * _uniqueScale;
 
-        transform.DOScale(targetScale, _scaleDuration) 
-            .SetEase(_ease)
-            .SetLink(gameObject);
+        transform.DOKill();
+        transform.DOScale(targetScale, _scaleDuration).SetEase(_ease);
     }
     
     private void OnTriggerStay(Collider other)

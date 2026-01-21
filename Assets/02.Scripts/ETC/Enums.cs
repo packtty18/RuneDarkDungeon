@@ -147,7 +147,14 @@ public enum  EPoolType
     EnemyAttack_LighteningHit,
     EnemyAttack_MagicMissile,
     EnemyAttack_MagicExplosion,
-
+    Skill_BladeStorm,
+    Skill_LightningZone,
+    Skill_JudgmentMeteor,
+    Skill_Exlposion,
+    Skill_Meteor,
+    Skill_MeteorHit,
+    Skill_MagmaArea,
+    
 }
 
 #region PlayerStat

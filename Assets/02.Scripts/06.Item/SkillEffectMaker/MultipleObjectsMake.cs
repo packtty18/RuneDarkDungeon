@@ -22,7 +22,7 @@ public class MultipleObjectsMake : _ObjectsMakeBase
     void Start()
     {
         m_Time = m_Time2 = Time.time;
-        m_scalefactor = VariousEffectsScene.m_gaph_scenesizefactor; //transform.parent.localScale.x; 
+        m_scalefactor = 1; //transform.parent.localScale.x; 
     }
 
 

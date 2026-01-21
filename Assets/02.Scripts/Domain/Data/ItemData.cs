@@ -11,8 +11,7 @@ public class ItemData
     public EItemGrade Grade => _grade;
     public ItemSO Info => _info;
     public Sprite Icon => _info.Icon;
-    public string Name => _info.Name;
-    public string Tooltip => _info.Tooltip;
+    public EPoolType Skill => _info.Skill;
     
     public ItemData(int id, EItemGrade grade = EItemGrade.Normal)
     {
@@ -23,11 +22,6 @@ public class ItemData
     public void SetInfo(ItemSO info)
     {
         _info = info;
-    }
-
-    public void Use(GameObject user)
-    {
-        _info.Use(user, _grade);
     }
 
     public float GetCoolTime()
