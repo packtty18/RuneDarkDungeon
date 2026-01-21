@@ -47,8 +47,8 @@ public class UI_SlotContainer : PUBase
         {
             if (i < targetCount)
             {
-                var frame = _frameDB.GetFrameSprite(items[i].Grade);
-                _slots[i].SetItem(items[i], frame);
+                var border = _frameDB.GetBorderSprite(items[i].Grade);
+                _slots[i].SetItem(items[i], border);
                 _slots[i].SetActive(true);
             }
             else

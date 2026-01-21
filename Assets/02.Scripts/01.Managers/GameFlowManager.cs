@@ -8,45 +8,46 @@ using UnityEngine.Playables;
 
 public class GameFlowManager : LocalSingleton<GameFlowManager>
 {
-    [Header("UI")]
     [SerializeField]
     private UI_Popup _pauseUI;
     [SerializeField]
-    private RewardPresenter _resultUI;
-    [SerializeField]
-    private UI_BasicAnimation _playerHUD;
-    [SerializeField]
-    private UI_BasicAnimation _fadeBlack;
-
-    [Header("입력")]
-    [SerializeField]
     private EGameKeyType _pauseKey;
 
-    [Header("타이밍")]
     [SerializeField]
-    private float _defaultFadeTime = 0.5f;
-    [SerializeField]
-    private float _deathFadeTime = 2.0f;
-    [SerializeField]
-    private float _gameOverDelay = 2.0f;
-    [SerializeField]
-    private float _clearDelay = 2.0f;
-
-    [Header("컷씬")]
-    [SerializeField]
-    private PlayableDirector _startSceneDirector;
-    [SerializeField]
-    private PlayableDirector _deathSceneDirector;
-    [SerializeField]
-    private PlayableDirector _clearSceneDirector;
-
-    private Coroutine _startSceneSkipCoroutine;
+    private UI_BasicAnimation _playerHUD;
 
     private bool _isPaused = false;
     private bool _isPlayingCutScene = false;
 
     public bool IsPaused => _isPaused;
     public bool IsPlayingCutScene => _isPlayingCutScene;
+
+    [SerializeField]
+    private UI_BasicAnimation _fadeBlack;
+    [SerializeField]
+    private float _defaultFadeTime = 0.5f;
+
+    [SerializeField]
+    private float _deathFadeTime = 2.0f;
+
+    [SerializeField]
+    private float _gameOverDelay = 2.0f;
+
+    [SerializeField]
+    private float _clearDelay = 2.0f;
+
+    private SceneTransition _transition;
+
+    [SerializeField]
+    private PlayableDirector _deathSceneDirector;
+
+    [SerializeField]
+    private PlayableDirector _startSceneDirector;
+
+    [SerializeField]
+    private PlayableDirector _clearSceneDirector;
+
+    private Coroutine _startSceneSkipCoroutine;
 
 
     #region Life Cycle
@@ -61,6 +62,7 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
     private void Start()
     {
         PlayStartScene();
+        TryGetComponent<SceneTransition>(out _transition);
     }
 
     private void Update()
@@ -143,14 +145,14 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
     private IEnumerator ClearUIPopupDelay()
     {
         yield return new WaitForSeconds(_clearDelay);
-        _resultUI.ShowVictory();
     }
-    private IEnumerator GameOverUIPopupDelay()
+    private IEnumerator GameOverDelay()
     {
         yield return new WaitForSeconds(_gameOverDelay);
         _fadeBlack?.FadeIn(_deathFadeTime, DG.Tweening.Ease.OutElastic).OnComplete(() =>
         {
-            _resultUI.ShowDefeat();
+            //획득 UI Popup 
+            _transition?.TransitionToScene();
         });
     }
 
@@ -168,7 +170,7 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
     {
         _playerHUD.FadeOut(_defaultFadeTime);
         _deathSceneDirector.Play();
-        StartCoroutine(GameOverUIPopupDelay());
+        StartCoroutine(GameOverDelay());
     }
 
     [Button]
