@@ -19,7 +19,7 @@ public class DamageText : PoolableObject
     private Sequence _sequence;
     private float _currentFloatY;
     
-    private void Awake()
+    private void OnEnable()
     {
         _camera = Camera.main;
     }

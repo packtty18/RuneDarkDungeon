@@ -7,22 +7,54 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dungeon_Material_01
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Name: PropMat
+  m_Shader: {fileID: 4800000, guid: a4c8f68acf7c9844e97a36914026acb1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _ALBEDOVERTEXCOLORMODE_REPLACE
+  - _CAST_SHADOWS_ON
+  - _COLORRAMPLIGHTINGSTAGE_AFTERLIGHTING
+  - _EMISSION_ON
+  - _FADEUVSET_UV1
+  - _FOG_ON
+  - _GREYSCALESTAGE_BEFORELIGHTING
+  - _HEIGHTGRADIENTPOSITIONSPACE_LOCAL
+  - _LIGHTMODEL_TOON
+  - _MATCAPBLENDMODE_MULTIPLY
+  - _OUTLINETYPE_FADEWITHDISTANCE
+  - _RECEIVEDSHADOWSTYPE_CLASSIC
+  - _RECEIVE_SHADOWS_ON
+  - _REFLECTIONS_CLASSIC
+  - _RIMLIGHTINGSTAGE_BEFORELIGHTINGLAST
+  - _RIM_LIGHTING_ON
+  - _SHADINGMODEL_PBR
+  - _SPECULARMODEL_TOON
+  - _TEXTUREBLENDINGMODE_RGB
+  - _TEXTUREBLENDINGSOURCE_VERTEXCOLOR
+  - _TRIPLANARNORMALSPACE_WORLD
+  - _USE_WIND_VERTICAL_MASK
+  m_InvalidKeywords:
+  - _EMISSION
+  - _GLITCHWORLDSPACE_ON
+  - _HOLOGRAM_ALPHA
+  - _METALLICGLOSSMAP
   - _METALLICSPECGLOSSMAP
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  - _REFLECTIONS_BASIC
+  - _REFLECTIONS_ON
+  - _REFLECTIONTYPE_NONE
+  - _SHADING_MODEL_PBR
+  - _SPECULAR_ADDITIONAL_LIGHTS
+  - _VERTEX_EXTRUDE_USE_NOISE_TEX
+  - _WORKFLOW_BASIC
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: 2000
+  stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: 
+  m_LockedProperties: _RimAttenuation
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -35,15 +67,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BlendingNormalMapB:
-        m_Texture: {fileID: 2800000, guid: 6246e3fe4a63c1f4f9acec9623576fc7, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BlendingNormalMapG:
-        m_Texture: {fileID: 2800000, guid: 8175cba73bf87af41aeba7bbd2f3c4cd, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BlendingNormalMapWhite:
-        m_Texture: {fileID: 2800000, guid: 8175cba73bf87af41aeba7bbd2f3c4cd, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BlendingTextureB:
@@ -55,7 +87,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BlendingTextureWhite:
-        m_Texture: {fileID: 2800000, guid: 2af6ba1567607124eb61349fa044375b, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -80,8 +112,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _DistortTex:
         m_Texture: {fileID: 2800000, guid: fcb69fdadf254834880fe3c443965278, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Scale: {x: 15, y: 15}
+        m_Offset: {x: 5, y: 5}
     - _EmissionMap:
         m_Texture: {fileID: 2800000, guid: 91ec928f471bba747ad8c1a981051402, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -107,7 +139,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 120df76dc2d17ed4cb2d4b8b08292ed9, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -131,7 +163,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TexBlendingMask:
-        m_Texture: {fileID: 2800000, guid: 5a775794f8704ba4385b9c92cf9f1224, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ToonRamp:
@@ -139,11 +171,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TriplanarNoiseTex:
-        m_Texture: {fileID: 2800000, guid: fcb69fdadf254834880fe3c443965278, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TriplanarTopNormalMap:
-        m_Texture: {fileID: 2800000, guid: 8175cba73bf87af41aeba7bbd2f3c4cd, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TriplanarTopTex:
@@ -177,7 +209,7 @@ Material:
     - _AlbedoVertexColorMode: 1
     - _AlbedoVertexColorOn: 0
     - _AlphaClip: 0
-    - _AlphaCutoffOn: 1
+    - _AlphaCutoffOn: 0
     - _AlphaCutoffValue: 0.25
     - _AlphaRoundOn: 0
     - _AlphaToMask: 0
@@ -201,7 +233,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _ColorMask: 15
     - _ColorRampBlend: 1
-    - _ColorRampLightingStage: 0
+    - _ColorRampLightingStage: 1
     - _ColorRampLuminosity: 0
     - _ColorRampOn: 0
     - _ColorRampScrollSpeed: 0
@@ -228,7 +260,7 @@ Material:
     - _DitherScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EmissionEnabled: 0
+    - _EmissionEnabled: 1
     - _EmissionScaleUI: 1
     - _EmissionSelfGlow: 1
     - _EnvironmentReflections: 1
@@ -243,7 +275,7 @@ Material:
     - _FadeUVSet: 0
     - _FlatNormalsBlend: 1
     - _FlatNormalsEnabled: 0
-    - _FogOn: 0
+    - _FogOn: 1
     - _GeneralAlpha: 1
     - _Glitch: 0
     - _GlitchAmount: 0.5
@@ -257,19 +289,19 @@ Material:
     - _Greyscale: 0
     - _GreyscaleBlending: 1
     - _GreyscaleLuminosity: 0
-    - _HalfLambertWrap: 1
+    - _HalfLambertWrap: 0.66
     - _HandDrawn: 0
     - _HandDrawnAmount: 10
     - _HandDrawnSpeed: 5
-    - _HardnessFakeGI: 0.75
+    - _HardnessFakeGI: 0.734
     - _HeightGradientOn: 0
     - _HeightGradientPositionSpace: 0
-    - _HighlightCutoff: 0.5
-    - _HighlightSmoothness: 0.5
+    - _HighlightCutoff: 1
+    - _HighlightSmoothness: 0
     - _Highlights: 0
     - _HighlightsStrength: 1
     - _Hit: 0
-    - _HitBlend: 1
+    - _HitBlend: 0
     - _HitGlow: 5
     - _Hologram: 0
     - _HologramAccentAlpha: 0.5
@@ -293,7 +325,7 @@ Material:
     - _IntersectionFadeFactor: 1
     - _IntersectionFadeOn: 0
     - _IntersectionGlowOn: 0
-    - _LightModel: 1
+    - _LightModel: 2
     - _LightmapColorCorrection: 0
     - _Matcap: 0
     - _MatcapBlend: 1
@@ -301,7 +333,7 @@ Material:
     - _MatcapIntensity: 1
     - _MaxCameraDistance: 1000
     - _MaxDistanceToFade: 100
-    - _MaxFadeDistance: 250
+    - _MaxFadeDistance: 15
     - _MaxGradientHeight: 0.75
     - _MaxInflate: 0.2
     - _MaxRim: 1
@@ -317,9 +349,9 @@ Material:
     - _NormalMapEnabled: 0
     - _NormalStrength: 1
     - _OcclusionStrength: 1
-    - _OutlineMode: 8
-    - _OutlineThickness: 1
-    - _OutlineType: 0
+    - _OutlineMode: 6
+    - _OutlineThickness: 10
+    - _OutlineType: 3
     - _Parallax: 0.02
     - _Pixelate: 0
     - _PixelateSize: 32
@@ -330,12 +362,12 @@ Material:
     - _RecalculateNormals: 0
     - _ReceiveShadows: 1
     - _ReceivedShadowsType: 0
-    - _Reflections: 0
-    - _ReflectionsAtten: 0.5
+    - _Reflections: 1
+    - _ReflectionsAtten: 1
     - _RenderPreset: 1
-    - _RimAttenuation: 1
-    - _RimLighting: 0
-    - _RimLightingStage: 0
+    - _RimAttenuation: 0.176
+    - _RimLighting: 1
+    - _RimLightingStage: 1
     - _SSSAtten: 1
     - _SSSFrontAtten: 0.3
     - _SSSFrontPower: 3
@@ -345,17 +377,17 @@ Material:
     - _ScrollTextureOn: 0
     - _ScrollTextureX: 1
     - _ScrollTextureY: 1
-    - _ShadingModel: 0
+    - _ShadingModel: 1
     - _ShadowCutoff: 0.2
     - _ShakeBlend: 1
     - _ShakeSpeedMult: 1
-    - _Shininess: 16
+    - _Shininess: 6.94
     - _Smoothness: 1
     - _SmoothnessTextureChannel: 0
-    - _SpecularAtten: 0.5
+    - _SpecularAtten: 1
     - _SpecularHighlights: 1
-    - _SpecularModel: 0
-    - _SpecularToonCutoff: 0.35
+    - _SpecularModel: 2
+    - _SpecularToonCutoff: 0.836
     - _SpecularToonSmoothness: 0
     - _SpherizeNormals: 0
     - _SrcBlend: 1
@@ -370,9 +402,9 @@ Material:
     - _TextureBlendingMode: 0
     - _TextureBlendingSource: 0
     - _TimingSeed: 0
-    - _ToonCutoff: 0.5
+    - _ToonCutoff: 1
     - _ToonFactor: 0
-    - _ToonSmoothness: 0.5
+    - _ToonSmoothness: 0.037
     - _TopNormalStrength: 1
     - _TriplanarMappingOn: 0
     - _TriplanarNoiseTransitionOn: 0
@@ -415,7 +447,7 @@ Material:
     - _DepthGlowColor: {r: 1, g: 0.9869999, b: 0.6, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}
-    - _FadeBurnColor: {r: 1, g: 1, b: 0, a: 1}
+    - _FadeBurnColor: {r: 2.6701567, g: 0.052356016, b: 0, a: 1}
     - _GlitchOffset: {r: -0.5, g: 0, b: 0, a: 0}
     - _GradientHeightColor01: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _GradientHeightColor02: {r: 1, g: 1, b: 1, a: 1}
@@ -425,12 +457,12 @@ Material:
     - _HitColor: {r: 1, g: 1, b: 1, a: 1}
     - _HologramColor: {r: 1.25, g: 2.8, b: 6.8, a: 1}
     - _HologramLineDirection: {r: 0, g: 1, b: 0, a: 0}
-    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 22.570396, g: 0.684011, b: 0, a: 1}
+    - _RimColor: {r: 1, g: 0.03449999, b: 0, a: 1}
     - _RimOffset: {r: 0, g: 0, b: 0, a: 0}
     - _SSSColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShakeMaxDisplacement: {r: 0.1, g: 0.1, b: 0.1, a: 0}
-    - _ShakeSpeed: {r: 41, g: 49, b: 45, a: 0}
+    - _ShakeSpeed: {r: 5, g: 5, b: 5, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

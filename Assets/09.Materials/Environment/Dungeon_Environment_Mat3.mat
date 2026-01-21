@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DeactiveMat
+  m_Name: Dungeon_Environment_Mat3
   m_Shader: {fileID: 4800000, guid: 0dde7f0097aeb2541aea684ca0ad0e3c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -15,11 +15,12 @@ Material:
   - _ALBEDOVERTEXCOLORMODE_REPLACE
   - _CAST_SHADOWS_ON
   - _COLORRAMPLIGHTINGSTAGE_AFTERLIGHTING
+  - _EMISSION_ON
   - _FADEUVSET_UV1
   - _FOG_ON
   - _GREYSCALESTAGE_BEFORELIGHTING
   - _HEIGHTGRADIENTPOSITIONSPACE_LOCAL
-  - _LIGHTMODEL_CLASSIC
+  - _LIGHTMODEL_TOON
   - _MATCAPBLENDMODE_MULTIPLY
   - _OUTLINETYPE_NONE
   - _RECEIVEDSHADOWSTYPE_CLASSIC
@@ -27,34 +28,31 @@ Material:
   - _REFLECTIONS_CLASSIC
   - _RIMLIGHTINGSTAGE_BEFORELIGHTINGLAST
   - _SHADINGMODEL_PBR
-  - _SPECULARMODEL_CLASSIC
+  - _SPECULARMODEL_TOON
   - _TEXTUREBLENDINGMODE_RGB
   - _TEXTUREBLENDINGSOURCE_VERTEXCOLOR
   - _TRIPLANARNORMALSPACE_WORLD
   - _USE_WIND_VERTICAL_MASK
-  - _UV_DISTORTION_ON
-  - _WAVE_UV_ON
   m_InvalidKeywords:
-  - _ALPHAPREMULTIPLY_ON
+  - _EMISSION
   - _GLITCHWORLDSPACE_ON
   - _HOLOGRAM_ALPHA
+  - _METALLICGLOSSMAP
+  - _METALLICSPECGLOSSMAP
   - _REFLECTIONS_BASIC
   - _REFLECTIONS_ON
   - _REFLECTIONTYPE_NONE
   - _SHADING_MODEL_PBR
   - _SPECULAR_ADDITIONAL_LIGHTS
-  - _SURFACE_TYPE_TRANSPARENT
   - _VERTEX_EXTRUDE_USE_NOISE_TEX
   - _WORKFLOW_BASIC
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  - DepthOnly
-  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -64,7 +62,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: a2e781ab9b9e5d748b74706dcbbab973, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BlendingNormalMapB:
@@ -92,7 +90,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: ef596993b14798e4084b52619a788900, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ColorRampTex:
@@ -116,7 +114,7 @@ Material:
         m_Scale: {x: 15, y: 15}
         m_Offset: {x: 5, y: 5}
     - _EmissionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: d05f150f4dc22c346be2f63a0e655d45, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FadeTex:
@@ -124,7 +122,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 733421517a34bb14595ac856875168f1, type: 3}
+        m_Texture: {fileID: 2800000, guid: a2e781ab9b9e5d748b74706dcbbab973, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MatcapTex:
@@ -132,7 +130,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: b8d8f0f13772c374d8d6354900c44e30, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicMap:
@@ -217,7 +215,7 @@ Material:
     - _AnisoShininess: 0.85
     - _Anisotropy: 0.45
     - _Blend: 0
-    - _BlendDst: 10
+    - _BlendDst: 0
     - _BlendModePreserveSpecular: 1
     - _BlendSrc: 1
     - _BlendingMaskCutoffB: 0.1
@@ -254,14 +252,15 @@ Material:
     - _DepthGlowPower: 25
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DistortAmount: 0.13
+    - _DistortAmount: 0.3
     - _DistortTexXSpeed: 2
     - _DistortTexYSpeed: 2
     - _DitherOn: 0
     - _DitherScale: 1
-    - _DstBlend: 10
-    - _DstBlendAlpha: 10
-    - _EmissionEnabled: 0
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _EmissionEnabled: 1
+    - _EmissionScaleUI: 1
     - _EmissionSelfGlow: 1
     - _EnvironmentReflections: 1
     - _FaceDownCutoff: 0.25
@@ -283,7 +282,7 @@ Material:
     - _GlitchTiling: 5
     - _GlitchWorldSpace: 1
     - _GlossMapScale: 0
-    - _Glossiness: 0
+    - _Glossiness: 0.2
     - _GlossyReflections: 0
     - _GreyScaleStage: 0
     - _Greyscale: 0
@@ -325,7 +324,7 @@ Material:
     - _IntersectionFadeFactor: 1
     - _IntersectionFadeOn: 0
     - _IntersectionGlowOn: 0
-    - _LightModel: 1
+    - _LightModel: 2
     - _LightmapColorCorrection: 0
     - _Matcap: 0
     - _MatcapBlend: 1
@@ -343,6 +342,7 @@ Material:
     - _MinGradientHeight: 0
     - _MinInflate: 0
     - _MinRim: 0
+    - _Mode: 0
     - _NearFade: 0
     - _NormalInfluence: 0.5
     - _NormalMapEnabled: 0
@@ -351,7 +351,7 @@ Material:
     - _OutlineMode: 6
     - _OutlineThickness: 28.9
     - _OutlineType: 0
-    - _Parallax: 0.005
+    - _Parallax: 0.02
     - _Pixelate: 0
     - _PixelateSize: 32
     - _Posterize: 0
@@ -363,7 +363,7 @@ Material:
     - _ReceivedShadowsType: 0
     - _Reflections: 1
     - _ReflectionsAtten: 1
-    - _RenderPreset: 2
+    - _RenderPreset: 1
     - _RimAttenuation: 1
     - _RimLighting: 0
     - _RimLightingStage: 1
@@ -381,11 +381,11 @@ Material:
     - _ShakeBlend: 1
     - _ShakeSpeedMult: 1
     - _Shininess: 6.94
-    - _Smoothness: 0.5
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularAtten: 1
     - _SpecularHighlights: 1
-    - _SpecularModel: 1
+    - _SpecularModel: 2
     - _SpecularToonCutoff: 0.836
     - _SpecularToonSmoothness: 0
     - _SpherizeNormals: 0
@@ -393,28 +393,29 @@ Material:
     - _SrcBlendAlpha: 1
     - _StencilRef: 1
     - _StochasticSampling: 0
-    - _StochasticScale: 10
-    - _StochasticSkew: 3
+    - _StochasticScale: 3.464
+    - _StochasticSkew: 0.57735026
     - _SubsurfaceScattering: 0
-    - _Surface: 1
+    - _Surface: 0
     - _TextureBlending: 0
     - _TextureBlendingMode: 0
     - _TextureBlendingSource: 0
     - _TimingSeed: 0
-    - _ToonCutoff: 0.732
+    - _ToonCutoff: 0
     - _ToonFactor: 0
-    - _ToonSmoothness: 0.037
+    - _ToonSmoothness: 1
     - _TopNormalStrength: 1
     - _TriplanarMappingOn: 0
     - _TriplanarNoiseTransitionOn: 0
     - _TriplanarNormalSpace: 1
     - _TriplanarSharpness: 15
     - _TriplanarTransitionPower: 0.75
-    - _UVDistortion: 1
+    - _UVDistortion: 0
+    - _UVSec: 0
     - _UseCustomTime: 0
     - _UseVerticalMask: 1
     - _VertexColorBlending: 1
-    - _VertexDistortionAmount: 0.18
+    - _VertexDistortionAmount: 0
     - _VertexDistortionNoiseSpeedX: 4
     - _VertexDistortionNoiseSpeedY: 4
     - _VertexDistortionOn: 0
@@ -423,10 +424,10 @@ Material:
     - _VoxelBlend: 1
     - _VoxelSize: 100
     - _Voxelize: 0
-    - _WaveAmount: 20.3
-    - _WaveSpeed: 2.6
+    - _WaveAmount: 7
+    - _WaveSpeed: 10
     - _WaveStrength: 7.5
-    - _WaveUVOn: 1
+    - _WaveUVOn: 0
     - _WaveX: 0
     - _WaveY: 0.5
     - _WindAttenuation: 1
@@ -439,11 +440,12 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _AOColor: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseColor: {r: 1, g: 0, b: 0, a: 0.36862746}
-    - _Color: {r: 1, g: 0, b: 0, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _CustomAmbientColor: {r: 0.65, g: 0.65, b: 0.65, a: 1}
     - _DepthGlowColor: {r: 1, g: 0.9869999, b: 0.6, a: 1}
-    - _EmissionColor: {r: 2, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}
     - _FadeBurnColor: {r: 2.6701567, g: 0.052356016, b: 0, a: 1}
     - _GlitchOffset: {r: -0.5, g: 0, b: 0, a: 0}
     - _GradientHeightColor01: {r: 0.2, g: 0.2, b: 0.2, a: 1}
@@ -463,7 +465,7 @@ Material:
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &1776075563324558543
+--- !u!114 &8492100678949271320
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

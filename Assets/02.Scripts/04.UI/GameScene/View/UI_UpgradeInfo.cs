@@ -27,7 +27,7 @@ public class UI_UpgradeInfo : MonoBehaviour
             return;
         }
         
-        var sprite = _frameDB.GetFrameSprite(item.Grade.Next());
+        var sprite = _frameDB.GetBorderSprite(item.Grade.Next());
         _resultSlot.SetItem(item, sprite);
     }
 }
