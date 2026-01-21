@@ -8,6 +8,13 @@ public class ObjectMoveDestroy : MonoBehaviour
     [Header("충돌 설정")]
     [SerializeField] private LayerMask _hitLayer;
 
+    [Header("소리")]
+    [SerializeField]
+    private bool _sound;
+    [SerializeField, EnableIf(nameof(_sound))]
+    private ESoundType[] _sounds;
+
+
     [Header("카메라 쉐이크")]
     [SerializeField]
     private bool _cameraShake;
@@ -99,6 +106,10 @@ public class ObjectMoveDestroy : MonoBehaviour
         if (_cameraShake)
         {
             HitShake();
+        }
+        if (_sound)
+        {
+            SoundManager.Instance.Play(_sounds[Random.Range(0, _sounds.Length - 1)], transform.position);
         }
         Destroy(this.gameObject);
         Destroy(m_gameObjectTail, TailDestroyTime);
