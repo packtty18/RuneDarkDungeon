@@ -12,7 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ALBEDOVERTEXCOLORMODE_REPLACE
+  - _ALBEDOVERTEXCOLORMODE_MULTIPLY
   - _CAST_SHADOWS_ON
   - _COLORRAMPLIGHTINGSTAGE_AFTERLIGHTING
   - _FADEUVSET_UV1
@@ -207,7 +207,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AdvancedConfigurationEnabled: 0
     - _AffectedByLightmaps: 0
-    - _AlbedoVertexColorMode: 1
+    - _AlbedoVertexColorMode: 0
     - _AlbedoVertexColorOn: 0
     - _AlphaClip: 0
     - _AlphaCutoffOn: 0
@@ -440,7 +440,7 @@ Material:
     m_Colors:
     - _AOColor: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 0, b: 0, a: 0.36862746}
-    - _Color: {r: 1, g: 0, b: 0, a: 1}
+    - _Color: {r: 0.8207547, g: 0, b: 0, a: 1}
     - _CustomAmbientColor: {r: 0.65, g: 0.65, b: 0.65, a: 1}
     - _DepthGlowColor: {r: 1, g: 0.9869999, b: 0.6, a: 1}
     - _EmissionColor: {r: 2, g: 0, b: 0, a: 1}
