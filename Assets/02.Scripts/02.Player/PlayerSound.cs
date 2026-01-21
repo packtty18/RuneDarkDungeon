@@ -20,4 +20,9 @@ public class PlayerSound : MonoBehaviour
         OnSoundPlay(ESoundType.Player_FinisherAttack);
     }
 
+    public void OnWalkSound()
+    {
+        OnSoundPlay(ESoundType.Player_Walk);
+    }
+
 }

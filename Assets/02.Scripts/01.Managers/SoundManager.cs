@@ -19,6 +19,7 @@ public enum ESoundType
     Rune_Sell,
     Gold_Get,
 
+    Player_Walk,
     Player_BasicAttack,
     Player_DashAttack,
     Player_FinisherAttack,
