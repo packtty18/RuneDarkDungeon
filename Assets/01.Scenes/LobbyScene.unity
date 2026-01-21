@@ -1970,6 +1970,18 @@ PrefabInstance:
       propertyPath: StartSceneData
       value: 
       objectReference: {fileID: 11400000, guid: 49a39755cd388664cb5f3d019ecb0af6, type: 2}
+    - target: {fileID: 7530503726006114119, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
+      propertyPath: _poolConfigs.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7530503726006114119, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
+      propertyPath: '_poolConfigs.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a7f62faaf009a04ab1689b95695b3d4, type: 2}
+    - target: {fileID: 7530503726006114119, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
+      propertyPath: '_poolConfigs.Array.data[6]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a7f62faaf009a04ab1689b95695b3d4, type: 2}
     - target: {fileID: 8255421415645138975, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.06658
@@ -2535,6 +2547,8 @@ MonoBehaviour:
       Value: {fileID: 1318788070}
     - Key: 3
       Value: {fileID: 1079697470}
+  _isInteractable: 1
+  _showFrame: 1
   _frameDB: {fileID: 11400000, guid: a85cfe4de07d67e4d9c683d7fbb63416, type: 2}
 --- !u!114 &292788644
 MonoBehaviour:
@@ -11166,6 +11180,9 @@ MonoBehaviour:
   _inventoryPresenter: {fileID: 809973591}
   _upgradePresenter: {fileID: 809973587}
   _equipmentPresenter: {fileID: 809973590}
+  _equipmentPresenter: {fileID: 809973590}
+  _inventoryPresenter: {fileID: 809973591}
+  _upgradePresenter: {fileID: 809973587}
   _selectionManager: {fileID: 1283928996}
   _priceDB: {fileID: 11400000, guid: 53c3ae6d31810504e97584a98853926c, type: 2}
   _rewardPresenter: {fileID: 0}
