@@ -9,6 +9,11 @@ using static UnityEngine.UI.GridLayoutGroup;
 public class HitBox : MonoBehaviour
 {
     private static int s_globalAttackId = 0;
+    public static void ResetId()
+    {
+        s_globalAttackId = 0;
+    }
+
     [SerializeField] private int _currentAttackId;
 
     private Collider _collider;
