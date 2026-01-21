@@ -1,6 +1,8 @@
 using Sirenix.OdinInspector;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 // 전체적인 조작을 담당.
 // State머신에서는 여기에 있는 함수만을 사용함.
