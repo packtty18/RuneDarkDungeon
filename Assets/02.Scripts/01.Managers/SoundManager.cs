@@ -48,9 +48,10 @@ public enum ESoundType
     Enemy_Archer_Shoot,
     Enemy_Mage_Cast,
     Ememt_Mage_Shoot,
-    Enemy_Mage_Fireball,
+    Enemy_Mage_Explosion,
 
     Enemy_Elite_Slash,
+    Enemy_Elite_Hit,
     Enemy_Elite_Death,
     Enemy_Elite_Charge,
 
@@ -58,6 +59,7 @@ public enum ESoundType
     Enemy_Boss_MagicMissile,
     Enemy_Boss_Lightening,
     Enemy_Boss_BloodExplosion,
+    Enemy_Boss_Hit,
     Enemy_Boss_Death,
     Enemy_Boss_Charge,
     Enemy_Boss_Summon,

@@ -139,104 +139,6 @@ MonoBehaviour:
       volume: 1
       minDistance: 10
       maxDistance: 50
-  - key: Enemy_Warrior_Slash
-    data:
-      clip: {fileID: 8300000, guid: 98dcb3ae1faf3da458e08d3fbdc151fa, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 3
-      maxDistance: 10
-  - key: Enemy_Archer_Shoot
-    data:
-      clip: {fileID: 8300000, guid: 5552ee561a4cbe74888cb4a4320474f9, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 3
-      maxDistance: 10
-  - key: Enemy_Mage_Fireball
-    data:
-      clip: {fileID: 8300000, guid: 15d3a6e27b26daf48a3299bdf44d1290, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 3
-      maxDistance: 10
-  - key: Enemy_Elite_Slash
-    data:
-      clip: {fileID: 8300000, guid: 79909089105c5fc4a8acc5ea0f070d29, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 3
-      maxDistance: 10
-  - key: Enemy_Elite_Death
-    data:
-      clip: {fileID: 8300000, guid: 283e33c34fbf9ca44be335d5315ddf97, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 3
-      maxDistance: 10
-  - key: Enemy_Elite_Charge
-    data:
-      clip: {fileID: 8300000, guid: a0bb6f9a13b500d4da9218cc87fc3817, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 3
-      maxDistance: 10
-  - key: Enemy_Boss_Slash
-    data:
-      clip: {fileID: 8300000, guid: 5971b95143b7b3645b4c90e44703d258, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 3
-      maxDistance: 10
-  - key: Enemy_Boss_MagicMissile
-    data:
-      clip: {fileID: 8300000, guid: 5168a7f0881a4aa4fa53926f60e02b60, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 3
-      maxDistance: 10
-  - key: Enemy_Boss_Lightening
-    data:
-      clip: {fileID: 8300000, guid: 12080a4f490c7794ea8015bb776881bc, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 3
-      maxDistance: 10
-  - key: Enemy_Boss_BloodExplosion
-    data:
-      clip: {fileID: 8300000, guid: 15d3a6e27b26daf48a3299bdf44d1290, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 3
-      maxDistance: 10
-  - key: Enemy_Boss_Death
-    data:
-      clip: {fileID: 8300000, guid: 283e33c34fbf9ca44be335d5315ddf97, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 3
-      maxDistance: 10
-  - key: Enemy_Boss_Charge
-    data:
-      clip: {fileID: 8300000, guid: a0bb6f9a13b500d4da9218cc87fc3817, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 1
-      maxDistance: 10
-  - key: Enemy_Boss_Summon
-    data:
-      clip: {fileID: 8300000, guid: 6d6b8f80d0ce0064486b430c4bfe58e6, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 1
-      maxDistance: 10
-  - key: Enemy_Boss_Buff
-    data:
-      clip: {fileID: 8300000, guid: b307b91adb79e8c4aaab3cfa43c4703a, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 1
-      maxDistance: 10
   - key: Player_Walk
     data:
       clip: {fileID: 8300000, guid: f2c7e59bf1bf8b24596e77b948242238, type: 3}
@@ -314,34 +216,6 @@ MonoBehaviour:
       volume: 1
       minDistance: 5
       maxDistance: 10
-  - key: Enemy_Common_Hit
-    data:
-      clip: {fileID: 8300000, guid: febfa5c8373965648af128aefe19160f, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 1
-      maxDistance: 5
-  - key: Enemy_Common_Dead
-    data:
-      clip: {fileID: 8300000, guid: a2c2472255a8c5c45a0fc365531d9c82, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 1
-      maxDistance: 5
-  - key: Enemy_Mage_Cast
-    data:
-      clip: {fileID: 8300000, guid: 11b5a63df7672f544a558b40235554f9, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 1
-      maxDistance: 10
-  - key: Ememt_Mage_Shoot
-    data:
-      clip: {fileID: 8300000, guid: a1b599e72d83e3d4f8433a8308a54479, type: 3}
-      isBgm: 0
-      volume: 1
-      minDistance: 1
-      maxDistance: 10
   - key: Prop_hit
     data:
       clip: {fileID: 8300000, guid: cac8048e551368345b3342a990ad9398, type: 3}
@@ -359,6 +233,146 @@ MonoBehaviour:
   - key: Prop_Destroy2
     data:
       clip: {fileID: 8300000, guid: eafd0366e726153439e62fd10e87e87b, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Common_Hit
+    data:
+      clip: {fileID: 8300000, guid: 2807a521bad62ea47a5f13fddb5f9c11, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Common_Dead
+    data:
+      clip: {fileID: 8300000, guid: 37395151d50a0284e96ca50312bd8c80, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Warrior_Slash
+    data:
+      clip: {fileID: 0}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Archer_Shoot
+    data:
+      clip: {fileID: 8300000, guid: 5552ee561a4cbe74888cb4a4320474f9, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Mage_Cast
+    data:
+      clip: {fileID: 8300000, guid: 11b5a63df7672f544a558b40235554f9, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Ememt_Mage_Shoot
+    data:
+      clip: {fileID: 8300000, guid: a1b599e72d83e3d4f8433a8308a54479, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Mage_Explosion
+    data:
+      clip: {fileID: 8300000, guid: 15d3a6e27b26daf48a3299bdf44d1290, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Elite_Slash
+    data:
+      clip: {fileID: 8300000, guid: 79909089105c5fc4a8acc5ea0f070d29, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 3
+  - key: Enemy_Elite_Hit
+    data:
+      clip: {fileID: 8300000, guid: febfa5c8373965648af128aefe19160f, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Elite_Death
+    data:
+      clip: {fileID: 8300000, guid: 283e33c34fbf9ca44be335d5315ddf97, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Elite_Charge
+    data:
+      clip: {fileID: 8300000, guid: a0bb6f9a13b500d4da9218cc87fc3817, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Boss_Slash
+    data:
+      clip: {fileID: 8300000, guid: 5971b95143b7b3645b4c90e44703d258, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Boss_MagicMissile
+    data:
+      clip: {fileID: 8300000, guid: 16bebeb533acfb7489e59614146737c9, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Boss_Lightening
+    data:
+      clip: {fileID: 8300000, guid: 12080a4f490c7794ea8015bb776881bc, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Boss_BloodExplosion
+    data:
+      clip: {fileID: 8300000, guid: 15d3a6e27b26daf48a3299bdf44d1290, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Boss_Hit
+    data:
+      clip: {fileID: 8300000, guid: 3a1d2f2f47c38384a8f16d9c1511174e, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Boss_Death
+    data:
+      clip: {fileID: 8300000, guid: 91f11c2821a935d4494aea52ce597c19, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Boss_Charge
+    data:
+      clip: {fileID: 8300000, guid: e1258791d27a8804a94424c687f54b1c, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Boss_Summon
+    data:
+      clip: {fileID: 8300000, guid: 6d6b8f80d0ce0064486b430c4bfe58e6, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Boss_Buff
+    data:
+      clip: {fileID: 8300000, guid: b307b91adb79e8c4aaab3cfa43c4703a, type: 3}
       isBgm: 0
       volume: 1
       minDistance: 1
