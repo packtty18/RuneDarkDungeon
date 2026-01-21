@@ -31,7 +31,7 @@ public class LightningZoneSkill : SkillBase
         transform.SetParent(user.transform);
     }
 
-    private void OnDestroy()
+    public override void OnDespawn()
     {
         if (_grade != EItemGrade.Legendary) return;
         var finalAttack = Instantiate(_finalAttack, _user.transform.position, Quaternion.identity);

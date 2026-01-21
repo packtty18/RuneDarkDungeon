@@ -10,7 +10,6 @@ public class ItemSO : ScriptableObject
     [SerializeField, TextArea] private string _tooltip;
     
     [Header("아이템 효과")]
-    [SerializeField] private SkillBase _skillPrefab;
     [SerializeField] private EPoolType _skill;
     
     [Header("쿨타임")]

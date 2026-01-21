@@ -149,7 +149,11 @@ public enum  EPoolType
     EnemyAttack_MagicExplosion,
     Skill_BladeStorm,
     Skill_LightningZone,
-    Skill_JudgmentMeteor
+    Skill_JudgmentMeteor,
+    Skill_Exlposion,
+    Skill_Meteor,
+    Skill_MeteorHit,
+    Skill_MagmaArea,
     
 }
 
