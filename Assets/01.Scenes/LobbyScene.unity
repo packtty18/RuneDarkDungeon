@@ -1966,10 +1966,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GlobalManagers
       objectReference: {fileID: 0}
-    - target: {fileID: 7595173166686967476, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
-      propertyPath: StartSceneData
-      value: 
-      objectReference: {fileID: 11400000, guid: 49a39755cd388664cb5f3d019ecb0af6, type: 2}
     - target: {fileID: 7530503726006114119, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
       propertyPath: _poolConfigs.Array.size
       value: 5
@@ -1982,6 +1978,10 @@ PrefabInstance:
       propertyPath: '_poolConfigs.Array.data[6]'
       value: 
       objectReference: {fileID: 11400000, guid: 8a7f62faaf009a04ab1689b95695b3d4, type: 2}
+    - target: {fileID: 7595173166686967476, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
+      propertyPath: StartSceneData
+      value: 
+      objectReference: {fileID: 11400000, guid: 49a39755cd388664cb5f3d019ecb0af6, type: 2}
     - target: {fileID: 8255421415645138975, guid: 6bbe492a0d36d534599bbb201665a809, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.06658
@@ -10374,23 +10374,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1489568822236507244, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2206933879049858980, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2206933879049858980, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2206933879049858980, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 265.85
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2206933879049858980, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2245062790325028439, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
       propertyPath: m_AnchorMax.y
@@ -10446,19 +10446,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5592044402737966894, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5592044402737966894, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5592044402737966894, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 81.75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5592044402737966894, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5824035864290033526, guid: 4fac6cc82b2911346be168fb8f5e82f1, type: 3}
       propertyPath: m_AnchorMax.x
@@ -11177,9 +11177,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_Initializer
   _currencyPresenter: {fileID: 809973589}
-  _inventoryPresenter: {fileID: 809973591}
-  _upgradePresenter: {fileID: 809973587}
-  _equipmentPresenter: {fileID: 809973590}
   _equipmentPresenter: {fileID: 809973590}
   _inventoryPresenter: {fileID: 809973591}
   _upgradePresenter: {fileID: 809973587}
