@@ -9,6 +9,7 @@ public class DotDealer : MonoBehaviour
     
     public void StartDot(RangeData<float> damage, float interval, float duration)
     {
+        gameObject.SetActive(true);
         _damage = damage;
         _interval = interval;
         _duration = duration;
@@ -28,5 +29,7 @@ public class DotDealer : MonoBehaviour
             yield return waitTick;
             timer += _interval;
         }
+
+        gameObject.SetActive(false);
     }
 }
