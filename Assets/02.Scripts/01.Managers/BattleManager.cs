@@ -73,7 +73,7 @@ public class BattleManager : LocalSingleton<BattleManager>
         _currentIndex = 0;
         _isStageRunning = false;
         OnBattleStart?.Invoke();
-        
+        HitBox.ResetId();
         ActiveCurrentSpawnManager();
 
         SetState(EBattleState.WaitingNextStage);
