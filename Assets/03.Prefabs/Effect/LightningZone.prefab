@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8118179353494630557}
   - component: {fileID: 5269801588177607966}
   - component: {fileID: 6554637292936903847}
+  - component: {fileID: -4832979926425355241}
   m_Layer: 6
   m_Name: LightningZone
   m_TagString: Untagged
@@ -69,7 +70,7 @@ MonoBehaviour:
   _lifeTime: 2
   _dotDealer: {fileID: 6554637292936903847}
   _interval: 0.25
-  _finalAttack: {fileID: 586727021727492430, guid: 37492cdf632531c4bbadf9020ee97963, type: 3}
+  _finalAttack: {fileID: -4832979926425355241}
   _finalDamage:
     Min: 180
     Max: 200
@@ -124,6 +125,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51bec65e6f8685c4e88e2c91745a3b8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DotDealer
+--- !u!114 &-4832979926425355241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421739010686413293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b44f331f20ea1d74fb774ebac19e0640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FinalAttack
+  _effect: 25
 --- !u!1 &1649377010991218770
 GameObject:
   m_ObjectHideFlags: 0

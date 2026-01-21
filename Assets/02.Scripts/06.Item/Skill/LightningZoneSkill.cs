@@ -8,7 +8,7 @@ public class LightningZoneSkill : SkillBase
     [SerializeField] private float _interval;
     
     [Header("레전드 추가 스킬")]
-    [SerializeField] private HitBox _finalAttack;
+    [SerializeField] private FinalAttack _finalAttack;
     [SerializeField] private RangeData<float> _finalDamage;
     
     [Header("이펙트 오프셋")]
@@ -18,6 +18,7 @@ public class LightningZoneSkill : SkillBase
     private void Reset()
     {
         _dotDealer = GetComponent<DotDealer>();
+        _finalAttack = GetComponent <FinalAttack>();
     }
 #endif
     
@@ -34,7 +35,6 @@ public class LightningZoneSkill : SkillBase
     public override void OnDespawn()
     {
         if (_grade != EItemGrade.Legendary) return;
-        var finalAttack = Instantiate(_finalAttack, _user.transform.position, Quaternion.identity);
-        finalAttack.Activate(_finalDamage.GetRandomValue());
+        _finalAttack.Spawn(_finalDamage.GetRandomValue());
     }
 }

@@ -44,8 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7994742634f09eb4a88499d7e511671d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_makeObjs:
-  - {fileID: 7281159161875971371, guid: 6cb9c75ed54650d4fb9b47a027a748a0, type: 3}
+  _meteor: 27
   m_startDelay: 0.15
   m_makeCount: 15
   m_makeDelay: 0.3
@@ -183,8 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7994742634f09eb4a88499d7e511671d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_makeObjs:
-  - {fileID: 7281159161875971371, guid: 6cb9c75ed54650d4fb9b47a027a748a0, type: 3}
+  _meteor: 27
   m_startDelay: 0
   m_makeCount: 15
   m_makeDelay: 0.3
@@ -202,6 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2880140810431346511}
   - component: {fileID: 6715837202217692936}
+  - component: {fileID: 8144595011777322573}
   m_Layer: 0
   m_Name: JudgmentMeteor
   m_TagString: Untagged
@@ -260,11 +259,23 @@ MonoBehaviour:
   _lifeTime: 6
   _dotSkill: {fileID: 5964520638123456664}
   _interval: 0.75
-  _finalAttack: {fileID: 4794096531324006657, guid: 43a698f72c4c8f545ba7749b84aad510, type: 3}
+  _finalAttack: {fileID: 8144595011777322573}
   _finalDamage:
     Min: 50
     Max: 70
-  _finalLifeTime: 2
+--- !u!114 &8144595011777322573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2880140810431346510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b44f331f20ea1d74fb774ebac19e0640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FinalAttack
+  _effect: 28
 --- !u!1 &3408326339693777424
 GameObject:
   m_ObjectHideFlags: 0

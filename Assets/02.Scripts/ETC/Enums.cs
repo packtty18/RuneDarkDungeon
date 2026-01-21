@@ -150,10 +150,10 @@ public enum  EPoolType
     Skill_BladeStorm,
     Skill_LightningZone,
     Skill_JudgmentMeteor,
-    Skill_Exlposion,
+    Skill_LightningZoneFinalEffect,
+    Skill_JudgmentMeteorFinalEffect,
     Skill_Meteor,
     Skill_MeteorHit,
-    Skill_MagmaArea,
     
 }
 
