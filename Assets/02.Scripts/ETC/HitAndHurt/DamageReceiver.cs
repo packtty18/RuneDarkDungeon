@@ -42,7 +42,7 @@ public class DamageReceiver : MonoBehaviour
         
         var damageObject = PoolManager.Instance.Get(EPoolType.UI_Damage);
         if (!damageObject.TryGetComponent<DamageText>(out var damageText)) return; 
-        damageText.Show(transform, data.Damage);
+        damageText.Show(transform.position, data.Damage);
     }
 
     
