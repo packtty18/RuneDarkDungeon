@@ -29,6 +29,6 @@ public class JudgmentMeteorSkill : SkillBase
         if (_grade != EItemGrade.Legendary) return;
         var finalAttack = Instantiate(_finalAttack, _user.transform.position, Quaternion.identity);
         finalAttack.Activate(_finalDamage.GetRandomValue());
-        Destroy(finalAttack, _finalLifeTime);
+        Destroy(finalAttack.gameObject, _finalLifeTime);
     }
 }
