@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2434423925942292171}
   - component: {fileID: 6614683667060321097}
-  m_Layer: 0
+  - component: {fileID: 4096723299506041516}
+  - component: {fileID: 1236480987665495091}
+  m_Layer: 6
   m_Name: Effect_49_MeteorHit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,10 +53,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c307a7cc95692b4ba283587aa31483d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeteorHIt
-  _explosionPrefab: {fileID: 9136232383455400168, guid: 37492cdf632531c4bbadf9020ee97963, type: 3}
+  _explosion: {fileID: 1236480987665495091}
   _damage:
     Min: 10
     Max: 30
+  _lifeTime: 2
+--- !u!135 &4096723299506041516
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509133941378628043}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 10
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1236480987665495091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509133941378628043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c34fd4e561f21da468a0263868c73308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitBox
+  _currentAttackId: 0
+  _team: 0
+  _damage: 10
+  _autoDeactive: 0
+  _deactiveDelay: 0.2
 --- !u!1 &1944707343604279553
 GameObject:
   m_ObjectHideFlags: 0
