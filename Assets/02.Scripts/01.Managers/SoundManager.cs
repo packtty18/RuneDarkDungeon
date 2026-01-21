@@ -175,6 +175,13 @@ public class SoundManager : GlobalSingleton<SoundManager>
         _soundFactory.Play(data, position);
     }
 
+    [Button]
+    public void StopBGM()
+    {
+        _bgmSource.Stop();
+        _bgmSource.clip = null;
+    }
+
 #if UNITY_EDITOR
     #region Test
     [SerializeField] private bool _test = false;
@@ -192,14 +199,6 @@ public class SoundManager : GlobalSingleton<SoundManager>
     public void TestPlaySound()
     {
         Play(_testSoundType, _testSfxPosition);
-    }
-
-    [ShowIf(nameof(_test))]
-    [Button]
-    public void StopBGM()
-    {
-        _bgmSource.Stop();
-        _bgmSource.clip = null;
     }
 
     #endregion
