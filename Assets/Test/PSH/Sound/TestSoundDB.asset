@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: TestSoundDB
   m_EditorClassIdentifier: Assembly-CSharp::SoundDatabaseSO
   _entries:
-  - key: Bgm_Test1
+  - key: Bgm_Test2
     data:
-      clip: {fileID: 8300000, guid: 1a75ac13b6eb89c479fda084227928a7, type: 3}
+      clip: {fileID: 8300000, guid: f386edeaafc390b4d8a4676cda280ca0, type: 3}
       isBgm: 1
       volume: 1
       minDistance: 1
       maxDistance: 500
-  - key: Bgm_Test2
+  - key: Bgm_Test1
     data:
-      clip: {fileID: 8300000, guid: f386edeaafc390b4d8a4676cda280ca0, type: 3}
+      clip: {fileID: 8300000, guid: 1a75ac13b6eb89c479fda084227928a7, type: 3}
       isBgm: 1
       volume: 1
       minDistance: 1
@@ -113,11 +113,11 @@ MonoBehaviour:
       maxDistance: 50
   - key: Player_Land
     data:
-      clip: {fileID: 8300000, guid: 64f8bd4aa1245b441a630a3327028f74, type: 3}
+      clip: {fileID: 8300000, guid: c49b31a7198d36d428075f7609e0ed16, type: 3}
       isBgm: 0
       volume: 1
-      minDistance: 100000
-      maxDistance: 100000
+      minDistance: 10
+      maxDistance: 50
   - key: Bgm_Lobby
     data:
       clip: {fileID: 8300000, guid: 6fc0d1125a15c9840823d9333d45f620, type: 3}
@@ -236,6 +236,83 @@ MonoBehaviour:
       isBgm: 0
       volume: 1
       minDistance: 1
+      maxDistance: 10
+  - key: Player_Walk
+    data:
+      clip: {fileID: 8300000, guid: f2c7e59bf1bf8b24596e77b948242238, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 5
+      maxDistance: 20
+  - key: Player_Footstep1
+    data:
+      clip: {fileID: 8300000, guid: c49b31a7198d36d428075f7609e0ed16, type: 3}
+      isBgm: 0
+      volume: 0.5
+      minDistance: 5
+      maxDistance: 20
+  - key: Player_Footstep2
+    data:
+      clip: {fileID: 8300000, guid: fdb7dcabf84d6f94b8c0c22048ede3a3, type: 3}
+      isBgm: 0
+      volume: 0.5
+      minDistance: 5
+      maxDistance: 20
+  - key: Player_Footstep3
+    data:
+      clip: {fileID: 8300000, guid: 3b737c30d296d9449a2bd14a6ab7da36, type: 3}
+      isBgm: 0
+      volume: 0.5
+      minDistance: 5
+      maxDistance: 20
+  - key: Player_Footstep4
+    data:
+      clip: {fileID: 8300000, guid: fdaff788effa1434bb3ce719b23d1d65, type: 3}
+      isBgm: 0
+      volume: 0.5
+      minDistance: 5
+      maxDistance: 20
+  - key: Player_Footstep5
+    data:
+      clip: {fileID: 8300000, guid: f4739b52d1232f044a5c928b3c58b92b, type: 3}
+      isBgm: 0
+      volume: 0.5
+      minDistance: 5
+      maxDistance: 20
+  - key: Player_Grunt1
+    data:
+      clip: {fileID: 8300000, guid: dc119ae43637da4408796d2c7d43fdb3, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 5
+      maxDistance: 10
+  - key: Player_Grunt2
+    data:
+      clip: {fileID: 8300000, guid: 6a4b005f5fcf0e549adbacee49a8444f, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 5
+      maxDistance: 10
+  - key: Player_Grunt3
+    data:
+      clip: {fileID: 8300000, guid: 2c3da1f4cafffdf459dc419a892a7f10, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 5
+      maxDistance: 10
+  - key: Player_Grunt4
+    data:
+      clip: {fileID: 8300000, guid: 1b4e7019c1ad8414eab868f3b87e0a7a, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 5
+      maxDistance: 10
+  - key: Player_Grunt5
+    data:
+      clip: {fileID: 8300000, guid: 1ab4d27fae3407045b4303b44072a30f, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 5
       maxDistance: 10
   - key: Enemy_Common_Hit
     data:

@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,15 @@ public class ObjectMoveDestroy : MonoBehaviour
 {
     [Header("충돌 설정")]
     [SerializeField] private LayerMask _hitLayer;
-    
+
+    [Header("카메라 쉐이크")]
+    [SerializeField]
+    private bool _cameraShake;
+    [SerializeField, EnableIf(nameof(_cameraShake))]
+    private float _intensity = 1f;
+    [SerializeField, EnableIf(nameof(_cameraShake))]
+    private float _duration = 1f;
+
     public GameObject m_gameObjectMain;
     public GameObject m_gameObjectTail;
     GameObject m_makedObject;
@@ -87,9 +96,17 @@ public class ObjectMoveDestroy : MonoBehaviour
             if(m_sc)
                 m_sc.AddHitObject(hit.point);
         }
-
+        if (_cameraShake)
+        {
+            HitShake();
+        }
         Destroy(this.gameObject);
         Destroy(m_gameObjectTail, TailDestroyTime);
         Destroy(m_makedObject, HitObjectDestroyTime);
+    }
+
+    void HitShake()
+    {
+        CameraManager.Instance?.CameraShake(_intensity, _duration);
     }
 }
