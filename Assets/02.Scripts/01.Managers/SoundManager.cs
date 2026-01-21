@@ -28,8 +28,12 @@ public enum ESoundType
     Skill_Lightningzone,
     Skill_JudgmentMeteor,
 
+    Enemy_Common_Hit,
+    Enemy_Common_Dead,
     Enemy_Warrior_Slash,
     Enemy_Archer_Shoot,
+    Enemy_Mage_Cast,
+    Ememt_Mage_Shoot,
     Enemy_Mage_Fireball,
 
     Enemy_Elite_Slash,
@@ -43,7 +47,11 @@ public enum ESoundType
     Enemy_Boss_Death,
     Enemy_Boss_Charge,
     Enemy_Boss_Summon,
-    Enemy_Boss_Buff
+    Enemy_Boss_Buff,
+
+    Prop_hit,
+    Prop_Destroy1,
+    Prop_Destroy2,
 }
 
 public class SoundManager : GlobalSingleton<SoundManager>

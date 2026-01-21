@@ -47,18 +47,21 @@ public class EnemySound : MonoBehaviour
                 EEnemyType.Warrior, new EnemySoundSet
                 {
                     Attack = ESoundType.Enemy_Warrior_Slash,
+                    Death = ESoundType.Enemy_Common_Dead,
                 }
             },
             {
                 EEnemyType.Archer, new EnemySoundSet
                 {
                     Attack = ESoundType.Enemy_Archer_Shoot,
+                    Death = ESoundType.Enemy_Common_Dead,
                 }
             },
             {
                 EEnemyType.Mage, new EnemySoundSet
                 {
-
+                    Attack = ESoundType.Ememt_Mage_Shoot,
+                    Death = ESoundType.Enemy_Common_Dead,
                 }
             },
             {
@@ -183,6 +186,7 @@ public class EnemySound : MonoBehaviour
 public class EnemySoundSet
 {
     public ESoundType Attack = ESoundType.None;
+    public ESoundType Hit = ESoundType.Hit;
     public ESoundType Death = ESoundType.None;
     public ESoundType Charge = ESoundType.None;
     public ESoundType Summon = ESoundType.None;
