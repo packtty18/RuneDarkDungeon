@@ -1,5 +1,10 @@
 using Sirenix.OdinInspector;
+using System;
+using System.Numerics;
 using UnityEngine;
+using Quaternion = UnityEngine.Quaternion;
+using Random = UnityEngine.Random;
+using Vector3 = UnityEngine.Vector3;
 
 public class Meteor : PoolableObject
 {
@@ -32,19 +37,18 @@ public class Meteor : PoolableObject
 
     float time;
     bool ishit;
-    float m_scalefactor;
 
     public override void OnSpawn()
     {
         base.OnSpawn();
-        m_scalefactor = 1;//transform.parent.localScale.x;
+        transform.position = Vector3.zero;
         time = Time.time;
         ishit = false;
     }
-
+    
     void LateUpdate()
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * MoveSpeed * m_scalefactor);
+        transform.Translate(Vector3.forward * Time.deltaTime * MoveSpeed);
         if (!ishit)
         {
             RaycastHit hit;
@@ -69,9 +73,8 @@ public class Meteor : PoolableObject
         
         var m_makedObject = PoolManager.Instance.Get(_meteorHit);
         
-        m_makedObject = Instantiate(m_hitObject, hit.point, Quaternion.LookRotation(hit.normal)).gameObject;
-        m_makedObject.transform.parent = transform.parent;
-        m_makedObject.transform.localScale = new Vector3(1, 1, 1);
+        m_makedObject.transform.position = hit.point;
+        m_makedObject.transform.rotation = Quaternion.LookRotation(hit.normal);
 
         if (!m_makedObject.TryGetComponent(out ExplosionSkill explosion)) return;
         explosion.Explosion(_damage.GetRandomValue());
@@ -84,9 +87,8 @@ public class Meteor : PoolableObject
         
         var m_makedObject = PoolManager.Instance.Get(_meteorHit);
         
-        m_makedObject = Instantiate(m_hitObject, point.transform.position, point.rotation).gameObject;
-        m_makedObject.transform.parent = transform.parent;
-        m_makedObject.transform.localScale = new Vector3(1, 1, 1);
+        m_makedObject.transform.position = point.position;
+        m_makedObject.transform.rotation = point.rotation;
         
         if (!m_makedObject.TryGetComponent(out ExplosionSkill explosion)) return;
         explosion.Explosion(_damage.GetRandomValue());

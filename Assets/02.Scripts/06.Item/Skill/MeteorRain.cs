@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MeteorRain : PoolSpawner
 {
@@ -10,7 +12,6 @@ public class MeteorRain : PoolSpawner
     public Vector3 m_randomPos;
     public Vector3 m_randomRot;
     public Vector3 m_randomScale;
-    public bool isObjectAttachToParent = true;
 
     float m_Time;
     float m_Time2;
@@ -36,9 +37,6 @@ public class MeteorRain : PoolSpawner
                 m_obj.transform.position = m_pos;
                 m_obj.transform.rotation = m_rot;
                 Vector3 m_scale = (m_obj.transform.localScale + GetRandomVector2(m_randomScale));
-                
-                if(isObjectAttachToParent)
-                    m_obj.transform.parent = this.transform;
                     
                 m_obj.transform.localScale = m_scale;
 
@@ -47,7 +45,7 @@ public class MeteorRain : PoolSpawner
             }
         }
     }
-    
+
     #region Util
     private float GetRandomValue(float value)
     {
