@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a987d1b69e6d2a248801e2ba776c3afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CursorManager
-  _isLock: 1
+  _isLock: 0
 --- !u!1 &1391433542120266252
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,6 +314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
   _database: {fileID: 11400000, guid: 99e9edecc5a6e00428d64d5b35ab3596, type: 2}
   _bgmSource: {fileID: 0}
+  _soundCooldown: 1
   _test: 1
   _testSoundType: 3
   _testSfxPosition: {x: 0, y: 0, z: 0}
@@ -417,9 +418,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 170111f900b2d3b4ab348d3ca85e4957, type: 2}
   - {fileID: 11400000, guid: c133409c35834b34bbde74122a3a47dc, type: 2}
   - {fileID: 11400000, guid: 01be9aaf6209a5b428068f3da76d7196, type: 2}
-  - {fileID: 11400000, guid: 9be609d5bbd053d46b44f73f72e46a4d, type: 2}
-  - {fileID: 11400000, guid: 88be7404bd31ef442816b2bac107abc4, type: 2}
-  - {fileID: 11400000, guid: 8a7f62faaf009a04ab1689b95695b3d4, type: 2}
 --- !u!1 &6568395028101342665
 GameObject:
   m_ObjectHideFlags: 0

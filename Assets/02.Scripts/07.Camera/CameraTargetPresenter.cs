@@ -1,7 +1,5 @@
 using Unity.Cinemachine;
 using UnityEngine;
-using static UnityEngine.InputManagerEntry;
-
 public class CameraTargetPresenter : MonoBehaviour
 {
     [SerializeField] private PlayerContext _playerContext;
