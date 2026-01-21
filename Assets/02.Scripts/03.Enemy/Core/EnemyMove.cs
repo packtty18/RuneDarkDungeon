@@ -5,6 +5,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyMove : MonoBehaviour
 {
+    private const float NAVMESH_SAMPLE_RADIUS = 5f;
     [Header("Settings")]
     [SerializeField] private float _rotationSpeed = 10f;
 
@@ -94,8 +95,27 @@ public class EnemyMove : MonoBehaviour
             return;
 
         EnableAgent();
-        _agent.SetDestination(_target.position);
 
+        // Ensure agent is on NavMesh
+        if (!_agent.isOnNavMesh)
+        {
+            TryWarpToNearestNavMesh();
+        }
+
+        _agent.SetDestination(_target.position);
+    }
+    private void TryWarpToNearestNavMesh()
+    {
+        if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, NAVMESH_SAMPLE_RADIUS, NavMesh.AllAreas))
+        {
+            Debug.Log($"[EnemyMove] Warped to nearest NavMesh at {hit.position}");
+            _agent.Warp(hit.position);
+        }
+        else
+        {
+            GetComponent<EnemyController>().Dead();
+            Debug.LogWarning("[EnemyMove] Failed to find nearby NavMesh.");
+        }
     }
 
     [Button, ShowIf(nameof(_onTest))]
