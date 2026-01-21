@@ -7,14 +7,14 @@ public class JudgmentMeteorSkill : SkillBase
     [SerializeField] private float _interval;
     
     [Header("레전드 추가 스킬")]
-    [SerializeField] private HitBox _finalAttack;
+    [SerializeField] private FinalAttack _finalAttack;
     [SerializeField] private RangeData<float> _finalDamage;
-    [SerializeField] private float _finalLifeTime;
     
 #if UNITY_EDITOR
     private void Reset()
     {
         _dotSkill = GetComponent<DotDealer>();
+        _finalAttack = GetComponent<FinalAttack>();
     }
 #endif
     
@@ -27,8 +27,6 @@ public class JudgmentMeteorSkill : SkillBase
     public override void OnDespawn()
     {
         if (_grade != EItemGrade.Legendary) return;
-        var finalAttack = Instantiate(_finalAttack, _user.transform.position, Quaternion.identity);
-        finalAttack.Activate(_finalDamage.GetRandomValue());
-        Destroy(finalAttack.gameObject, _finalLifeTime);
+        _finalAttack.Spawn(_finalDamage.GetRandomValue());
     }
 }
