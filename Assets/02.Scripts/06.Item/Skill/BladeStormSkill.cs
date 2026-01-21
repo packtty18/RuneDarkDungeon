@@ -26,8 +26,6 @@ public class BladeStormSkill : SkillBase
     
     protected override void ApplyEffect(GameObject user, EItemGrade grade)
     {
-        SoundManager.Instance.Play(ESoundType.Skill_BladeStorm);
-        
         transform.SetParent(user.transform);
         
         _dotDealer.StartDot(_damage[grade], _interval, _lifeTime);

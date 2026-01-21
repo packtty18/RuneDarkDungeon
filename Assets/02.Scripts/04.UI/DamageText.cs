@@ -18,7 +18,7 @@ public class DamageText : PoolableObject
     private Sequence _sequence;
     private float _currentFloatY;
     
-    private void OnEnable()
+    private void Awake()
     {
         _camera = Camera.main;
     }
@@ -48,10 +48,10 @@ public class DamageText : PoolableObject
     {
         _startPosition = position;
         _damageTextUI.SetText("{0}", Mathf.RoundToInt(damage));
-        PlayAnimation();
+        PlaySequence();
     }
     
-    private void PlayAnimation()
+    private void PlaySequence()
     {
         _sequence?.Kill();
         _sequence = DOTween.Sequence();
