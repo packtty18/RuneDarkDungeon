@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class SkillBase : MonoBehaviour
+public abstract class SkillBase : PoolableObject
 {
     [Header("데미지 설정")]
     [SerializeField] protected SerializableDictionary<EItemGrade, RangeData<float>> _damage;
@@ -38,13 +38,8 @@ public abstract class SkillBase : MonoBehaviour
         
         PlayAllParticles();
         ApplyEffect(_user, _grade);
-        Destroy(gameObject, _lifeTime);
+        ReturnToPoolAfter(_lifeTime);
     }
 
     protected abstract void ApplyEffect(GameObject user, EItemGrade grade);
-    
-    private void Deactivate()
-    {
-        gameObject.SetActive(false);
-    }
 }

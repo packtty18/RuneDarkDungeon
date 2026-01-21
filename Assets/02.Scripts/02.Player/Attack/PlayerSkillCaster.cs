@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PlayerSkillCaster : MonoBehaviour
+public class PlayerSkillCaster : PoolSpawner
 {
     private PlayerStateMachine _stateMachine;
     private PlayerAttack _playerAttack;
@@ -129,7 +129,11 @@ public class PlayerSkillCaster : MonoBehaviour
 
     public void OnSkillEffect()
     {
-        _currentItem.Use(gameObject);
+        GameObject skillObject = GetFromPool(_currentItem.Skill);
+        skillObject.transform.position = transform.position;
+
+        if (!skillObject.TryGetComponent(out SkillBase skill)) return;
+        skill.OnUse(gameObject, _currentItem.Grade);
     }
 
     //스킬 사용 종료 타이밍에 맞춰 애니메이션 이벤트로 호출.
