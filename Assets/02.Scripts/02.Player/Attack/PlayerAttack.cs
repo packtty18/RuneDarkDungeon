@@ -372,6 +372,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnComboSlashVFX()
     {
+        if (_currentCombo == 0) return;
         _slashVFXs[_currentCombo-1].Play();
     }
 
