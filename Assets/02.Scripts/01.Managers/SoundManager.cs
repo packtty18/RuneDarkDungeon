@@ -21,8 +21,10 @@ public enum ESoundType
     Gold_Get,
 
     Player_Walk,
-    Player_BasicAttack,
+    Player_BasicAttack1,
+    Player_BasicAttack2,
     Player_DashAttack,
+    Player_Dash,
     Player_FinisherAttack,
     Player_Land,
 
