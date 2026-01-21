@@ -5,7 +5,7 @@ public class ItemFrameSO : ScriptableObject
 {
     [SerializeField] private SerializableDictionary<EItemGrade, Sprite> _frameDict;
 
-    public Sprite GetBorderSprite(EItemGrade grade)
+    public Sprite GetFrameSprite(EItemGrade grade)
     {
         return _frameDict.GetValueOrDefault(grade);
     }
