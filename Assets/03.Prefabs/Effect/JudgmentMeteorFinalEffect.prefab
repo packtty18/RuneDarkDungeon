@@ -9849,6 +9849,7 @@ GameObject:
   - component: {fileID: 5171934610235052484}
   - component: {fileID: 6039308939940824034}
   - component: {fileID: 4794096531324006657}
+  - component: {fileID: 4407211919245772973}
   m_Layer: 6
   m_Name: JudgmentMeteorFinalEffect
   m_TagString: Untagged
@@ -9914,6 +9915,20 @@ MonoBehaviour:
   _damage: 10
   _autoDeactive: 0
   _deactiveDelay: 0.2
+--- !u!114 &4407211919245772973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4371431931361114031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c307a7cc95692b4ba283587aa31483d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExplosionSkill
+  _explosion: {fileID: 4794096531324006657}
+  _lifeTime: 2
 --- !u!1 &4801799739700875257
 GameObject:
   m_ObjectHideFlags: 0
