@@ -8,7 +8,7 @@ public class LightningZoneSkill : SkillBase
     [SerializeField] private float _interval;
     
     [Header("레전드 추가 스킬")]
-    [SerializeField] private GameObject _finalEffectPrefab;
+    [SerializeField] private HitBox _finalAttack;
     [SerializeField] private RangeData<float> _finalDamage;
     
     [Header("이펙트 오프셋")]
@@ -34,8 +34,7 @@ public class LightningZoneSkill : SkillBase
     private void OnDestroy()
     {
         if (_grade != EItemGrade.Legendary) return;
-        var finalEffect = Instantiate(_finalEffectPrefab, _user.transform.position, Quaternion.identity);
-        if (!finalEffect.TryGetComponent<HitBox>(out var hitbox)) return;
-        hitbox.Activate(_finalDamage.GetRandomValue());
+        var finalAttack = Instantiate(_finalAttack, _user.transform.position, Quaternion.identity);
+        finalAttack.Activate(_finalDamage.GetRandomValue());
     }
 }
