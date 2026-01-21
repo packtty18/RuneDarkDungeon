@@ -358,7 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85c0ebbad8cbf8d47a619ead715ccd7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoolDown
-  _skillCaster: {fileID: 0}
+  _playerContext: {fileID: 0}
   coolDownImages:
   - {fileID: 6606748975092131617}
   - {fileID: 7120636287423438137}
@@ -3575,10 +3575,10 @@ RectTransform:
   - {fileID: 3816285693503968699}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2988384814226841522
 MonoBehaviour:
