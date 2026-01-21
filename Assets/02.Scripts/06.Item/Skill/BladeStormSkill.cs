@@ -36,9 +36,7 @@ public class BladeStormSkill : SkillBase
         Vector3 targetScale = transform.localScale * _uniqueScale;
 
         transform.DOKill();
-        transform.DOScale(targetScale, _scaleDuration) 
-            .SetEase(_ease)
-            .SetLink(gameObject);
+        transform.DOScale(targetScale, _scaleDuration).SetEase(_ease);
     }
     
     private void OnTriggerStay(Collider other)
