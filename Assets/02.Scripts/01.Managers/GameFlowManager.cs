@@ -55,12 +55,12 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
         base.Awake();
         Initialize();
         EventSubscribe();
-        _playerHUD.Hide();
     }
 
     private void Start()
     {
         PlayStartScene();
+        _playerHUD.Hide();
     }
 
     private void Update()

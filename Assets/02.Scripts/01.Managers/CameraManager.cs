@@ -1,8 +1,6 @@
 using Unity.Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Playables;
-using static UnityEditor.SceneView;
+
 
 public class CameraManager : LocalSingleton<CameraManager>
 {

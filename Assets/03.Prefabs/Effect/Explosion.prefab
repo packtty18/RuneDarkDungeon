@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6473843060698987879}
   - component: {fileID: 6462770532719095854}
   - component: {fileID: 586727021727492430}
+  - component: {fileID: 7733653177657426412}
   m_Layer: 6
   m_Name: Explosion
   m_TagString: Untagged
@@ -69,5 +70,19 @@ MonoBehaviour:
   _currentAttackId: 0
   _team: 0
   _damage: 10
-  _autoDeactive: 0
+  _autoDeactive: 1
   _deactiveDelay: 0.2
+--- !u!114 &7733653177657426412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9136232383455400168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c307a7cc95692b4ba283587aa31483d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExplosionSkill
+  _explosion: {fileID: 586727021727492430}
+  _lifeTime: 0.2

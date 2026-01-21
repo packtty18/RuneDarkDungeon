@@ -7,6 +7,14 @@ public class ObjectMoveDestroy : MonoBehaviour
 {
     [Header("충돌 설정")]
     [SerializeField] private LayerMask _hitLayer;
+    [SerializeField] private RangeData<float> _damage;
+
+    [Header("소리")]
+    [SerializeField]
+    private bool _sound;
+    [SerializeField, EnableIf(nameof(_sound))]
+    private ESoundType[] _sounds;
+
 
     [Header("카메라 쉐이크")]
     [SerializeField]
@@ -29,7 +37,6 @@ public class ObjectMoveDestroy : MonoBehaviour
     public float MoveSpeed = 10;
     public bool isCheckHitTag;
     public string mtag;
-    public bool isShieldActive = false;
     public bool isHitMake = true;
 
     float time;
@@ -69,6 +76,9 @@ public class ObjectMoveDestroy : MonoBehaviour
         m_makedObject = Instantiate(m_hitObject, hit.point, Quaternion.LookRotation(hit.normal)).gameObject;
         m_makedObject.transform.parent = transform.parent;
         m_makedObject.transform.localScale = new Vector3(1, 1, 1);
+
+        if (!m_makedObject.TryGetComponent(out ExplosionSkill explosion)) return;
+        explosion.Explosion(_damage.GetRandomValue());
     }
 
     void MakeHitObject(Transform point)
@@ -78,6 +88,9 @@ public class ObjectMoveDestroy : MonoBehaviour
         m_makedObject = Instantiate(m_hitObject, point.transform.position, point.rotation).gameObject;
         m_makedObject.transform.parent = transform.parent;
         m_makedObject.transform.localScale = new Vector3(1, 1, 1);
+        
+        if (!m_makedObject.TryGetComponent(out ExplosionSkill explosion)) return;
+        explosion.Explosion(_damage.GetRandomValue());
     }
 
     void HitObj(RaycastHit hit)
@@ -89,16 +102,14 @@ public class ObjectMoveDestroy : MonoBehaviour
         if(m_gameObjectTail)
             m_gameObjectTail.transform.parent = null;
         MakeHitObject(hit);
-
-        if (isShieldActive)
-        {
-            ShieldActivate m_sc = hit.transform.GetComponent<ShieldActivate>();
-            if(m_sc)
-                m_sc.AddHitObject(hit.point);
-        }
+        
         if (_cameraShake)
         {
             HitShake();
+        }
+        if (_sound)
+        {
+            SoundManager.Instance.Play(_sounds[Random.Range(0, _sounds.Length - 1)], transform.position);
         }
         Destroy(this.gameObject);
         Destroy(m_gameObjectTail, TailDestroyTime);

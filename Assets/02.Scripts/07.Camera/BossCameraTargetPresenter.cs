@@ -1,6 +1,5 @@
 using Unity.Cinemachine;
 using UnityEngine;
-using static UnityEngine.InputManagerEntry;
 
 public class BossCameraTargetPresenter : MonoBehaviour
 {
