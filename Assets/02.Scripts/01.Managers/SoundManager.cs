@@ -24,6 +24,18 @@ public enum ESoundType
     Player_DashAttack,
     Player_FinisherAttack,
     Player_Land,
+
+    Player_Footstep1,
+    Player_Footstep2,
+    Player_Footstep3,
+    Player_Footstep4,
+    Player_Footstep5,
+
+    Player_Grunt1,
+    Player_Grunt2,
+    Player_Grunt3,
+    Player_Grunt4,
+    Player_Grunt5,
     
     Skill_BladeStorm,
     Skill_Lightningzone,
