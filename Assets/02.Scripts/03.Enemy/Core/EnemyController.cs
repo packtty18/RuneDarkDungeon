@@ -379,7 +379,7 @@ public class EnemyController : PoolableObject, IDamageable
 
     public void DropItem()
     {
-        if(!_canDropItem)
+        if(!_canDropItem || _dropper == null)
         {
             return;
         }

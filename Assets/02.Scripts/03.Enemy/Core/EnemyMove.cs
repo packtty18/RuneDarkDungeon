@@ -97,13 +97,19 @@ public class EnemyMove : MonoBehaviour
         EnableAgent();
 
         // Ensure agent is on NavMesh
+        CheckEnemyInNav();
+
+        _agent.SetDestination(_target.position);
+    }
+
+    private void CheckEnemyInNav()
+    {
         if (!_agent.isOnNavMesh)
         {
             TryWarpToNearestNavMesh();
         }
-
-        _agent.SetDestination(_target.position);
     }
+
     private void TryWarpToNearestNavMesh()
     {
         if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, NAVMESH_SAMPLE_RADIUS, NavMesh.AllAreas))
@@ -166,9 +172,19 @@ public class EnemyMove : MonoBehaviour
     [Button, ShowIf(nameof(_onTest))]
     public void ResetAgent()
     {
+        CheckEnemyInNav();
+
         if (_agent != null && _agent.enabled)
         {
-            _agent.ResetPath();
+            if (_agent.isOnNavMesh)
+            {
+                _agent.ResetPath();
+            }
+            else
+            {
+                Debug.LogWarning($"[EnemyMove] ResetAgent skipped: Agent not on NavMesh ({name})");
+            }
+
             _agent.enabled = false;
         }
 
@@ -176,6 +192,7 @@ public class EnemyMove : MonoBehaviour
         _target = null;
         _canRotate = false;
     }
+
 
     private void RotateToTarget()
     {

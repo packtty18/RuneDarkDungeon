@@ -243,6 +243,10 @@ public class PoolManager : GlobalSingleton<PoolManager>
 
     private void OnGetFromPool(GameObject obj)
     {
+        if(obj == null)
+        {
+            return;
+        }
         obj.SetActive(true);
         if (obj.TryGetComponent<PoolableObject>(out var poolable))
         {

@@ -20,6 +20,10 @@ public class ItemDropper : PoolSpawner
         }
 
         List<EPoolType> results = _dropTable.GetDropResult();
+        if (results.Count == 0)
+        {
+            return;
+        }
 
         foreach (var poolType in results)
         {
@@ -27,10 +31,9 @@ public class ItemDropper : PoolSpawner
             {
                 continue;
             }
+
             SpawnItem(poolType);
         }
-
-        Debug.LogWarning("[ItemDropper] 드롭 완료");
     }
 
     private void SpawnItem(EPoolType poolType)
@@ -39,6 +42,11 @@ public class ItemDropper : PoolSpawner
         offset.y = 0f;
 
         GameObject obj = GetFromPool(poolType);
+        if (obj == null)
+        {
+            return;
+        }
+
         if(!obj.TryGetComponent(out ItemBase item))
         {
             Util.ObjectDestroy(obj);
