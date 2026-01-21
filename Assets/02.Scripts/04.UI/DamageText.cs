@@ -14,8 +14,7 @@ public class DamageText : PoolableObject
     [SerializeField] private Vector3 _offset;
     
     private Camera _camera;
-    private Transform _target;
-    private Vector3 _lastKnownPosition;
+    private Vector3 _startPosition;
     private Sequence _sequence;
     private float _currentFloatY;
     
@@ -31,18 +30,7 @@ public class DamageText : PoolableObject
     
     private void UpdatePosition()
     {
-        Vector3 targetPosition;
-
-        if (_target != null)
-        {
-            targetPosition = _target.position;
-            _lastKnownPosition = targetPosition;
-        }
-        else
-        {
-            targetPosition = _lastKnownPosition;
-        }
-        Vector3 screenPosition = _camera.WorldToScreenPoint(targetPosition + _offset);
+        Vector3 screenPosition = _camera.WorldToScreenPoint(_startPosition + _offset);
         screenPosition.y += _currentFloatY;
         transform.position = screenPosition;
     }
@@ -56,9 +44,9 @@ public class DamageText : PoolableObject
         _currentFloatY = 0f;
     }
     
-    public void Show(Transform target, float damage)
+    public void Show(Vector3 position, float damage)
     {
-        _target = target;
+        _startPosition = position;
         _damageTextUI.SetText("{0}", Mathf.RoundToInt(damage));
         PlayAnimation();
     }
@@ -81,6 +69,5 @@ public class DamageText : PoolableObject
     public override void OnDespawn()
     {
         _sequence?.Kill();
-        _target = null;
     }
 }
