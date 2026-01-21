@@ -8,8 +8,8 @@ public class PropObject : MonoBehaviour, IDamageable
     [SerializeField] private ItemDropper _dropper;
 
     [SerializeField] private int _hitCount = 5;
-    
-
+    [SerializeField] private ESoundType _destroySound;
+    [SerializeField] private ESoundType _hitSound;
     public ETeamType Team => ETeamType.Enemy;
 
     private void Awake()
@@ -25,7 +25,12 @@ public class PropObject : MonoBehaviour, IDamageable
 
         if(_hitCount <= 0)
         {
+            SoundManager.Instance?.Play(_destroySound, transform.position);
             Collapse();
+        }
+        else
+        {
+            SoundManager.Instance?.Play(_hitSound, transform.position);
         }
     }
 

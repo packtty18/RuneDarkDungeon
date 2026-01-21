@@ -157,6 +157,8 @@ MonoBehaviour:
   _exploder: {fileID: 3311949127784582391}
   _dropper: {fileID: 5411174032229482373}
   _hitCount: 5
+  _destroySound: 39
+  _hitSound: 37
 --- !u!114 &5411174032229482373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -492,7 +494,7 @@ Transform:
   m_GameObject: {fileID: 7659624777767990004}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.155104, y: -0.1687056, z: -10.740734}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -511,5 +513,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afa33fb2474759d43a4aa64ed49d198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Config: {fileID: 11400000, guid: 29709ee610a907a4c9ef368d98c46fd8, type: 2}
+  Config: {fileID: 11400000, guid: 72e7c8fdcdb35914c9e9c1b1a73387b5, type: 2}
   ClusterPrefab: {fileID: 7413893703867724725}

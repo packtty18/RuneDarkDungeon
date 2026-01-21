@@ -94,7 +94,7 @@ MonoBehaviour:
     data:
       clip: {fileID: 8300000, guid: 2610d05e73b2d4de3b3494ae6311d15c, type: 3}
       isBgm: 0
-      volume: 1
+      volume: 0.5
       minDistance: 10
       maxDistance: 50
   - key: Player_DashAttack
@@ -221,21 +221,21 @@ MonoBehaviour:
       clip: {fileID: 8300000, guid: a0bb6f9a13b500d4da9218cc87fc3817, type: 3}
       isBgm: 0
       volume: 1
-      minDistance: 3
+      minDistance: 1
       maxDistance: 10
   - key: Enemy_Boss_Summon
     data:
       clip: {fileID: 8300000, guid: 6d6b8f80d0ce0064486b430c4bfe58e6, type: 3}
       isBgm: 0
       volume: 1
-      minDistance: 3
+      minDistance: 1
       maxDistance: 10
   - key: Enemy_Boss_Buff
     data:
       clip: {fileID: 8300000, guid: b307b91adb79e8c4aaab3cfa43c4703a, type: 3}
       isBgm: 0
       volume: 1
-      minDistance: 3
+      minDistance: 1
       maxDistance: 10
   - key: Player_Walk
     data:
@@ -314,3 +314,52 @@ MonoBehaviour:
       volume: 1
       minDistance: 5
       maxDistance: 10
+  - key: Enemy_Common_Hit
+    data:
+      clip: {fileID: 8300000, guid: febfa5c8373965648af128aefe19160f, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Common_Dead
+    data:
+      clip: {fileID: 8300000, guid: a2c2472255a8c5c45a0fc365531d9c82, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Enemy_Mage_Cast
+    data:
+      clip: {fileID: 8300000, guid: 11b5a63df7672f544a558b40235554f9, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 10
+  - key: Ememt_Mage_Shoot
+    data:
+      clip: {fileID: 8300000, guid: a1b599e72d83e3d4f8433a8308a54479, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 10
+  - key: Prop_hit
+    data:
+      clip: {fileID: 8300000, guid: cac8048e551368345b3342a990ad9398, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Prop_Destroy1
+    data:
+      clip: {fileID: 8300000, guid: 6e39fed5e96349f47b49062e0f8d61c6, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5
+  - key: Prop_Destroy2
+    data:
+      clip: {fileID: 8300000, guid: eafd0366e726153439e62fd10e87e87b, type: 3}
+      isBgm: 0
+      volume: 1
+      minDistance: 1
+      maxDistance: 5

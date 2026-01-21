@@ -158,8 +158,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afa33fb2474759d43a4aa64ed49d198c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  Config: {fileID: 11400000, guid: 29709ee610a907a4c9ef368d98c46fd8, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::ProceduralMeshExploder.MeshExploder
+  Config: {fileID: 11400000, guid: d9280aae46dddac48997c0c375fabdb3, type: 2}
   ClusterPrefab: {fileID: 8689071308871992637}
 --- !u!1 &4889584689806312459
 GameObject:
@@ -318,6 +318,8 @@ MonoBehaviour:
   _exploder: {fileID: 2913550160138920051}
   _dropper: {fileID: 3560170944536354029}
   _hitCount: 3
+  _destroySound: 38
+  _hitSound: 37
 --- !u!114 &3560170944536354029
 MonoBehaviour:
   m_ObjectHideFlags: 0

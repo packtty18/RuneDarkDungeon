@@ -9,6 +9,7 @@ public class HitState : EnemyState
         base.Enter();
         controller.Move.PauseAgent();
         controller.CancelAttack();
+        controller.Sound.PlayHit();
         controller.Anim.SetTrigger(EnemyAnimator.s_hitTrigger);
     }
 
