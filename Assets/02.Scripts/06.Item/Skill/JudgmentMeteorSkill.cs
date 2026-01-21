@@ -3,7 +3,7 @@ using UnityEngine;
 public class JudgmentMeteorSkill : SkillBase
 {
     [Header("유니크 추가 스킬")]
-    [SerializeField] private DotDealer _skillPrefab;
+    [SerializeField] private DotDealer _dotSkill;
     [SerializeField] private float _interval;
     
     [Header("레전드 추가 스킬")]
@@ -14,18 +14,17 @@ public class JudgmentMeteorSkill : SkillBase
 #if UNITY_EDITOR
     private void Reset()
     {
-        _skillPrefab = GetComponent<DotDealer>();
+        _dotSkill = GetComponent<DotDealer>();
     }
 #endif
     
     protected override void ApplyEffect(GameObject user, EItemGrade grade)
     {
         if (_grade < EItemGrade.Unique) return;
-        var dotSkill = Instantiate(_skillPrefab, transform);
-        dotSkill.StartDot(_damage[grade], _interval, _lifeTime);
+        _dotSkill.StartDot(_damage[grade], _interval, _lifeTime);
     }
 
-    private void OnDestroy()
+    public override void OnDespawn()
     {
         if (_grade != EItemGrade.Legendary) return;
         var finalAttack = Instantiate(_finalAttack, _user.transform.position, Quaternion.identity);
