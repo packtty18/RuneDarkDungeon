@@ -367,7 +367,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnChargeFinisherEffect()
     {
-        _spawner.SpawnGroundEffect(_finisherVFX, _swordPosition.transform.position, transform);
+        _spawner.SpawnGroundEffect(_finisherVFX, _swordPosition.transform.position, transform, _attackConfig.ChargeFinisherDamage);
     }
 
     public void OnComboSlashVFX()

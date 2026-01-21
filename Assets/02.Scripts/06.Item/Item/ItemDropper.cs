@@ -24,6 +24,10 @@ public class ItemDropper : PoolSpawner
 
         foreach (var poolType in results)
         {
+            if (poolType == EPoolType.None)
+            {
+                continue;
+            }
             SpawnItem(poolType);
         }
 
