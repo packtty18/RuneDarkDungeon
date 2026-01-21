@@ -70,6 +70,9 @@ public enum ESoundType
     Prop_hit,
     Prop_Destroy1,
     Prop_Destroy2,
+
+    Explosion1,
+    Explosion2,
 }
 
 public class SoundManager : GlobalSingleton<SoundManager>
