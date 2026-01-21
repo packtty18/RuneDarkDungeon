@@ -7,6 +7,9 @@ public class PlayerSound : MonoBehaviour
 
     [SerializeField]
     private ESoundType[] _yells;
+
+    [SerializeField]
+    private ESoundType[] _attacks;
     public void OnSoundPlay(ESoundType soundType)
     {
         SoundManager.Instance.Play(soundType, transform.position);
@@ -14,11 +17,16 @@ public class PlayerSound : MonoBehaviour
 
     public void OnBasicAttackSound()
     {
-        OnSoundPlay(ESoundType.Player_BasicAttack);
+        OnSoundPlay(_attacks[Random.Range(0, _attacks.Length - 1)]);
     }
     public void OnDashAttackSound()
     {
         OnSoundPlay(ESoundType.Player_DashAttack);
+    }
+
+    public void OnDash()
+    {
+        OnSoundPlay(ESoundType.Player_Dash);
     }
     public void OnFinisherAttackGroundSound()
     {

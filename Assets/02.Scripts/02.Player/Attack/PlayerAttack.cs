@@ -1,6 +1,7 @@
 using Drakkar.GameUtils;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -9,6 +10,7 @@ public class PlayerAttack : MonoBehaviour
     private PlayerAnimator _animator;
     private PlayerMove _playerMove;
     private PlayerStats _stats;
+    private PlayerSound _sound;
     private GroundEffectSpawner _spawner;
 
     private Coroutine _comboTimerCoroutine;
@@ -55,6 +57,7 @@ public class PlayerAttack : MonoBehaviour
         _animator = GetComponent<PlayerAnimator>();
         _stats = GetComponent<PlayerStats>();
         _spawner = GetComponent<GroundEffectSpawner>();
+        _sound = GetComponent<PlayerSound>();
 
         _playerRenderers = GetComponentsInChildren<Renderer>();
     }
@@ -136,7 +139,7 @@ public class PlayerAttack : MonoBehaviour
         _stateMachine.SetActionState(EActionState.DashAttack);
         _playerMove.StartGroundDash(_attackConfig.JumpDashAngle, _attackConfig.JumpDashSpeed);
         VisualHide();
-
+        _sound.OnDash();
         ExecuteSingleAttack(EAttackType.Jump, _attackConfig.JumpDashDamage);
         _currentCombo = 1;
         OnComboChange?.Invoke(_currentCombo, _attackConfig.MaxPhaseCount);
