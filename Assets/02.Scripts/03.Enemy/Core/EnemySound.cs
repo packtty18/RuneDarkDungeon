@@ -9,14 +9,6 @@ public class EnemySound : MonoBehaviour
     [SerializeField] private EnemyController _controller;
     [SerializeField] private EnemyStat _stat;
 
-    [Header("Footstep Settings")]
-    [SerializeField] private float _footstepCooldown = 0.3f; // 발자국 최소 간격
-    private float _lastFootstepTime;
-
-    [Header("Sound Cooldown Settings")]
-    [SerializeField] private float _soundCooldown = 0.1f; // 같은 사운드 최소 간격
-    private Dictionary<ESoundType, float> _lastPlayTime = new Dictionary<ESoundType, float>();
-
     private EEnemyType _enemyType;
     private bool _isInitialized = false;
 
@@ -47,18 +39,25 @@ public class EnemySound : MonoBehaviour
                 EEnemyType.Warrior, new EnemySoundSet
                 {
                     Attack = ESoundType.Enemy_Warrior_Slash,
+                    Hit = ESoundType.Enemy_Common_Hit,
+                    Death = ESoundType.Enemy_Common_Dead,
                 }
             },
             {
                 EEnemyType.Archer, new EnemySoundSet
                 {
                     Attack = ESoundType.Enemy_Archer_Shoot,
+                    Hit = ESoundType.Enemy_Common_Hit,
+                    Death = ESoundType.Enemy_Common_Dead,
                 }
             },
             {
                 EEnemyType.Mage, new EnemySoundSet
                 {
-
+                    Cast = ESoundType.Enemy_Mage_Cast,
+                    Attack = ESoundType.Ememt_Mage_Shoot,
+                    Hit = ESoundType.Enemy_Common_Hit,
+                    Death = ESoundType.Enemy_Common_Dead,
                 }
             },
             {
@@ -66,16 +65,19 @@ public class EnemySound : MonoBehaviour
                 {
                     Attack = ESoundType.Enemy_Elite_Slash,
                     Death = ESoundType.Enemy_Elite_Death,
+                    Hit = ESoundType.Enemy_Common_Hit,
                     Charge = ESoundType.Enemy_Elite_Charge
                 }
             },
             {
                 EEnemyType.Boss, new EnemySoundSet
                 {
+                    Cast = ESoundType.Enemy_Mage_Cast,
                     Attack = ESoundType.Enemy_Boss_Slash,
-                    Death = ESoundType.Enemy_Boss_Death,
                     Charge = ESoundType.Enemy_Boss_Charge,
                     Summon = ESoundType.Enemy_Boss_Summon,
+                    Hit = ESoundType.Enemy_Common_Hit,
+                    Death = ESoundType.Enemy_Boss_Death,
                 }
             }
         };
@@ -83,7 +85,7 @@ public class EnemySound : MonoBehaviour
 
     #region 애니메이션 혹은 state
 
-
+    //애니메이터에서 적용
     [Button("Test Attack")]
     public void PlayAttack()
     {
@@ -95,6 +97,18 @@ public class EnemySound : MonoBehaviour
         }
     }
 
+    [Button("Test Cast")]
+    public void PlayCast()
+    {
+        if (!_isInitialized) return;
+
+        if (_soundSets.TryGetValue(_enemyType, out var soundSet))
+        {
+            PlaySound(soundSet.Cast);
+        }
+    }
+
+
     [Button("Test Death")]
     public void PlayDeath()
     {
@@ -102,7 +116,18 @@ public class EnemySound : MonoBehaviour
 
         if (_soundSets.TryGetValue(_enemyType, out var soundSet))
         {
-            PlaySound(soundSet.Death); // 사망음은 쿨다운 무시
+            PlaySound(soundSet.Death); 
+        }
+    }
+
+    [Button("Test Hit")]
+    public void PlayHit()
+    {
+        if (!_isInitialized) return;
+
+        if (_soundSets.TryGetValue(_enemyType, out var soundSet))
+        {
+            PlaySound(soundSet.Hit,false); 
         }
     }
 
@@ -113,7 +138,7 @@ public class EnemySound : MonoBehaviour
 
         if (_soundSets.TryGetValue(_enemyType, out var soundSet) && soundSet.Charge != ESoundType.None)
         {
-            PlaySoundImmediate(soundSet.Charge);
+            PlaySound(soundSet.Charge);
         }
     }
 
@@ -124,7 +149,7 @@ public class EnemySound : MonoBehaviour
 
         if (_soundSets.TryGetValue(_enemyType, out var soundSet) && soundSet.Summon != ESoundType.None)
         {
-            PlaySoundImmediate(soundSet.Summon);
+            PlaySound(soundSet.Summon);
         }
     }
 
@@ -142,38 +167,17 @@ public class EnemySound : MonoBehaviour
     #endregion
 
     //쿨다운 적용
-    private void PlaySound(ESoundType soundType)
+    private void PlaySound(ESoundType soundType, bool immediate = true)
     {
         if (soundType == ESoundType.None)
             return;
-
-        // 쿨다운 체크
-        if (_lastPlayTime.TryGetValue(soundType, out float lastTime))
-        {
-            if (Time.time - lastTime < _soundCooldown)
-                return;
-        }
-
-        _lastPlayTime[soundType] = Time.time;
 
         // SoundManager를 통해 3D 사운드 재생
         if (SoundManager.IsExist())
         {
-            SoundManager.Instance.Play(soundType, transform.position);
+            SoundManager.Instance.Play(soundType, transform.position, immediate);
         }
     }
-    // 사운드 즉시 재생 (쿨다운 무시) - 사망음 등 중요한 사운드용
-    private void PlaySoundImmediate(ESoundType soundType)
-    {
-        if (soundType == ESoundType.None)
-            return;
-
-        if (SoundManager.IsExist())
-        {
-            SoundManager.Instance.Play(soundType, transform.position);
-        }
-    }
-
 }
 
 /// <summary>
@@ -183,6 +187,8 @@ public class EnemySound : MonoBehaviour
 public class EnemySoundSet
 {
     public ESoundType Attack = ESoundType.None;
+    public ESoundType Cast = ESoundType.None;
+    public ESoundType Hit = ESoundType.None;
     public ESoundType Death = ESoundType.None;
     public ESoundType Charge = ESoundType.None;
     public ESoundType Summon = ESoundType.None;

@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum ESoundType
@@ -28,8 +29,12 @@ public enum ESoundType
     Skill_Lightningzone,
     Skill_JudgmentMeteor,
 
+    Enemy_Common_Hit,
+    Enemy_Common_Dead,
     Enemy_Warrior_Slash,
     Enemy_Archer_Shoot,
+    Enemy_Mage_Cast,
+    Ememt_Mage_Shoot,
     Enemy_Mage_Fireball,
 
     Enemy_Elite_Slash,
@@ -43,7 +48,11 @@ public enum ESoundType
     Enemy_Boss_Death,
     Enemy_Boss_Charge,
     Enemy_Boss_Summon,
-    Enemy_Boss_Buff
+    Enemy_Boss_Buff,
+
+    Prop_hit,
+    Prop_Destroy1,
+    Prop_Destroy2,
 }
 
 public class SoundManager : GlobalSingleton<SoundManager>
@@ -52,6 +61,11 @@ public class SoundManager : GlobalSingleton<SoundManager>
 
     [SerializeField] private AudioSource _bgmSource;
     private SoundFactory _soundFactory;
+
+    [Header("Sound Cooldown Settings")]
+    [SerializeField] private float _soundCooldown = 1f; // 같은 사운드 최소 간격
+    private Dictionary<ESoundType, float> _lastPlayTime = new Dictionary<ESoundType, float>();
+
 
     private float _globalBgmVolume = 1f;
     private float _globalSfxVolume = 1f;
@@ -62,7 +76,7 @@ public class SoundManager : GlobalSingleton<SoundManager>
     {
         base.Awake();
         _database.Init();
-        if(_bgmSource == null)
+        if(_bgmSource == null) 
         {
             CreateBgmSource();
         }
@@ -97,7 +111,7 @@ public class SoundManager : GlobalSingleton<SoundManager>
         _bgmSource.loop = true;
     }
 
-    public void Play(ESoundType key, Vector3 position = default)
+    public void Play(ESoundType key, Vector3 position = default, bool playImmediate = true)
     {
         if (_database.TryGet(key, out var data) == false)
         {
@@ -109,7 +123,14 @@ public class SoundManager : GlobalSingleton<SoundManager>
             PlayInternalBgm(data);
         }
         else
-        {
+        { 
+            if (!playImmediate && _lastPlayTime.TryGetValue(key, out float lastTime))
+            {
+                if (Time.time - lastTime < _soundCooldown)
+                    return;
+            }
+
+            _lastPlayTime[key] = Time.time;
             PlayInternalSfx(data, position);
         }
     }
@@ -130,6 +151,7 @@ public class SoundManager : GlobalSingleton<SoundManager>
     private void PlayInternalSfx(SoundData data, Vector3 position)
     {
         data.volume *= _globalSfxVolume;
+        
         _soundFactory.Play(data, position);
     }
 
