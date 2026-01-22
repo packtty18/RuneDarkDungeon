@@ -19,11 +19,15 @@ public class SelectEventHandler : ISlotEventHandler
         {
             if (slot.IsEmpty) return;
             _selectionManager.SelectItem(slot.Item);
+            
+            SoundManager.Instance?.Play(ESoundType.Rune);
         }
         else
         {
             _inventory.Swap(selectedItem, slot.Item);
             _selectionManager.DeselectItem();
+            
+            SoundManager.Instance?.Play(ESoundType.Rune);
         }
     }
 

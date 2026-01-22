@@ -17,6 +17,8 @@ public class RegisterEventHandler : ISlotEventHandler
         if (!_forge.TryRegister(slot.Item)) return;
         _inventory.Remove(slot.Item);
         _forge.Notify();
+        
+        SoundManager.Instance?.Play(ESoundType.Rune);
     }
     
     public void OnHoverSlot(UI_Slot slot) { }

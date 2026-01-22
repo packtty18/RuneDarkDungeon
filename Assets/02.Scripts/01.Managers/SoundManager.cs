@@ -74,8 +74,7 @@ public enum ESoundType
     Explosion1,
     Explosion2,
     
-    Equip,
-    Unequip,
+    Rune,
     Pop,
     Success,
     Failed,

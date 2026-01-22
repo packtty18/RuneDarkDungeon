@@ -44,6 +44,8 @@ public class UpgradePresenter : MonoBehaviour
         _inventory.Add(slot.Item);
         _forge.Unregister(slot.Item);
         _forge.Notify();
+        
+        SoundManager.Instance?.Play(ESoundType.Rune);
     }
 
     public void HandleModeChanged(EInventoryMode mode)
