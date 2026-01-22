@@ -374,9 +374,8 @@ public class EnemyController : PoolableObject, IDamageable
     {
         EnablePhysics(false);
         UIDisable();
-        ReturnToPoolAfter(5);
-        
         OnDead?.Invoke(this);
+        ReturnToPoolAfter(5);
     }
 
     public void DropItem()
