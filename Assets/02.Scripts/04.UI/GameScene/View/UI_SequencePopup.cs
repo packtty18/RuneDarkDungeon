@@ -18,8 +18,10 @@ public class UI_SequencePopup : MonoBehaviour
     
     public void PlayAnimation()
     {
+        CursorManager.Instance?.SetCursorLock(false);
+        
         _sequence?.Kill();
-        _sequence = DOTween.Sequence();
+        _sequence = DOTween.Sequence().SetUpdate(true);
         
         _scrollRect.verticalNormalizedPosition = 1f;
         
@@ -32,10 +34,5 @@ public class UI_SequencePopup : MonoBehaviour
             _sequence.Insert(startTime, child.DOScale(1f, _scaleTime).SetEase(_easeType));
             count++;
         }
-        
-        _sequence.OnComplete(() => 
-        {
-            CursorManager.Instance?.SetCursorLock(false);
-        });
     }
 }
