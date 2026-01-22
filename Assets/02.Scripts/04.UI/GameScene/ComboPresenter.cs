@@ -46,12 +46,13 @@ public class ComboPresenter : MonoBehaviour
         }
         else if (currentCombo == maxCombo)
         {
-            _charging.Stop();
+            _charging.StopAndReset();
             _charging.Hide();
             _finisher.PunchFadeIn();
         }
         else
         {
+            HideAll();
             _comboText.text = $"{currentCombo}";
             _combo.Show();
             _combo.ScalePunch();
@@ -60,15 +61,14 @@ public class ComboPresenter : MonoBehaviour
 
     void OnCharging(bool _isCharged)
     {
+        HideAll();
         if (!_isCharged)
         {
-            _combo.Hide();
             _charging.Show();
             _charging.ShakeLoop(50);
         }
         else
         {
-            HideAll();
             _charging.StopAndReset();
             _chargingFinisher.PunchFadeIn();
         }
