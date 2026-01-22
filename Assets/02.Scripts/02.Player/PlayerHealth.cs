@@ -25,7 +25,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void ApplyDamage(DamageData data)
     {
-        if (_stateMachine.CurrentState == EPlayerState.Dead) return;
+        if (_stateMachine.CurrentState == EPlayerState.Dead || _stateMachine.CurrentActionState == EActionState.Skill) return;
 
         
         _stats.Health.Consume(_stats.CalculateReceivedDamage(data));

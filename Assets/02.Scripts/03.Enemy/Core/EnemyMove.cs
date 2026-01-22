@@ -59,7 +59,7 @@ public class EnemyMove : MonoBehaviour
         }
 
         SetAgentSetting();
-
+        CheckEnemyInNav();
         _isPaused = false;
         _target = null;
         _canRotate = false;
@@ -96,9 +96,6 @@ public class EnemyMove : MonoBehaviour
 
         EnableAgent();
 
-        // Ensure agent is on NavMesh
-        CheckEnemyInNav();
-
         _agent.SetDestination(_target.position);
     }
 
@@ -119,7 +116,6 @@ public class EnemyMove : MonoBehaviour
         }
         else
         {
-            GetComponent<EnemyController>().Dead();
             Debug.LogWarning("[EnemyMove] Failed to find nearby NavMesh.");
         }
     }
@@ -172,8 +168,6 @@ public class EnemyMove : MonoBehaviour
     [Button, ShowIf(nameof(_onTest))]
     public void ResetAgent()
     {
-        CheckEnemyInNav();
-
         if (_agent != null && _agent.enabled)
         {
             if (_agent.isOnNavMesh)
@@ -222,6 +216,7 @@ public class EnemyMove : MonoBehaviour
             return;
 
         _agent.enabled = true;
+        CheckEnemyInNav();
         // Warp를 통해 현재 위치를 Agent에 명확히 설정
         _agent.Warp(transform.position);
         _canRotate = false;
@@ -231,7 +226,7 @@ public class EnemyMove : MonoBehaviour
     {
         if (!IsAgentActive)
             return;
-
+        CheckEnemyInNav();
         _agent.ResetPath();
         _agent.enabled = false;
         _canRotate = true;
