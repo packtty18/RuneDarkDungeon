@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 using TMPro;
 
 public class RewardPresenter : MonoBehaviour
@@ -12,14 +11,11 @@ public class RewardPresenter : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _titleTextUI;
     
     [Header("설정")]
-    [SerializeField] private float _startDelay = 1f;
     [SerializeField] private string _victoryString = "VICTORY";
     [SerializeField] private string _defeatString = "DEFEAT";
     
     private IReadOnlyList<ItemData> _items;
     private IReadOnlyCurrency _gold;
-
-    private Tween _delayedShow;
     
     public void Initialize(IReadOnlyList<ItemData> items, IReadOnlyCurrency gold)
     {
@@ -42,13 +38,8 @@ public class RewardPresenter : MonoBehaviour
     private void ShowReward()
     {
         _rewardUI.Refresh(_items);
-        
-        _delayedShow?.Kill();
-        _delayedShow = DOVirtual.DelayedCall(_startDelay, () =>
-        {
-            _rewardUI.Show();
-            _sequencePopup.PlayAnimation();
-            _rewardGoldTextUI.Refresh(_gold.Amount);
-        });
+        _rewardUI.Show();
+        _sequencePopup.PlayAnimation();
+        _rewardGoldTextUI.Refresh(_gold.Amount);
     }
 }
