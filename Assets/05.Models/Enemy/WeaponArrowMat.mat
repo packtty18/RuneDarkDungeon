@@ -13,7 +13,6 @@ Material:
   m_ModifiedSerializedProperties: 2
   m_ValidKeywords:
   - _ALBEDOVERTEXCOLORMODE_REPLACE
-  - _CAST_SHADOWS_ON
   - _COLORRAMPLIGHTINGSTAGE_AFTERLIGHTING
   - _FADEUVSET_WORLD_SPACE
   - _FADE_ON
@@ -26,7 +25,7 @@ Material:
   - _OUTLINETYPE_SIMPLE
   - _RECEIVEDSHADOWSTYPE_CLASSIC
   - _RECEIVE_SHADOWS_ON
-  - _REFLECTIONS_TOON
+  - _REFLECTIONS_NONE
   - _RIMLIGHTINGSTAGE_BEFORELIGHTINGLAST
   - _RIM_LIGHTING_ON
   - _SHADINGMODEL_PBR
@@ -71,6 +70,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoffOn: 0
+    - _CastShadowsOn: 0
     - _EmissionEnabled: 0
     - _FadeBurnOn: 0
     - _FadeUVSet: 2
@@ -78,9 +78,11 @@ Material:
     - _LightModel: 2
     - _OutlineThickness: 0.36
     - _OutlineType: 1
-    - _Reflections: 2
+    - _Reflections: 0
     - _Smoothness: 0.393
     - _SpecularModel: 2
+    - _ToonCutoff: 0
+    - _ToonSmoothness: 0
     m_Colors:
     - _BaseColor: {r: 0.2345506, g: 0.17144111, b: 0.0998987, a: 1}
     - _Color: {r: 0.2345505, g: 0.17144105, b: 0.099898644, a: 1}
