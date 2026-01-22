@@ -138,7 +138,7 @@ public class EnemyAttackObject : PoolableObject
             EnemyAttackObject attackObj =
                 obj.GetComponent<EnemyAttackObject>();
 
-            attackObj?.Initialize(Owner);
+            attackObj?.Initialize(Owner, _damage);
 
             //Debug.Log($"[EnemyAttackObject] Spawned {i + 1}/{count}");
 
@@ -166,7 +166,7 @@ public class EnemyAttackObject : PoolableObject
             EnemyAttackObject attackObj =
                 obj.GetComponent<EnemyAttackObject>();
 
-            attackObj?.Initialize(Owner);
+            attackObj?.Initialize(Owner,_damage);
 
             //Debug.Log($"[EnemyAttackObject] Spawned {i + 1}/{count}");
 
