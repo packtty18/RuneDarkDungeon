@@ -15,7 +15,7 @@ public class UI_Tooltip : MonoBehaviour
 
     public void Show(ItemSO info, Transform icon, int gold = 0)
     {
-        _nameTextUI.text = info.name;
+        _nameTextUI.text = info.Name;
         _tooltipTextUI.text = info.Tooltip;
         _goldTextUI.SetText("{0} 골드", gold);
         
