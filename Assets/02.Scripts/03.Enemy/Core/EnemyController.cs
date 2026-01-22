@@ -210,7 +210,7 @@ public class EnemyController : PoolableObject, IDamageable
     }
 
     [Button]
-    private void OnPause(bool paused)
+    public void OnPause(bool paused)
     {
         _paused = paused;
 

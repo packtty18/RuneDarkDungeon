@@ -63,11 +63,11 @@ public class EnemySpawnManager : SerializedMonoBehaviour
         //WakeUpEnemies();
     }
 
-    private void WakeUpEnemies()
+    public  void PauseAllEnemy()
     {
         foreach (EnemyController enemy in _list)
         {
-            //enemy.WakeUp();
+            enemy.OnPause(true);
 
         }
     }

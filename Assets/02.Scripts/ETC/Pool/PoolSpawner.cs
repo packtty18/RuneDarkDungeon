@@ -8,7 +8,6 @@ public class PoolSpawner : MonoBehaviour
         GameObject obj = PoolManager.Instance.Get(poolType);
         if (obj == null)
         {
-            Debug.LogError($"[PoolSpawner] Spawn failed : {poolType}");
             return null;
         }
 

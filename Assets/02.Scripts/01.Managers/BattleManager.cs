@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -63,7 +64,9 @@ public class BattleManager : LocalSingleton<BattleManager>
                 break;
 
             case EBattleState.Defeat:
+
                 OnBattleLose?.Invoke();
+                PauseAllEnemy();
                 break;
         }
     }
@@ -122,6 +125,11 @@ public class BattleManager : LocalSingleton<BattleManager>
         ActiveCurrentSpawnManager();
     }
 
+    private void PauseAllEnemy()
+    {
+        EnemySpawnManager manager = _spawnManagers[_currentIndex];
+        manager.PauseAllEnemy();
+    }
     [Button]
     public void NotifyActiveStage()
     {
