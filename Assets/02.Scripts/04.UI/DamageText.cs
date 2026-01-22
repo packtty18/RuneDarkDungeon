@@ -17,8 +17,8 @@ public class DamageText : PoolableObject
     private Vector3 _startPosition;
     private Sequence _sequence;
     private float _currentFloatY;
-    
-    private void Awake()
+
+    private void OnEnable()
     {
         _camera = Camera.main;
     }

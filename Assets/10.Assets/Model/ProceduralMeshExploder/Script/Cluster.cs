@@ -10,59 +10,82 @@ namespace ProceduralMeshExploder
         public MeshCollider MeshCollider;
         public Rigidbody Rigidbody;
 
-        public Cluster Spawn(Triangle[] triangleGroup, Vector3 velocity, int layer, bool useMeshColliders, bool recalculateNormals)
+        private const float MIN_COLLIDER_SIZE = 0.01f;
+
+        public Cluster Spawn(
+            Triangle[] triangleGroup,
+            Vector3 velocity,
+            int layer,
+            bool useMeshColliders,
+            bool recalculateNormals)
         {
-            //Debug.DrawLine(transform.position, transform.position + velocity, Color.green, 30.0f, false);
-
-            Vector3[] vertices;
-        
-            int[] triangles;
-
-            vertices = new Vector3[triangleGroup.Length * 6];
-            triangles = new int[vertices.Length * 2];
+            Vector3[] vertices = new Vector3[triangleGroup.Length * 6];
+            int[] triangles = new int[vertices.Length * 2];
 
             int vertexIndex = 0;
             int trisIndex = 0;
 
-            for (int triangle = 0; triangle < triangleGroup.Length; triangle++)
+            for (int i = 0; i < triangleGroup.Length; i++)
             {
                 triangles[trisIndex++] = vertexIndex;
-                vertices[vertexIndex++] = triangleGroup[triangle].Vertices[0];
+                vertices[vertexIndex++] = triangleGroup[i].Vertices[0];
                 triangles[trisIndex++] = vertexIndex;
-                vertices[vertexIndex++] = triangleGroup[triangle].Vertices[1];
+                vertices[vertexIndex++] = triangleGroup[i].Vertices[1];
                 triangles[trisIndex++] = vertexIndex;
-                vertices[vertexIndex++] = triangleGroup[triangle].Vertices[2];
-            
+                vertices[vertexIndex++] = triangleGroup[i].Vertices[2];
+
                 triangles[trisIndex++] = vertexIndex;
-                vertices[vertexIndex++] = triangleGroup[triangle].Vertices[2];
+                vertices[vertexIndex++] = triangleGroup[i].Vertices[2];
                 triangles[trisIndex++] = vertexIndex;
-                vertices[vertexIndex++] = triangleGroup[triangle].Vertices[1];
+                vertices[vertexIndex++] = triangleGroup[i].Vertices[1];
                 triangles[trisIndex++] = vertexIndex;
-                vertices[vertexIndex++] = triangleGroup[triangle].Vertices[0];
+                vertices[vertexIndex++] = triangleGroup[i].Vertices[0];
             }
 
             gameObject.layer = layer;
 
-            MeshFilter.sharedMesh = new Mesh();
-            MeshFilter.sharedMesh.vertices = vertices;
-            MeshFilter.sharedMesh.triangles = triangles;
-            if(recalculateNormals) MeshFilter.sharedMesh.RecalculateNormals();
+            Mesh mesh = new Mesh();
+            mesh.vertices = vertices;
+            mesh.triangles = triangles;
 
-            if (useMeshColliders)
+            if (recalculateNormals)
+                mesh.RecalculateNormals();
+
+            mesh.RecalculateBounds();
+            MeshFilter.sharedMesh = mesh;
+
+            Bounds bounds = mesh.bounds;
+
+            bool canUseMeshCollider =
+                useMeshColliders &&
+                vertices.Length >= 4 &&
+                bounds.size.x > MIN_COLLIDER_SIZE &&
+                bounds.size.y > MIN_COLLIDER_SIZE &&
+                bounds.size.z > MIN_COLLIDER_SIZE;
+
+            MeshCollider.enabled = false;
+            BoxCollider.enabled = false;
+
+            if (canUseMeshCollider)
             {
-                MeshCollider.sharedMesh = MeshFilter.sharedMesh;
+                MeshCollider.sharedMesh = mesh;
+                MeshCollider.convex = true; // ⭐ 필수
                 MeshCollider.enabled = true;
             }
             else
             {
-                Bounds bounds = GeometryUtility.CalculateBounds(vertices, Matrix4x4.identity);
                 BoxCollider.size = bounds.size;
                 BoxCollider.center = bounds.center;
                 BoxCollider.enabled = true;
+
+                Debug.Log(
+                    $"[Cluster] Fallback to BoxCollider (size={bounds.size})",
+                    this
+                );
             }
 
             Rigidbody.linearVelocity = velocity;
-            Rigidbody.angularVelocity = Random.rotation.eulerAngles * 360.0f;
+            Rigidbody.angularVelocity = Random.insideUnitSphere * 360f;
 
             gameObject.SetActive(true);
             return this;

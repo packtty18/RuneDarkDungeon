@@ -149,6 +149,7 @@ public class EnemySpawnManager : SerializedMonoBehaviour
     private void HandleEnemyDead(EnemyController enemy)
     {
         enemy.OnDead.Unsubscribe(HandleEnemyDead);
+        _list.Remove(enemy);
         _aliveEnemyCount--;
 
         Debug.Log($"[SpawnManager] 남은 적 : {_aliveEnemyCount}");
