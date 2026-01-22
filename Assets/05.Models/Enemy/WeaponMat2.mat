@@ -14,6 +14,7 @@ Material:
   m_ValidKeywords:
   - _ALBEDOVERTEXCOLORMODE_REPLACE
   - _ALPHA_CUTOFF_ON
+  - _CAST_SHADOWS_ON
   - _COLORRAMPLIGHTINGSTAGE_AFTERLIGHTING
   - _EMISSION_ON
   - _FADEUVSET_WORLD_SPACE
@@ -27,7 +28,6 @@ Material:
   - _MATCAPBLENDMODE_MULTIPLY
   - _OUTLINETYPE_SIMPLE
   - _RECEIVEDSHADOWSTYPE_CLASSIC
-  - _RECEIVE_SHADOWS_ON
   - _REFLECTIONS_NONE
   - _RIMLIGHTINGSTAGE_BEFORELIGHTINGLAST
   - _RIM_LIGHTING_ON
@@ -75,11 +75,11 @@ Material:
     m_Floats:
     - _AlphaCutoffOn: 1
     - _FadeBurnOn: 1
-    - _OutlineThickness: 2
+    - _OutlineThickness: 0.83
     m_Colors:
     - _EmissionColor: {r: 1.016, g: 1.016, b: 1.016, a: 1}
     - _FadeBurnColor: {r: 0.05601415, g: 0, b: 0, a: 1}
-    - _OutlineColor: {r: 1, g: 0.6562562, b: 0, a: 1}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 0.9481132, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

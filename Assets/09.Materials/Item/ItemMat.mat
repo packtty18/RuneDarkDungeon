@@ -8,12 +8,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ItemMat
-  m_Shader: {fileID: 4800000, guid: a4c8f68acf7c9844e97a36914026acb1, type: 3}
+  m_Shader: {fileID: 4800000, guid: 7fd6f68952c76af4c8005466df606651, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALBEDOVERTEXCOLORMODE_REPLACE
-  - _CAST_SHADOWS_ON
   - _COLORRAMPLIGHTINGSTAGE_AFTERLIGHTING
   - _FADEUVSET_UV1
   - _FOG_ON
@@ -24,7 +23,6 @@ Material:
   - _MATCAPBLENDMODE_MULTIPLY
   - _OUTLINETYPE_SIMPLE
   - _RECEIVEDSHADOWSTYPE_CLASSIC
-  - _RECEIVE_SHADOWS_ON
   - _REFLECTIONS_NONE
   - _RIMLIGHTINGSTAGE_BEFORELIGHTINGLAST
   - _SHADINGMODEL_PBR
@@ -225,7 +223,7 @@ Material:
     - _Brightness: 0
     - _BrightnessLM: 0
     - _BumpScale: 1
-    - _CastShadowsOn: 1
+    - _CastShadowsOn: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _ColorMask: 15
@@ -357,7 +355,7 @@ Material:
     - _PosterizeNumColors: 8
     - _QueueOffset: 0
     - _RecalculateNormals: 0
-    - _ReceiveShadows: 1
+    - _ReceiveShadows: 0
     - _ReceivedShadowsType: 0
     - _Reflections: 0
     - _ReflectionsAtten: 1
@@ -399,9 +397,9 @@ Material:
     - _TextureBlendingMode: 0
     - _TextureBlendingSource: 0
     - _TimingSeed: 0
-    - _ToonCutoff: 0.732
+    - _ToonCutoff: 0
     - _ToonFactor: 0
-    - _ToonSmoothness: 0.037
+    - _ToonSmoothness: 0
     - _TopNormalStrength: 1
     - _TriplanarMappingOn: 0
     - _TriplanarNoiseTransitionOn: 0
