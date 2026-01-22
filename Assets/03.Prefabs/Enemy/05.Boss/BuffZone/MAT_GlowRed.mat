@@ -20,7 +20,7 @@ Material:
   - _FADEUVSET_UV1
   - _GREYSCALESTAGE_BEFORELIGHTING
   - _HEIGHTGRADIENTPOSITIONSPACE_LOCAL
-  - _LIGHTMODEL_NONE
+  - _LIGHTMODEL_CLASSIC
   - _MATCAPBLENDMODE_MULTIPLY
   - _OUTLINETYPE_NONE
   - _RECEIVEDSHADOWSTYPE_CLASSIC
@@ -245,7 +245,7 @@ Material:
     - _FlatNormalsBlend: 1
     - _FlatNormalsEnabled: 0
     - _FogOn: 0
-    - _GeneralAlpha: 0.5
+    - _GeneralAlpha: 0.65
     - _Glitch: 0
     - _GlitchAmount: 0.5
     - _GlitchSpeed: 2.5
@@ -298,7 +298,7 @@ Material:
     - _IntersectionFadeFactor: 1
     - _IntersectionFadeOn: 0
     - _IntersectionGlowOn: 0
-    - _LightModel: 0
+    - _LightModel: 1
     - _LightmapColorCorrection: 0
     - _Matcap: 0
     - _MatcapBlend: 1
@@ -310,7 +310,7 @@ Material:
     - _MaxGradientHeight: 0.75
     - _MaxInflate: 0.2
     - _MaxRim: 1
-    - _Metallic: 0.387
+    - _Metallic: 0
     - _MetallicMapOn: 0
     - _MinDistanceToFade: 0
     - _MinGradientHeight: 0
@@ -336,7 +336,7 @@ Material:
     - _ReceiveShadowsOn: 1
     - _ReceivedShadowsType: 0
     - _Reflections: 1
-    - _ReflectionsAtten: 0.25
+    - _ReflectionsAtten: 0.5
     - _RenderPreset: 2
     - _RimAttenuation: 0.3
     - _RimLighting: 1
@@ -355,9 +355,9 @@ Material:
     - _ShakeBlend: 1
     - _ShakeSpeedMult: 1
     - _Shininess: 16
-    - _Smoothness: 0.601
+    - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
-    - _SpecularAtten: 1
+    - _SpecularAtten: 0.5
     - _SpecularHighlights: 1
     - _SpecularModel: 1
     - _SpecularToonCutoff: 0.35
@@ -373,7 +373,7 @@ Material:
     - _TextureBlendingMode: 0
     - _TextureBlendingSource: 0
     - _TimingSeed: 0
-    - _ToonCutoff: 0.5
+    - _ToonCutoff: 0
     - _ToonFactor: 0
     - _ToonSmoothness: 0.5
     - _TopNormalStrength: 1
