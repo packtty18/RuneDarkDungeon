@@ -219,7 +219,7 @@ public class PlayerAttack : MonoBehaviour
         }
         //일반 콤보 피니셔.
         ExecuteComboAttack();
-        Debug.Log($"[Attack] 콤보 피니셔 {_currentCombo}타");
+        //Debug.Log($"[Attack] 콤보 피니셔 {_currentCombo}타");
         OnComboChange?.Invoke(_currentCombo, _attackConfig.MaxPhaseCount);
         yield return null;
     }
@@ -228,7 +228,7 @@ public class PlayerAttack : MonoBehaviour
     private void ExecuteChargeFinisherAttack()
     {
         _stateMachine.SetActionState(EActionState.Finisher);
-        Debug.Log($"[Attack] Type: Basic | Charge Finisher | Damage: {_attackConfig.ChargeFinisherDamage}");
+        //Debug.Log($"[Attack] Type: Basic | Charge Finisher | Damage: {_attackConfig.ChargeFinisherDamage}");
         _currentDamage = _stats.CalculateDealDamage(_attackConfig.ChargeFinisherDamage);
         _animator.PlayChargeFinisher();
     }
@@ -236,14 +236,14 @@ public class PlayerAttack : MonoBehaviour
     //콤보 없는 단일 공격 실행 - 애니메이션 이벤트로 OnAttackFinish() 실행 필요.
     private void ExecuteSingleAttack(EAttackType type, float damage)
     {
-        Debug.Log($"[Attack] Type: {type} | Skill | Damage: {damage}");
+        //Debug.Log($"[Attack] Type: {type} | Skill | Damage: {damage}");
         _currentDamage = _stats.CalculateDealDamage(damage);
         _animator.PlaySingleAttack(type);
     }
 
     private void ExecuteComboAttack()
     {
-        Debug.Log($"[Attack] Type: Basic | {_currentCombo} Combo | Damage: {_attackConfig.Damage}");
+        //Debug.Log($"[Attack] Type: Basic | {_currentCombo} Combo | Damage: {_attackConfig.Damage}");
         _currentDamage = _stats.CalculateDealDamage(_attackConfig.Damage);
         _animator.PlayComboAttack(_currentCombo);
     }    
@@ -270,7 +270,7 @@ public class PlayerAttack : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("[Attack] 콤보 타이머 만료 - 초기화");
+        //Debug.Log("[Attack] 콤보 타이머 만료 - 초기화");
         EndCombo();
     }
 

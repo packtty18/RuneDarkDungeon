@@ -32,7 +32,7 @@ public class PlayerRotate : MonoBehaviour
             Ray ray = new Ray(_camera.transform.position, dir);
             if (Physics.Raycast(ray, out hit, 100.0f, _mask))
             {
-                Debug.Log($"Raycast Camera @ {hit.collider.gameObject.name}");
+                //Debug.Log($"Raycast Camera @ {hit.collider.gameObject.name}");
                 _isRotating = true;
             }
         }

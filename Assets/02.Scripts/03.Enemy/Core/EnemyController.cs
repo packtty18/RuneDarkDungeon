@@ -523,7 +523,7 @@ public class EnemyController : PoolableObject, IDamageable
                 layer == LayerMask.NameToLayer("Obstacle") ||
                 layer == LayerMask.NameToLayer("Default"))
             {
-                Debug.Log($"[EnemyController] 충돌 감지: {collision.gameObject.name} - 돌진 중단");
+                //Debug.Log($"[EnemyController] 충돌 감지: {collision.gameObject.name} - 돌진 중단");
                 FSM.ChangeState(EEnemyState.Chase);
             }
         }

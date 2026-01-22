@@ -111,7 +111,7 @@ public class EnemyMove : MonoBehaviour
     {
         if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, NAVMESH_SAMPLE_RADIUS, NavMesh.AllAreas))
         {
-            Debug.Log($"[EnemyMove] Warped to nearest NavMesh at {hit.position}");
+            //Debug.Log($"[EnemyMove] Warped to nearest NavMesh at {hit.position}");
             _agent.Warp(hit.position);
         }
         else

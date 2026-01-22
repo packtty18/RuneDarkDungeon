@@ -8,7 +8,7 @@ public abstract class EnemyDelaySOBase : ScriptableObject
 
     public virtual void BeginLoop()
     {
-        Debug.Log($"{_delay}뒤 공격 실행");
+        //Debug.Log($"{_delay}뒤 공격 실행");
     }
 
     //실제 효과 발동

@@ -26,7 +26,7 @@ public class EnemySpawner : PoolSpawner
         Vector3 spawnPos = CalculateSpawnPosition();
         enemy.transform.position = spawnPos;
         
-        Debug.Log($"[EnemySpawner] 스폰 위치 설정: {spawnPos}, 실제 위치: {enemy.transform.position}");
+        //Debug.Log($"[EnemySpawner] 스폰 위치 설정: {spawnPos}, 실제 위치: {enemy.transform.position}");
         
         return enemy;
     }

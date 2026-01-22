@@ -44,12 +44,12 @@ public class EnemySpawnManager : SerializedMonoBehaviour
         _list.Clear();
         if (_currentPhase >= _phaseDatas.Count)
         {
-            Debug.Log("[SpawnManager] 모든 페이즈 실행 완료. 완료이벤트 실행");
+            //Debug.Log("[SpawnManager] 모든 페이즈 실행 완료. 완료이벤트 실행");
             OnAllPhaseCompleted?.Invoke();
             return;
         }
 
-        Debug.Log($"[SpawnManager] {_currentPhase} 페이즈 시작");
+        //Debug.Log($"[SpawnManager] {_currentPhase} 페이즈 시작");
 
         SpawnByData(_phaseDatas[_currentPhase], true);
     }
@@ -117,7 +117,7 @@ public class EnemySpawnManager : SerializedMonoBehaviour
             // 4. 초기화 (물리 엔진 활성화 포함)
             enemy.Init();
             
-            Debug.Log($"[EnemySpawnManager] {type} 스폰 완료 - 최종 위치: {enemy.transform.position}");
+            //Debug.Log($"[EnemySpawnManager] {type} 스폰 완료 - 최종 위치: {enemy.transform.position}");
 
             _list.Add(enemy);
         }
@@ -152,7 +152,7 @@ public class EnemySpawnManager : SerializedMonoBehaviour
         _list.Remove(enemy);
         _aliveEnemyCount--;
 
-        Debug.Log($"[SpawnManager] 남은 적 : {_aliveEnemyCount}");
+        //Debug.Log($"[SpawnManager] 남은 적 : {_aliveEnemyCount}");
 
         if (_aliveEnemyCount <= _nextPhaseThreshold)
         {

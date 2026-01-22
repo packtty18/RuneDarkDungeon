@@ -73,7 +73,7 @@ public class PlayerSkillCaster : PoolSpawner
         // 2. 쿨다운 체크.
         if (_cooldowns[slot] > 0f)
         {
-            Debug.Log($"[Skill] {slot} 쿨다운 중: {_cooldowns[slot]:F1}초 남음");
+            //Debug.Log($"[Skill] {slot} 쿨다운 중: {_cooldowns[slot]:F1}초 남음");
             return;
         }
 
@@ -124,7 +124,7 @@ public class PlayerSkillCaster : PoolSpawner
 
         _playerAttack.OnSkillInterrupt();
 
-        Debug.Log($"[Skill] 스킬 실행");
+        //Debug.Log($"[Skill] 스킬 실행");
     }
 
     public void OnSkillEffect()
@@ -145,6 +145,6 @@ public class PlayerSkillCaster : PoolSpawner
 
         _currentSlot = ESkillSlot.None;
 
-        Debug.Log($"[Skill] 스킬 종료");
+        //Debug.Log($"[Skill] 스킬 종료");
     }
 }

@@ -43,7 +43,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
 
 
-        Debug.Log($"{gameObject.name} 피격, {data.AttackId}");
+        //Debug.Log($"{gameObject.name} 피격, {data.AttackId}");
     }
 
     private void Awake()

@@ -43,7 +43,7 @@ public class EnemyStateMachine
     //새로운 상태 만들경우 추가
     private EnemyState CreateState(EEnemyState type)
     {
-        Debug.Log($"[FSM] Create State : {type}");
+        //Debug.Log($"[FSM] Create State : {type}");
 
         return type switch
         {

@@ -33,7 +33,7 @@ public class EnemyDamageFeedback : MonoBehaviour
 
         _mpb = new MaterialPropertyBlock();
 
-        Debug.Log("[DamageFeedback] Initialized (All In 1 3D Shader Hit)");
+        //Debug.Log("[DamageFeedback] Initialized (All In 1 3D Shader Hit)");
     }
 
     private void OnEnable()

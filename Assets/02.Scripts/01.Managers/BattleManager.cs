@@ -45,7 +45,7 @@ public class BattleManager : LocalSingleton<BattleManager>
             return;
 
         _state = newState;
-        Debug.Log($"[BattleManager] State → {_state}");
+        //Debug.Log($"[BattleManager] State → {_state}");
         OnBattleStateChanged?.Invoke(_state);
 
         switch (_state)
@@ -83,7 +83,7 @@ public class BattleManager : LocalSingleton<BattleManager>
     {
         if (_isStageRunning)
         {
-            Debug.Log("[BattleManager] Resume Stage");
+            //Debug.Log("[BattleManager] Resume Stage");
             return;
         }
 

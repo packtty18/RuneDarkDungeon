@@ -83,7 +83,7 @@ public class EnemyAttack : MonoBehaviour
         yield return new WaitForSeconds(controller.Stat.GetValue(EEnemyValueFloat.ChargeCooldown).Value);
 
         controller.Stat.SetActiveCharge(true);
-        Debug.Log($"[{this}] : 돌진 충전 완료");
+        //Debug.Log($"[{this}] : 돌진 충전 완료");
     }
     #endregion
 

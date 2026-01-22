@@ -78,10 +78,10 @@ namespace ProceduralMeshExploder
                 BoxCollider.center = bounds.center;
                 BoxCollider.enabled = true;
 
-                Debug.Log(
+                /*Debug.Log(
                     $"[Cluster] Fallback to BoxCollider (size={bounds.size})",
                     this
-                );
+                );*/
             }
 
             Rigidbody.linearVelocity = velocity;

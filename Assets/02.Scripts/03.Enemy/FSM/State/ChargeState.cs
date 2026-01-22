@@ -36,7 +36,7 @@ public class ChargeState : EnemyState
         controller.Attack.StartCharge();
         
         _chargeCount = 0;
-        Debug.Log("[ChargeState] Enter - 돌진 시작");
+        //Debug.Log("[ChargeState] Enter - 돌진 시작");
     }
 
     private void SetDestination()

@@ -107,7 +107,7 @@ public class EnemyAttackObject : PoolableObject
         _hitBox.transform.position = position;
         _hitBox.Activate(_damage);
 
-        Debug.Log("[EnemyAttackObject] HitBox activated");
+        //Debug.Log("[EnemyAttackObject] HitBox activated");
     }
 
     public void DeactivateHitBox()
@@ -116,7 +116,7 @@ public class EnemyAttackObject : PoolableObject
             return;
 
         _hitBox.Deactivate();
-        Debug.Log("[EnemyAttackObject] HitBox deactivated");
+        //Debug.Log("[EnemyAttackObject] HitBox deactivated");
     }
 
     public void StartSpawnRoutine(GameObject prefab,Vector3 position,int count,float delay)
@@ -140,7 +140,7 @@ public class EnemyAttackObject : PoolableObject
 
             attackObj?.Initialize(Owner);
 
-            Debug.Log($"[EnemyAttackObject] Spawned {i + 1}/{count}");
+            //Debug.Log($"[EnemyAttackObject] Spawned {i + 1}/{count}");
 
             if (delay > 0f)
                 yield return new WaitForSeconds(delay);
@@ -168,7 +168,7 @@ public class EnemyAttackObject : PoolableObject
 
             attackObj?.Initialize(Owner);
 
-            Debug.Log($"[EnemyAttackObject] Spawned {i + 1}/{count}");
+            //Debug.Log($"[EnemyAttackObject] Spawned {i + 1}/{count}");
 
             if (delay > 0f)
                 yield return new WaitForSeconds(delay);

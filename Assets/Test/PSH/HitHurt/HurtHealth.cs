@@ -11,7 +11,7 @@ public class HurtHealth : MonoBehaviour,IDamageable
         int dir = DirectionConvert(data.HitDirection);
         
 
-        Debug.Log($"{gameObject.name} 피격, {data.AttackId}, {data.HitDirection}, {dir}");
+        //Debug.Log($"{gameObject.name} 피격, {data.AttackId}, {data.HitDirection}, {dir}");
     }
     private int DirectionConvert(Vector3 hitDirection)
     {

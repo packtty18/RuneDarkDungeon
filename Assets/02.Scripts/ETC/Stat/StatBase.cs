@@ -27,13 +27,13 @@ public abstract class StatBase<T> where T : struct, IConvertible
     public void AddModifier(StatModifier modifier)
     {
         _modifiers.Add(modifier);
-        Debug.Log($"[ValueStat] Modifier Added: {modifier.Type} {modifier.Value}");
+        //Debug.Log($"[ValueStat] Modifier Added: {modifier.Type} {modifier.Value}");
     }
 
     public void RemoveModifier(StatModifier modifier)
     {
         _modifiers.Remove(modifier);
-        Debug.Log("[ValueStat] Modifier Removed");
+        //Debug.Log("[ValueStat] Modifier Removed");
     }
     protected T CalculateFinalValue(T baseValue)
     {

@@ -65,7 +65,7 @@ public class StatExample : MonoBehaviour
 
         _intConsumableStat[EConsumableInt.LoadedBulletCount].Init(_intValueStat[EValueInt.GunMaxBullet].Value, default);
         OnStatInitEnd?.Invoke();
-        Debug.Log("[PlayerStat] Initialized");
+        //Debug.Log("[PlayerStat] Initialized");
     }
 
     private void InitDictionaries()
@@ -136,7 +136,7 @@ public class StatExample : MonoBehaviour
             return;
 
         IsDead = tf;
-        Debug.Log("[PlayerStat] Dead State Changed");
+        //Debug.Log("[PlayerStat] Dead State Changed");
 
         OnDead?.Invoke();
     }

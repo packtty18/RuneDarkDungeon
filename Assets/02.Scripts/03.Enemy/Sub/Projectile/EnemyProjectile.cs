@@ -19,7 +19,7 @@ public abstract class EnemyProjectile : MonoBehaviour
         _damage = damage;
         _lifeTimer = lifeTime;
         _onInit = true;
-        Debug.Log($"[EnemyProjectile] Initialized (Damage: {damage}, LifeTime: {lifeTime}s)");
+        //Debug.Log($"[EnemyProjectile] Initialized (Damage: {damage}, LifeTime: {lifeTime}s)");
     }
 
     private void OnDisable()
@@ -46,7 +46,7 @@ public abstract class EnemyProjectile : MonoBehaviour
 
         if (_lifeTimer <= 0f)
         {
-            Debug.Log("[EnemyProjectile] Auto destroyed (LifeTime expired)");
+            //Debug.Log("[EnemyProjectile] Auto destroyed (LifeTime expired)");
             Util.ObjectDestroy(gameObject);
         }
     }

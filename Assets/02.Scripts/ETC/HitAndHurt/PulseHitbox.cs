@@ -32,7 +32,7 @@ public class PulseHitbox : MonoBehaviour
         _pulseTimer = 0f;
         _isActive = false;
 
-        Debug.Log("[HitboxPulseRunner] Started");
+        //Debug.Log("[HitboxPulseRunner] Started");
     }
 
     private void Update()

@@ -32,7 +32,7 @@ public class ItemDropTableSO : ScriptableObject
                 result.Add(entry.PoolType);
                 
             }
-            Debug.Log($"{entry.PoolType}을 {entry.Count}개 추가");
+            //Debug.Log($"{entry.PoolType}을 {entry.Count}개 추가");
         }
 
         //랜덤 추가
@@ -45,7 +45,7 @@ public class ItemDropTableSO : ScriptableObject
 
         result.Add(selected.PoolType);
 
-        Debug.Log($"{selected.PoolType}을 {selected.Count}개 추가");
+        //Debug.Log($"{selected.PoolType}을 {selected.Count}개 추가");
         return result;
     }
 

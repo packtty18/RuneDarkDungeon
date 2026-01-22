@@ -64,7 +64,7 @@ public class SoundDatabaseSO : ScriptableObject
             }
         }
 
-        Debug.Log("[SoundDatabase] Enum validation finished.");
+        //Debug.Log("[SoundDatabase] Enum validation finished.");
     }
     [Button("Add Missing Enum Keys")]
     private void AddMissingEnumKeys()
@@ -106,7 +106,7 @@ public class SoundDatabaseSO : ScriptableObject
             }
         }
 
-        Debug.Log($"[SoundDatabase] Added {addedCount} missing enum keys.");
+        //Debug.Log($"[SoundDatabase] Added {addedCount} missing enum keys.");
     }
 
     [Button("Validate Missing AudioClips")]

@@ -202,7 +202,7 @@ public class EnemyShaderFeedback : MonoBehaviour
         SetOutlineColor(outlineOffColor);
         SetHit(false, 0f);
 
-        Debug.Log("[ShaderFeedback] Reset");
+        //Debug.Log("[ShaderFeedback] Reset");
     }
 
     #endregion
