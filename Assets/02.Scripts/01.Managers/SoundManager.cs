@@ -73,6 +73,13 @@ public enum ESoundType
 
     Explosion1,
     Explosion2,
+    
+    Equip,
+    Unequip,
+    Pop,
+    Success,
+    Failed,
+    
 }
 
 public class SoundManager : GlobalSingleton<SoundManager>

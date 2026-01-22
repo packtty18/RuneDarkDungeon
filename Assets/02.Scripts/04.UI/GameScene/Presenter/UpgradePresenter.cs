@@ -64,10 +64,14 @@ public class UpgradePresenter : MonoBehaviour
     {
         if (!_forge.Upgrade(_currency, out var item))
         {
+            SoundManager.Instance?.Play(ESoundType.Failed);
+            
             _failed.Show();
             _forge.Notify();
             return;
         }
+        
+        SoundManager.Instance?.Play(ESoundType.Success);
 
         _success.Show();
         _inventory.Add(item);

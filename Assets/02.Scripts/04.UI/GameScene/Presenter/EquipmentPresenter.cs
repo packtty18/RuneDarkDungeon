@@ -39,6 +39,8 @@ public class EquipmentPresenter : MonoBehaviour
     private void HandleSlotDoubleClicked(ESkillSlot slot)
     {
         ItemData item = _equipment.UnEquip(slot);
+        
+        SoundManager.Instance?.Play(ESoundType.Unequip);
 
         if (item == null) return;
         _inventory.Add(item);
@@ -52,6 +54,8 @@ public class EquipmentPresenter : MonoBehaviour
         _selectionManager.DeselectItem();
         _inventory.Remove(item);
         ItemData oldItem = _equipment.Equip(slot, item);
+        
+        SoundManager.Instance?.Play(ESoundType.Equip);
 
         if (oldItem == null) return;
         _inventory.Add(oldItem);

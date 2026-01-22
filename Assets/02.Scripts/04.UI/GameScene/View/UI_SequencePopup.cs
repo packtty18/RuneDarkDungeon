@@ -32,6 +32,12 @@ public class UI_SequencePopup : MonoBehaviour
             child.localScale = Vector3.zero;
             float startTime = _startDelay + count * _interval;
             _sequence.Insert(startTime, child.DOScale(1f, _scaleTime).SetEase(_easeType));
+            
+            _sequence.InsertCallback(startTime, () => 
+            {
+                SoundManager.Instance?.Play(ESoundType.Pop);
+            });
+            
             count++;
         }
     }
