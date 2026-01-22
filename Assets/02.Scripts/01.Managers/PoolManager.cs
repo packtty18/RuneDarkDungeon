@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
@@ -286,6 +287,14 @@ public class PoolManager : GlobalSingleton<PoolManager>
         {
             pool.Release(objects[i]);
         }
+    }
+
+    public void ResetPool()
+    {
+        _pools.Clear();
+        _poolParents.Clear();
+        Destroy(_poolParent.gameObject);
+        OnInit();
     }
 
   
