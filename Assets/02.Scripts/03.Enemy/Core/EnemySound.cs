@@ -65,7 +65,7 @@ public class EnemySound : MonoBehaviour
                 {
                     Attack = ESoundType.Enemy_Elite_Slash,
                     Death = ESoundType.Enemy_Elite_Death,
-                    Hit = ESoundType.Enemy_Common_Hit,
+                    Hit = ESoundType.Enemy_Elite_Hit,
                     Charge = ESoundType.Enemy_Elite_Charge
                 }
             },
@@ -76,7 +76,7 @@ public class EnemySound : MonoBehaviour
                     Attack = ESoundType.Enemy_Boss_Slash,
                     Charge = ESoundType.Enemy_Boss_Charge,
                     Summon = ESoundType.Enemy_Boss_Summon,
-                    Hit = ESoundType.Enemy_Common_Hit,
+                    Hit = ESoundType.Enemy_Boss_Hit,
                     Death = ESoundType.Enemy_Boss_Death,
                 }
             }

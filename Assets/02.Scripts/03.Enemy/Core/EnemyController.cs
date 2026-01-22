@@ -352,6 +352,7 @@ public class EnemyController : PoolableObject, IDamageable
         return localDir.z < 0f ? (int)EHitDirection.Front : (int)EHitDirection.Back;
     }
 
+    [Button]
     public void HandleDamaged()
     {
         if (FSM.CurrentState is DeadState || Stat.HasSuperArmor)
@@ -360,6 +361,7 @@ public class EnemyController : PoolableObject, IDamageable
         _fsm.ChangeState(EEnemyState.Hit);
     }
 
+    [Button]
     public void HandleDead()
     {
         if (FSM.CurrentState is DeadState || !gameObject.activeSelf)
@@ -391,6 +393,7 @@ public class EnemyController : PoolableObject, IDamageable
 
     #region Animation Events
 
+    [Button]
     public void HitRecover()
     {
         FSM.ChangeState(EEnemyState.Idle);

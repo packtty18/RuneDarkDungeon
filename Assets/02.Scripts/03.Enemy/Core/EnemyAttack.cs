@@ -137,8 +137,20 @@ public class EnemyAttack : MonoBehaviour
         current?.AttackExecute();
     }
 
+    [SerializeField]private bool isLinearAttack = false;
+    private int _lastAttack = -1;
     public int GetRandomAttackId()
     {
+        if (isLinearAttack)
+        {
+            _lastAttack++;
+            if(_lastAttack == MeleeAttack.Count)
+            {
+                _lastAttack = 0;
+            }
+            return _lastAttack;
+        }
+
         List<int> list = new List<int>();
 
         foreach (int id in MeleeAttack.Keys)
