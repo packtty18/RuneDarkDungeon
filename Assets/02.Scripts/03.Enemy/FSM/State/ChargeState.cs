@@ -130,6 +130,6 @@ public class ChargeState : EnemyState
         controller.Anim.SetBool(EnemyAnimator.s_chargeBool, false);
         controller.Attack.EndCharge();
         
-        Debug.Log("[ChargeState] Exit → Chase");
+        //Debug.Log("[ChargeState] Exit → Chase");
     }
 }
