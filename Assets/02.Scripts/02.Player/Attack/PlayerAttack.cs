@@ -295,6 +295,8 @@ public class PlayerAttack : MonoBehaviour
 
         _currentCombo = 0;
         OnComboChange?.Invoke(_currentCombo, _attackConfig.MaxPhaseCount);
+
+        _stateMachine.SetActionState(EActionState.None);
         _currentAttack = EAttackType.None;
     }
 
