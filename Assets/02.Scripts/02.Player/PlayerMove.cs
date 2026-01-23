@@ -284,19 +284,25 @@ public class PlayerMove : MonoBehaviour
     }
 
     #region Dash
-    public void StartGroundDash(float dashAngle, float dashSpeed)
+    public void StartGroundDash(float dashAngle, float dashDelay)
     {
         if (!IsJumping()) return;
 
         _currentJumpCount = _maxJumpCount;
         _verticalVelocity = 0f;
 
+       
         // 현재 입력 방향 또는 플레이어가 보는 방향
         Vector3 moveInput = GetMoveDirection();
         Vector3 horizontal = moveInput.magnitude > 0.1f ? moveInput : transform.forward;
 
         Vector3 dashDirection = CalculateDashDirection(horizontal, dashAngle);
-        StartCoroutine(DashToGroundCoroutine(dashDirection, dashSpeed));
+        if (!RaycastGround(dashDirection, out Vector3 dashPoint))
+        {
+            OnDashEnd?.Invoke();
+            return;
+        };
+        StartCoroutine(DashToGroundCoroutine(dashPoint, dashDelay));
     }
 
     private Vector3 CalculateDashDirection(Vector3 horizontalDir, float angle)
@@ -309,22 +315,36 @@ public class PlayerMove : MonoBehaviour
         return direction.normalized;
     }
 
-    private IEnumerator DashToGroundCoroutine(Vector3 direction, float speed)
+    public bool RaycastGround(Vector3 dashDirection, out Vector3 hitPoint, float maxDistance = 10f)
     {
-        float currentSpeed = 0;
-        float acceleration = 100f; // 가속도
-        _controller.excludeLayers = _controller.excludeLayers | (_walkableLayer & ~_groundLayers);
+        // Ray 시작점 (발 위치 또는 캐릭터 중심)
+        Vector3 origin = transform.position;
 
-        while (!GroundCheckInDirection(Vector3.down, 0, _groundLayers))
+        if (Physics.Raycast(
+            origin,
+            dashDirection,
+            out RaycastHit hit,
+            maxDistance,
+            _groundLayers,
+            QueryTriggerInteraction.Ignore))
         {
-            currentSpeed = Mathf.MoveTowards(currentSpeed, speed, acceleration * Time.deltaTime);
-            _controller.Move(direction * speed * Time.deltaTime);
- 
-            yield return null;
+            hitPoint = hit.point;
+            Debug.Log($"땅 감지: {hit.collider.name}, 위치: {hitPoint}, 거리: {hit.distance}");
+            return true;
         }
-        _controller.excludeLayers = _controller.excludeLayers & ~_walkableLayer;
+
+        hitPoint = Vector3.zero;
+        return false;
+    }
+    
+    private IEnumerator DashToGroundCoroutine(Vector3 point, float dashDelay)
+    {
+        yield return new WaitForSeconds(dashDelay);
+        transform.position = point;
+
         OnDashEnd?.Invoke();
     }
+
 
     #endregion
     #region IsGrounded Check
