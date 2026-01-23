@@ -1,3 +1,6 @@
+
+using UnityEngine;
+
 public class DeadState : EnemyState
 {
     public override EEnemyState StateType => EEnemyState.Dead;
@@ -23,6 +26,7 @@ public class DeadState : EnemyState
         controller.Sound?.PlayDeath();
         controller.DropItem();
         controller.Dead();
+        Debug.Log("사망");
     }
 
     public override void Tick(float deltaTime)

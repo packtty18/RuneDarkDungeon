@@ -323,7 +323,7 @@ public class EnemyController : PoolableObject, IDamageable
         if (_wait)
             return;
 
-        Shader.PlayHit();
+        PlayHitShader();
 
         if (!_health.TryApplyDamage(data.Damage))
             return;
@@ -337,6 +337,16 @@ public class EnemyController : PoolableObject, IDamageable
             HandleDead();
         else
             HandleDamaged();
+    }
+
+    private void PlayHitShader()
+    {
+        if(FSM.CurrentState is DeadState)
+        {
+            return;
+        }
+
+        Shader.PlayHit();
     }
 
     private int DirectionConvert(Vector3 hitDirection)

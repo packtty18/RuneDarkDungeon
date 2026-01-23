@@ -42,7 +42,7 @@ public class ConsumableStat<T> : StatBase<T>, IReadOnlyConsumable<T>
 
     public bool IsEmpty()
     {
-        return ToDouble(_current) <= 0.00001;
+        return ToDouble(_current) <= 0;
     }
 
     public float GetRatio()
