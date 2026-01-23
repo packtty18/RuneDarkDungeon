@@ -22,17 +22,12 @@ public class SellEventHandler : ISlotEventHandler
         int price = _priceDB.GetPrice(slot.Item);
         _currency.Add(price);
         _inventory.Remove(slot.Item);
-        _selectionManager.ShowTooltip(slot);
+        OnHoverSlot(slot);
     }
 
     public void OnHoverSlot(UI_Slot slot)
     {
-        if (slot == null)
-        {
-            _selectionManager.ShowTooltip(slot);
-            return;
-        }
-        int price = _priceDB.GetPrice(slot.Item);
+        int price = (slot == null || slot.IsEmpty) ? 0 : _priceDB.GetPrice(slot.Item);
         _selectionManager.ShowTooltip(slot, price);
     }
 
