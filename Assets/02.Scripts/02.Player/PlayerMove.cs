@@ -344,7 +344,7 @@ public class PlayerMove : MonoBehaviour
         {
             _currentJumpCount = 0;
             OnIsJumpingChanged?.Invoke(IsJumping());
-            //_animator.SetJump(false);
+            _animator.SetJump(false);
 
         }
     }

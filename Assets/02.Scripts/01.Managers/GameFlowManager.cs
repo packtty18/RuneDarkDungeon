@@ -30,7 +30,9 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
     [SerializeField]
     private float _gameOverDelay = 2.0f;
     [SerializeField]
-    private float _clearDelay = 2.0f;
+    private float _clearDelay = 3.0f;
+    [SerializeField]
+    private float _clearUIDelay = 2.0f;
 
     [Header("컷씬")]
     [SerializeField]
@@ -142,7 +144,7 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
 
     private IEnumerator ClearUIPopupDelay()
     {
-        yield return new WaitForSeconds(_clearDelay);
+        yield return new WaitForSeconds(_clearUIDelay);
         _resultUI.ShowVictory();
     }
     private IEnumerator GameOverUIPopupDelay()
@@ -152,6 +154,15 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
         {
             _resultUI.ShowDefeat();
         });
+    }
+
+    private IEnumerator ClearCutSceneDelay()
+    {
+        yield return new WaitForSeconds(_clearDelay);
+        _playerHUD.FadeOut(_defaultFadeTime);
+        _clearSceneDirector.Play();
+        _isPlayingCutScene = true;
+        StartCoroutine(ClearUIPopupDelay());
     }
 
     #endregion
@@ -176,10 +187,7 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
     public void OnClear()
     {
         SoundManager.Instance.Play(ESoundType.Stage_VictoryBGM);
-        _playerHUD.FadeOut(_defaultFadeTime);
-        _clearSceneDirector.Play();
-        _isPlayingCutScene = true;
-        StartCoroutine(ClearUIPopupDelay());
+        StartCoroutine(ClearCutSceneDelay());
     }
 
     private void OnClearTimelineEnd(PlayableDirector director)
