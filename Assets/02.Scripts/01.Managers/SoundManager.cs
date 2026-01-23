@@ -182,8 +182,12 @@ public class SoundManager : GlobalSingleton<SoundManager>
 
     private void PlayInternalSfx(SoundData data, Vector3 position)
     {
+        if (_soundFactory == null)
+        {
+            return;
+        }
+
         data.volume *= _globalSfxVolume;
-        
         _soundFactory.Play(data, position);
     }
 
