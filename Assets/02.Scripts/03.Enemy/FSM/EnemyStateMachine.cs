@@ -21,8 +21,12 @@ public class EnemyStateMachine
     }
     public void ChangeState(EEnemyState newState)
     {
-        _currentState?.Exit();
+        if(CurrentState is DeadState)
+        {
+            return;
+        }
 
+        _currentState?.Exit();
         _currentState = GetState(newState);
         _currentState.Enter();
     }
