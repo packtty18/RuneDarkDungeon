@@ -11,7 +11,7 @@ public class PlayerAttackConfigSO : ScriptableObject
 
     [Tooltip("점프 데쉬 설정")]
     public float JumpDashAngle;
-    public float JumpDashDelay;
+    public float JumpDashSpeed;
     public EffectPlayer JumpDashEffect;
     public EffectPlayer JumpDashSlashEffect;
 

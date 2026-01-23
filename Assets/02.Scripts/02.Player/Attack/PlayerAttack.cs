@@ -137,16 +137,19 @@ public class PlayerAttack : MonoBehaviour
         _currentAttack = EAttackType.Jump;
 
         _stateMachine.SetActionState(EActionState.DashAttack);
-        _playerMove.StartGroundDash(_attackConfig.JumpDashAngle, _attackConfig.JumpDashDelay);
+        _playerMove.StartGroundDash(_attackConfig.JumpDashAngle, _attackConfig.JumpDashSpeed);
         VisualHide();
         _sound.OnDash();
+        ExecuteSingleAttack(EAttackType.Jump, _attackConfig.JumpDashDamage);
+        _currentCombo = 1;
+        OnComboChange?.Invoke(_currentCombo, _attackConfig.MaxPhaseCount);
     }
     private void StartJumpAttack()
     {
         VisualShow();
-        ExecuteSingleAttack(EAttackType.Jump, _attackConfig.JumpDashDamage);
+        /*ExecuteSingleAttack(EAttackType.Jump, _attackConfig.JumpDashDamage);
         _currentCombo = 1;
-        OnComboChange?.Invoke(_currentCombo, _attackConfig.MaxPhaseCount);
+        OnComboChange?.Invoke(_currentCombo, _attackConfig.MaxPhaseCount);*/
 
     }
 
