@@ -94,10 +94,11 @@ public class UI_Popup : UIBase
 
     public override void Show()
     {
-        if (SceneLoadManager.Instance.CurrentSceneData.IsCursorLocked)
+        if (SceneLoadManager.IsExist() && SceneLoadManager.Instance.CurrentSceneData.IsCursorLocked)
         {
             CursorManager.Instance?.SetCursorLock(false);
         }
+
         if (_popUpAnimation)
         {
             _animation.PopUp(_popDuration, _startScale);
@@ -111,10 +112,11 @@ public class UI_Popup : UIBase
 
     public override void Hide()
     {
-        if (SceneLoadManager.Instance.CurrentSceneData.IsCursorLocked)
+        if (SceneLoadManager.IsExist() && SceneLoadManager.Instance.CurrentSceneData.IsCursorLocked)
         {
             CursorManager.Instance?.SetCursorLock(true);
         }
+
         if (_popDownAnimation)
         {
             _animation.PopDown(_popDuration, _startScale);
