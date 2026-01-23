@@ -22,6 +22,7 @@ public class SellEventHandler : ISlotEventHandler
         int price = _priceDB.GetPrice(slot.Item);
         _currency.Add(price);
         _inventory.Remove(slot.Item);
+        _selectionManager.ShowTooltip(slot);
     }
 
     public void OnHoverSlot(UI_Slot slot)

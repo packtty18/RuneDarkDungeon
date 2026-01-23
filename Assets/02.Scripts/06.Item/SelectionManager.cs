@@ -43,7 +43,7 @@ public class SelectionManager : MonoBehaviour
 
     public void ShowTooltip(UI_Slot slot, int gold = 0)
     {
-        if (slot == null)
+        if (slot == null || slot.IsEmpty)
         {
             _tooltip.Hide();
             return;
