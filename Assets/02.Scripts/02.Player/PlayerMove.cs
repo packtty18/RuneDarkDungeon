@@ -47,8 +47,6 @@ public class PlayerMove : MonoBehaviour
     private bool _isJumping = false;
 
     private float _dodgeSpeed = 15f;
-
-    public bool CanMove { get; private set; }
     public bool IsGrounded { get; private set; }
     public bool ShouldRun { get; private set; }
 
@@ -96,7 +94,6 @@ public class PlayerMove : MonoBehaviour
         _groundCheckRadius = _controller.radius * 0.9f;
 
         _currentJumpCount = 0;
-        CanMove = true;
         _jumpVelocity = Mathf.Sqrt(_playerStats.JumpPower.Value * -2f * _gravity);
     }
 
@@ -146,7 +143,6 @@ public class PlayerMove : MonoBehaviour
     {
         _stateMachine.SetActionState(EActionState.None);
         _animator.SetDodge(false);
-        //SetCanMove(true);
     }
 
     private Vector3 GetMoveDirection()
