@@ -9,10 +9,16 @@ public class HitState : EnemyState
         base.Enter();
         controller.Move.PauseAgent();
         controller.CancelAttack();
-        controller.Anim.SetTrigger(AnimatorController.s_hitTrigger);
+        controller.Sound.PlayHit();
+        controller.Anim.SetTrigger(EnemyAnimator.s_hitTrigger);
     }
 
     public override void Tick(float deltaTime)
     {
+    }
+    public override void Exit()
+    {
+        base.Exit();
+        controller.Move.ResumeAgent();
     }
 }

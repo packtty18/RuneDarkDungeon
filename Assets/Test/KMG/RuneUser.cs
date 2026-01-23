@@ -1,48 +1,38 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class RuneUser : LocalSingleton<RuneUser>
+public class RuneUser : LocalSingleton<RuneUser>, IDataHolder
 {
     [SerializeField] private Inventory _inventory;
     [SerializeField] private GoldData _goldData;
+    [SerializeField] private Equipment _equipment;
+    private Forge _forge;
+    
     public IInventory Inventory => _inventory;
     public ICurrency GoldData => _goldData;
+    public IEquipment Equipment => _equipment;
+    public IForge Forge => _forge;
 
-    public ItemUpgradeDataSO UpgradeDB;
-    public ItemDatabaseSO ItemDB;
+    [SerializeField] private ItemDatabaseSO _itemDB;
+    [SerializeField] private ItemUpgradeDataSO _upgradeDB;
     
-    public ItemData ItemQ;
-    public ItemData ItemE;
-    public ItemData ItemR;
+    [Header("연결 대상 UI")]
+    [SerializeField] private UI_Initializer _initializer;
 
-    public float QCooltime;
-    public float ECooltime;
-    public float RCooltime;
-
-    public float NextQ;
-    public float NextE;
-    public float NextR;
+    [Header("연결 대상 플레이어")]
+    [SerializeField] private PlayerSkillCaster _playerSkillCaster;
     
-    private void Update()
+    protected override void OnInit()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && Time.time > NextQ)
-        {
-            Debug.Log("Q 사용");
-            ItemDB.UseItem(gameObject, ItemQ);
-            NextQ = Time.time + QCooltime;
-        }
-
-        if (Input.GetKeyDown(KeyCode.E) && Time.time > NextE)
-        {
-            Debug.Log("E 사용");
-            ItemDB.UseItem(gameObject, ItemE);
-            NextE = Time.time + ECooltime;
-        }
-
-        if (Input.GetKeyDown(KeyCode.R) && Time.time > NextR)
-        {
-            Debug.Log("R 사용");
-            ItemDB.UseItem(gameObject, ItemR);
-            NextR = Time.time + RCooltime;
-        }
+        ItemFactory itemFactory = new(_itemDB);
+        _forge = new(itemFactory, _upgradeDB);
+        
+        itemFactory.SetItemInfo(Inventory.Items);
+        itemFactory.SetItemInfo(Equipment.Items.Values);
+        
+        _initializer?.Initialize(this);
+        _playerSkillCaster?.Initialize(_equipment);
     }
+
+    public void Save() { }
 }

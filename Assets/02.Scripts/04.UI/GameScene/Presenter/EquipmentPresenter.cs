@@ -1,0 +1,80 @@
+using UnityEngine;
+
+public class EquipmentPresenter : MonoBehaviour
+{
+    [Header("UI 연결")]
+    [SerializeField] private UI_EquipmentView _equipmentUI;
+    [SerializeField] private SelectionManager _selectionManager;
+    
+    private IEquipment _equipment;
+    private IInventory _inventory;
+
+    public void Initialize(IEquipment equipment, IInventory inventory)
+    {
+        _equipment = equipment;
+        _inventory = inventory;
+        
+        _equipment.Subscribe(RefreshEquipment);
+        _equipmentUI.OnSlotDoubleClicked += HandleSlotDoubleClicked;
+        _equipmentUI.OnSlotClicked += HandleSlotClicked;
+        _equipmentUI.OnSlotHovered += HandleSlotHovered;
+        
+        _equipmentUI.Initialize();
+        RefreshEquipment();
+    }
+
+    private void OnDestroy()
+    {
+        _equipment.Unsubscribe(RefreshEquipment);
+        _equipmentUI.OnSlotDoubleClicked -= HandleSlotDoubleClicked;
+        _equipmentUI.OnSlotClicked -= HandleSlotClicked;
+        _equipmentUI.OnSlotHovered -= HandleSlotHovered;
+    }
+    
+    private void RefreshEquipment()
+    {
+        _equipmentUI.Refresh(_equipment);
+    }
+
+    private void HandleSlotDoubleClicked(ESkillSlot slot)
+    {
+        ItemData item = _equipment.UnEquip(slot);
+        
+        SoundManager.Instance?.Play(ESoundType.Rune);
+
+        if (item == null) return;
+        _inventory.Add(item);
+    }
+
+    private void HandleSlotClicked(ESkillSlot slot)
+    {
+        var item = _selectionManager.SelectedItem;
+        if (item == null) return;
+        
+        _selectionManager.DeselectItem();
+        _inventory.Remove(item);
+        ItemData oldItem = _equipment.Equip(slot, item);
+        
+        SoundManager.Instance?.Play(ESoundType.Rune);
+
+        if (oldItem == null) return;
+        _inventory.Add(oldItem);
+    }
+
+    private void HandleSlotHovered(UI_Slot slot)
+    {
+        _selectionManager.ShowTooltip(slot);
+    }
+
+    public void HandleModeChanged(EInventoryMode mode)
+    {
+        if (mode == EInventoryMode.Equipment)
+        {
+            _equipmentUI.Show();
+        }
+        else
+        {
+            _equipmentUI.Hide();
+        }
+    }
+}

@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 public class EnemyStateMachine
 {
-    [SerializeField] private EnemyState _currentState;
-    public EnemyState CurrentState => _currentState;
-
+    //생성된 스테이트를 버리지 않고 보관
     private readonly Dictionary<EEnemyState, EnemyState> _stateCache = new();
     private EnemyController _controller;
+    [SerializeField] private EnemyState _currentState;
+
+    public EnemyState CurrentState => _currentState;
 
     public EnemyStateMachine(EnemyController controller)
     {
@@ -20,8 +21,12 @@ public class EnemyStateMachine
     }
     public void ChangeState(EEnemyState newState)
     {
-        _currentState?.Exit();
+        if(CurrentState is DeadState)
+        {
+            return;
+        }
 
+        _currentState?.Exit();
         _currentState = GetState(newState);
         _currentState.Enter();
     }
@@ -42,7 +47,7 @@ public class EnemyStateMachine
     //새로운 상태 만들경우 추가
     private EnemyState CreateState(EEnemyState type)
     {
-        Debug.Log($"[FSM] Create State : {type}");
+        //Debug.Log($"[FSM] Create State : {type}");
 
         return type switch
         {
@@ -51,6 +56,9 @@ public class EnemyStateMachine
             EEnemyState.Attack => new AttackState(_controller),
             EEnemyState.Hit => new HitState(_controller),
             EEnemyState.Dead => new DeadState(_controller),
+            EEnemyState.Charge => new ChargeState(_controller),
+            EEnemyState.Summon => new SummonState(_controller),
+            EEnemyState.Buff => new BuffState(_controller),
             _ => null
         };
     }
@@ -58,6 +66,5 @@ public class EnemyStateMachine
     public void Tick(float deltaTime)
     {
         _currentState?.Tick(deltaTime);
-        _controller.Attack.LoadCooltime(deltaTime);
     }
 }

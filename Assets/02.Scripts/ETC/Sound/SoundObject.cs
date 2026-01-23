@@ -23,9 +23,13 @@ public class SoundObject : PoolableObject
         }
         _audio.clip = data.clip;
         _audio.volume = data.volume;
-        _audio.spatialBlend = 1f;
-        _audio.minDistance = Mathf.Max(0.1f, data.minDistance);
-        _audio.maxDistance = Mathf.Max(_audio.minDistance + 0.1f, data.maxDistance);
+        _audio.spatialBlend = data.is3d ? 1f : 0f;
+        if (data.is3d)
+        {
+            _audio.minDistance = Mathf.Max(0.1f, data.minDistance);
+            _audio.maxDistance = Mathf.Max(_audio.minDistance + 0.1f, data.maxDistance);
+        }
+        
         _audio.Play();
 
         ReturnToPoolAfter(data.clip.length);

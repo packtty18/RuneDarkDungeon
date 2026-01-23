@@ -1,5 +1,7 @@
-using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Security.Cryptography;
+using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 // 히트박스는 공격 판정을 담당.
 // 추후 애니메이터와 연결
@@ -7,6 +9,11 @@ using Sirenix.OdinInspector;
 public class HitBox : MonoBehaviour
 {
     private static int s_globalAttackId = 0;
+    public static void ResetId()
+    {
+        s_globalAttackId = 0;
+    }
+
     [SerializeField] private int _currentAttackId;
 
     private Collider _collider;
@@ -76,12 +83,15 @@ public class HitBox : MonoBehaviour
             return;
         }
 
+        Vector3 hitPoint = other.ClosestPoint(transform.position);
+        Vector3 hitDirection = (hitPoint - transform.position).normalized;
+
         DamageData damageData = new DamageData
         {
             AttackId = _currentAttackId,
             Damage = _damage,
-            Team = _team
-            //나머지는 추후 추가
+            Team = _team,
+            HitDirection = hitDirection,
         };
 
         hurtBox.ApplyDamage(damageData);

@@ -1,26 +1,34 @@
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(PlayerMove))]
 public class PlayerAnimator : MonoBehaviour
 {
     private Animator _animator;
-    private PlayerMove _playerMove;
+    private PlayerStateMachine _stateMachine;
+    private AnimatorOverrideController overrideController;
+
+    [SerializeField] private AnimationClip defaultSkillClip;
 
     private readonly int _speedRatioHash = Animator.StringToHash("Blend");
     private readonly int _jumpHash = Animator.StringToHash("Jump");
     private readonly int _attackHash = Animator.StringToHash("Attack");
     private readonly int _canMoveHash = Animator.StringToHash("CanMove");
+    private readonly int _dodgeHash = Animator.StringToHash("Dodge");
+    private readonly int _hitHash = Animator.StringToHash("Hit");
+    private readonly int _dieHash = Animator.StringToHash("Die");
 
     void Awake()
     {
         _animator = GetComponent<Animator>();
-        _playerMove = GetComponent<PlayerMove>();
+        _stateMachine = GetComponent<PlayerStateMachine>();
+        overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
+        _animator.runtimeAnimatorController = overrideController;
     }
 
     private void Start()
     {
-        _playerMove.OnCanMoveChanged += SetCanMove;
+        _stateMachine.OnCanMoveChanged += SetCanMove;
     }
 
     public void SetSpeedRatio(float ratio)
@@ -32,32 +40,56 @@ public class PlayerAnimator : MonoBehaviour
     {
         _animator.SetBool(_jumpHash, isJumping);
     }
-    
+
+    public void SetDieTrigger()
+    {
+        _animator.SetTrigger(_dieHash);
+    }
+
+    public void SetHitTrigger()
+    {
+        _animator.SetTrigger(_hitHash);
+    }
+
     public void SetAttackTrigger()
     {
         _animator.SetTrigger(_attackHash);
     }
 
-    public void PlayComboAttack(int comboIndex, EAttackType attackType)
+    public void SetDodge(bool isDodging)
     {
-        string stateName = $"{attackType.ToString()}_Combo{comboIndex}";
+        _animator.SetBool(_dodgeHash, isDodging);
+    }
+
+
+    public void PlayComboAttack(int comboIndex)
+    {
+        string stateName = $"Basic_Combo{comboIndex}";
 
         _animator.CrossFade(stateName, 0.05f, 1, 0);
         _animator.CrossFade(stateName, 0.05f, 2, 0);
     }
 
-    public void PlayChargeFinisher(EAttackType attackType)
+    public void PlayChargeFinisher()
     {
-        string stateName = $"AttackSubStateMachine.{attackType.ToString()}_ChargeFinisher";
+        string stateName = $"AttackSubStateMachine.Basic_ChargeFinisher";
 
         _animator.CrossFade(stateName, 0.05f, 0, 0);
     }
 
-    public void PlaySkill(EAttackType attackType)
+    public void PlaySingleAttack(EAttackType attackType)
     {
         string stateName = $"AttackSubStateMachine.{attackType.ToString()}";
 
-        _animator.CrossFade(stateName, 0.05f, 0, 0);
+        _animator.CrossFade(stateName, 0.1f, 0, 0);
+    }
+
+    public void PlaySkill(AnimationClip clip)
+    {
+        string stateName = $"AttackSubStateMachine.Skill";
+        overrideController[defaultSkillClip] = clip;
+
+        _animator.CrossFade(stateName, 0.1f, 0, 0);
     }
 
     public void SetCanMove(bool canMove)
@@ -67,6 +99,6 @@ public class PlayerAnimator : MonoBehaviour
 
     private void OnDestroy()
     {
-        _playerMove.OnCanMoveChanged -= SetCanMove;
+        _stateMachine.OnCanMoveChanged -= SetCanMove;
     }
 }

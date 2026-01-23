@@ -2,30 +2,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class SerializableDictionary<TKey, TValue> : ISerializationCallbackReceiver
+public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
 {
-    [SerializeField] private List<SerializablePair<TKey, TValue>> _pairs;
-    private Dictionary<TKey, TValue> _dict;
-    
-    public void OnBeforeSerialize() { }
+    [SerializeField] private List<SerializablePair<TKey, TValue>> _pairs = new();
+
+    public void OnBeforeSerialize()
+    {
+        _pairs.Clear();
+        foreach (var pair in this)
+        {
+            _pairs.Add(new SerializablePair<TKey, TValue>(pair.Key, pair.Value));
+        }
+    }
 
     public void OnAfterDeserialize()
     {
-        _dict = new();
         foreach (var pair in _pairs)
         {
-            if (_dict.TryAdd(pair.Key, pair.Value)) continue; 
+            if (TryAdd(pair.Key, pair.Value)) continue; 
             Debug.LogWarning($"중복된 Key 발견: {pair.Key}");
         }
-    }
-    
-    public bool TryGetValue(TKey key, out TValue value)
-    {
-        return _dict.TryGetValue(key, out value);
     }
 
     public TValue GetValueOrDefault(TKey key, TValue defaultValue = default)
     {
-        return _dict.GetValueOrDefault(key, defaultValue);
+        return TryGetValue(key, out var value) ? value : defaultValue;
     }
 }

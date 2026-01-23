@@ -13,9 +13,15 @@ public class InputManager : GlobalSingleton<InputManager>
         { EGameKeyType.Left,    new KeyCode[]{ KeyCode.LeftArrow, KeyCode.A, KeyCode.Z } },
         { EGameKeyType.Right,   new KeyCode[]{ KeyCode.RightArrow, KeyCode.D, KeyCode.Slash } },
         { EGameKeyType.Jump,    new KeyCode[]{ KeyCode.Space } },
+        { EGameKeyType.Dodge,    new KeyCode[]{ KeyCode.LeftControl } },
         { EGameKeyType.Run,    new KeyCode[]{ KeyCode.LeftShift } },
         { EGameKeyType.Attack,  new KeyCode[]{ KeyCode.Mouse0 } },
-        { EGameKeyType.Enter,   new KeyCode[]{ KeyCode.Return} }
+        { EGameKeyType.Click,  new KeyCode[]{ KeyCode.Mouse0 } },
+        { EGameKeyType.QSkill,   new KeyCode[]{ KeyCode.Q} },
+        { EGameKeyType.ESkill,   new KeyCode[]{ KeyCode.E} },
+        { EGameKeyType.RSkill,   new KeyCode[]{ KeyCode.R} },
+        { EGameKeyType.Enter,   new KeyCode[]{ KeyCode.Return} },
+        { EGameKeyType.ESC,   new KeyCode[]{ KeyCode.Escape} }
     };
 
     // 키 상태 저장
@@ -37,6 +43,11 @@ public class InputManager : GlobalSingleton<InputManager>
     {
         foreach (var key in _gameKeyType)
         {
+            if (key == EGameKeyType.None)
+            {
+                continue;
+            }
+
             // 이전 상태 갱신.
             _previousDownStates[key] = _currentDownStates[key];
 

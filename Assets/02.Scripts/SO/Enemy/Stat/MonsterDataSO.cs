@@ -15,10 +15,10 @@ public class MonsterDataSO : ScriptableObject
     public int maxHP;
 
     [FoldoutGroup("Base Stats")]
-    public int attack;
+    public float attack;
 
     [FoldoutGroup("Base Stats")]
-    public int defense;
+    public float defense;
 
     [FoldoutGroup("Base Stats")]
     public float moveSpeed;
@@ -27,21 +27,28 @@ public class MonsterDataSO : ScriptableObject
     [FoldoutGroup("Combat")]
     public float attackRange;
 
-    [FoldoutGroup("Combat")]
-    public float attackCooldown;
+
 
     [FoldoutGroup("Combat")]
-    public bool hasSuperArmor;
+    public float attackCooldown; //공격 후 다음 공격까지의 딜레이임.
 
-    [FoldoutGroup("Combat")]
-    public bool hasRetreatOnPlayerClose;
+    [ShowIf(nameof(HasCharge))]
+    [FoldoutGroup("Charge")]
+    public float chargeSpeed;
+    [ShowIf(nameof(HasCharge))]
+    [FoldoutGroup("Charge")]
+    public float chargeRange; //플레이어가 chargeRange안에 들경우 Charge실행
+    [ShowIf(nameof(HasCharge))]
+    [FoldoutGroup("Charge")]
+    public float chargeDistance; //Charge의 이동 거리
+    [ShowIf(nameof(HasCharge))]
+    [FoldoutGroup("Charge")]
+    public float chargeCooldown;
+    
 
-    [ShowIf(nameof(IsBoss))]
-    [FoldoutGroup("Boss")]
-    public PhaseDataSO[] phases;
-
-    private bool IsBoss()
+    private bool HasCharge()
     {
-        return enemyType == EEnemyType.Boss;
+        return enemyType == EEnemyType.Elite || enemyType == EEnemyType.Boss;
     }
+
 }

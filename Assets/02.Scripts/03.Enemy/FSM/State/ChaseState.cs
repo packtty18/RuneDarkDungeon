@@ -1,3 +1,5 @@
+using Unity.VisualScripting;
+
 public class ChaseState : EnemyState
 {
     public override EEnemyState StateType => EEnemyState.Chase;
@@ -8,30 +10,25 @@ public class ChaseState : EnemyState
     {
         base.Enter();
         controller.Move.ResumeAgent();
-        controller.Move.SetTarget(controller.Target);
-        controller.Move.StartMove();
-        controller.Anim.SetBool(AnimatorController.s_moveBool, true);
+        controller.Move.SetAbleToRatate(true);
+        controller.Anim.SetBool(EnemyAnimator.s_moveBool, true);
     }
 
     public override void Tick(float deltaTime)
     {
-        if (!controller.IsTargetExist())
-        {
-            controller.FSM.ChangeState(EEnemyState.Idle);
-            return;
-        }
+        StateTransition transition = controller.Behavior.UpdateChase();
 
-        float attackRange = controller.Stat.GetValue(EEnemyValueFloat.AttackRange).Value;
-        if (controller.IsTargetInRange(attackRange))
+        if (transition.ShouldTransition)
         {
-            controller.FSM.ChangeState(EEnemyState.Attack);
+            controller.FSM.ChangeState(transition.NextState);
         }
     }
 
     public override void Exit()
     {
         base.Exit();
-        controller.Move.StopMove();
-        controller.Anim.SetBool(AnimatorController.s_moveBool, false);
+        controller.Move.SetAbleToRatate(false);
+        controller.Move.PauseAgent();
+        controller.Anim.SetBool(EnemyAnimator.s_moveBool, false);
     }
 }

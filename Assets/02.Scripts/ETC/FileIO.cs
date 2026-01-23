@@ -28,9 +28,9 @@ public static class FileIO
 #endif
     }
 
-    public static void Load(GameData data)
+    public static bool Load(GameData data)
     {
-        if (!File.Exists(s_saveFilePath)) return;
+        if (!File.Exists(s_saveFilePath)) return false;
 
         using var fileStream = new FileStream(s_saveFilePath, FileMode.Open);
         string json = string.Empty;
@@ -44,7 +44,7 @@ public static class FileIO
 #if UNITY_EDITOR
             Debug.Log($"<color=red>[데이터 로드 실패]</color> {exception.Message}");
 #endif
-            return;
+            return false;
         }
 
         JsonUtility.FromJsonOverwrite(json, data);
@@ -53,5 +53,9 @@ public static class FileIO
         Debug.Log("<color=cyan>[데이터 로드 성공]</color>");
         Debug.Log(data.GetSummary());
 #endif
+
+        return true;
     }
+
+    public static bool Exists => File.Exists(s_saveFilePath);
 }

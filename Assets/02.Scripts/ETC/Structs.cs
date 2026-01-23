@@ -35,15 +35,13 @@ public struct DamageData
     public ETeamType Team;
     public float Damage;            //데미지
     public Vector3 HitDirection;    //공격 방향 
-    public KnockbackData Knockback;
 
-    public DamageData(int attackId, ETeamType team,float damage, Vector3 hitDirection, KnockbackData knockback)
+    public DamageData(int attackId, ETeamType team,float damage, Vector3 hitDirection)
     {
         AttackId= attackId;
         Team = team;
         Damage = damage;
-        HitDirection = hitDirection;
-        Knockback = knockback;
+        HitDirection = hitDirection.normalized;
     }
 }
 
@@ -66,18 +64,8 @@ public struct UpgradeData
 }
 
 [Serializable]
-public struct SlotData
+public struct RangeData<T>
 {
-    public ItemData Item;
-    public ItemSO Info;
-    public Color Color;
-
-    public SlotData(ItemData item, ItemSO info, Color color)
-    {
-        Item = item;
-        Info = info;
-        Color = color;
-    }
-
-    public static SlotData Empty => new SlotData(null, null, Color.white);
+    public T Min;
+    public T Max;
 }

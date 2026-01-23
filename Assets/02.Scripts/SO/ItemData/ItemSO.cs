@@ -10,25 +10,23 @@ public class ItemSO : ScriptableObject
     [SerializeField, TextArea] private string _tooltip;
     
     [Header("아이템 효과")]
-    [SerializeField] private ItemEffectBaseSO _effect; 
+    [SerializeField] private EPoolType _skill;
+    
+    [Header("쿨타임")]
+    [SerializeField] private float _coolTime;
+
+    [Header("애니메이션 클립")]
+    [SerializeField] private AnimationClip _clip;
     
     public int ID => _id;
     public Sprite Icon => _icon;
     public string Name => _name;
     public string Tooltip => _tooltip;
-    
-    public void Use(GameObject user, EItemGrade grade)
-    {
-        _effect.OnUse(user, grade);
-    }
 
-    public void Equip(GameObject user, EItemGrade grade)
-    {
-        _effect.OnEquip(user, grade);
-    }
+    public EPoolType Skill => _skill;
+    public float CoolTime => _coolTime;
+    public AnimationClip Clip => _clip;
 
-    public void UnEquip(GameObject user, EItemGrade grade)
-    {
-        _effect.OnUnequip(user, grade);
-    }
+    public void Equip(GameObject user, EItemGrade grade) { }
+    public void UnEquip(GameObject user, EItemGrade grade) { }
 }

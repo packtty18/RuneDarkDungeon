@@ -1,94 +1,43 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class UI_Initializer : MonoBehaviour
 {
-    [Header("슬롯 관련 UI")]
-    [SerializeField] private UI_SlotContainer _inventoryUI;
-    [SerializeField] private UI_SlotContainer _upgradeUI;
-    [SerializeField] private UI_SlotController _controller;
-    
-    [Header("강화 모드 관련")]
-    [SerializeField] private UpgradeManager _upgradeManager;
-    [SerializeField] private SlotEventHandler _eventHandler;
-    [SerializeField] private SlotEventHandler _upgradeEventHandler;
-    
     [Header("UI 연결")]
-    [SerializeField] private UI_Tooltip _tooltip;
-    [SerializeField] private UI_DragIcon _dragIcon;
-    [SerializeField] private UI_Background[] _backgrounds;
+    [Space]
     
-    [SerializeField] private UI_WindowToggleButton _inventoryToggleButton;
-    [SerializeField] private UI_WindowToggleButton _upgradeToggleButton;
-
-    private Dictionary<EInventoryMode, ISlotEventHandler> _handlerDict;
-
-    private void Start()
+    [Header("--- 공통 ---")]
+    [SerializeField] private CurrencyPresenter _currencyPresenter;
+    
+    [Header("--- 로비씬 전용 ---")]
+    [SerializeField] private InventoryPresenter _inventoryPresenter;
+    [SerializeField] private UpgradePresenter _upgradePresenter;
+    [SerializeField] private EquipmentPresenter _equipmentPresenter;
+    
+    [Space]
+    [SerializeField] private SelectionManager _selectionManager;
+    [SerializeField] private ItemPriceDataSO _priceDB;
+    
+    [Header("--- 게임씬 전용 ---")]
+    [SerializeField] private RewardPresenter _rewardPresenter;
+    [SerializeField] private RewardManager _rewardManager;
+    
+    public void Initialize(IDataHolder data)
     {
-        var data = DataManager.Instance;
-
-        _inventoryUI.Initialize(data.Inventory, data.ItemDB);
-        _upgradeUI.Initialize(_upgradeManager.UpgradeInventory, data.ItemDB);
-        _controller.Initialize(_upgradeManager, _inventoryUI.Slots, _upgradeUI.Slots);
-        
-        _upgradeManager.Initialize(data.UpgradeDB, data.Inventory, data.GoldData);
-        _eventHandler.Initialize(_inventoryUI.Slots);
-        _upgradeEventHandler.Initialize(_upgradeUI.Slots);
-        
-        _handlerDict = new()
+        Dictionary<EInventoryMode, ISlotEventHandler> inventoryHandlerDict = new()
         {
-            { EInventoryMode.Normal, new SwapEventHandler(_tooltip, _dragIcon, _backgrounds)},
-            { EInventoryMode.Upgrade , new RegisterEventHandler(_upgradeManager)}
+            { EInventoryMode.Normal, new SelectEventHandler(data.Inventory, _selectionManager) },
+            { EInventoryMode.Upgrade , new RegisterEventHandler(data.Inventory, data.Forge) },
+            { EInventoryMode.Equipment, new SelectEventHandler(data.Inventory, _selectionManager) },
+            { EInventoryMode.Sell, new SellEventHandler(data.Inventory, data.GoldData, _selectionManager, _priceDB) },
         };
         
-        ChangeInventoryMode(EInventoryMode.Closed);
-        _upgradeEventHandler.SetMode(new UnregisterEventHandler(_upgradeManager));
+        _inventoryPresenter?.Initialize(data.Inventory, inventoryHandlerDict);
+        _upgradePresenter?.Initialize(data.Forge, data.Inventory, data.GoldData);
+        _equipmentPresenter?.Initialize(data.Equipment, data.Inventory);
+        _currencyPresenter?.Initialize(data.GoldData);
+        _rewardPresenter?.Initialize(_rewardManager.RewardItems, _rewardManager.RewardGold);
         
-        _inventoryToggleButton.OnModeChanged += ChangeInventoryMode;
-        _upgradeToggleButton.OnModeChanged += ChangeInventoryMode;
-    }
-
-    private void OnDestroy()
-    {
-        _inventoryToggleButton.OnModeChanged -= ChangeInventoryMode;
-        _upgradeToggleButton.OnModeChanged -= ChangeInventoryMode;
-    }
-    
-    private void ChangeInventoryMode(EInventoryMode mode)
-    {
-        switch (mode)
-        {
-            case EInventoryMode.Closed:
-                CloseInventory();
-                break;
-            case EInventoryMode.Normal:
-                SetNormalMode();
-                break;
-            case EInventoryMode.Upgrade:
-                SetUpgradeMode();
-                break;
-        }
-
-        if (!_handlerDict.TryGetValue(mode, out var handler)) return;
-        _eventHandler.SetMode(handler);
-    }
-
-    private void CloseInventory()
-    {
-        _inventoryUI.Hide();
-    }
-
-    private void SetNormalMode()
-    {
-        _inventoryUI.Show();
-        _upgradeUI.Hide();
-        _controller.ResetSlotState();
-    }
-    
-    private void SetUpgradeMode()
-    {
-        _upgradeUI.Show();
-        _controller.RefreshSlotState();
+        Destroy(gameObject);
     }
 }

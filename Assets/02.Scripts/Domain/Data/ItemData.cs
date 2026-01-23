@@ -5,21 +5,36 @@ public class ItemData
 {
     [SerializeField] private int _id;
     [SerializeField] private EItemGrade _grade;
+    [System.NonSerialized] private ItemSO _info;
     
     public int ID => _id;
     public EItemGrade Grade => _grade;
-
+    public ItemSO Info => _info;
+    public Sprite Icon => _info.Icon;
+    public EPoolType Skill => _info.Skill;
+    
     public ItemData(int id, EItemGrade grade = EItemGrade.Normal)
     {
         _id = id; 
         _grade = grade;
     }
-
-    public bool CanUpgrade(ItemData item)
+    
+    public void SetInfo(ItemSO info)
     {
-        if (item != null) return TypeEquals(item);
-        return !_grade.IsMaxGrade();
+        _info = info;
     }
+
+    public float GetCoolTime()
+    {
+        return _info.CoolTime;
+    }
+
+    public AnimationClip GetClip()
+    {
+        return _info.Clip;
+    }
+    
+    public bool IsMaxGrade=> _grade.IsMaxGrade();
 
     public ItemData GetUpgradedItem()
     {

@@ -64,6 +64,7 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
         }
         _nextSceneData = dataSO;
         //로딩씬 전환
+        CursorManager.Instance.SetCursorLock(true);
         UnityEngine.SceneManagement.SceneManager.LoadScene(_loadingSceneName);
         _sceneType = ESceneType.Loading;
     }
@@ -75,6 +76,9 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
             Debug.LogWarning($"[SceneLoadManager] 로드할 씬 데이터가 없습니다.");
             return;
         }
+        PoolManager.Instance.ResetPool();
+        SoundManager.Instance?.StopBGM();
+
         StartCoroutine(LoadSceneAsync());
     }
 
@@ -202,6 +206,7 @@ public class SceneLoadManager : GlobalSingleton<SceneLoadManager>
 
         // 씬이 완전히 로드될 때까지 대기
         yield return asyncLoad;
+        CursorManager.Instance.SetCursorLock(_nextSceneData.IsCursorLocked);
 
         // 사용하지 않는 리소스 언로드 (비동기)
         AsyncOperation unloadOp = Resources.UnloadUnusedAssets();

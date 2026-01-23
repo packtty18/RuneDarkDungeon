@@ -1,24 +1,159 @@
+using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BattleManager : LocalSingleton<BattleManager>  
+public enum EBattleState
 {
-    //던전씬에서 사용할 매니저
-    //플레이어를 생성하고 적의 생성을 판단하는 역할
+    None,
+    Preparing,
+    InProgress,
+    Pause,
+    WaitingNextStage,
+    Victory,
+    Defeat
+}
 
-    //플레이의 대한 모든 준비가 끝난다면 이벤트를 실행한다(ex. 첫번째 페이즈의 적 생성, 플레이어 조작 활성화 등)
+public class BattleManager : LocalSingleton<BattleManager>
+{
+    [SerializeField] public Transform PlayerTransform;
 
-    [SerializeField] private GameObject _player;
+    [Header("Stage")]
+    [SerializeField] private EnemySpawnManager[] _spawnManagers;
 
-    [SerializeField] private UnityEvent _battleSetting; //전투환경 조정(플레이어 및 적 생성)
-    [SerializeField] private UnityEvent _battleStart;   //플레이어 인풋 활성화 및 적 활성화)
+    [Header("Events")]
+    public UnityEvent OnBattleStart;
+    public UnityEvent OnBattleWin;
+    public UnityEvent OnBattleLose;
 
-    public Transform PlayerTransform => _player?.transform;
+    public SafeEvent<EBattleState> OnBattleStateChanged = new();
 
-    protected override void OnInit()
+    public EBattleState State => _state;
+
+    [SerializeField]private EBattleState _state;
+    private int _currentIndex;
+    private bool _isStageRunning;
+
+    private void Start()
     {
-        base.OnInit();
-        _battleSetting.Invoke();
-        _battleStart.Invoke();
+        SetState(EBattleState.Preparing);
+    }
+
+    [Button]
+    private void SetState(EBattleState newState)
+    {
+        if (_state == newState)
+            return;
+
+        _state = newState;
+        //Debug.Log($"[BattleManager] State → {_state}");
+        OnBattleStateChanged?.Invoke(_state);
+
+        switch (_state)
+        {
+            case EBattleState.Preparing:
+                HandlePreparing();
+                break;
+
+            case EBattleState.InProgress:
+                HandleInProgress();
+                break;
+
+            case EBattleState.Victory:
+                OnBattleWin?.Invoke();
+                
+                break;
+
+            case EBattleState.Defeat:
+
+                OnBattleLose?.Invoke();
+                
+                PauseAllEnemy();
+                break;
+        }
+    }
+
+    private void HandlePreparing()
+    {
+        _currentIndex = 0;
+        _isStageRunning = false;
+        OnBattleStart?.Invoke();
+        HitBox.ResetId();
+        ActiveCurrentSpawnManager();
+
+        SetState(EBattleState.WaitingNextStage);
+    }
+
+    private void HandleInProgress()
+    {
+        if (_isStageRunning)
+        {
+            //Debug.Log("[BattleManager] Resume Stage");
+            return;
+        }
+
+        if (_currentIndex >= _spawnManagers.Length)
+        {
+            SetState(EBattleState.Victory);
+            return;
+        }
+
+        _isStageRunning = true;
+        
+    }
+
+    private void ActiveCurrentSpawnManager()
+    {
+        if(_currentIndex >=_spawnManagers.Length)
+        {
+            OnBattleWin.Invoke();
+            return;
+        }
+
+        EnemySpawnManager manager = _spawnManagers[_currentIndex];
+        manager.OnAllPhaseCompleted.Subscribe(HandleStageCleared);
+        manager.SpawnCurrentPhase();
+    }
+
+    private void HandleStageCleared()
+    {
+        EnemySpawnManager manager = _spawnManagers[_currentIndex];
+        manager.OnAllPhaseCompleted.Unsubscribe(HandleStageCleared);
+
+        _isStageRunning = false;
+        _currentIndex++;
+
+        SetState(EBattleState.WaitingNextStage);
+        ActiveCurrentSpawnManager();
+    }
+
+    private void PauseAllEnemy()
+    {
+        EnemySpawnManager manager = _spawnManagers[_currentIndex];
+        manager.PauseAllEnemy();
+    }
+    [Button]
+    public void NotifyActiveStage()
+    {
+        if (_state == EBattleState.WaitingNextStage)
+            SetState(EBattleState.InProgress);
+    }
+
+    [Button]
+    public void NotifyPlayerDead()
+    {
+        SetState(EBattleState.Defeat);
+        
+    }
+
+    [Button]
+    public void NotifyGamePause()
+    {
+        
+    }
+
+    public void NotifyGameResume()
+    {
+        
     }
 }

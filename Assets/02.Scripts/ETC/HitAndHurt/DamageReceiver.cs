@@ -6,8 +6,8 @@ public class DamageReceiver : MonoBehaviour
     private int _lastAttackId = -1;
     private IDamageable _owner;
 
-    public SafeEvent<HurtBox> OnDamagedEvent = new SafeEvent<HurtBox>();
-
+    public SafeEvent<HurtBox> OnDamagedEventEach = new SafeEvent<HurtBox>();
+    public SafeEvent OnDamagedEvent = new SafeEvent();
     private void Awake()
     {
         _owner = GetComponentInParent<IDamageable>();
@@ -36,8 +36,13 @@ public class DamageReceiver : MonoBehaviour
 
         _lastAttackId = data.AttackId;
         _owner.ApplyDamage(data);
-
-        OnDamagedEvent?.Invoke(hurtbox);
+        
+        OnDamagedEventEach?.Invoke(hurtbox);
+        OnDamagedEvent?.Invoke();
+        
+        var damageObject = PoolManager.Instance.Get(EPoolType.UI_Damage);
+        if (!damageObject.TryGetComponent<DamageText>(out var damageText)) return; 
+        damageText.Show(transform.position, data.Damage);
     }
 
     

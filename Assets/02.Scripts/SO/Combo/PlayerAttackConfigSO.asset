@@ -12,22 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b92fd02b2e8bc3f42bb62478a4e546a6, type: 3}
   m_Name: PlayerAttackConfigSO
   m_EditorClassIdentifier: Assembly-CSharp::PlayerComboConfigSO
-  AttackConfigs:
-  - AttackType: 0
-    AttackPhases:
-    - PhaseIndex: 1
-      InputWindow: 0.4
-    - PhaseIndex: 2
-      InputWindow: 0.5
-    - PhaseIndex: 3
-      InputWindow: 0.6
-    - PhaseIndex: 4
-      InputWindow: 0
-    Damage: 0
-  - AttackType: 1
-    AttackPhases:
-    - PhaseIndex: 1
-      InputWindow: 3
-    Damage: 0
-  ChargeFinisherDamage: 10
+  Damage: 100
+  JumpDashDamage: 200
+  JumpDashAngle: 90
+  JumpDashSpeed: 50
+  JumpDashEffect: {fileID: 3007505563460422340, guid: b8acbc5ecee3ffe439eaecbcf3cbad5f, type: 3}
+  JumpDashSlashEffect: {fileID: 7239127191597653887, guid: dac409248f03cd0409ddd21f1a7a43bd, type: 3}
+  ChargeFinisherDamage: 300
+  FinisherEffect: {fileID: 4970214532473238069, guid: a89c849e317b4e54cb223f235e5213ac, type: 3}
+  FinisherSlashVFX: {fileID: 7239127191597653887, guid: c6e44fb6d00ae8d46afe70409f436fe5, type: 3}
+  AttackPhases:
+  - PhaseIndex: 1
+    InputWindow: 0.4
+    SlashVFX: {fileID: 7239127191597653887, guid: 9303cc8736ee5264692700985e34fb3f, type: 3}
+  - PhaseIndex: 2
+    InputWindow: 0.5
+    SlashVFX: {fileID: 7239127191597653887, guid: f80c08424acf629479648a06e2d72d09, type: 3}
+  - PhaseIndex: 3
+    InputWindow: 0.6
+    SlashVFX: {fileID: 7239127191597653887, guid: 2da82a8784523e74da561ac9da7c4407, type: 3}
+  - PhaseIndex: 4
+    InputWindow: 0
+    SlashVFX: {fileID: 7239127191597653887, guid: 09fe15c12d590a143ba0af8c63c058db, type: 3}
+  ComboReturnTime: 0.5
   ChargeTime: 0.5
+  JumpDashComboInputWindow: 0.3

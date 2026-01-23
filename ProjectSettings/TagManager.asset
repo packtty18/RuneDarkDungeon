@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Environment
   layers:
   - Default
   - TransparentFX
@@ -14,9 +15,9 @@ TagManager:
   - Hitbox
   - Hurtbox
   - Ground
-  - 
-  - 
-  - 
+  - Item
+  - Player
+  - Enemy
   - 
   - 
   - 
@@ -40,6 +41,15 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: WorldUI
+    uniqueID: 2994299217
+    locked: 0
+  - name: HUD
+    uniqueID: 1475579231
+    locked: 0
+  - name: POPUP
+    uniqueID: 3432093671
     locked: 0
   m_RenderingLayers:
   - Default

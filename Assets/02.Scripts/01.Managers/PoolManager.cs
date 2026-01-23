@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
@@ -26,7 +28,8 @@ public class PoolManager : GlobalSingleton<PoolManager>
     [SerializeField] private List<PoolConfigSO> _poolConfigs = new List<PoolConfigSO>();
 
     private Dictionary<EPoolType, ObjectPool<GameObject>> _pools = new Dictionary<EPoolType, ObjectPool<GameObject>>(); //키, Pool
-    
+    private Dictionary<EPoolType, Transform> _poolParents = new Dictionary<EPoolType, Transform>();
+
     private Transform _poolParent;
     private Transform _canvas;
 
@@ -53,7 +56,7 @@ public class PoolManager : GlobalSingleton<PoolManager>
         Canvas canvas = canvasObject.AddComponent<Canvas>();
 
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 100; // 필요에 따라 조정
+        canvas.sortingOrder = 0; // 필요에 따라 조정
 
         var canvasScaler = canvasObject.AddComponent<CanvasScaler>();
         canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
@@ -107,7 +110,9 @@ public class PoolManager : GlobalSingleton<PoolManager>
         {
             poolParent.SetParent(_poolParent);
         }
-          
+
+        _poolParents.Add(type, poolParent);
+
         var pool = new ObjectPool<GameObject>(
             createFunc: () => CreateObject(prefab, poolParent, type),
                 actionOnGet: OnGetFromPool,
@@ -126,6 +131,36 @@ public class PoolManager : GlobalSingleton<PoolManager>
             WarmUpPool(pool, defaultCapacity);
         }
 
+    }
+    public void ReturnAll(EPoolType type)
+    {
+        if (!_poolParents.TryGetValue(type, out var parent))
+        {
+            Debug.LogWarning($"[PoolManager] '{type}' 풀을 찾을 수 없습니다.");
+            return;
+        }
+
+        List<GameObject> activeObjects = new List<GameObject>();
+
+        foreach (Transform child in parent)
+        {
+            if (child.gameObject.activeSelf)
+            {
+                activeObjects.Add(child.gameObject);
+            }
+        }
+
+        foreach (var obj in activeObjects)
+        {
+            ReleaseByKey(type, obj);
+        }
+    }
+    public void ReturnAll()
+    {
+        foreach (var type in _poolParents.Keys.ToArray())
+        {
+            ReturnAll(type);
+        }
     }
 
     public GameObject Get (EPoolType type)
@@ -209,6 +244,10 @@ public class PoolManager : GlobalSingleton<PoolManager>
 
     private void OnGetFromPool(GameObject obj)
     {
+        if(obj == null)
+        {
+            return;
+        }
         obj.SetActive(true);
         if (obj.TryGetComponent<PoolableObject>(out var poolable))
         {
@@ -248,6 +287,14 @@ public class PoolManager : GlobalSingleton<PoolManager>
         {
             pool.Release(objects[i]);
         }
+    }
+
+    public void ResetPool()
+    {
+        _pools.Clear();
+        _poolParents.Clear();
+        Destroy(_poolParent.gameObject);
+        OnInit();
     }
 
   

@@ -8,11 +8,9 @@ public class PoolSpawner : MonoBehaviour
         GameObject obj = PoolManager.Instance.Get(poolType);
         if (obj == null)
         {
-            Debug.LogError($"[EnemySpawner] Spawn failed : {poolType}");
             return null;
         }
 
-        obj.transform.position = transform.position;
         return obj;
     }
 }

@@ -19,7 +19,7 @@ public class EnemySpawnManager : SerializedMonoBehaviour
     [Header("Phase")]
     [SerializeField] private int _nextPhaseThreshold = 0;
 
-    public UnityEvent OnAllPhaseCompleted;
+    public SafeEvent OnAllPhaseCompleted= new();
 
     private int _currentPhase = 0;
     private int _aliveEnemyCount = 0;
@@ -27,30 +27,61 @@ public class EnemySpawnManager : SerializedMonoBehaviour
     //임시 테스트용
     [Header("Test")]
     [SerializeField] Transform _target;
-    private List<EnemyController> _list = new List<EnemyController>();
+    [SerializeField] private List<EnemyController> _list = new List<EnemyController>();
 
-    //페이즈를 시작한다.
+    public void Init()
+    {
+        _currentPhase = 0;
+        _aliveEnemyCount = 0;
+        _spawnIndexByType = new();
+        _list = new List<EnemyController>();
+    }
+
     [Button]
-    public void PlayCurrentPhase()
+    //스테이지에서의 스폰
+    public void SpawnCurrentPhase()
     {
         _list.Clear();
         if (_currentPhase >= _phaseDatas.Count)
         {
-            Debug.Log("[SpawnManager] 모든 페이즈 실행 완료. 완료이벤트 실행");
+            //Debug.Log("[SpawnManager] 모든 페이즈 실행 완료. 완료이벤트 실행");
             OnAllPhaseCompleted?.Invoke();
             return;
         }
 
-        Debug.Log($"[SpawnManager] {_currentPhase} 페이즈 시작");
+        //Debug.Log($"[SpawnManager] {_currentPhase} 페이즈 시작");
 
-        foreach (PhaseData data in _phaseDatas[_currentPhase].Datas)
+        SpawnByData(_phaseDatas[_currentPhase], true);
+    }
+
+
+    //보스가 스폰하는 적은 아이템을 드롭하지 않음
+    public List<EnemyController> BossSummon()
+    {
+        SpawnByData(_phaseDatas[0], false);
+        return _list;
+        //WakeUpEnemies();
+    }
+
+    public  void PauseAllEnemy()
+    {
+        foreach (EnemyController enemy in _list)
         {
-            SpawnEnemies(data.Type, data.Count, data.IsRandomSpawn);
+            enemy.OnPause(true);
+
+        }
+    }
+
+    private void SpawnByData(EnemyPhaseDataSO phaseDataSO, bool canItemDrop)
+    {
+        foreach (PhaseData data in phaseDataSO.Datas)
+        {
+            SpawnEnemies(data.Type, data.Count, data.IsRandomSpawn, canItemDrop);
         }
     }
 
     //지정된 타입에 등록된 스포너 중 랜덤한 스포너에 스폰명령 전달
-    private void SpawnEnemies(EEnemyType type, int count, bool random)
+    private void SpawnEnemies(EEnemyType type, int count, bool random, bool canItemDrop)
     {
         if (!_spawnerByType.TryGetValue(type, out var spawnerList) || spawnerList.Count == 0)
         {
@@ -68,6 +99,7 @@ public class EnemySpawnManager : SerializedMonoBehaviour
         {
             EnemySpawner spawner = random ? spawnerList[Random.Range(0, spawnerList.Count)] : GetSequentialSpawner(type, spawnerList);
 
+            // 1. 풀에서 꺼내기 (OnSpawn 호출됨)
             EnemyController enemy = spawner.SpawnEnemy(EnemyToPoolType(type));
             if (enemy == null)
             {
@@ -76,17 +108,21 @@ public class EnemySpawnManager : SerializedMonoBehaviour
 
             _aliveEnemyCount++;
 
-            //적설정
-            enemy.OnDead.Subscribe(HandleEnemyDead);
-
-            
+            // 2. 타겟 설정
             enemy.SetTarget(GetTarget());
+            enemy.SetItemDrop(canItemDrop);
+            // 3. 이벤트 구독
+            enemy.OnDead.Subscribe(HandleEnemyDead);
+            
+            // 4. 초기화 (물리 엔진 활성화 포함)
             enemy.Init();
+            
+            //Debug.Log($"[EnemySpawnManager] {type} 스폰 완료 - 최종 위치: {enemy.transform.position}");
 
             _list.Add(enemy);
         }
 
-        Debug.Log($"[SpawnManager] 스폰된 적 : {_aliveEnemyCount}");
+        
     }
 
     private Transform GetTarget()
@@ -113,14 +149,15 @@ public class EnemySpawnManager : SerializedMonoBehaviour
     private void HandleEnemyDead(EnemyController enemy)
     {
         enemy.OnDead.Unsubscribe(HandleEnemyDead);
+        _list.Remove(enemy);
         _aliveEnemyCount--;
 
-        Debug.Log($"[SpawnManager] 남은 적 : {_aliveEnemyCount}");
+        //Debug.Log($"[SpawnManager] 남은 적 : {_aliveEnemyCount}");
 
         if (_aliveEnemyCount <= _nextPhaseThreshold)
         {
             _currentPhase++;
-            PlayCurrentPhase();
+            SpawnCurrentPhase();
         }
     }
 
@@ -137,15 +174,25 @@ public class EnemySpawnManager : SerializedMonoBehaviour
             _ => EPoolType.None
         };
     }
-    //테스트용 현재 스폰된 모든 적을 죽이기 => 다음 페이즈 실행
-    [Button]
-    private void KillAll()
-    {
-        if (_list == null || _list.Count == 0) return;
 
-        for (int i = _list.Count - 1; i >= 0; i--)
+
+    [Button]
+    public void KillAll()
+    {
+        if (_list == null || _list.Count == 0)
+            return;
+
+        // Snapshot to avoid modification during iteration
+        var snapshot = new List<EnemyController>(_list);
+
+        foreach (var enemy in snapshot)
         {
-            _list[i].Dead();
+            if (enemy == null)
+                continue;
+
+            enemy.HandleDead();
         }
+
+        Debug.Log($"[EnemySpawnManager] KillAll executed. SnapshotCount={snapshot.Count}");
     }
 }

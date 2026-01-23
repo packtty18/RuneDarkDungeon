@@ -43,12 +43,12 @@ public class DamageFeedback : MonoBehaviour
 
     private void OnEnable()
     {
-        _receiver.OnDamagedEvent.Subscribe(HandleDamaged);
+        _receiver.OnDamagedEventEach.Subscribe(HandleDamaged);
     }
 
     private void OnDisable()
     {
-        _receiver.OnDamagedEvent.Unsubscribe(HandleDamaged);
+        _receiver.OnDamagedEventEach.Unsubscribe(HandleDamaged);
     }
 
     private void HandleDamaged(HurtBox hurtbox)

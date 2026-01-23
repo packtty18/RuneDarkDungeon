@@ -5,26 +5,48 @@ public enum EGameState
     GameOver
 }
 
+public enum EAnimationType
+{
+    AlphaLoop,
+    ScaleLoop,
+    AlphaAndScaleLoop,
+}
+
 public enum EAttackType
 {
+    None,
     Basic, 
     Jump,   
 }
 
-public enum EMovementState
+public enum ESkillSlot
 {
-    Idle,
-    Walk,
-    Run,
-    Jump,
-    Stagger, //경직   
+    None,
+    Q,
+    E,
+    R,
+}
+
+public enum EHitDirection
+{
+    Front = 0,
+    Back = 1,
+    Left = 2,
+    Right = 3
+}
+
+public enum EPlayerState
+{
+    None,   
     Dead,
 }
 
 public enum EActionState
 {
     None,
+    Dodge,
     Attack,
+    Finisher,
     DashAttack,
     Skill,
 }
@@ -36,19 +58,37 @@ public enum EEnemyState
     Attack,
     Hit,
     Dead,
+    Charge,
+    Summon,
+    Buff
 }
 
 
 public enum EGameKeyType
 {
+    None,
     Front,
     Back,
     Left,
     Right,
     Jump,
+    Dodge,
     Attack,
+    QSkill,
+    ESkill,
+    RSkill,
     Run,
     Enter,
+    Click,
+    ESC,
+}
+
+public enum ECameraMode
+{
+    None,
+    Default,
+    Cave,
+    Boss,
 }
 
 public enum ESceneType
@@ -79,6 +119,8 @@ public enum EInventoryMode
     Closed,
     Normal,
     Upgrade,
+    Equipment,
+    Sell,
 }
 
 public enum  EPoolType
@@ -90,7 +132,29 @@ public enum  EPoolType
     Enemy_Archer,
     Enemy_Mage,
     Enemy_Elite,
-    Enemy_Boss
+    Enemy_Boss,
+    Item_Coin,
+    Item_Rune,
+    UI_Damage,
+    EnemyAttack_Arrow,
+    EnemyAttack_Fireball,
+    EnemyAttack_FireballExplosion,
+    EnemyAttack_BloodReady,
+    EnemyAttack_BloodHit,
+    EnemyAttack_BloodVFX,
+    EnemyAttack_RangeBuff,
+    EnemyAttack_LighteningReady,
+    EnemyAttack_LighteningHit,
+    EnemyAttack_MagicMissile,
+    EnemyAttack_MagicExplosion,
+    Skill_BladeStorm,
+    Skill_LightningZone,
+    Skill_JudgmentMeteor,
+    Skill_LightningZoneFinalEffect,
+    Skill_JudgmentMeteorFinalEffect,
+    Skill_Meteor,
+    Skill_MeteorHit,
+    
 }
 
 #region PlayerStat
