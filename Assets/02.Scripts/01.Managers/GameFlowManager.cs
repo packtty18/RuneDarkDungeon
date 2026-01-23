@@ -166,6 +166,7 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
     }
     public void OnGameOver()
     {
+        SoundManager.Instance.Play(ESoundType.Stage_FailBGM);
         _playerHUD.FadeOut(_defaultFadeTime);
         _deathSceneDirector.Play();
         StartCoroutine(GameOverUIPopupDelay());
@@ -174,6 +175,7 @@ public class GameFlowManager : LocalSingleton<GameFlowManager>
     [Button]
     public void OnClear()
     {
+        SoundManager.Instance.Play(ESoundType.Stage_VictoryBGM);
         _playerHUD.FadeOut(_defaultFadeTime);
         _clearSceneDirector.Play();
         _isPlayingCutScene = true;

@@ -238,6 +238,7 @@ public class EnemyController : PoolableObject, IDamageable
                 if (Stat.EnemyType == EEnemyType.Boss)
                 {
                     UIEnable();
+                    SoundManager.Instance.Play(ESoundType.Enemy_Boss_Appear, transform.position);
                 }
                 break;
 

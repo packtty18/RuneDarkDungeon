@@ -16,4 +16,9 @@ public class HitState : EnemyState
     public override void Tick(float deltaTime)
     {
     }
+    public override void Exit()
+    {
+        base.Exit();
+        controller.Move.ResumeAgent();
+    }
 }

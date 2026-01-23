@@ -25,12 +25,14 @@ public class RewardPresenter : MonoBehaviour
 
     public void ShowVictory()
     {
+        SoundManager.Instance.Play(ESoundType.Stage_VictoryResult);
         _titleTextUI.SetText(_victoryString);
         ShowReward();
     }
 
     public void ShowDefeat()
     {
+        SoundManager.Instance.Play(ESoundType.Stage_FailResult);
         _titleTextUI.SetText(_defeatString);
         ShowReward();
     }

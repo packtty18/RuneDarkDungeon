@@ -30,7 +30,8 @@ public class EnemyMove : MonoBehaviour
         if (_target == null)
             return;
 
-        if(_canRotate)
+        CheckEnemyInNav();
+        if (_canRotate)
         {
             RotateToTarget();
         }
@@ -95,7 +96,6 @@ public class EnemyMove : MonoBehaviour
             return;
 
         EnableAgent();
-
         _agent.SetDestination(_target.position);
     }
 

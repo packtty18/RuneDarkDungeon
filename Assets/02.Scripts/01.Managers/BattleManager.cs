@@ -61,11 +61,13 @@ public class BattleManager : LocalSingleton<BattleManager>
 
             case EBattleState.Victory:
                 OnBattleWin?.Invoke();
+                
                 break;
 
             case EBattleState.Defeat:
 
                 OnBattleLose?.Invoke();
+                
                 PauseAllEnemy();
                 break;
         }
@@ -141,6 +143,7 @@ public class BattleManager : LocalSingleton<BattleManager>
     public void NotifyPlayerDead()
     {
         SetState(EBattleState.Defeat);
+        
     }
 
     [Button]

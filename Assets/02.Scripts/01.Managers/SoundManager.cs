@@ -78,6 +78,12 @@ public enum ESoundType
     Pop,
     Success,
     Failed,
+
+    Enemy_Boss_Appear,
+    Stage_VictoryResult,
+    Stage_FailResult,
+    Stage_VictoryBGM,
+    Stage_FailBGM
     
 }
 
