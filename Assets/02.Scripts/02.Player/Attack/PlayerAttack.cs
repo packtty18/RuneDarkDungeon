@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    private PlayerStateMachine _stateMachine;
+    private PlayerStateController _stateController;
     private PlayerAnimator _animator;
     private PlayerMove _playerMove;
     private PlayerStats _stats;
@@ -52,7 +52,7 @@ public class PlayerAttack : MonoBehaviour
     #region Life Cycle
     private void Awake()
     {
-        _stateMachine = GetComponent<PlayerStateMachine>();
+        _stateController = GetComponent<PlayerStateController>();
         _playerMove = GetComponent<PlayerMove>();
         _animator = GetComponent<PlayerAnimator>();
         _stats = GetComponent<PlayerStats>();
@@ -72,7 +72,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        if (!_stateMachine.CanReceiveMoveInput()) return;
+        if (!_stateController.CanReceiveMoveInput()) return;
 
         if (InputManager.Instance.GetKeyDown(EGameKeyType.Attack))
         {
@@ -136,7 +136,7 @@ public class PlayerAttack : MonoBehaviour
 
         _currentAttack = EAttackType.Jump;
 
-        _stateMachine.SetActionState(EActionState.DashAttack);
+        _stateController.SetActionState(EActionState.DashAttack);
         _playerMove.StartGroundDash(_attackConfig.JumpDashAngle, _attackConfig.JumpDashSpeed);
         VisualHide();
         _sound.OnDash();
@@ -196,7 +196,7 @@ public class PlayerAttack : MonoBehaviour
 
         while (true)
         {
-            while (!_stateMachine.CanReceiveMoveInput())
+            while (!_stateController.CanReceiveMoveInput())
             {
                 yield return null;
             }
@@ -227,7 +227,7 @@ public class PlayerAttack : MonoBehaviour
     //차지 피니셔 실행.
     private void ExecuteChargeFinisherAttack()
     {
-        _stateMachine.SetActionState(EActionState.Finisher);
+        _stateController.SetActionState(EActionState.Finisher);
         //Debug.Log($"[Attack] Type: Basic | Charge Finisher | Damage: {_attackConfig.ChargeFinisherDamage}");
         _currentDamage = _stats.CalculateDealDamage(_attackConfig.ChargeFinisherDamage);
         _animator.PlayChargeFinisher();
@@ -403,7 +403,7 @@ public class PlayerAttack : MonoBehaviour
     public void OnSingleAttackFinish()
     {
         _hitboxController.Deactivate("Main");
-        _stateMachine.SetActionState(EActionState.None);
+        _stateController.SetActionState(EActionState.None);
 
         _isAttacking = false;
         _attackBuffered = false;
@@ -412,7 +412,7 @@ public class PlayerAttack : MonoBehaviour
     public void OnChargeFinisherFinish()
     {
         _hitboxController.Deactivate("Main");
-        _stateMachine.SetActionState(EActionState.None);
+        _stateController.SetActionState(EActionState.None);
         
         EndCombo();
 
@@ -422,7 +422,7 @@ public class PlayerAttack : MonoBehaviour
     public void OnFinisherFinish()
     {
         _hitboxController.Deactivate("Main");
-        _stateMachine.SetActionState(EActionState.None);
+        _stateController.SetActionState(EActionState.None);
         
         EndCombo();
     }
@@ -430,7 +430,7 @@ public class PlayerAttack : MonoBehaviour
     public void OnJumpDashAttackFinish()
     {
         _hitboxController.Deactivate("Main");
-        _stateMachine.SetActionState(EActionState.None);
+        _stateController.SetActionState(EActionState.None);
 
         _comboTimerCoroutine = StartCoroutine(ComboTimerCoroutine(_attackConfig.JumpDashComboInputWindow));
 

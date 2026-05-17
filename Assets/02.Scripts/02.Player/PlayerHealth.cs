@@ -13,19 +13,19 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (_stats.Health.IsEmpty())
         {
             _animator.SetDieTrigger();
-            _stateMachine.SetState(EPlayerState.Dead);
+            _stateController.SetState(EPlayerState.Dead);
         }
     }
     public ETeamType Team => ETeamType.Player;
 
     private PlayerStats _stats;
-    private PlayerStateMachine _stateMachine;
+    private PlayerStateController _stateController;
     private PlayerAnimator _animator;
     private PlayerMove _playerMove;
 
     public void ApplyDamage(DamageData data)
     {
-        if (_stateMachine.CurrentState == EPlayerState.Dead || _stateMachine.CurrentActionState == EActionState.Skill) return;
+        if (_stateController.CurrentState == EPlayerState.Dead || _stateController.CurrentActionState == EActionState.Skill) return;
 
         
         _stats.Health.Consume(_stats.CalculateReceivedDamage(data));
@@ -34,7 +34,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (_stats.Health.IsEmpty())
         {
             _animator.SetDieTrigger();
-            _stateMachine.SetState(EPlayerState.Dead);
+            _stateController.SetState(EPlayerState.Dead);
         }
         else
         {
@@ -50,7 +50,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         _stats = GetComponent<PlayerStats>();
         _animator = GetComponent<PlayerAnimator>();
-        _stateMachine = GetComponent<PlayerStateMachine>();
+        _stateController = GetComponent<PlayerStateController>();
         _playerMove = GetComponent<PlayerMove>();
     }
 }

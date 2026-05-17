@@ -12,7 +12,7 @@ public class PlayerMove : MonoBehaviour
     private CharacterController _controller;
     private PlayerStats _playerStats;
     private PlayerAnimator _animator;
-    private PlayerStateMachine _stateMachine;
+    private PlayerStateController _stateController;
     private Camera _camera;
 
     [Header("이동")]
@@ -60,7 +60,7 @@ public class PlayerMove : MonoBehaviour
         _animator = GetComponent<PlayerAnimator>();
         _controller = GetComponent<CharacterController>();
         _playerStats = GetComponent<PlayerStats>();
-        _stateMachine = GetComponent<PlayerStateMachine>();
+        _stateController = GetComponent<PlayerStateController>();
         _camera = Camera.main;
     }
     private void Start()
@@ -126,10 +126,10 @@ public class PlayerMove : MonoBehaviour
     {
         if (InputManager.Instance.GetKeyDown(EGameKeyType.Dodge))
         {
-            if (!_stateMachine.CanReceiveMoveInput() || !IsGrounded) return;
+            if (!_stateController.CanReceiveMoveInput() || !IsGrounded) return;
             _animator.SetDodge(true);
         }  
-        if (_stateMachine.CurrentActionState == EActionState.Dodge)
+        if (_stateController.CurrentActionState == EActionState.Dodge)
         {
             _controller.Move(-transform.forward * Time.deltaTime * _dodgeSpeed);
         }
@@ -137,17 +137,17 @@ public class PlayerMove : MonoBehaviour
 
     public void OnDodgeStart()
     {
-        _stateMachine.SetActionState(EActionState.Dodge);
+        _stateController.SetActionState(EActionState.Dodge);
     }
     public void OnDodgeFinish()
     {
-        _stateMachine.SetActionState(EActionState.None);
+        _stateController.SetActionState(EActionState.None);
         _animator.SetDodge(false);
     }
 
     private Vector3 GetMoveDirection()
     {
-        if (!_stateMachine.CanReceiveMoveInput()) 
+        if (!_stateController.CanReceiveMoveInput()) 
             return Vector3.zero;
 
         Vector3 direction = Vector3.zero;
@@ -176,7 +176,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (_inputManager.GetKeyDown(EGameKeyType.Jump))
         {
-            if (!_stateMachine.CanReceiveMoveInput()) return;
+            if (!_stateController.CanReceiveMoveInput()) return;
             if (_currentJumpCount < _maxJumpCount)
             {
                 _verticalVelocity = _jumpVelocity;

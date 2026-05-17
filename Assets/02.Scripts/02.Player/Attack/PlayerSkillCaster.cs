@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerSkillCaster : PoolSpawner
 {
-    private PlayerStateMachine _stateMachine;
+    private PlayerStateController _stateController;
     private PlayerAttack _playerAttack;
     private PlayerAnimator _animator;
     private ESkillSlot _currentSlot;
@@ -35,7 +35,7 @@ public class PlayerSkillCaster : PoolSpawner
 
     private void Awake()
     {
-        _stateMachine = GetComponent<PlayerStateMachine>();
+        _stateController = GetComponent<PlayerStateController>();
         _playerAttack = GetComponent<PlayerAttack>();
         _animator = GetComponent<PlayerAnimator>();
     }
@@ -50,7 +50,7 @@ public class PlayerSkillCaster : PoolSpawner
         // 쿨다운 감소.
         UpdateCooldowns();
 
-        if (!_stateMachine.CanReceiveSkillInput()) return;
+        if (!_stateController.CanReceiveSkillInput()) return;
 
         if (InputManager.Instance.GetKeyDown(EGameKeyType.QSkill))
             TryCastSkill(ESkillSlot.Q);
@@ -120,7 +120,7 @@ public class PlayerSkillCaster : PoolSpawner
 
     private void OnSkillStart()
     {
-        _stateMachine.SetActionState(EActionState.Skill);
+        _stateController.SetActionState(EActionState.Skill);
 
         _playerAttack.OnSkillInterrupt();
 
@@ -139,7 +139,7 @@ public class PlayerSkillCaster : PoolSpawner
     //스킬 사용 종료 타이밍에 맞춰 애니메이션 이벤트로 호출.
     public void OnSkillEnd()
     {
-        _stateMachine.SetActionState(EActionState.None);
+        _stateController.SetActionState(EActionState.None);
 
         _playerAttack.OnSkillComplete();
 

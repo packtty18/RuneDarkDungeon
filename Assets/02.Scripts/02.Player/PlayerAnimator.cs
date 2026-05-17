@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     private Animator _animator;
-    private PlayerStateMachine _stateMachine;
+    private PlayerStateController _stateController;
     private AnimatorOverrideController overrideController;
 
     [SerializeField] private AnimationClip defaultSkillClip;
@@ -21,14 +21,14 @@ public class PlayerAnimator : MonoBehaviour
     void Awake()
     {
         _animator = GetComponent<Animator>();
-        _stateMachine = GetComponent<PlayerStateMachine>();
+        _stateController = GetComponent<PlayerStateController>();
         overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
         _animator.runtimeAnimatorController = overrideController;
     }
 
     private void Start()
     {
-        _stateMachine.OnCanMoveChanged += SetCanMove;
+        _stateController.OnCanMoveChanged += SetCanMove;
     }
 
     public void SetSpeedRatio(float ratio)
@@ -99,6 +99,6 @@ public class PlayerAnimator : MonoBehaviour
 
     private void OnDestroy()
     {
-        _stateMachine.OnCanMoveChanged -= SetCanMove;
+        _stateController.OnCanMoveChanged -= SetCanMove;
     }
 }

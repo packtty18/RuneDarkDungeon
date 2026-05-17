@@ -2,7 +2,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerStateMachine : MonoBehaviour
+public class PlayerStateController : MonoBehaviour
 {
     private EPlayerState _currentState;
     private EActionState _currentActionState;
